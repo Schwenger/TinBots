@@ -1,0 +1,7 @@
+# Build by-products.
+document.aux
+document.log
+document.mw
+document.out
+document.pdf
+# Do not commit PDFs, please.
