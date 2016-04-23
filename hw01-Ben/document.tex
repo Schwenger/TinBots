@@ -19,18 +19,15 @@
 \usepackage{hyperref}
 
 % \usepackage{multicol}
-% \usepackage{graphicx}
-% \usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{graphics}
 % \usepackage{float}
 % \usepackage{caption}
 
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
-\lohead{Marlene Böhmer, s9meboeh@\ldots, 25xxxxx \\
-Markus Köhler, mail@koehlma.de, 25xxxxx \\
-Markus Schwenger, schwenger@\ldots, 25xxxxx \\
-Ben Wiederhake, s9bewied@\ldots, 2541266}
-\rohead{\newline \newline \newline ES16, Set 1, Page {\thepage}/{\pageref*{LastPage}}}
+\lohead{Ben Wiederhake, s9bewied@\ldots, 2541266}
+\rohead{ES16, Set 1, Page {\thepage}/{\pageref*{LastPage}}}
 
 \newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
 \settimeformat{mytime}
@@ -53,7 +50,19 @@ Ben Wiederhake, s9bewied@\ldots, 2541266}
 
 \section*{Problem 1: Simulink}
 
-FIXME
+\subsection*{Part 1: Sketch}
+
+\includegraphics[width=\textwidth]{p1-sketch}
+% I know, and I'm sorry.
+
+\subsection*{Part 2: Differential equations}
+
+\begin{align*}
+    v(0) &= 5 \\
+    dv/dt &= -10 \\
+    s(0) &= 20 \\
+    ds/dt &= v(t)
+\end{align*}
 
 
 \section*{Problem 2: Car Motion on a Slope}
