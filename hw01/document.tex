@@ -25,8 +25,12 @@
 % \usepackage{caption}
 
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
-\lohead{Ben Wiederhake, s9bewied, 2541266}
-\rohead{\$Lecture Sheet \$Number, Page {\thepage}/{\pageref*{LastPage}}}
+\addtolength{\headheight}{+6pt}
+\lohead{Marlene Böhmer, s9meboeh@\ldots, 25xxxxx \\
+Markus Köhler, mail@koehlma.de, 25xxxxx \\
+Markus Schwenger, schwenger@\ldots, 25xxxxx \\
+Ben Wiederhake, s9bewied@\ldots, 25xxxxx}
+\rohead{\newline \newline \newline ES16, Set 1, Page {\thepage}/{\pageref*{LastPage}}}
 
 \newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
 \settimeformat{mytime}
