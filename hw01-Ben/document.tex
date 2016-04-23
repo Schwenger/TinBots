@@ -78,7 +78,23 @@ would \enquote{fall off} the road.
 
 \section*{Problem 3: Stability of Equilibria}
 
-FIXME
+Reasoning like above:
+    %
+\begin{align*}
+    \text{equilibrium}
+    &\implies \dot{s}_1 = 0 \land \dot{s}_2 = 0 \\
+    &\implies 3s_1 + 4s_2 = 0 \land 2s_1 + s_2 = 0 \\
+    &\implies 3s_1 + 4(-2s_1) = 0 \land 2s_1 + s_2 = 0 \\
+    &\implies s_1 = 0 \land s_2 = 0
+\end{align*}
+
+So there can only be one equilibrium (as there is no further
+dimension).  It can also easily be seen that this candidate is in fact
+an equilibrium.
+
+Consider the state $(s_1=\varepsilon, s_2 = 0)$.  Obviously, this
+quickly evolves towards $(s_1 \to \infty, s_2 \to \infty)$.  Therefore,
+it is unstable (= not stable and not asymptotically stable).
 
 
 \section*{Problem 4: Cyclist}
