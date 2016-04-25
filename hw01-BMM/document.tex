@@ -106,11 +106,37 @@ it is unstable (= not stable and not asymptotically stable).
 
 \subsection*{Part 1}
 
-FIXME
+Here's the model we created:
+
+\includegraphics[width=\textwidth]{p4a-proof}
+
+We chose $v_{0} = 0$ and $s_{0} = 0$ as starting conditions for both
+integrations, as this piece of information is missing in the exercise
+text.
 
 \subsection*{Part 2}
 
-FIXME
+We created an appropriate file and ran a simulation with a sufficiently
+small fixed-size step.
+
+ \pagebreak{}
+Our \texttt{.mat} file can be reproduced like this (in Matlab itself):
+    %
+\vspace{-\baselineskip}\begin{verbatim}
+myts = timeseries([]) % matrix-based bags don't support non-linear time
+myts = addsample(myts, 'Data', 0, 'Time', 0)
+myts = addsample(myts, 'Data', 0, 'Time', 2)
+myts = addsample(myts, 'Data', 1, 'Time', 2)
+myts = addsample(myts, 'Data', 1, 'Time', 7)
+myts = addsample(myts, 'Data', 0, 'Time', 7)
+myts = addsample(myts, 'Data', 0, 'Time', 8)
+save data -v7.3 myts
+\end{verbatim}
+
+The 100m mark seems to be reached at exactly 14.5 seconds with our
+starting conditions.  In maths: $f(14.5) = 100$
+
+\includegraphics[width=\textwidth]{p4b-proof-small}
 
 
 \section*{Problem 5: Oscillator}
