@@ -69,12 +69,16 @@ Ben Wiederhake, s9bewied@\ldots, 2541266}
 \section*{Problem 2: Car Motion on a Slope}
 
 In order to be an equilibrium, the state must have $\dot{x} = 0 \land
-\dot{v} = 0$, which implies $v=0$ and (with $v=0$ already applied) $-g
-\sin \theta = 0$.  Thus, the only equilibrium is $(x=0, v=0)$, and only
-for the input $\theta \in \{-\pi, 0, \pi\}$.
+\dot{v} = 0$, which implies $v=0$ and (with $v=0$ already applied) $-(m g
+\sin \theta) / m = 0$.
 
-Note that the case where $\theta \neq 0$ is unrealistic, as the car
-would \enquote{fall off} the road.
+One class of equilibria is $g=0, v=0$.  Note that this \enquote{class}
+contains infinitely many different states, as we didn't specify $x$.
+
+If one defines $\frac{0}{0} = 0$, then $m=0, v=0$ is another such class.
+
+Since $\theta$ and $F$ are given in the exercise, and can't be changed,
+there are no other equilibria.
 
 
 \section*{Problem 3: Stability of Equilibria}
