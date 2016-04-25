@@ -1,4 +1,6 @@
+# Mac-stuff
 .DS_Store
+
 # Build by-products.
 document.aux
 document.log
@@ -6,3 +8,13 @@ document.mw
 document.out
 document.pdf
 # Do not commit PDFs, please.
+
+# Autosaves
+*~
+*.mdl.autosave
+
+# Matlab build
+*_grt_rtw/
+*_sfun.mexa64
+slprj/
+
