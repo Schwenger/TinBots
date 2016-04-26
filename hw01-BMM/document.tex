@@ -178,6 +178,27 @@ of the following new function blocks:
 
 \section*{Problem 6: Geiger-Müller Counter}
 
+\subsection*{Part 1}
+
+\includegraphics[width=\textwidth]{p6a-model}
+
+Inputs: \texttt{V\_in}, \texttt{V\_min}, \texttt{pulse} \\
+Locals: \texttt{counter}, \texttt{p\_sense}, \texttt{t\_sense} \\
+Output: \texttt{display}
+
+We couldn't get the \texttt{on every(1,sec)} event to work as intended,
+so we use an external pulse generator (\enquote{Simulink/Sources: Pulse
+Generator}) that fires every 1 second to trigger the propagation of
+\texttt{counter} to \texttt{display}.
+
+The locals \texttt{t\_sense} and \texttt{p\_sense} indicate  sensibility for
+another \emph{p}ulse or \emph{t}ime impulse.
+
+The priorities only have an effect when an ionization event
+happens exactly on a full second.
+
+\subsection*{Part 2}
+
 FIXME
 
 
