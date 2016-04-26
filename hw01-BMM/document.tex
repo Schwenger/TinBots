@@ -157,16 +157,22 @@ of the following new function blocks:
     %
 \begin{itemize}
     \item \enquote{inner\_paren}, which represents the result of $(y(t)
-    - \frac{1}{k}u(t))$.  This function block has the parameter
+    - \frac{1}{k}u(\frac{t}{4}))$.  This function block has the parameter
     \enquote{\texttt{+-}} for correct signs.
         %
     \item \enquote{Gain (1/k)}, which represents the result of
-    $\frac{1}{k}u(t))$.  This function block has the parameter $0.1$,
+    $\frac{1}{k}u(\frac{t}{4}))$.  This function block has the parameter $0.1$,
     as that's the value of $\frac{1}{k}$.
         %
     \item \enquote{Cosine}, which is actually a \enquote{Sine
     Wave}-block, with the parameters amplitude=1,
-    frequency=$0.5*(2\pi)$, and phase=$\pi/2$.
+    frequency=$0.5 \cdot (2\pi)$, phase=$\pi/2$,
+    and custom time source enabled.
+        %
+    \item \enquote{Contant} (\texttt{1/4}) and \enquote{Integrator}
+    (\texttt{x\_0=0}) to compute $\frac{t}{4}$.  Obviously, one should
+    instead use Cosine with a period of 8 seconds ($2 \cdot 4$), but
+    we'd like to stay close to the literal definition.
 \end{itemize}
 
 
