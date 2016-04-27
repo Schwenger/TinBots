@@ -9,6 +9,7 @@ document.out
 document.pdf
 document.synctex.gz
 # Do not commit PDFs, please.
+matlab-submission.zip
 
 # Autosaves
 *~
