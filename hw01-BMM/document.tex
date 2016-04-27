@@ -178,7 +178,51 @@ of the following new function blocks:
 
 \section*{Problem 6: Geiger-Müller Counter}
 
-FIXME
+\subsection*{Part 1}
+
+\includegraphics[width=\textwidth]{p6a-model}
+
+Inputs: \texttt{V\_in}, \texttt{V\_min}, \texttt{pulse} \\
+Locals: \texttt{counter}, \texttt{p\_sense}, \texttt{t\_sense} \\
+Output: \texttt{display}
+
+We couldn't get the \texttt{on every(1,sec)} event to work as intended,
+so we use an external pulse generator (\enquote{Simulink/Sources: Pulse
+Generator}) that fires every 1 second to trigger the propagation of
+\texttt{counter} to \texttt{display}.
+
+The locals \texttt{t\_sense} and \texttt{p\_sense} indicate  sensibility for
+another \emph{p}ulse or \emph{t}ime impulse.
+
+The priorities only have an effect when an ionization event
+happens exactly on a full second.
+
+ \pagebreak{}
+\subsection*{Part 2}
+
+\begin{description}
+    \item[How much distortion?] This depends strongly on the variance and
+    expected frequency of events.  First of all, notice that the
+    counter can never go beyond 10000 events.  Thus, if
+    there are \enquote{few} events, the display is reasonably accurate.
+    If the display is \enquote{close} to 10000 (on a log
+    scale; thus, 1000 already is \enquote{close}), then the
+    display is completely inaccurate\footnote{but still not useless: it
+    carries the important information \enquote{high radiation, get out
+    of here!}}.
+        %
+    \item[Expected actual number?] Let's say ionization events are
+    independent identically distributed (which they seem to be in
+    reality).  Let $k$ be the measured number of events.  Then the dead
+    time amounted to $k \cdot 0.0001 s$, meaning we actually only
+    measured a time span of $1 s - k \cdot 0.0001 s$, which can be used
+    to approximate the number of events $n$ in a second by the rule of
+    three\footnote{in German: \enquote{Dreisatz}}:
+        \[ n \approx k \cdot \frac{1 s}{1 s - k \cdot 0.0001 s}
+             = \frac{1}{\frac{1}{k} - 0.0001}\]
+    Note that this has the desired properties to stay close to $k$ for
+    small values of $k$, and diverge for $k \to 10000$.
+\end{description}
 
 
 \end{document}
