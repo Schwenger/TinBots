@@ -1,10 +1,10 @@
-TEX			=pdflatex
-VIEWER		=evince
+TEX     =pdflatex
+VIEWER  =evince
 
-SOURCE		=document.tex
-OBJECT		=$(patsubst %.tex,%.pdf,$(SOURCE))
-LOGFILE		=$(patsubst %.tex,%.log,$(SOURCE))
-AUXFILE		=$(patsubst %.tex,%.aux,$(SOURCE))
+SOURCE  =document.tex
+OBJECT  =$(patsubst %.tex,%.pdf,$(SOURCE))
+LOGFILE =$(patsubst %.tex,%.log,$(SOURCE))
+AUXFILE =$(patsubst %.tex,%.aux,$(SOURCE))
 
 
 all: view
@@ -18,9 +18,11 @@ $(OBJECT): %.pdf: %.tex $(SOURCE)
 
 clean:
 	rm -f $(LOGFILE) $(AUXFILE) document.out document.mw
-	
+
 clean-total: clean
 	rm -f $(OBJECT)
+
+compile: ${OBJECT}
 
 # For debugging the Makefile
 say: super
