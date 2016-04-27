@@ -7,6 +7,7 @@ document.log
 document.mw
 document.out
 document.pdf
+document.synctex.gz
 # Do not commit PDFs, please.
 
 # Autosaves
