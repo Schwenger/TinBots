@@ -14,7 +14,7 @@ $(OBJECT): %.pdf: %.tex $(SOURCE)
 # Second run because LastPage
 	$(TEX) -halt-on-error -shell-escape $<
 
-.PHONY: clean clean-total compile old say spellcheck-de spellcheck-en touch view
+.PHONY: clean clean-total compile old say spellcheck-de spellcheck-en touch view zip
 
 clean:
 	rm -f $(LOGFILE) $(AUXFILE) document.out document.mw
@@ -44,3 +44,8 @@ view: ${OBJECT}
 		exit 1 ; \
 	}
 	$(VIEWER) $(OBJECT) &
+
+MATLAB_FILES:=$(wildcard *.mdl)
+
+zip:
+	zip matlab-submission.zip ${MATLAB_FILES}
