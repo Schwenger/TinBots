@@ -1,5 +1,6 @@
 \documentclass[a4paper,parskip,headheight=38pt]{scrartcl} % article or scrartcl
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage[%
   automark,
@@ -27,8 +28,8 @@
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
 \lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
-Markus Köhler, mail@koehlma.de, 2553525 \\
-Ben Wiederhake, s9bewied@stud\ldots, 2541266}
+	Maximilian Köhl, mail@koehlma.de, 2553525 \\
+	Ben Wiederhake, s9bewied@stud\ldots, 2541266}
 \rohead{\newline \newline ES16, Set 1, Page {\thepage}/{\pageref*{LastPage}}}
 
 \newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
@@ -84,46 +85,45 @@ there are no other equilibria.
 \section*{Problem 3: Stability of Equilibria}
 
 Reasoning like above:
-    %
 \begin{align*}
-    \text{equilibrium}
-    &\implies \dot{s}_1 = 0 \land \dot{s}_2 = 0 \\
-    &\implies 3s_1 + 4s_2 = 0 \land 2s_1 + s_2 = 0 \\
-    &\implies 3s_1 + 4(-2s_1) = 0 \land 2s_1 + s_2 = 0 \\
-    &\implies s_1 = 0 \land s_2 = 0
+\text{Equilibrium}
+&\implies \dot{s}_1 = 0 \land \dot{s}_2 = 0 \\
+&\implies 3s_{e1} + 4s_{e2} = 0 \land 2s_{e1} + s_{e2} = 0 \\
+&\implies 3s_{e1} + 4(-2s_{e1}) = 0 \land 2s_{e1} + s_{e2} = 0 \\
+&\implies s_{e1} = 0 \land s_{e2} = 0
 \end{align*}
 
-So there can only be one equilibrium (as there is no further
-dimension).  It can also easily be seen that this candidate is in fact
-an equilibrium.
+As there are no other solutions for the equation system, this is the only equilibrium.
 
-Consider the state $(s_1=\varepsilon, s_2 = 0)$.  Obviously, this
-quickly evolves towards $(s_1 \to \infty, s_2 \to \infty)$.  Therefore,
-it is unstable (= not stable and not asymptotically stable).
-
+Let $\delta > 0$ be arbitrary but fixed, consider the state:
+\begin{align*}
+s_1(0) := \delta + s_{e1} = \delta && s_2(0) := 0 + s_{e2} = 0
+\end{align*}
+\begin{align*}
+& \dot{s_1}(0) = 3 \delta + 4 \cdot 0 \, \land \, \dot{s_2}(0) = 2 \delta + 0 \\
+\overset{\delta > 0}{\implies} & \forall t: \dot{s_1}(t) > 0 \, \land \, \dot{s_2}(t) > 0 \\
+\implies & \lim_{t \to \infty} s_1(t) \to \infty \, \land \, \lim_{t \to \infty} s_2(t) \to \infty
+\end{align*}
+Therefore, it is unstable ($\hat{=}$ not stable and not asymptotically stable).
 
 \section*{Problem 4: Cyclist}
 
 \subsection*{Part 1}
 
-Here's the model we created:
+Here is the model we created:
 
 \includegraphics[width=\textwidth]{p4a-proof}
-
-We chose $v_{0} = 0$ and $s_{0} = 0$ as starting conditions for both
-integrations, as this piece of information is missing in the exercise
-text.
 
 \subsection*{Part 2}
 
 We created an appropriate file and ran a simulation with a sufficiently
 small fixed-size step.
 
- \pagebreak{}
+\pagebreak{}
 Our \texttt{.mat} file can be reproduced like this (in Matlab itself):
-    %
+%
 \vspace{-\baselineskip}\begin{verbatim}
-myts = timeseries([]) % matrix-based bags don't support non-linear time
+myts = timeseries([]) % matrix-based bags do not support non-linear time
 myts = addsample(myts, 'Data', 0, 'Time', 0)
 myts = addsample(myts, 'Data', 0, 'Time', 2)
 myts = addsample(myts, 'Data', 1, 'Time', 2)
@@ -133,17 +133,19 @@ myts = addsample(myts, 'Data', 0, 'Time', 8)
 save data -v7.3 myts
 \end{verbatim}
 
-The 100m mark seems to be reached at exactly 14.5 seconds with our
-starting conditions.  In maths: $f(14.5) = 100$
-
 \includegraphics[width=\textwidth]{p4b-proof-small}
+
+The 100m mark seems to be reached at exactly 14.5 seconds with our
+starting conditions.
 
 
 \section*{Problem 5: Oscillator}
 
 \subsection*{Part 1}
-
-We believe 103 is closer to the answer than 104.
+\begin{align*}
+y_s = \lim_{t \to \infty} y(t) = 0 \\
+t_s(0.2) = 103
+\end{align*}
 
 \includegraphics[width=\textwidth]{p5a-proof-small}
 
@@ -151,29 +153,7 @@ We believe 103 is closer to the answer than 104.
 
 \includegraphics[width=\textwidth]{p5b-model}
 
-No function blocks were added.  The old connection
-\enquote{Displacement (y) $\rightarrow$ Gain (k)} was severed, in favor
-of the following new function blocks:
-    %
-\begin{itemize}
-    \item \enquote{inner\_paren}, which represents the result of $(y(t)
-    - \frac{1}{k}u(\frac{t}{4}))$.  This function block has the parameter
-    \enquote{\texttt{+-}} for correct signs.
-        %
-    \item \enquote{Gain (1/k)}, which represents the result of
-    $\frac{1}{k}u(\frac{t}{4}))$.  This function block has the parameter $0.1$,
-    as that's the value of $\frac{1}{k}$.
-        %
-    \item \enquote{Cosine}, which is actually a \enquote{Sine
-    Wave}-block, with the parameters amplitude=1,
-    frequency=$0.5 \cdot (2\pi)$, phase=$\pi/2$,
-    and custom time source enabled.
-        %
-    \item \enquote{Contant} (\texttt{1/4}) and \enquote{Integrator}
-    (\texttt{x\_0=0}) to compute $\frac{t}{4}$.  Obviously, one should
-    instead use Cosine with a period of 8 seconds ($2 \cdot 4$), but
-    we'd like to stay close to the literal definition.
-\end{itemize}
+We have added the red functional blocks and extended the \emph{Add} block with a new subtraction input.
 
 
 \section*{Problem 6: Geiger-Müller Counter}
