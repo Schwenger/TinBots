@@ -1,5 +1,5 @@
 Model {
-  Name			  "p5b_model"
+  Name			  "Simulink_Model_for_Problem_Set_1"
   Version		  8.7
   MdlSubVersion		  1
   SavedCharacterEncoding  "UTF-8"
@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.16"
+    ComputedModelVersion    "1.19"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -32,7 +32,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1280.0, 31.0, 1280.0, 983.0]
+      Location		      [0.0, 0.0, 1451.0, 1054.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -56,9 +56,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1246.0, 816.0]
-	ZoomFactor		[2.4630940343781598]
-	Offset			[40.192118226600968, -12.145320197044327]
+	Extents			[1395.0, 875.0]
+	ZoomFactor		[3.0]
+	Offset			[20.050781250000071, 51.333333333333307]
       }
     }
   }
@@ -66,11 +66,11 @@ Model {
   Creator		  "hjpeter"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Apr 26 19:34:54 2016"
-  RTWModifiedTimeStamp	  383599438
-  ModelVersionFormat	  "1.%<AutoIncrement:16>"
+  LastModifiedDate	  "Thu Apr 28 12:13:53 2016"
+  RTWModifiedTimeStamp	  383746296
+  ModelVersionFormat	  "1.%<AutoIncrement:19>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -120,11 +120,11 @@ Model {
     $PropName		    "DataLoggingOverride"
     $ObjectID		    6
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
-    model_		    "p5b_model"
+    model_		    "Simulink_Model_for_Problem_Set_1"
     Array {
       Type		      "Cell"
       Dimension		      1
-      Cell		      "p5b_model"
+      Cell		      "Simulink_Model_for_Problem_Set_1"
       PropName		      "logAsSpecifiedByModels_"
     }
     Array {
@@ -165,14 +165,14 @@ Model {
       Version		      "1.16.2"
       Array {
 	Type			"Handle"
-	Dimension		9
+	Dimension		10
 	Simulink.SolverCC {
 	  $ObjectID		  8
 	  Version		  "1.16.2"
 	  StartTime		  "0.0"
-	  StopTime		  "280"
+	  StopTime		  "1000"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.07"
+	  FixedStep		  "0.001"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -188,8 +188,8 @@ Model {
 	  SolverMode		  "Auto"
 	  EnableConcurrentExecution off
 	  ConcurrentTasks	  off
-	  Solver		  "FixedStepAuto"
-	  SolverName		  "FixedStepAuto"
+	  Solver		  "ode3"
+	  SolverName		  "ode3"
 	  SolverJacobianMethodControl "auto"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
@@ -210,7 +210,7 @@ Model {
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
 	  InitialState		  "xInitial"
-	  LimitDataPoints	  off
+	  LimitDataPoints	  on
 	  MaxDataPoints		  "1000"
 	  LoadExternalInput	  off
 	  LoadInitialState	  off
@@ -218,7 +218,7 @@ Model {
 	  SaveCompleteFinalSimState off
 	  SaveFormat		  "Array"
 	  SignalLoggingSaveFormat "ModelDataLogs"
-	  SaveOutput		  off
+	  SaveOutput		  on
 	  SaveState		  off
 	  SignalLogging		  on
 	  DSMLogging		  on
@@ -226,7 +226,7 @@ Model {
 	  VisualizeSimOutput	  on
 	  StreamToWorkspace	  off
 	  StreamVariableName	  "streamout"
-	  SaveTime		  off
+	  SaveTime		  on
 	  ReturnWorkspaceOutputs  off
 	  StateSaveName		  "xout"
 	  TimeSaveName		  "tout"
@@ -255,17 +255,17 @@ Model {
 	    Cell		    "NoFixptDivByZeroProtection"
 	    PropName		    "DisabledProps"
 	  }
-	  BlockReduction	  off
+	  BlockReduction	  on
 	  BooleanDataType	  on
 	  ConditionallyExecuteInputs on
-	  DefaultParameterBehavior "Inlined"
+	  DefaultParameterBehavior "Tunable"
 	  UseDivisionForNetSlopeComputation "off"
 	  UseFloatMulNetSlope	  off
 	  DefaultUnderspecifiedDataType	"double"
 	  UseSpecifiedMinMax	  off
 	  InlineInvariantSignals  off
 	  OptimizeBlockIOStorage  on
-	  BufferReuse		  off
+	  BufferReuse		  on
 	  EnhancedBackFolding	  off
 	  CachingGlobalReferences off
 	  GlobalBufferReuse	  on
@@ -708,11 +708,103 @@ Model {
 	  CovStartTime		  0
 	  CovStopTime		  0
 	}
+	SSC.SimscapeCC {
+	  $ObjectID		  19
+	  Version		  "1.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "Name"
+	    PropName		    "DisabledProps"
+	  }
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    MECH.SimMechanicsCC {
+	      $ObjectID		      20
+	      Version		      "1.16.2"
+	      WarnOnRedundantConstraints on
+	      WarnOnSingularInitialAssembly off
+	      ShowCutJoints	      off
+	      VisOnUpdateDiagram      off
+	      VisDuringSimulation     off
+	      EnableVisSimulationTime on
+	      VisSampleTime	      "0"
+	      DisableBodyVisControl   off
+	      ShowCG		      on
+	      ShowCS		      on
+	      ShowOnlyPortCS	      off
+	      HighlightModel	      on
+	      FramesToBeSkipped	      "0"
+	      AnimationDelay	      "3"
+	      RecordAVI		      off
+	      CompressAVI	      on
+	      AutoFitVis	      "off"
+	      EnableSelection	      on
+	      LastVizWinPosition      "[-1 -1 -1 -1]"
+	      CamPosition	      "[0 0 0]"
+	      CamTarget		      "[0 0 -1]"
+	      CamUpVector	      "[0 1 0]"
+	      CamHeight		      "-1"
+	      CamViewAngle	      "0"
+	      VisBackgroundColor      "[0.9 0.9 0.95]"
+	      DefaultBodyColor	      "[1 0 0]"
+	      MDLBodyVisualizationType "Convex hull from body CS locations"
+	      OVRRIDBodyVisualizationType "NONE"
+	      Name		      "SimscapeMultibody1G"
+	    }
+	    simmechanics.ConfigurationSet {
+	      $ObjectID		      21
+	      Version		      "1.16.2"
+	      Description	      "Simscape Multibody"
+	      Array {
+		Type			"Handle"
+		Dimension		2
+		simmechanics.DiagnosticsConfigSet {
+		  $ObjectID		  22
+		  Version		  "1.16.2"
+		  Description		  "Diagnostics"
+		  Name			  "DiagnosticsConfigSet"
+		  SimMechanicsInvalidVisualProperty "warning"
+		  SimMechanicsCrossSectionNullEdge "warning"
+		  SimMechanicsUnconnectedFramePorts "warning"
+		  SimMechanicsUnconnectedGeometryPorts "warning"
+		  SimMechanicsRedundantBlock "warning"
+		  SimMechanicsConflictingReferenceFrames "warning"
+		  SimMechanicsRigidlyBoundBlock	"error"
+		  SimMechanicsUnsatisfiedHighPriorityTargets "warning"
+		  SimMechanicsJointTargetOverSpecification "error"
+		}
+		simmechanics.ExplorerConfigSet {
+		  $ObjectID		  23
+		  Version		  "1.16.2"
+		  Description		  "Explorer"
+		  Name			  "ExplorerConfigSet"
+		  SimMechanicsOpenEditorOnUpdate on
+		}
+		PropName		"Components"
+	      }
+	      Name		      "SimscapeMultibody"
+	    }
+	    PropName		    "Components"
+	  }
+	  Name			  "Simscape"
+	  EditingMode		  "Full"
+	  ExplicitSolverDiagnosticOptions "warning"
+	  GlobalZcOffDiagnosticOptions "warning"
+	  SimscapeLogType	  "none"
+	  SimscapeLogSimulationStatistics off
+	  SimscapeLogOpenViewer	  off
+	  SimscapeLogName	  "simlog"
+	  SimscapeLogDecimation	  1
+	  SimscapeLogLimitData	  on
+	  SimscapeLogDataHistory  5000
+	}
 	PropName		"Components"
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 189, 112, 1210, 806 ] 
+      ConfigPrmDlgPosition     [ 262, 210, 1479, 815 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -722,7 +814,7 @@ Model {
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    19
+    $ObjectID		    24
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -783,6 +875,11 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      Clock
+      DisplayTime	      off
+      Decimation	      "10"
+    }
+    Block {
       BlockType		      Constant
       Value		      "1"
       VectorParams1D	      on
@@ -829,23 +926,25 @@ Model {
       ContinuousStateAttributes	"''"
     }
     Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Scope
       DefaultConfigurationName "Simulink.scopes.TimeScopeBlockCfg"
       NumInputPorts	      "1"
       Floating		      off
-    }
-    Block {
-      BlockType		      Sin
-      SineType		      "Time based"
-      TimeSource	      "Use simulation time"
-      Amplitude		      "1"
-      Bias		      "0"
-      Frequency		      "1"
-      Phase		      "0"
-      Samples		      "10"
-      Offset		      "0"
-      SampleTime	      "-1"
-      VectorParams1D	      on
     }
     Block {
       BlockType		      Sum
@@ -863,10 +962,18 @@ Model {
       SaturateOnIntegerOverflow	on
       SampleTime	      "-1"
     }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      ApproximationMethod     "None"
+      NumberOfIterations      "11"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+    }
   }
   System {
-    Name		    "p5b_model"
-    Location		    [1280, 31, 2560, 1014]
+    Name		    "Simulink_Model_for_Problem_Set_1"
+    Location		    [0, 0, 1451, 1054]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -878,83 +985,57 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "246"
+    ZoomFactor		    "300"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "16"
+    SIDHighWatermark	    "70"
+    Block {
+      BlockType		      Constant
+      Name		      " "
+      SID		      "63"
+      Position		      [300, 214, 335, 236]
+      ZOrder		      338
+      BlockMirror	      on
+      Value		      "4/pi"
+    }
     Block {
       BlockType		      Sum
       Name		      "Add"
       SID		      "1"
-      Ports		      [2, 1]
-      Position		      [95, 167, 125, 198]
+      Ports		      [3, 1]
+      Position		      [80, 169, 110, 201]
       ZOrder		      -1
       BlockMirror	      on
+      Inputs		      "+-+"
       InputSameDT	      off
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Constant
-      Name		      "Constant"
-      SID		      "15"
-      Position		      [495, 110, 525, 140]
-      ZOrder		      11
-      BlockRotation	      270
-      BlockMirror	      on
-      NamePlacement	      "alternate"
-      Value		      "1/4"
-    }
-    Block {
-      BlockType		      Sin
-      Name		      "Cosine"
-      SID		      "13"
-      Ports		      [1, 1]
-      Position		      [460, 220, 490, 250]
-      ZOrder		      9
-      BlockMirror	      on
-      TimeSource	      "Use external signal"
-      Frequency		      "0.5*(2*pi)"
-      Phase		      "pi/2"
-      SampleTime	      "0"
+      Port {
+	PortNumber		1
+	Name			"y''"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Integrator
       Name		      "Displacement (y)"
       SID		      "2"
       Ports		      [1, 1]
-      Position		      [345, 80, 375, 110]
+      Position		      [285, 80, 315, 110]
       ZOrder		      -2
       InitialCondition	      "15"
+      Port {
+	PortNumber		1
+	Name			"y"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Gain
-      Name		      "Gain (1/k)"
-      SID		      "10"
-      Position		      [405, 220, 435, 250]
-      ZOrder		      2
-      BlockMirror	      on
-      Gain		      "0.1"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Gain
-      Name		      "Gain (R)"
-      SID		      "5"
-      Position		      [240, 160, 270, 190]
-      ZOrder		      -5
-      BlockMirror	      on
-      Gain		      "0.1"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Gain
-      Name		      "Gain (k)"
+      Name		      "Gain"
       SID		      "3"
-      Position		      [240, 215, 270, 245]
+      Position		      [170, 265, 200, 295]
       ZOrder		      -3
       BlockMirror	      on
       Gain		      "10"
@@ -964,59 +1045,62 @@ Model {
     }
     Block {
       BlockType		      Gain
-      Name		      "Gain (m)"
+      Name		      "Gain1"
       SID		      "4"
-      Position		      [230, 72, 275, 118]
+      Position		      [160, 72, 205, 118]
       ZOrder		      -4
       Gain		      "-1/1.2"
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
+      Port {
+	PortNumber		1
+	Name			"y'"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
-      BlockType		      Integrator
-      Name		      "Integrator"
-      SID		      "16"
-      Ports		      [1, 1]
-      Position		      [495, 160, 525, 190]
-      ZOrder		      12
-      BlockRotation	      270
+      BlockType		      Gain
+      Name		      "Gain2"
+      SID		      "5"
+      Position		      [170, 135, 200, 165]
+      ZOrder		      -5
       BlockMirror	      on
-      NamePlacement	      "alternate"
+      Gain		      "0.1"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      Scope
       Name		      "Scope"
-      SID		      "6"
+      SID		      "66"
       Ports		      [2]
-      Position		      [505, 41, 540, 94]
-      ZOrder		      -6
-      ShowName		      off
+      Position		      [425, 56, 475, 109]
+      ZOrder		      339
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
-      "ources','WiredSimulink',true,'DataLoggingSaveFormat','StructureWithTime','DataLoggingLimitDataPoints',true,'Data"
-      "LoggingDecimation','1','DataLoggingDecimateData',true),extmgr.Configuration('Visuals','Time Domain',true,'Serial"
-      "izedDisplays',{struct('MinYLimReal','-2.28647','MaxYLimReal','1.73744','YLabelReal','','MinYLimMag','0.00000','M"
-      "axYLimMag','2.28647','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0]"
+      "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
+      "nYLimReal','-52.33847','MaxYLimReal','50.35958','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','52.33847','"
+      "LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68"
+      "6274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623"
+      "529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717"
+      "647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<Signa"
+      "lLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'y'''}},'ShowConte"
+      "nt',true,'Placement',1),struct('MinYLimReal','-17.80522','MaxYLimReal','18.64502','YLabelReal','','MinYLimMag','"
+      "0','MaxYLimMag','10','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0]"
       ",'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0."
       "0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0."
       "0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.65098039215"
       "6863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'LineNames"
-      "',{{'Gain (m)'}},'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.75827','MaxYLimReal','0.72528','YLab"
-      "elReal','','MinYLimMag','0','MaxYLimMag','10','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',"
-      "false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',["
-      "1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.39215686274"
-      "5098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.07450"
-      "98039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}"
-      "},'NumLines',1,'LineNames',{{'Displacement (y)'}},'ShowContent',true,'Placement',2)},'DisplayPropertyDefaults',s"
-      "truct('YLabelReal','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922"
-      "],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.160784313725"
-      "49;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.05882352941176"
-      "47 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedC"
-      "hannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'ShowContent',true,'Placement',1),'DisplayLayoutDimensions',[2"
-      " 1]),extmgr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode','Pan'),extmgr.Con"
-      "figuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Location',[1 108 1281 983],'Visibl"
-      "eAtModelOpen','on')"
+      "',{{'y'}},'ShowContent',true,'Placement',2)},'DisplayPropertyDefaults',struct('YLabelReal','','LegendVisibility'"
+      ",'Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.6"
+      "86274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.160"
+      "78431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0"
+      "745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[2 1])"
+      ",extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'Version'"
+      ",'2016a')),'Version','2016a','Position',[1 29 1918 973])"
       NumInputPorts	      "2"
     }
     Block {
@@ -1024,128 +1108,169 @@ Model {
       Name		      "Velocity"
       SID		      "7"
       Ports		      [1, 1]
-      Position		      [130, 80, 160, 110]
+      Position		      [95, 80, 125, 110]
       ZOrder		      -7
     }
     Block {
-      BlockType		      Sum
-      Name		      "inner_paren"
-      SID		      "9"
-      Ports		      [2, 1]
-      Position		      [325, 212, 355, 243]
-      ZOrder		      1
+      BlockType		      Trigonometry
+      Name		      "cos"
+      SID		      "65"
+      Ports		      [1, 1]
+      Position		      [170, 205, 200, 235]
+      ZOrder		      335
       BlockMirror	      on
-      Inputs		      "+-"
+      Operator		      "cos"
+    }
+    Block {
+      BlockType		      Product
+      Name		      "div"
+      SID		      "64"
+      Ports		      [2, 1]
+      Position		      [235, 202, 265, 233]
+      ZOrder		      336
+      BlockMirror	      on
+      Inputs		      "*/"
       InputSameDT	      off
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      RndMeth		      "Floor"
       SaturateOnIntegerOverflow	off
     }
-    Line {
-      ZOrder		      1
-      SrcBlock		      "Displacement (y)"
-      SrcPort		      1
-      Points		      [37, 0]
-      Branch {
-	ZOrder			14
-	Points			[0, 125]
-	DstBlock		"inner_paren"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			13
-	Points			[0, -15]
-	DstBlock		"Scope"
-	DstPort			2
-      }
+    Block {
+      BlockType		      Clock
+      Name		      "t"
+      SID		      "62"
+      Position		      [310, 165, 330, 185]
+      ZOrder		      337
+      BlockMirror	      on
     }
     Line {
       ZOrder		      4
       SrcBlock		      "Velocity"
       SrcPort		      1
-      DstBlock		      "Gain (m)"
+      DstBlock		      "Gain1"
       DstPort		      1
     }
     Line {
+      Name		      "y'"
       ZOrder		      5
-      SrcBlock		      "Gain (m)"
+      SrcBlock		      "Gain1"
       SrcPort		      1
-      Points		      [20, 0]
+      Points		      [24, 0]
+      Branch {
+	ZOrder			142
+	Points			[0, -25]
+	DstBlock		"Scope"
+	DstPort			1
+      }
       Branch {
 	ZOrder			6
+	Labels			[1, 1]
 	DstBlock		"Displacement (y)"
 	DstPort			1
       }
       Branch {
 	ZOrder			7
-	Points			[0, 80]
-	DstBlock		"Gain (R)"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			8
-	Points			[0, -40]
-	DstBlock		"Scope"
+	Points			[0, 55]
+	DstBlock		"Gain2"
 	DstPort			1
       }
     }
     Line {
       ZOrder		      9
-      SrcBlock		      "Gain (R)"
+      SrcBlock		      "Gain2"
       SrcPort		      1
+      Points		      [-17, 0; 0, 25]
       DstBlock		      "Add"
       DstPort		      1
     }
     Line {
-      ZOrder		      10
-      SrcBlock		      "Gain (k)"
+      ZOrder		      121
+      SrcBlock		      "Gain"
       SrcPort		      1
-      Points		      [-95, 0]
+      Points		      [-18, 0; 0, -85]
       DstBlock		      "Add"
-      DstPort		      2
+      DstPort		      3
     }
     Line {
+      Name		      "y''"
       ZOrder		      11
+      Labels		      [3, 1]
       SrcBlock		      "Add"
       SrcPort		      1
-      Points		      [-45, 0; 0, -90]
+      Points		      [-35, 0; 0, -90]
       DstBlock		      "Velocity"
       DstPort		      1
     }
     Line {
-      ZOrder		      12
-      SrcBlock		      "inner_paren"
+      Name		      "y"
+      ZOrder		      1
+      SrcBlock		      "Displacement (y)"
       SrcPort		      1
-      DstBlock		      "Gain (k)"
-      DstPort		      1
+      Points		      [39, 0]
+      Branch {
+	ZOrder			143
+	Labels			[-1, 0]
+	DstBlock		"Scope"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			68
+	Points			[0, 185]
+	DstBlock		"Gain"
+	DstPort			1
+      }
     }
     Line {
-      ZOrder		      15
-      SrcBlock		      "Gain (1/k)"
+      ZOrder		      122
+      SrcBlock		      "cos"
       SrcPort		      1
-      DstBlock		      "inner_paren"
+      Points		      [-2, 0; 0, -35]
+      DstBlock		      "Add"
       DstPort		      2
     }
     Line {
-      ZOrder		      20
-      SrcBlock		      "Cosine"
+      ZOrder		      123
+      SrcBlock		      "div"
       SrcPort		      1
-      DstBlock		      "Gain (1/k)"
+      DstBlock		      "cos"
       DstPort		      1
     }
     Line {
-      ZOrder		      27
-      SrcBlock		      "Constant"
+      ZOrder		      126
+      SrcBlock		      "t"
       SrcPort		      1
-      DstBlock		      "Integrator"
+      Points		      [-25, 0]
+      DstBlock		      "div"
       DstPort		      1
     }
     Line {
-      ZOrder		      28
-      SrcBlock		      "Integrator"
+      ZOrder		      127
+      SrcBlock		      " "
       SrcPort		      1
-      Points		      [0, 40]
-      DstBlock		      "Cosine"
-      DstPort		      1
+      DstBlock		      "div"
+      DstPort		      2
     }
+  }
+}
+#Finite State Machines
+#
+#   Stateflow 80000009
+#
+#
+Stateflow {
+  machine {
+    id			    1
+    name		    "Simulink_Model_for_Problem_Set_1"
+    created		    "27-Apr-2016 20:59:19"
+    isLibrary		    0
+    firstTarget		    2
+    sfVersion		    80000009
+  }
+  target {
+    id			    2
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
   }
 }
