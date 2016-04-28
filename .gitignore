@@ -19,3 +19,5 @@ document.synctex.gz
 *_sfun.mexa64
 slprj/
 
+# IDEA-IDE
+.idea
