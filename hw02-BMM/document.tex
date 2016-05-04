@@ -49,11 +49,66 @@
 % \newcommand{\set}[1]{\{#1\}}
 % \newcommand{\abs}[1]{\lvert #1 \rvert}
 
+\DeclareMathOperator{\sinc}{sinc}
+
 \begin{document}
 
 \section*{Problem 1: Sampling}
 
-FIXME
+\subsection*{Part 1}
+
+See file \texttt{p1a\_model.mdl}
+
+\subsection*{Part 2}
+
+By the sampling theorem, any sampling rate strictly greater than 4kHz
+(2 times the maximum input frequency) is fine.  Thus, the minimal
+reconstructing sampling rate is $2 + \varepsilon$ kHz, where
+$\varepsilon$ is the minimal increment.
+
+The limiting factors are: imprecise and inaccurate measurements; clock
+drift; clock drift (and thus slightly off frequencies) in the input
+signal; only a finite set of samples is available (possibly only the
+\emph{past} samples).
+
+\subsection*{Part 3}
+
+Using Matlab, one can easily compute the samples:
+ %
+\begin{verbatim}
+>> t = 0:.5:3;
+>> sin(pi * t - 1/4)
+   -0.2474    0.9689    0.2474   -0.9689   -0.2474    0.9689    0.2474
+>> sin(2 * pi * t - 1/4)
+   -0.2474    0.2474   -0.2474    0.2474   -0.2474    0.2474   -0.2474
+\end{verbatim}
+
+Then the reconstructed signals $\hat{f}$ and $\hat{g}$ are:
+ %
+\begin{align*}
+    \hat{f}(t) &= \sin(\frac{-1}{4}) \cdot \left(\sinc(t -0) - \sinc(t - 1) + \sinc(t-2) - \sinc(t - 3) \right) \\
+    &\quad + \sin(\pi \cdot \frac{1}{2} - \frac{1}{4}) \cdot \left( \sinc(t - 0.5) - \sinc(t - 1.5) + \sinc(t - 2.5) \right) \\
+    \hat{g}(t) &= \sin(\frac{-1}{4}) \cdot \left(\sinc(t -0) - \sinc(t - 0.5) + \sinc(t - 1) - \sinc(t - 1.5) \right. \\
+    &\qquad\qquad\qquad + \left. \sinc(t-2) - \sinc(t-2.5) + \sinc(t - 3) \right)
+\end{align*}
+
+Per definition (see slides), we know that $\sinc(x) =
+\frac{\sin\left(\frac{\pi}{p_s}x\right)}{\frac{\pi}{p_s}x}$ and from
+the exercise that $p_s = 0.5$.  Thus we get these plots:
+ \\
+\includegraphics[width=\textwidth]{p1c_f}
+ \\
+\includegraphics[width=\textwidth]{p1c_g}
+
+For $f$, the approximation is reasonably close in the sampled region,
+as there are enough samples.  Outside the sampled region, $\hat{f}$
+deviates, mostly by falling towards zero: this is to be expected due to
+the missing samples.
+ \\ % Squeeze on the same page
+$g$ and $\hat{g}$ are pretty far apart, with only the frequency being
+correct.  Amplitude and phase couldn't be reconstructed properly as the
+sampling frequency is not \emph{strictly} greater than twice the input
+frequency.
 
 
 \section*{Problem 2: Linear System}
