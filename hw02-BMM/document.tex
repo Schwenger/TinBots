@@ -113,9 +113,35 @@ frequency.
 
 \section*{Problem 2: Linear System}
 
-FIXME
+\subsection*{Part 1}
+
+First of all, compute $A$ as a matrix:
+
+\begin{align*}
+    A &= \left( \begin{array}{cc} 0 & 1 \\ -2 & -3 \end{array} \right) \\
+    \det(A - \lambda I) &= (-\lambda)(-3-\lambda) + 2 \\
+    &= \lambda^2 + 3\lambda + 2 \\
+    \implies \lambda_{1,2} &= \{-1, -2\} \\
+    \implies J &= \left( \begin{array}{cc} -1 & 0 \\ 0 & -2 \end{array} \right) \\
+    Av_1 &= \lambda_1 v \\
+    \iff \binom{v_{1,2}}{-2v_{1,1}-3v_{1,2}} &= \binom{-v_{1,1}}{-v_{1,2}} \\
+    \iff v_{1,2} &= -v_{1,1} & \text{e.g. } v_1 = \binom{1}{-1} \\
+    Av_1 &= \lambda_2 v \\
+    \iff \binom{v_{2,2}}{-2v_{2,1}-3v_{2,2}} &= \binom{-2v_{2,1}}{-2v_{2,2}} \\
+    \iff v_{2,2} &= -2 v_{2,1} & \text{e.g. } v_2 = \binom{1}{-2} \\
+    \implies P &= \left( \begin{array}{cc} 1 & 1 \\ -1 & -2 \end{array} \right) \\
+    \implies P^{-1} &\overset{\text{\scriptsize{matlab}}}{=} \left( \begin{array}{cc} 2 & 1 \\ -1 & -1 \end{array} \right) \\
+    \implies \bar{S}(t) &= P D(e^{-t}, e^{-2t}) P^{-1} s_0
+\end{align*}
+
+\subsection*{Part 2}
+
+From the result $\lambda_{1,2} = \{-1, -2\}$ one can directly see that
+the system is asymptotically stable, as all eigenvalues are strictly
+negative.
 
 
+ \pagebreak{}
 \section*{Problem 3: Power Management}
 
 FIXME
