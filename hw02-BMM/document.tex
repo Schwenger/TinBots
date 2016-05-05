@@ -149,6 +149,26 @@ See file \texttt{p3\_model.mdl}
 
 \section*{Problem 4: Pendulum}
 
+\subsection*{Part 1}
+
+Given:
+ %
+\begin{align*}
+    \dot{\varphi} &= v \\
+    \dot{v} &= - \frac{g}{l} \sin \varphi + \frac{u}{ml^2}
+\end{align*}
+
+Thus we approximate and get:
+ %
+\begin{align*}
+    \binom{\dot{\varphi}}{\dot{v}} &\approx \binom{0 \cdot \varphi + 1 \cdot v}{- \frac{g}{l} \cdot \varphi + 0 \cdot v} + \binom{0 \cdot u}{\frac{1}{ml^2} \cdot u} \\
+    \implies \dot{S} &\approx AS + BI, \text{with:} \\
+    A &= \left( \begin{array}{cc} 0 & 1 \\ -\frac{g}{l} & 0 \end{array} \right) \\
+    B &= \binom{0}{\frac{1}{ml^2}}
+\end{align*}
+
+\subsection*{Part 2}
+
 FIXME
 
 
