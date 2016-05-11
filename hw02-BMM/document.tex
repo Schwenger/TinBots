@@ -28,7 +28,7 @@
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
 \lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
-	Maximilian Köhl, mail@koehlma.de, 2553525 \\
+	Maximilian Köhl, s8makoeh@stud\ldots, 2553525 \\
 	Ben Wiederhake, s9bewied@stud\ldots, 2541266}
 \rohead{\newline \newline ES16, Set 2, Page {\thepage}/{\pageref*{LastPage}}}
 
@@ -168,8 +168,30 @@ Thus we approximate and get:
 \end{align*}
 
 \subsection*{Part 2}
+\begin{align*}
+	u &:= K_P \phi + K_D \dot{\phi} \\
+	\frac{d \phi}{d t} &= \dot{\phi} \\
+	\frac{d \dot{\phi}}{d t} &= - \frac{mgl}{ml^2} \phi + \frac{1}{ml^2}u \\
+	&= - \frac{mgl}{ml^2} \phi + \frac{1}{ml^2} (K_P \phi + K_D \dot{\phi}) \\
+	&= \frac{K_P-mgl}{ml^2}\phi + \frac{K_D}{ml^2}\dot{\phi} \\
+	\implies \dot{S} &\approx AS + BI, \text{ with:} \\
+    A &= \left( \begin{array}{cc} 0 & 1 \\ \frac{K_P-mgl}{ml^2} & \frac{K_D}{ml^2} \end{array} \right)
+\end{align*}
 
-FIXME
+\begin{align*}
+det(A - \lambda I) &=  det\left( \begin{array}{cc} -\lambda & 1 \\ \frac{K_P-mgl}{ml^2} & \frac{K_D}{ml^2} - \lambda \end{array} \right) \\
+ &= \lambda ^ 2 - \frac{K_D}{ml^2}\lambda - \frac{K_P - mgl}{ml^2} \\
+\implies & \lambda_{1/2} = \frac{\frac{K_D}{ml^2} \pm \sqrt{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}}}{2}
+\end{align*}
+
+\begin{align*}
+& \lambda_{1/2} = \frac{\frac{K_D}{ml^2} \pm \sqrt{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}}}{2} \leq 0 \\
+\implies & \\
+& K_D \leq 0  \\
+& K_D = 0 \rightarrow K_P = mgl \\
+& K_D < 0 \rightarrow \, ?
+\end{align*}
+
 
 
 \end{document}
