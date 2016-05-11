@@ -9,6 +9,6 @@ void setup()
 
 void loop() {
   irsend.sendSAMSUNG(0xa90, 12);
-  delay(100);
+  delay(500);
 } 
 
