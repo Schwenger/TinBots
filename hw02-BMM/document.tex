@@ -106,7 +106,7 @@ For $f$, the approximation is reasonably close in the sampled region,
 as there are enough samples.  Outside the sampled region, $\hat{f}$
 deviates, mostly by falling towards zero: this is to be expected due to
 the missing samples.
- \\ % Squeeze on the same page
+
 $g$ and $\hat{g}$ are pretty far apart, with only the frequency being
 correct.  Amplitude and phase couldn't be reconstructed properly as the
 sampling frequency is not \emph{strictly} greater than twice the input
@@ -143,10 +143,17 @@ the system is asymptotically stable, as all eigenvalues are strictly
 negative.
 
 
- \pagebreak{}
 \section*{Problem 3: Power Management}
 
-See file \texttt{p3\_model.mdl}
+Here's the stateflow we built:
+ \\
+\includegraphics[width=\textwidth]{p3-model}
+
+And it actually behaves as intended (using 0.1 as critical value)
+ \\
+\includegraphics[width=\textwidth]{p3-proof}
+
+Can we please submit as files next time again? Pretty please?
 
 
 \section*{Problem 4: Pendulum}
