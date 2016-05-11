@@ -1,0 +1,44 @@
+scribe: Maximilian Schwenger, 11.05.2016
+
+tutor’s recommendation: gps fails
+tutor’s recommendation: radio/sound instead of IR -> epuck sound -> cartography less precise
+microphone already in epuck, only sound emitter needed.
+bluetooth communication between e-Pucks
+
+Victim not on e-Puck -> use magnets instead and push them out.
+
+hardware:
+
+2 epuck, raspberry pi, charger missing, code transmitter
+Micro usb for raspberry 
+
+[webcam from Ben]
+Camera from chair direct connection to Pi model 1
+
+Picamera lib for python
+
+SD card missing in Pi! -> ask Hazem -> we’ll get it later.
+At least 8 GiB for now, maybe we need less.
+
+Discuss how we want to combine Teddy and IR emitter.  ATmega8 should suffice? -> Agreed on ATtiny2313 + 4 IR emitter
+Test whether “our” IR emitter works through various kinds of paper.
+Normal paper -> IR goes through (bad)
+3 sheets of paper -> still (bad)
+Galaxy Tab2 cardboard -> doesn’t go through (good)
+
+Marlene agreed to prepare 2mm Cardboard for walls.
+
+How do we connect IR sensor and e-puck: We can remove top part of e-Puck and replace by own board. -> We need own board!
+
+Problem: fast deployment for presentation when using pucks from other groups.
+Idea: Remove board, screw perfboard (Lochrasterplatine) on top including our sensors and ATmega328p, prepare 3 such boards, so we can deploy within minutes. 
+Problem: 10 volts from e-Puck is way too much -> need to reduce. Resistors not sufficient because of sending, thus using Max232x chip.
+
+Connection including battery connection -> look @ wiki
+For now: 3 x e-Puck connection cable
+
+Discussion: Using sound instead of IR: Problem with triangulation.
+
+Solution: e-Puck allows direct connection.
+ 
+    
