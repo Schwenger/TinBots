@@ -1,0 +1,176 @@
+\documentclass[a4paper,parskip,headheight=38pt]{scrartcl} % article or scrartcl
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[%
+  automark,
+  headsepline                %% Separation line below the header
+]{scrlayer-scrpage}
+\usepackage[english]{babel}
+\usepackage{hyphenat}
+\usepackage[hidelinks]{hyperref}
+\usepackage[top=1.4in, bottom=1.5in, left=1in, right=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{datetime}
+
+\usepackage[normalem]{ulem}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+% \usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{graphics}
+% \usepackage{float}
+% \usepackage{caption}
+
+\setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
+\addtolength{\headheight}{+6pt}
+\lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
+	Maximilian Köhl, mail@koehlma.de, 2553525 \\
+	Ben Wiederhake, s9bewied@stud\ldots, 2541266}
+\rohead{\newline \newline ES16, Set 2, Page {\thepage}/{\pageref*{LastPage}}}
+
+\newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
+\settimeformat{mytime}
+\newdateformat{mydate}{\twodigit{\THEYEAR}\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+\cfoot{\tiny\texttt{ID \mydate\today\currenttime}}
+\chead{} % Needed because now the \subsections get displayed
+\pagestyle{scrheadings}
+
+% \renewcommand{\headrulewidth}{0pt}
+% \addtolength{\textheight}{+30mm}
+% \addtolength{\textwidth}{+50mm}
+% \addtolength{\hoffset}{-7mm}
+
+% \newcommand{\Omicron}{\ensuremath{\mathcal{O}}}
+% \newcommand{\omicron}{\ensuremath{o}}
+% \newcommand{\set}[1]{\{#1\}}
+% \newcommand{\abs}[1]{\lvert #1 \rvert}
+
+\DeclareMathOperator{\sinc}{sinc}
+
+\begin{document}
+
+\section{Overview}
+A set of robots that survey a simulated collapsed building (maze), try to find a victim (teddy), and rescue it.
+
+\section{Functional Requirements}
+\subsection*{A: Must-Have}
+\begin{description}
+\item[A1] while the Tin Bot is operational a green LED shall be on
+\item[A1] the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
+\item[A1] the E-Pucks must share information about the victim
+\item[A1] cartograph the inspected environment using the given LPS signal
+\item[A1] find the victim by…
+\item[A1.1] … exhaustive search, if nothing about the victim is known
+\item[A1.1] … attempted shortest path, if the location of the victim is known
+\item[A1] bring the victim out
+\item[A1] while the Tin Bot is escorting the victim a red LED shall be on
+\item[A1] use the ir-sensors to pick up signals from the victim
+\end{description}
+
+\subsection*{B: Nice-to-Have}
+\begin{description}
+\item[B1] be able to behave reasonably if the LPS is missing
+\item[B1] export the map
+\item[B1] be able to behave reasonably if some of the E-Pucks go defunct
+\item[B1] be able to bahave reasonably if the map changes
+\item[B1] detect if there is no victim
+\end{description}
+
+\subsection*{C: Must-not-Have}
+\begin{description}
+\item[C1] use actual GPS
+\item[C2] use actual gyroscope
+\item[C3] do not use camara to identify the victim
+\item[C4] unsolvable mazes
+\item[C5] deal with more than one victim
+\item[C6] do not try to remove obstacles
+\item[C7] do not try to do detect / react to a malfunctioning / byzantine LPS (although a certain tolerance must be respected of course)
+\end{description}
+
+\section{Non-Functional Requirements}
+\subsection*{A: Must-Have}
+\begin{description}
+\item[A1] must not be slower than worst-case brute force
+\item[A2] if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
+\item[A3] avoid any collisions except with the victim
+\item[A4] do not make any assumptions about the maze except being solvable
+\item[A5] the exists of the building are the set of the starting positions of the E-Pucks
+\end{description}
+
+\subsection*{B: Nice-to-Have}
+\begin{description}
+\item[B1] be gentle
+\item[B2] use the shortest kown path out of the building (see starting positions)
+\end{description}
+
+\subsection*{C: Must-not-Have}
+\begin{description}
+\item[C1] deal with uneven floors or multiple floor buildings
+\item[C2] use actually collapsed buildings or victims
+\end{description}
+
+
+\section{Use-Cases}
+\subsection{System Startup}
+primary actor: user \\
+goal in context: activate the E-Puck(s) \\
+precondition: LPS is up and running, E-Puck-batteries are connected and loaded up, E-Puck power switches are in the off position. \\
+trigger: power switch of 1 or more E-Pucks is switched on \\
+scenario: \\
+1. user places E-Pucks on surface \\
+2. user switches on the LPS and waits a second \\
+3. user switches on the E-Pucks \\
+exceptions: E-Pucks are too far away; LPS is too far away; E-Pucks cannot properly move on it's own (e.g. placed upside-down) \\
+
+\subsection{System Shutdown}
+primary actor: user \\
+goal in context: deactive the simulation / system \\
+precondition: At least on E-Puck's power switch is in the on position \\
+trigger: power switch of the currently-switched-on E-Pucks are switched off \\
+scenario: \\
+1. user switches off some of the running E-Pucks \\
+2. user switches off the LPS \\
+3. user switches off the remaining E-Pucks \\
+
+\subsection{Removing an E-Puck}
+primary actor: FIXME \\
+goal in context: FIXME \\
+precondition: FIXME \\
+trigger: FIXME \\
+scenario: \\
+1. FIXME \\
+exceptions: FIXME \\
+
+\subsection{Adding/Removing Walls}
+primary actor: FIXME \\
+goal in context: FIXME \\
+precondition: FIXME \\
+trigger: FIXME \\
+scenario: \\
+1. FIXME \\
+exceptions: FIXME \\
+
+\subsection{Disaling LPS}
+primary actor: FIXME \\
+goal in context: FIXME \\
+precondition: FIXME \\
+trigger: FIXME \\
+scenario: \\
+1. FIXME \\
+exceptions: FIXME \\
+
+\subsection{Re-enabling LPS}
+primary actor: FIXME \\
+goal in context: FIXME \\
+precondition: FIXME \\
+trigger: FIXME \\
+scenario: \\
+1. FIXME \\
+exceptions: FIXME \\
+
+
+\end{document}
