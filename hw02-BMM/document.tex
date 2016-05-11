@@ -190,17 +190,32 @@ Thus we approximate and get:
 \begin{align*}
 det(A - \lambda I) &=  det\left( \begin{array}{cc} -\lambda & 1 \\ \frac{K_P-mgl}{ml^2} & \frac{K_D}{ml^2} - \lambda \end{array} \right) \\
  &= \lambda ^ 2 - \frac{K_D}{ml^2}\lambda - \frac{K_P - mgl}{ml^2} \\
-\implies & \lambda_{1/2} = \frac{\frac{K_D}{ml^2} \pm \sqrt{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}}}{2}
+\implies \lambda_{1/2} &= \frac{\frac{K_D}{ml^2} \pm \sqrt{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}}}{2}
 \end{align*}
+
+Define $D = \left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}$.
+
+As we want the real part of this to be $\lambda_{1/2}$ both
+non-positive\footnote{because that's the necessary and sufficient
+criterion for stability}:
 
 \begin{align*}
-& \lambda_{1/2} = \frac{\frac{K_D}{ml^2} \pm \sqrt{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}}}{2} \leq 0 \\
-\implies & \\
-& K_D \leq 0  \\
-& K_D = 0 \rightarrow K_P = mgl \\
-& K_D < 0 \rightarrow \, ?
+& \lambda_{1/2} \leq 0 \\
+\iff& \frac{\frac{K_D}{ml^2} \pm \sqrt{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2}}}{2} \leq 0 \\
+\iff & \left( \frac{K_D}{ml^2} \leq 0 \right) \land \left( \underbrace{\left(\frac{K_D}{ml^2}\right)^2 + 4\frac{K_P - mgl}{ml^2} > 0}_\text{\scriptsize if the root is real} \implies \underbrace{4\frac{K_P - mgl}{ml^2} \le 0}\text{\scriptsize then it's small enough} \right) \\
+\iff & \left( K_D \leq 0 \right) \land \left( D > 0 \implies K_P \le mgl \right) \\
+% Too long to be displayed, and I hope it's clear enough
+%\iff & \left( K_D \leq 0 \right) \land \left( K_P > mgl \implies ( D > 0 \implies K_P \le mgl ) \right) \land \left( K_P \le mgl \implies ( D > 0 \implies K_P \le mgl ) \right) \\
+\iff & \left( K_D \leq 0 \right) \land \left( K_P > mgl \implies ( true \implies false ) \right) \land \left( K_P \le mgl \implies ( D > 0 \implies true ) \right) \\
+\iff & \left( K_D \leq 0 \right) \land \left( K_P > mgl \implies false \right) \land \left( K_P \le mgl \implies true \right) \\
+\iff & \left( K_D \leq 0 \right) \land \left( K_P \leq mgl \right) \land \left( true \right) \\
+\iff & \left( K_D \leq 0 \right) \land \left( K_P \leq mgl \right)
 \end{align*}
 
-
+Therefore, it is stable \emph{precisely} when $K_D \leq 0$ and $K_P
+\leq mgl$ are both fulfilled.
+ \\
+In case you wonder what happens when $D<0$: well, as long as the real
+part is non-positive, it's stable, just as predicted.
 
 \end{document}
