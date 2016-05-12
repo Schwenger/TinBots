@@ -1,4 +1,4 @@
-scribe: Maximilian Schwenger, 11.05.2016
+scribe: Maximilian Schwenger, 11.05.2016, 10-12 session
 
 tutor’s recommendation: gps fails
 tutor’s recommendation: radio/sound instead of IR -> epuck sound -> cartography less precise
@@ -40,5 +40,19 @@ For now: 3 x e-Puck connection cable
 Discussion: Using sound instead of IR: Problem with triangulation.
 
 Solution: e-Puck allows direct connection.
- 
-    
+
+
+==============
+
+scribe: Ben Wiederhake, 11.05.2016, 12-13 mini-session, while looking up prices on the internet
+
+- No 5V batteries found.  Use 4.5V instead. (Should be fine, ATtiny + IR emitter is low-power.)
+- RS232 connector is difficult to find and to implement -- avoid altogether?
+
+
+==============
+
+scribe: <NONE> (added from memory by Ben), 11.05.2016, 14-16 session
+
+- koehma said "I2C solves everything", apparently including the power supply
+- started the specification file (no further notes here as all things are in the spec file)
