@@ -29,8 +29,9 @@
 \addtolength{\headheight}{+6pt}
 \lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
 	Maximilian Köhl, mail@koehlma.de, 2553525 \\
+	Maximilian Schwenger, schwenger@stud\ldots, 2542438\\
 	Ben Wiederhake, s9bewied@stud\ldots, 2541266}
-\rohead{\newline \newline ES16, Set 2, Page {\thepage}/{\pageref*{LastPage}}}
+\rohead{\newline \newline \newline ES16, Set 2, Page {\thepage}/{\pageref*{LastPage}}}
 
 \newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
 \settimeformat{mytime}
@@ -100,25 +101,25 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \subsection*{A: Must-Have}
 \begin{description}
 % FIXME numbering
-\item[A1] must not be slower than worst-case brute force
-\item[A2] if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
-\item[A3] avoid any collisions except with the victim
-\item[A4] do not make any assumptions about the maze except being solvable
-\item[A5] the exists of the building are the set of the starting positions of the E-Pucks
+\item[A14] must not be slower than worst-case brute force
+\item[A15] if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
+\item[A16] avoid any collisions except with the victim
+\item[A17] do not make any assumptions about the maze except being solvable
+\item[A18] the exists of the building are the set of the starting positions of the E-Pucks
 \end{description}
 
 \subsection*{B: Nice-to-Have}
 \begin{description}
 % FIXME numbering
-\item[B1] be gentle
-\item[B2] use the shortest known path out of the building (see starting positions)
+\item[B6] be gentle
+\item[B7] use the shortest known path out of the building (see starting positions)
 \end{description}
 
 \subsection*{C: Must-not-Have}
 \begin{description}
 % FIXME numbering
-\item[C1] deal with uneven floors or multiple floor buildings
-\item[C2] use actually collapsed buildings or victims
+\item[C9] deal with uneven floors or multiple floor buildings
+\item[C10] use actually collapsed buildings or victims
 \end{description}
 
 
@@ -128,10 +129,12 @@ primary actor: user \\
 goal in context: activate the E-Puck(s) \\
 precondition: LPS is up and running, E-Puck-batteries are connected and loaded up, E-Puck power switches are in the off position. \\
 trigger: power switch of 1 or more E-Pucks is switched on \\
-scenario: \\
-1. user places E-Pucks on surface \\
-2. user switches on the LPS and waits a second \\
-3. user switches on the E-Pucks \\
+scenario: 
+\begin{enumerate}[1.]
+	\item user places E-Pucks on surface 
+	\item user switches on the LPS and waits a second 
+	\item user switches on the E-Pucks 
+\end{enumerate}
 exceptions: E-Pucks are too far away; LPS is too far away; E-Pucks cannot properly move on it's own (e.g. placed upside-down) \\
 
 \subsection{System Shutdown}
@@ -139,20 +142,24 @@ primary actor: user \\
 goal in context: deactivate the simulation / system \\
 precondition: At least on E-Puck's power switch is in the on position \\
 trigger: power switch of the currently-switched-on E-Pucks are switched off \\
-scenario: \\
-1. user switches off some of the running E-Pucks \\
-2. user switches off the LPS \\
-3. user switches off the remaining E-Pucks \\
+scenario: 
+\begin{enumerate}[1.]
+	\item user switches off some of the running E-Pucks 
+	\item user switches off the LPS 
+	\item user switches off the remaining E-Pucks 
+\end{enumerate}
 
 \subsection{Removing an E-Puck}
 primary actor: user \\
 goal in context: simulate hardware fault in one of the E-Pucks \\
 precondition: at least two E-Pucks one the table are switched on and running \\
 trigger: power switch of one\footnote{technically: at most all except one} of the switched-on E-Pucks is switched off \\
-scenario: \\
-1. user selects some E-Pucks to be deactivated (at most all except one) \\
-2. user switches off these E-Pucks \\
-3. user removes none, some, or all of these E-Pucks (the pther switched-off E-Pucks shall be considered \enquote{obstacles}) \\
+scenario: 
+\begin{enumerate}[1.]
+	\item user selects some E-Pucks to be deactivated (at most all except one) 
+	\item user switches off these E-Pucks 
+	\item user removes none, some, or all of these E-Pucks (the other switched-off E-Pucks shall be considered \enquote{obstacles}) 
+\end{enumerate}
 exceptions: only one switched-on E-Puck remains; no E-Pucks are running; switching off and not removing any of the selected E-Pucks would render the maze unsolvable \\
 
 \subsection{Adding/Removing Walls}
@@ -160,9 +167,11 @@ primary actor: user \\
 goal in context: simulate walls that collapse or break away \\
 precondition: N<FIXME> is implemented; E-Pucks are running; if removing a wall, at least one "wall" on the table acting as a wall \\
 trigger: user manually removes or adds one or more of the wall elements \\
-scenario: \\
-1. user removes some wall segment \\
-2. user places the removed wall segment somewhere else \\
+scenario: 
+\begin{enumerate}[1.]
+	\item user removes some wall segment 
+	\item user places the removed wall segment somewhere else 
+\end{enumerate}
 exceptions: adding a wall must not render the maze unsolvable \\
 
 \subsection{Disabling LPS}
@@ -170,16 +179,20 @@ primary actor: user \\
 goal in context: simulate connectivity problems between LPS and E-Pucks \\
 precondition: LPS is up and running \\
 trigger: user switches off the LPS (either by software, by obstructing the view of the camera, or by switching off the Raspberry Pi) \\
-scenario: \\
-1. user literally switches off the Raspberry Pi \\
+scenario: 
+\begin{enumerate}[1.]
+	\item user literally switches off the Raspberry Pi 
+\end{enumerate}
 
 \subsection{Re-enabling LPS}
 primary actor: user \\
 goal in context: simulate LPS coming back up again (see previous use case) \\
 precondition: LPS is not running \\
 trigger: user undos the action from the disabling step \\
-scenario: \\
-1. user switches the Rasperry Pi back on \\
+scenario: 
+\begin{enumerate}[1.]
+	\item user switches the Raspberry Pi back on 
+\end{enumerate}
 
 
 \section{Environment properties}
@@ -187,29 +200,29 @@ scenario: \\
 \subsection*{A. Plant}
 \begin{description}
 \item[X1] victim placed in maze
-\item[X1] victim sending signals (using IR emitters)
-\item[X1] victim wears unstylish magnetic belt
-\item[X1] solvable maze (including table and walls)
-\item[X1] flat surface
-\item[X1] initially unblocked view of the camera
+\item[X2] victim sending signals (using IR emitters)
+\item[X3] victim wears unstylish magnetic belt
+\item[X4] solvable maze (including table and walls)
+\item[X5] flat surface
+\item[X6] initially unblocked view of the camera
 \end{description}
 
 \subsection*{B. Sensors}
 \begin{description}
-\item[X1] power switches
-\item[X1] IR receivers
-\item[X1] proximity sensors
-\item[X1] bluetooth receiver
-\item[X1] camera (LPS)s
-\item[X1] ground sensors
+\item[X7] power switches
+\item[X8] IR receivers
+\item[X9] proximity sensors
+\item[X10] Bluetooth receiver
+\item[X11] camera (LPS)s
+\item[X12] ground sensors
 \end{description}
 
 \subsection*{C. Actuator}
 \begin{description}
-\item[X1] blutooth emitter
-\item[X1] motors (two per E-Puck)
-\item[X1] IR emitter (victim)
-\item[X1] LEDs (on LPS and E-Pucks)
+\item[X13] blutooth emitter
+\item[X14] motors (two per E-Puck)
+\item[X15] IR emitter (victim)
+\item[X16] LEDs (on LPS and E-Pucks)
 \end{description}
 
 
@@ -217,26 +230,25 @@ scenario: \\
 
 \subsection*{A. Hardware}
 \begin{description}
-\item[X1] $\ge 2$ E-Pucks
-\item[X1] ATmega (to connect IR sensor with E-Pucks)
-\item[X1] IR sensors (for E-Pucks)
-\item[X1] Magnets (for E-Pucks)
-\item[X1] Raspberry Pi (for LPS)
-\item[X1] Camera (for LPS)
-\item[X1] Teddy (a.k.a. victim)
-\item[X1] Magnet belt (for Teddy)
-\item[X1] IR emitter (for Teddy)
-\item[X1] ATtiny (to put unique signal on IR emitter)
+\item[X17] $\ge 2$ E-Pucks
+\item[X18] ATmega (to connect IR sensor with E-Pucks)
+\item[X19] IR sensors (for E-Pucks)
+\item[X20] Magnets (for E-Pucks)
+\item[X21] Raspberry Pi (for LPS)
+\item[X22] Camera (for LPS)
+\item[X23] Teddy (a.k.a. victim)
+\item[X24] Magnet belt (for Teddy)
+\item[X25] IR emitter (for Teddy)
+\item[X26] ATtiny (to put unique signal on IR emitter)
 \end{description}
 
 \subsection*{B. Libraries}
 \begin{description}
-\item[X1] E-Puck base libraries
-\item[X1] Raspberry Pi base system (Linux, \ldots)
-\item[X1] Raspberry Pi Camera module
-\item[X1] OpenCV or similar (for image analysis)
-\item[X1] base libraries for ATmega and ATtiny
+\item[X27] E-Puck base libraries
+\item[X28] Raspberry Pi base system (Linux, \ldots)
+\item[X29] Raspberry Pi Camera module
+\item[X30] OpenCV or similar (for image analysis)
+\item[X31] base libraries for ATmega and ATtiny
 \end{description}
-
 
 \end{document}
