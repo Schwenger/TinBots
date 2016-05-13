@@ -2,12 +2,14 @@
 .DS_Store
 
 # Build by-products.
-document.aux
-document.log
-document.mw
-document.out
-document.pdf
-document.synctex.gz
+*.aux
+*.log
+*.mw
+*.out
+*.pdf
+*.synctex.gz
+*.fdb_latexmk
+*.fls
 # Do not commit PDFs, please.
 matlab-submission.zip
 
