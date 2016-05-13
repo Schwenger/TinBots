@@ -60,31 +60,31 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \subsection*{A: Must-Have}
 \begin{description}
 \item[A1] while the Tin Bot is operational a green LED shall be on
-\item[A1] the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
-\item[A1] the E-Pucks must share information about the victim
-\item[A1] cartograph the inspected environment using the given LPS signal
-\item[A1] find the victim by…
-\item[A1.1] … exhaustive search, if nothing about the victim is known
-\item[A1.1] … attempted shortest path, if the location of the victim is known
-\item[A1] bring the victim out
-\item[A1] while the Tin Bot is escorting the victim a red LED shall be on
-\item[A1] use the ir-sensors to pick up signals from the victim
+\item[A2] the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
+\item[A3] the E-Pucks must share information about the victim
+\item[A4] chart the inspected environment using the given LPS signal
+\item[A5] find the victim by…
+\item[A6.1] … exhaustive search, if nothing about the victim is known
+\item[A6.2] … attempted shortest path, if the location of the victim is known
+\item[A7] bring the victim out
+\item[A8] while the Tin Bot is escorting the victim a red LED shall be on
+\item[A9] use the IR-sensors to pick up signals from the victim
 \end{description}
 
 \subsection*{B: Nice-to-Have}
 \begin{description}
 \item[B1] be able to behave reasonably if the LPS is missing
-\item[B1] export the map
-\item[B1] be able to behave reasonably if some of the E-Pucks go defunct
-\item[B1] be able to bahave reasonably if the map changes
-\item[B1] detect if there is no victim
+\item[B2] export the map
+\item[B3] be able to behave reasonably if some of the E-Pucks go defunct
+\item[B4] be able to behave reasonably if the map changes
+\item[B5] detect if there is no victim
 \end{description}
 
 \subsection*{C: Must-not-Have}
 \begin{description}
 \item[C1] use actual GPS
 \item[C2] use actual gyroscope
-\item[C3] do not use camara to identify the victim
+\item[C3] do not use camera to identify the victim
 \item[C4] unsolvable mazes
 \item[C5] deal with more than one victim
 \item[C6] do not try to remove obstacles
@@ -104,7 +104,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \subsection*{B: Nice-to-Have}
 \begin{description}
 \item[B1] be gentle
-\item[B2] use the shortest kown path out of the building (see starting positions)
+\item[B2] use the shortest known path out of the building (see starting positions)
 \end{description}
 
 \subsection*{C: Must-not-Have}
@@ -128,7 +128,7 @@ exceptions: E-Pucks are too far away; LPS is too far away; E-Pucks cannot proper
 
 \subsection{System Shutdown}
 primary actor: user \\
-goal in context: deactive the simulation / system \\
+goal in context: deactivate the simulation / system \\
 precondition: At least on E-Puck's power switch is in the on position \\
 trigger: power switch of the currently-switched-on E-Pucks are switched off \\
 scenario: \\
@@ -154,7 +154,7 @@ scenario: \\
 1. FIXME \\
 exceptions: FIXME \\
 
-\subsection{Disaling LPS}
+\subsection{Disabling LPS}
 primary actor: FIXME \\
 goal in context: FIXME \\
 precondition: FIXME \\
