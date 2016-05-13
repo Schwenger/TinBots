@@ -19,6 +19,11 @@
 \usepackage{enumerate}
 \usepackage{hyperref}
 
+\usepackage{microtype}
+
+\usepackage[hang]{footmisc}
+\setlength{\footnotemargin}{3mm}
+
 \usepackage{enumitem}
 
 \usepackage[export]{adjustbox}
@@ -29,13 +34,22 @@
 % \usepackage{float}
 % \usepackage{caption}
 
+\parindent 0pt
+\parskip 6pt
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\renewcommand\thesubsection{\Alph{subsection}}
+
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
-\lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
-	Maximilian Köhl, mail@koehlma.de, 2553525 \\
-	Maximilian Schwenger, schwenger@stud\ldots, 2542438\\
-	Ben Wiederhake, s9bewied@stud\ldots, 2541266}
-\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Spec, Page {\thepage}/{\pageref*{LastPage}}}
+\lohead{Marlene Böhmer, s9meboeh@stud.uni-saarland.de, 2547718 \\
+	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
+	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
+	Ben Wiederhake, s9bewied@stud.uni-saarland.de, 2541266}
+\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Specification, Page {\thepage}/{\pageref*{LastPage}}}
 
 \newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
 \settimeformat{mytime}
@@ -82,7 +96,7 @@
 A set of robots that survey a simulated collapsed building (maze), try to find a victim (teddy), and rescue it.
 
 \section{Functional Requirements}
-\subsection*{A: Must-Have}
+\subsection{Must-Have}
 \begin{enumerate}[label=\musthave]
 \item while the Tin Bot is operational a green LED shall be on
 \item the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
@@ -102,7 +116,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item the surrounding 8 red LEDs shall represent which/whether the IR sensors receive something
 \end{enumerate}
 
-\subsection*{B: Nice-to-Have}
+\subsection{Nice-to-Have}
 \begin{enumerate}[label=\nicetohave]
 \item be able to behave reasonably if the LPS is missing
 \item export the map
@@ -111,7 +125,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item detect if there is no victim
 \end{enumerate}
 
-\subsection*{C: Must-not-Have}
+\subsection{Must-not-Have}
 \begin{enumerate}[label=\mustnothave]
 \item use actual GPS
 \item use actual gyroscope
@@ -125,7 +139,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \end{enumerate}
 
 \section{Non-Functional Requirements}
-\subsection*{A: Must-Have}
+\subsection{Must-Have}
 \begin{enumerate}[label=\musthave]
 \item must not be slower than worst-case brute force
 \item if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
@@ -135,13 +149,13 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item E-Pucks are equipped with a visual marker on top
 \end{enumerate}
 
-\subsection*{B: Nice-to-Have}
+\subsection{Nice-to-Have}
 \begin{enumerate}[label=\nicetohave]
 \item be gentle
 \item use the shortest known path out of the building (see starting positions)
 \end{enumerate}
 
-\subsection*{C: Must-not-Have}
+\subsection{Must-not-Have}
 \begin{enumerate}[label=\mustnothave]
 \item deal with uneven floors or multiple floor buildings
 \item use actually collapsed buildings or victims
@@ -222,7 +236,7 @@ scenario:
 
 \section{Environment properties}
 
-\subsection*{A. Plant}
+\subsection{Plant}
 \begin{enumerate}[label=\plant]
 \item victim placed in maze
 \item victim sending signals (using IR emitters)
@@ -232,7 +246,7 @@ scenario:
 \item initially unblocked view of the camera
 \end{enumerate}
 
-\subsection*{B. Sensors}
+\subsection{Sensors}
 \begin{enumerate}[label=\sensors]
 \item power switches
 \item IR receivers
@@ -242,7 +256,7 @@ scenario:
 \item ground sensors
 \end{enumerate}
 
-\subsection*{C. Actuator}
+\subsection{Actuators}
 \begin{enumerate}[label=\actuators]
 \item blutooth emitter
 \item motors (two per E-Puck)
@@ -253,7 +267,7 @@ scenario:
 
 \section{Platform}
 
-\subsection*{A. Hardware}
+\subsection{Hardware}
 \begin{enumerate}[label=\hardware]
 \item $\ge 2$ E-Pucks
 \item ATmega (to connect IR sensor with E-Pucks)
@@ -267,7 +281,7 @@ scenario:
 \item ATtiny (to put unique signal on IR emitter)
 \end{enumerate}
 
-\subsection*{B. Libraries}
+\subsection{Libraries}
 \begin{enumerate}[label=\libs]
 \item E-Puck base libraries
 \item Raspberry Pi base system (Linux, \ldots)
