@@ -19,6 +19,8 @@
 \usepackage{enumerate}
 \usepackage{hyperref}
 
+\usepackage{enumitem}
+
 % \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{graphics}
@@ -54,75 +56,94 @@
 
 \begin{document}
 
+
+\setlist[enumerate]{leftmargin=50pt}
+
+\newcommand{\defkind}[2]{
+	\newcounter{counter_#2}
+	\newcommand{#1}{{\textbf{{#2}\addtocounter{counter_#2}{1}\arabic{counter_#2}}}}
+}
+
+\defkind{\musthave}{MR}
+\defkind{\nicetohave}{NR}
+\defkind{\mustnothave}{N}
+\defkind{\plant}{E}
+\defkind{\sensors}{S}
+\defkind{\actuators}{A}
+\defkind{\hardware}{H}
+\defkind{\libs}{L}
+
+
+
+
 \section{Overview}
 A set of robots that survey a simulated collapsed building (maze), try to find a victim (teddy), and rescue it.
 
 \section{Functional Requirements}
 \subsection*{A: Must-Have}
-\begin{description}
-\item[A1] while the Tin Bot is operational a green LED shall be on
-\item[A2] the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
-\item[A3] the E-Pucks must share information about the victim
-\item[A4] chart the inspected environment using the given LPS signal
-\item[A5] find the victim by…
-\item[A6.1] … exhaustive search, if nothing about the victim is known
-\item[A6.2] … attempted shortest path, if the location of the victim is known
-\item[A7] grab the victim using magnets
-\item[A8] use proximity sensors / IR receivers to detect whether victim is correctly grabbed
-\item[A9] bring the victim out
-\item[A10] while the Tin Bot is escorting the victim, at least the front red LED shall be flashing
-\item[A11] use the IR-sensors to pick up signals from the victim
-\item[A12] detect and stay within the borders of the table
-\item[A13] the surrounding 8 red LEDs shall represent which/whether the IR sensors receive something
-\end{description}
+\begin{enumerate}[label=\musthave]
+\item while the Tin Bot is operational a green LED shall be on
+\item the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
+\item the E-Pucks must share information about the victim
+\item chart the inspected environment using the given LPS signal
+\item find the victim by…
+\begin{enumerate}
+\item … exhaustive search, if nothing about the victim is known
+\item … attempted shortest path, if the location of the victim is known
+\end{enumerate}
+\item grab the victim using magnets
+\item use proximity sensors / IR receivers to detect whether victim is correctly grabbed
+\item bring the victim out
+\item while the Tin Bot is escorting the victim, at least the front red LED shall be flashing
+\item use the IR-sensors to pick up signals from the victim
+\item detect and stay within the borders of the table
+\item the surrounding 8 red LEDs shall represent which/whether the IR sensors receive something
+\end{enumerate}
 
 \subsection*{B: Nice-to-Have}
-\begin{description}
-\item[B1] be able to behave reasonably if the LPS is missing
-\item[B2] export the map
-\item[B3] be able to behave reasonably if some of the E-Pucks go defunct
-\item[B4] be able to behave reasonably if the map changes
-\item[B5] detect if there is no victim
-\end{description}
+\begin{enumerate}[label=\nicetohave]
+\item be able to behave reasonably if the LPS is missing
+\item export the map
+\item be able to behave reasonably if some of the E-Pucks go defunct
+\item be able to behave reasonably if the map changes
+\item detect if there is no victim
+\end{enumerate}
 
 \subsection*{C: Must-not-Have}
-\begin{description}
-\item[C1] use actual GPS
-\item[C2] use actual gyroscope
-\item[C3] do not use camera to identify the victim
-\item[C4] unsolvable mazes
-\item[C5] deal with more than one victim
-\item[C6] do not try to remove obstacles
-\item[C7] do not try to do detect / react to a malfunctioning / byzantine LPS (although a certain tolerance must be respected of course)
-\item[C8] detect/react if the victim is lost
-\item[C9] secure against any kind of attack (physical or non physical)
-\end{description}
+\begin{enumerate}[label=\mustnothave]
+\item use actual GPS
+\item use actual gyroscope
+\item do not use camera to identify the victim
+\item unsolvable mazes
+\item deal with more than one victim
+\item do not try to remove obstacles
+\item do not try to do detect / react to a malfunctioning / byzantine LPS (although a certain tolerance must be respected of course)
+\item detect/react if the victim is lost
+\item secure against any kind of attack (physical or non physical)
+\end{enumerate}
 
 \section{Non-Functional Requirements}
 \subsection*{A: Must-Have}
-\begin{description}
-% FIXME numbering
-\item[A14] must not be slower than worst-case brute force
-\item[A15] if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
-\item[A16] avoid any collisions except with the victim
-\item[A17] do not make any assumptions about the maze except being solvable
-\item[A18] the exists of the building are the set of the starting positions of the E-Pucks
-\item[A19] E-Pucks are equipped with a visual marker on top
-\end{description}
+\begin{enumerate}[label=\musthave]
+\item must not be slower than worst-case brute force
+\item if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
+\item avoid any collisions except with the victim
+\item do not make any assumptions about the maze except being solvable
+\item the exists of the building are the set of the starting positions of the E-Pucks
+\item E-Pucks are equipped with a visual marker on top
+\end{enumerate}
 
 \subsection*{B: Nice-to-Have}
-\begin{description}
-% FIXME numbering
-\item[B6] be gentle
-\item[B7] use the shortest known path out of the building (see starting positions)
-\end{description}
+\begin{enumerate}[label=\nicetohave]
+\item be gentle
+\item use the shortest known path out of the building (see starting positions)
+\end{enumerate}
 
 \subsection*{C: Must-not-Have}
-\begin{description}
-% FIXME numbering
-\item[C9] deal with uneven floors or multiple floor buildings
-\item[C10] use actually collapsed buildings or victims
-\end{description}
+\begin{enumerate}[label=\mustnothave]
+\item deal with uneven floors or multiple floor buildings
+\item use actually collapsed buildings or victims
+\end{enumerate}
 
 
 \section{Use-Cases}
@@ -132,7 +153,7 @@ goal in context: activate the E-Puck(s) \\
 precondition: LPS is up and running, E-Puck-batteries are connected and loaded up, E-Puck power switches are in the off position. \\
 trigger: power switch of 1 or more E-Pucks is switched on \\
 scenario: 
-\begin{enumerate}[1.]
+\begin{enumerate}[label={\arabic*.}]
 	\item user places E-Pucks on surface 
 	\item user switches on the LPS and waits a second 
 	\item user switches on the E-Pucks 
@@ -145,7 +166,7 @@ goal in context: deactivate the simulation / system \\
 precondition: At least on E-Puck's power switch is in the on position \\
 trigger: power switch of the currently-switched-on E-Pucks are switched off \\
 scenario: 
-\begin{enumerate}[1.]
+\begin{enumerate}[label={\arabic*.}]
 	\item user switches off some of the running E-Pucks 
 	\item user switches off the LPS 
 	\item user switches off the remaining E-Pucks 
@@ -157,7 +178,7 @@ goal in context: simulate hardware fault in one of the E-Pucks \\
 precondition: at least two E-Pucks one the table are switched on and running \\
 trigger: power switch of one\footnote{technically: at most all except one} of the switched-on E-Pucks is switched off \\
 scenario: 
-\begin{enumerate}[1.]
+\begin{enumerate}[label={\arabic*.}]
 	\item user selects some E-Pucks to be deactivated (at most all except one) 
 	\item user switches off these E-Pucks 
 	\item user removes none, some, or all of these E-Pucks (the other switched-off E-Pucks shall be considered \enquote{obstacles}) 
@@ -170,7 +191,7 @@ goal in context: simulate walls that collapse or break away \\
 precondition: N<FIXME> is implemented; E-Pucks are running; if removing a wall, at least one "wall" on the table acting as a wall \\
 trigger: user manually removes or adds one or more of the wall elements \\
 scenario: 
-\begin{enumerate}[1.]
+\begin{enumerate}[label={\arabic*.}]
 	\item user removes some wall segment 
 	\item user places the removed wall segment somewhere else 
 \end{enumerate}
@@ -182,7 +203,7 @@ goal in context: simulate connectivity problems between LPS and E-Pucks \\
 precondition: LPS is up and running \\
 trigger: user switches off the LPS (either by software, by obstructing the view of the camera, or by switching off the Raspberry Pi) \\
 scenario: 
-\begin{enumerate}[1.]
+\begin{enumerate}[label={\arabic*.}]
 	\item user literally switches off the Raspberry Pi 
 \end{enumerate}
 
@@ -192,7 +213,7 @@ goal in context: simulate LPS coming back up again (see previous use case) \\
 precondition: LPS is not running \\
 trigger: user undos the action from the disabling step \\
 scenario: 
-\begin{enumerate}[1.]
+\begin{enumerate}[label={\arabic*.}]
 	\item user switches the Raspberry Pi back on 
 \end{enumerate}
 
@@ -200,57 +221,57 @@ scenario:
 \section{Environment properties}
 
 \subsection*{A. Plant}
-\begin{description}
-\item[X1] victim placed in maze
-\item[X2] victim sending signals (using IR emitters)
-\item[X3] victim wears unstylish magnetic belt
-\item[X4] solvable maze (including table and walls)
-\item[X5] flat surface
-\item[X6] initially unblocked view of the camera
-\end{description}
+\begin{enumerate}[label=\plant]
+\item victim placed in maze
+\item victim sending signals (using IR emitters)
+\item victim wears unstylish magnetic belt
+\item solvable maze (including table and walls)
+\item flat surface
+\item initially unblocked view of the camera
+\end{enumerate}
 
 \subsection*{B. Sensors}
-\begin{description}
-\item[X7] power switches
-\item[X8] IR receivers
-\item[X9] proximity sensors
-\item[X10] Bluetooth receiver
-\item[X11] camera (LPS)s
-\item[X12] ground sensors
-\end{description}
+\begin{enumerate}[label=\sensors]
+\item power switches
+\item IR receivers
+\item proximity sensors
+\item Bluetooth receiver
+\item camera (LPS)s
+\item ground sensors
+\end{enumerate}
 
 \subsection*{C. Actuator}
-\begin{description}
-\item[X13] blutooth emitter
-\item[X14] motors (two per E-Puck)
-\item[X15] IR emitter (victim)
-\item[X16] LEDs (on LPS and E-Pucks)
-\end{description}
+\begin{enumerate}[label=\actuators]
+\item blutooth emitter
+\item motors (two per E-Puck)
+\item IR emitter (victim)
+\item LEDs (on LPS and E-Pucks)
+\end{enumerate}
 
 
 \section{Platform}
 
 \subsection*{A. Hardware}
-\begin{description}
-\item[X17] $\ge 2$ E-Pucks
-\item[X18] ATmega (to connect IR sensor with E-Pucks)
-\item[X19] IR sensors (for E-Pucks)
-\item[X20] Magnets (for E-Pucks)
-\item[X21] Raspberry Pi (for LPS)
-\item[X22] Camera (for LPS)
-\item[X23] Teddy (a.k.a. victim)
-\item[X24] Magnet belt (for Teddy)
-\item[X25] IR emitter (for Teddy)
-\item[X26] ATtiny (to put unique signal on IR emitter)
-\end{description}
+\begin{enumerate}[label=\hardware]
+\item $\ge 2$ E-Pucks
+\item ATmega (to connect IR sensor with E-Pucks)
+\item IR sensors (for E-Pucks)
+\item Magnets (for E-Pucks)
+\item Raspberry Pi (for LPS)
+\item Camera (for LPS)
+\item Teddy (a.k.a. victim)
+\item Magnet belt (for Teddy)
+\item IR emitter (for Teddy)
+\item ATtiny (to put unique signal on IR emitter)
+\end{enumerate}
 
 \subsection*{B. Libraries}
-\begin{description}
-\item[X27] E-Puck base libraries
-\item[X28] Raspberry Pi base system (Linux, \ldots)
-\item[X29] Raspberry Pi Camera module
-\item[X30] OpenCV or similar (for image analysis)
-\item[X31] base libraries for ATmega and ATtiny
-\end{description}
+\begin{enumerate}[label=\libs]
+\item E-Puck base libraries
+\item Raspberry Pi base system (Linux, \ldots)
+\item Raspberry Pi Camera module
+\item OpenCV or similar (for image analysis)
+\item base libraries for ATmega and ATtiny
+\end{enumerate}
 
 \end{document}
