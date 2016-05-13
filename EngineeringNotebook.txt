@@ -56,3 +56,13 @@ scribe: <NONE> (added from memory by Ben), 11.05.2016, 14-16 session
 
 - koehma said "I2C solves everything", apparently including the power supply
 - started the specification file (no further notes here as all things are in the spec file)
+
+
+==============
+
+scribe: Ben Wiederhake, 13.05.2016, 13-16 session
+
+- rückwärts fahren können!
+- Magnets
+- Proximity sensors to detect whether the teddy is still there
+

@@ -66,9 +66,13 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item[A5] find the victim by…
 \item[A6.1] … exhaustive search, if nothing about the victim is known
 \item[A6.2] … attempted shortest path, if the location of the victim is known
-\item[A7] bring the victim out
-\item[A8] while the Tin Bot is escorting the victim a red LED shall be on
-\item[A9] use the IR-sensors to pick up signals from the victim
+\item[A7] grab the victim using magnets
+\item[A8] use proximity sensors / IR receivers to detect whether victim is correctly grabbed
+\item[A9] bring the victim out
+\item[A10] while the Tin Bot is escorting the victim, at least the front red LED shall be flashing
+\item[A11] use the IR-sensors to pick up signals from the victim
+\item[A12] detect and stay within the borders of the table
+\item[A13] the surrounding 8 red LEDs shall represent which/whether the IR sensors receive something
 \end{description}
 
 \subsection*{B: Nice-to-Have}
@@ -89,11 +93,13 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item[C5] deal with more than one victim
 \item[C6] do not try to remove obstacles
 \item[C7] do not try to do detect / react to a malfunctioning / byzantine LPS (although a certain tolerance must be respected of course)
+\item[C8] detect/react if the victim is lost
 \end{description}
 
 \section{Non-Functional Requirements}
 \subsection*{A: Must-Have}
 \begin{description}
+% FIXME numbering
 \item[A1] must not be slower than worst-case brute force
 \item[A2] if there is information do not just run to the position where the information was gathered but instead try to actually localize and find the victim
 \item[A3] avoid any collisions except with the victim
@@ -103,12 +109,14 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 
 \subsection*{B: Nice-to-Have}
 \begin{description}
+% FIXME numbering
 \item[B1] be gentle
 \item[B2] use the shortest known path out of the building (see starting positions)
 \end{description}
 
 \subsection*{C: Must-not-Have}
 \begin{description}
+% FIXME numbering
 \item[C1] deal with uneven floors or multiple floor buildings
 \item[C2] use actually collapsed buildings or victims
 \end{description}
@@ -137,40 +145,98 @@ scenario: \\
 3. user switches off the remaining E-Pucks \\
 
 \subsection{Removing an E-Puck}
-primary actor: FIXME \\
-goal in context: FIXME \\
-precondition: FIXME \\
-trigger: FIXME \\
+primary actor: user \\
+goal in context: simulate hardware fault in one of the E-Pucks \\
+precondition: at least two E-Pucks one the table are switched on and running \\
+trigger: power switch of one\footnote{technically: at most all except one} of the switched-on E-Pucks is switched off \\
 scenario: \\
-1. FIXME \\
-exceptions: FIXME \\
+1. user selects some E-Pucks to be deactivated (at most all except one) \\
+2. user switches off these E-Pucks \\
+3. user removes none, some, or all of these E-Pucks (the pther switched-off E-Pucks shall be considered \enquote{obstacles}) \\
+exceptions: only one switched-on E-Puck remains; no E-Pucks are running; switching off and not removing any of the selected E-Pucks would render the maze unsolvable \\
 
 \subsection{Adding/Removing Walls}
-primary actor: FIXME \\
-goal in context: FIXME \\
-precondition: FIXME \\
-trigger: FIXME \\
+primary actor: user \\
+goal in context: simulate walls that collapse or break away \\
+precondition: N<FIXME> is implemented; E-Pucks are running; if removing a wall, at least one "wall" on the table acting as a wall \\
+trigger: user manually removes or adds one or more of the wall elements \\
 scenario: \\
-1. FIXME \\
-exceptions: FIXME \\
+1. user removes some wall segment \\
+2. user places the removed wall segment somewhere else \\
+exceptions: adding a wall must not render the maze unsolvable \\
 
 \subsection{Disabling LPS}
-primary actor: FIXME \\
-goal in context: FIXME \\
-precondition: FIXME \\
-trigger: FIXME \\
+primary actor: user \\
+goal in context: simulate connectivity problems between LPS and E-Pucks \\
+precondition: LPS is up and running \\
+trigger: user switches off the LPS (either by software, by obstructing the view of the camera, or by switching off the Raspberry Pi) \\
 scenario: \\
-1. FIXME \\
-exceptions: FIXME \\
+1. user literally switches off the Raspberry Pi \\
 
 \subsection{Re-enabling LPS}
-primary actor: FIXME \\
-goal in context: FIXME \\
-precondition: FIXME \\
-trigger: FIXME \\
+primary actor: user \\
+goal in context: simulate LPS coming back up again (see previous use case) \\
+precondition: LPS is not running \\
+trigger: user undos the action from the disabling step \\
 scenario: \\
-1. FIXME \\
-exceptions: FIXME \\
+1. user switches the Rasperry Pi back on \\
+
+
+\section{Environment properties}
+
+\subsection*{A. Plant}
+\begin{description}
+\item[X1] victim placed in maze
+\item[X1] victim sending signals (using IR emitters)
+\item[X1] victim wears unstylish magnetic belt
+\item[X1] solvable maze (including table and walls)
+\item[X1] flat surface
+\item[X1] initially unblocked view of the camera
+\end{description}
+
+\subsection*{B. Sensors}
+\begin{description}
+\item[X1] power switches
+\item[X1] IR receivers
+\item[X1] proximity sensors
+\item[X1] bluetooth receiver
+\item[X1] camera (LPS)s
+\item[X1] ground sensors
+\end{description}
+
+\subsection*{C. Actuator}
+\begin{description}
+\item[X1] blutooth emitter
+\item[X1] motors (two per E-Puck)
+\item[X1] IR emitter (victim)
+\item[X1] LEDs (on LPS and E-Pucks)
+\end{description}
+
+
+\section{Platform}
+
+\subsection*{A. Hardware}
+\begin{description}
+\item[X1] $\ge 2$ E-Pucks
+\item[X1] ATmega (to connect IR sensor with E-Pucks)
+\item[X1] IR sensors (for E-Pucks)
+\item[X1] Magnets (for E-Pucks)
+\item[X1] Raspberry Pi (for LPS)
+\item[X1] Camera (for LPS)
+\item[X1] Teddy (a.k.a. victim)
+\item[X1] Magnet belt (for Teddy)
+\item[X1] IR emitter (for Teddy)
+\item[X1] ATtiny (to put unique signal on IR emitter)
+\end{description}
+
+\subsection*{B. Libraries}
+\begin{description}
+\item[X1] E-Puck base libraries
+\item[X1] Raspberry Pi base system (Linux, \ldots)
+\item[X1] Raspberry Pi Camera module
+\item[X1] OpenCV or similar (for image analysis)
+\item[X1] base libraries for ATmega and ATtiny
+\end{description}
 
 
 \end{document}
