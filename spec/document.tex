@@ -76,8 +76,9 @@
 \setlist[enumerate]{leftmargin=50pt}
 
 \newcommand{\defkind}[2]{
-	\newcounter{counter_#2}
-	\newcommand{#1}{{\textbf{{#2}\addtocounter{counter_#2}{1}\arabic{counter_#2}}}}
+	\newcounter{counter#2}
+    \addtocounter{counter#2}{1}
+	\newcommand{#1}{{\textbf{{#2}\arabic{counter#2}\addtocounter{counter#2}{1}}}}
 }
 
 \defkind{\musthave}{MR}
@@ -117,11 +118,11 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \end{enumerate}
 
 \subsection{Nice-to-Have}
-\begin{enumerate}[label=\nicetohave]
-\item be able to behave reasonably if the LPS is missing
+\begin{enumerate}[label=\nicetohave,ref=\nicetohave]
+\item be able to behave reasonably if the LPS is missing \label{req:missLPS}
 \item export the map
-\item be able to behave reasonably if some of the E-Pucks go defunct
-\item be able to behave reasonably if the map changes
+\item be able to behave reasonably if some of the E-Pucks go defunct \label{req:puckFault}
+\item be able to behave reasonably if the map changes \label{req:mapChange}
 \item detect if there is no victim
 \end{enumerate}
 
@@ -163,7 +164,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \end{enumerate}
 
 
-\section{Use-Cases}
+\section{Use-Cases} 
 \subsection{System Startup}
 primary actor: user \\
 goal in context: activate the E-Puck(s) \\
@@ -195,7 +196,7 @@ scenario:
 \subsection{Removing an E-Puck}
 primary actor: user \\
 goal in context: simulate hardware fault in one of the E-Pucks \\
-precondition: at least two E-Pucks one the table are switched on and running \\
+precondition: at least two E-Pucks one the table are switched on and running; requirement \ref{req:puckFault} is implemented \\
 trigger: power switch of one\footnote{technically: at most all except one} of the switched-on E-Pucks is switched off \\
 scenario: 
 \begin{enumerate}[label={\arabic*.}]
@@ -208,7 +209,7 @@ exceptions: only one switched-on E-Puck remains; no E-Pucks are running; switchi
 \subsection{Adding/Removing Walls}
 primary actor: user \\
 goal in context: simulate walls that collapse or break away \\
-precondition: N<FIXME> is implemented; E-Pucks are running; if removing a wall, at least one "wall" on the table acting as a wall \\
+precondition: requirement \ref{req:mapChange} is implemented; E-Pucks are running; if removing a wall, at least one "wall" on the table acting as a wall \\
 trigger: user manually removes or adds one or more of the wall elements \\
 scenario: 
 \begin{enumerate}[label={\arabic*.}]
@@ -220,7 +221,7 @@ exceptions: adding a wall must not render the maze unsolvable \\
 \subsection{Disabling LPS}
 primary actor: user \\
 goal in context: simulate connectivity problems between LPS and E-Pucks \\
-precondition: LPS is up and running \\
+precondition: LPS is up and running; requirement \ref{req:missLPS} is implemented \\
 trigger: user switches off the LPS (either by software, by obstructing the view of the camera, or by switching off the Raspberry Pi) \\
 scenario: 
 \begin{enumerate}[label={\arabic*.}]
