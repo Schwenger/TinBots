@@ -164,7 +164,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \end{enumerate}
 
 
-\section{Use-Cases} 
+\section{Use-Cases}
 \subsection{System Startup}
 primary actor: user \\
 goal in context: activate the E-Puck(s) \\
@@ -173,11 +173,11 @@ precondition: LPS is up and running; E-Puck-batteries are connected and loaded u
   are equipped and clearly visible from the LPS; the custom extension boards have
   pairwise distinct colors (for identification by the LPS) \\
 trigger: power switch of 1 or more E-Pucks is switched on \\
-scenario: 
+scenario:
 \begin{enumerate}[label={\arabic*.}]
-	\item user places E-Pucks on surface 
-	\item user switches on the LPS and waits a second 
-	\item user switches on the E-Pucks 
+	\item user places E-Pucks on surface
+	\item user switches on the LPS and waits a second
+	\item user switches on the E-Pucks
 \end{enumerate}
 exceptions: E-Pucks are too far away; LPS is too far away; E-Pucks cannot properly move on it's own (e.g. placed upside-down) \\
 
@@ -186,11 +186,11 @@ primary actor: user \\
 goal in context: deactivate the simulation / system \\
 precondition: At least on E-Puck's power switch is in the on position \\
 trigger: power switch of the currently-switched-on E-Pucks are switched off \\
-scenario: 
+scenario:
 \begin{enumerate}[label={\arabic*.}]
-	\item user switches off some of the running E-Pucks 
-	\item user switches off the LPS 
-	\item user switches off the remaining E-Pucks 
+	\item user switches off some of the running E-Pucks
+	\item user switches off the LPS
+	\item user switches off the remaining E-Pucks
 \end{enumerate}
 
 \subsection{Removing an E-Puck}
@@ -198,11 +198,11 @@ primary actor: user \\
 goal in context: simulate hardware fault in one of the E-Pucks \\
 precondition: at least two E-Pucks one the table are switched on and running; requirement \ref{req:puckFault} is implemented \\
 trigger: power switch of one\footnote{technically: at most all except one} of the switched-on E-Pucks is switched off \\
-scenario: 
+scenario:
 \begin{enumerate}[label={\arabic*.}]
-	\item user selects some E-Pucks to be deactivated (at most all except one) 
-	\item user switches off these E-Pucks 
-	\item user removes none, some, or all of these E-Pucks (the other switched-off E-Pucks shall be considered \enquote{obstacles}) 
+	\item user selects some E-Pucks to be deactivated (at most all except one)
+	\item user switches off these E-Pucks
+	\item user removes none, some, or all of these E-Pucks (the other switched-off E-Pucks shall be considered \enquote{obstacles})
 \end{enumerate}
 exceptions: only one switched-on E-Puck remains; no E-Pucks are running; switching off and not removing any of the selected E-Pucks would render the maze unsolvable \\
 
@@ -211,10 +211,10 @@ primary actor: user \\
 goal in context: simulate walls that collapse or break away \\
 precondition: requirement \ref{req:mapChange} is implemented; E-Pucks are running; if removing a wall, at least one "wall" on the table acting as a wall \\
 trigger: user manually removes or adds one or more of the wall elements \\
-scenario: 
+scenario:
 \begin{enumerate}[label={\arabic*.}]
-	\item user removes some wall segment 
-	\item user places the removed wall segment somewhere else 
+	\item user removes some wall segment
+	\item user places the removed wall segment somewhere else
 \end{enumerate}
 exceptions: adding a wall must not render the maze unsolvable \\
 
@@ -223,9 +223,9 @@ primary actor: user \\
 goal in context: simulate connectivity problems between LPS and E-Pucks \\
 precondition: LPS is up and running; requirement \ref{req:missLPS} is implemented \\
 trigger: user switches off the LPS (either by software, by obstructing the view of the camera, or by switching off the Raspberry Pi) \\
-scenario: 
+scenario:
 \begin{enumerate}[label={\arabic*.}]
-	\item user literally switches off the Raspberry Pi 
+	\item user literally switches off the Raspberry Pi
 \end{enumerate}
 
 \subsection{Re-enabling LPS}
@@ -233,9 +233,9 @@ primary actor: user \\
 goal in context: simulate LPS coming back up again (see previous use case) \\
 precondition: LPS is not running \\
 trigger: user undoes the action from the disabling step \\
-scenario: 
+scenario:
 \begin{enumerate}[label={\arabic*.}]
-	\item user switches the Raspberry Pi back on 
+	\item user switches the Raspberry Pi back on
 \end{enumerate}
 
 
