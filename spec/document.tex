@@ -44,7 +44,7 @@
 \renewcommand\thesubsection{\Alph{subsection}}
 
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
-\addtolength{\headheight}{+6pt}
+\addtolength{\headheight}{+13pt}
 \lohead{Marlene Böhmer, s9meboeh@stud.uni-saarland.de, 2547718 \\
 	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
 	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
@@ -180,7 +180,7 @@ scenario:
 	\item user switches on the LPS and waits a second
 	\item user switches on the E-Pucks
 \end{enumerate}
-exceptions: E-Pucks are too far away; LPS is too far away; E-Pucks cannot properly move on it's own (e.g. placed upside-down) \\
+exceptions: E-Pucks are too far away; LPS is too far away; E-Pucks cannot properly move on it's own (e.g. placed upside-down)
 
 \subsection{System Shutdown}
 primary actor: user \\
@@ -205,7 +205,7 @@ scenario:
 	\item user switches off these E-Pucks
 	\item user removes none, some, or all of these E-Pucks (the other switched-off E-Pucks shall be considered \enquote{obstacles})
 \end{enumerate}
-exceptions: only one switched-on E-Puck remains; no E-Pucks are running; switching off and not removing any of the selected E-Pucks would render the maze unsolvable \\
+exceptions: only one switched-on E-Puck remains; no E-Pucks are running; switching off and not removing any of the selected E-Pucks would render the maze unsolvable
 
 \subsection{Adding/Removing Walls}
 primary actor: user \\
@@ -217,7 +217,7 @@ scenario:
 	\item user removes some wall segment
 	\item user places the removed wall segment somewhere else
 \end{enumerate}
-exceptions: adding a wall must not render the maze unsolvable \\
+exceptions: adding a wall must not render the maze unsolvable
 
 \subsection{Disabling LPS}
 primary actor: user \\
