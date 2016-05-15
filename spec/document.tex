@@ -147,6 +147,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item do not make any assumptions about the maze except being solvable
 \item the exists of the building are the set of the starting positions of the E-Pucks
 \item E-Pucks are equipped with a visual marker on top
+\item the custom extension boards (with IR sensors and ATmega) are easily deployable / removable
 \end{enumerate}
 
 \subsection{Nice-to-Have}
@@ -166,7 +167,10 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \subsection{System Startup}
 primary actor: user \\
 goal in context: activate the E-Puck(s) \\
-precondition: LPS is up and running, E-Puck-batteries are connected and loaded up, E-Puck power switches are in the off position. \\
+precondition: LPS is up and running; E-Puck-batteries are connected and loaded up;
+  E-Puck power switches are in the off position; our custom extension boards on the E-Pucks
+  are equipped and clearly visible from the LPS; the custom extension boards have
+  pairwise distinct colors (for identification by the LPS) \\
 trigger: power switch of 1 or more E-Pucks is switched on \\
 scenario: 
 \begin{enumerate}[label={\arabic*.}]
