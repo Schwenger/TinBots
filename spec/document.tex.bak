@@ -147,7 +147,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \item do not make any assumptions about the maze except being solvable
 \item the exists of the building are the set of the starting positions of the E-Pucks
 \item E-Pucks are equipped with a visual marker on top
-\item the custom extension boards (with IR sensors and ATmega) are easily deployable / removable
+\item the custom extension boards (with IR sensors and ATmega) are easily equippable / removable
 \end{enumerate}
 
 \subsection{Nice-to-Have}
@@ -231,7 +231,7 @@ scenario:
 primary actor: user \\
 goal in context: simulate LPS coming back up again (see previous use case) \\
 precondition: LPS is not running \\
-trigger: user undoes the action from the disabling step \\
+trigger: user undos the action from the disabling step \\
 scenario: 
 \begin{enumerate}[label={\arabic*.}]
 	\item user switches the Raspberry Pi back on 
@@ -262,7 +262,7 @@ scenario:
 
 \subsection{Actuators}
 \begin{enumerate}[label=\actuators]
-\item Bluetooth emitter
+\item blutooth emitter
 \item motors (two per E-Puck)
 \item IR emitter (victim)
 \item LEDs (on LPS and E-Pucks)
