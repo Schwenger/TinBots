@@ -100,7 +100,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \subsection{Must-Have}
 \begin{enumerate}[label=\musthave]
 \item while the Tin Bot is operational a green LED shall be on
-\item the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data
+\item the \enquote{LPS} (local positioning system) needs to supply the E-Pucks with location and orientation data via Bluetooth
 \item the E-Pucks must share information about the victim
 \item chart the inspected environment using the given LPS signal
 \item find the victim by…
@@ -161,6 +161,7 @@ A set of robots that survey a simulated collapsed building (maze), try to find a
 \begin{enumerate}[label=\mustnothave]
 \item deal with uneven floors or multiple floor buildings
 \item use actually collapsed buildings or victims
+\item obstacles that are not detected by the proximity sensors (e.g., walls that are too small)
 \end{enumerate}
 
 
@@ -246,7 +247,7 @@ scenario:
 \item victim placed in maze
 \item victim sending signals (using IR emitters)
 \item victim wears unstylish magnetic belt
-\item solvable maze (including table and walls)
+\item solvable maze (including table and walls; walls need to have a height of at least <FIXME> mm in order to block IR sensors)
 \item flat surface
 \item initially unblocked view of the camera
 \end{enumerate}
@@ -277,12 +278,12 @@ scenario:
 \item $\ge 2$ E-Pucks
 \item ATmega (to connect IR sensor with E-Pucks)
 \item IR sensors (for E-Pucks)
-\item Magnets (for E-Pucks)
+\item magnets (for E-Pucks)
 \item Raspberry Pi (for LPS)
-\item Camera (for LPS)
-\item Teddy (a.k.a. victim)
-\item Magnet belt (for Teddy)
-\item IR emitter (for Teddy)
+\item camera (including stand) (for LPS)
+\item teddy (a.k.a. victim)
+\item magnet belt (for teddy)
+\item IR emitter (for teddy)
 \item ATtiny (to put unique signal on IR emitter)
 \end{enumerate}
 
