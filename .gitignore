@@ -16,6 +16,7 @@ matlab-submission.zip
 # Autosaves
 *~
 *.mdl.autosave
+*.bak
 
 # Matlab build
 *_grt_rtw/
