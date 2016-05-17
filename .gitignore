@@ -6,7 +6,7 @@
 *.log
 *.mw
 *.out
-*.pdf
+document.pdf
 *.synctex.gz
 *.fdb_latexmk
 *.fls
