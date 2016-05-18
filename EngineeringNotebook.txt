@@ -1,19 +1,20 @@
 scribe: Maximilian Schwenger, 11.05.2016, 10-12 session
 
-tutor’s recommendation: gps fails
-tutor’s recommendation: radio/sound instead of IR -> epuck sound -> cartography less precise
-microphone already in epuck, only sound emitter needed.
-bluetooth communication between e-Pucks
+* Tutor’s recommendation: GPS fails
+* Tutor’s recommendation: Radio/Sound instead of IR -> E-Puck sound -> cartography less precise
+Microphone already in E-Puck, only sound emitter needed.
+Bluetooth communication between e-Pucks
 
 Victim not on e-Puck -> use magnets instead and push them out.
 
 hardware:
+=========
 
-2 epuck, raspberry pi, charger missing, code transmitter
-Micro usb for raspberry 
+2 E-Pucks, Raspberry Pi, charger missing, code transmitter
+MicroUSB for Raspberry Pi
 
-[webcam from Ben]
-Camera from chair direct connection to Pi model 1
+[Webcam from Ben]
+Camera from chair direct connection to Pi (camera model 1)
 
 Picamera lib for python
 
@@ -28,9 +29,9 @@ Galaxy Tab2 cardboard -> doesn’t go through (good)
 
 Marlene agreed to prepare 2mm Cardboard for walls.
 
-How do we connect IR sensor and e-puck: We can remove top part of e-Puck and replace by own board. -> We need own board!
+How do we connect IR sensor and E-Puck: We can remove top part of E-Puck and replace by own board. -> We need own board!
 
-Problem: fast deployment for presentation when using pucks from other groups.
+Problem: fast deployment for presentation when using E-Pucks from other groups.
 Idea: Remove board, screw perfboard (Lochrasterplatine) on top including our sensors and ATmega328p, prepare 3 such boards, so we can deploy within minutes. 
 Problem: 10 volts from e-Puck is way too much -> need to reduce. Resistors not sufficient because of sending, thus using Max232x chip.
 
@@ -52,7 +53,7 @@ scribe: Ben Wiederhake, 11.05.2016, 12-13 mini-session, while looking up prices 
 
 ==============
 
-scribe: <NONE> (added from memory by Ben), 11.05.2016, 14-16 session
+scribe: Ben Wiederhake, 11.05.2016, 14-16 session
 
 - koehma said "I2C solves everything", apparently including the power supply
 - started the specification file (no further notes here as all things are in the spec file)
@@ -62,7 +63,63 @@ scribe: <NONE> (added from memory by Ben), 11.05.2016, 14-16 session
 
 scribe: Ben Wiederhake, 13.05.2016, 13-16 session
 
-- rückwärts fahren können!
+- ability to drive backwards to pick up the victim!
 - Magnets
 - Proximity sensors to detect whether the teddy is still there
 
+==============
+
+scribe: Marlene Böhmer (first 5%); Maximilian Schwenger (remaining 95%), 18.05.2016 
+
+Communication diagram:
+
+Components: 
+- E-Puck + ATmega328p = TinBot
+- Pi + Camera = LPS
+- DebugServer
+- Teddy + ATtiny2313 = Victim
+
+Communication Channels:
+Internal: 
+- E-Puck <- ATmega328p via i^2c[WAU]
+- Pi <- Camera: via USB
+External: 
+- Teddy -> TinBot IR[SOS]
+- TinBot <-> DebugServer via Bluetooth[TBDP]
+- LPS <-> TinBot via Bluetooth[LPP]
+- TinBot -> Camera via light[CBP]
+- TinBot <-> TinBot[T2T]
+
+CBP  = Colored Blob Protocol
+LPP  = Local Positioning Protocol
+SOS  = Samsung Off Signal
+TBDP = Tin Bot Debugging Protocol
+WAU  = Where are you?
+T2T  = TinBot to TinBot
+
+E-Puck: Path finding, communication, map assembly, victim; considered the hardest.
+
+Divide in groups of two to specify (i) communication protocols (MS, BW), and (ii) prepare an electronic schematic (MK,MB).
+
+Real Time Constraints: 
+- Tin Bot + IR Sensors: Sampling in predefined period of time to actually obtain the samples.
+- Tin Bot + Tin Bot: Communication response in predefined period of time otherwise considered dead.
+
+TODO:
+Purge inconsistencies in spec.
+Add Real Time Consistencies to spec.
+
+MS + BW:
+Considering communication protocol:
+- Bluetooth uses Master-Slave Protocol.
+- Can switch Master and Slave, less than 10 TinBots -> Round robin style master for broadcasting
+- http://svn.gna.org/viewcvs/e-puck/trunk/program/bluetooth_mirror/
+- found std lib for E-Pucks to use Bluetooth. Found reliable source stating that several Bluetooth connections via SPP are possible at the same time.
+
+MK + MB:
+- came up with electronic schematics for the victim, and the extension module for the E-Pucks
+- additional components required: IRLZ 44N, 10k Ohm Resistor, additional green LED indicating the victim's status, 6-pin ISP header, and on-off switch for victim (in case the yelling wrecks our nerves). Moreover, for the E-Puck extension board: 6-pin ISP header, per TinBot 2 100 Ohm Resistors, connection cable between E-Puck and extension board (? -> ask Hazem!)
+
+Ask Hazem about additional components for the victim.
+
+Finished up specification document.
