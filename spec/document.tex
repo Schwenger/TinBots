@@ -121,7 +121,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \begin{enumerate}[label=\nicetohave,ref=\nicetohave]
 \item be able to behave reasonably in terms of continuing the search if the LPS goes defunct\label{req:missLPS}
 \item export the map
-\item be able to behave reasonably if some of the E-Pucks go defunct \label{req:puckFault}
+\item be able to behave reasonably if some of the Tin Bots go defunct \label{req:puckFault}
 \item be able to behave reasonably if the map changes \label{req:mapChange}
 \item detect if there is no victim
 \end{enumerate}
@@ -132,7 +132,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item use camera to identify the victim
 \item deal with unsolvable mazes
 \item deal with more than one victim
-\item try to remove obstacles with E-Puck
+\item try to remove obstacles with Tin Bots
 \item try to detect / react to a malfunctioning / byzantine LPS (although a certain tolerance must be respected)
 \item secure against any kind of attack (physical or non physical)
 \end{enumerate}
@@ -164,7 +164,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item deal with uneven floors or multiple floor buildings
 \item use actual collapsed buildings or victims
 \item obstacles that are not detected by the proximity sensors (e.g., walls that are too small)
-\item deal with more than 8 Tin Bots.
+\item deal with more than 8 Tin Bots
 \end{enumerate}
 
 
@@ -172,46 +172,47 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \subsection{System Startup}
 \begin{description}
 \item[primary actor:] user
-\item[goal in context:] activate the E-Puck(s)
+\item[goal in context:] activate the Tin Bot(s)
 \item[precondition:] LPS is up and running; E-Puck-batteries are connected and charged up;
-  E-Puck power switches are in the off position; our custom extension boards on the E-Pucks
+  Tin Bot power switches are in the off position; our custom extension boards on the
+  E-Pucks % don't change to Tin Bot!
   are equipped and clearly visible from the LPS; the custom extension boards have
   pairwise distinct colors (for identification by the LPS)
-\item[trigger:] power switch of one or more E-Pucks is switched on
+\item[trigger:] power switch of one or more Tin Bots is switched on
 \item[scenario:] \ 
 \begin{enumerate}
-	\item user places E-Pucks on surface
-	\item user switches on the E-Pucks
+	\item user places Tin Bots on surface
+	\item user switches on the Tin Bots
 \end{enumerate}
-\item[exceptions:] E-Pucks are too far away; LPS is too far away; E-Pucks cannot properly move on it's own (e.g. placed upside-down)
+\item[exceptions:] Tin Bots are too far away; LPS is too far away; any Tin Bot cannot properly move on its own (e.g. placed upside-down)
 \end{description}
 
 \subsection{System Shutdown}
 \begin{description}
 \item[primary actor:] user
 \item[goal in context:] deactivate the simulation / system
-\item[precondition:] at least one E-Puck's power switch is in the on position
-\item[trigger:] power switches of the currently-switched-on E-Pucks are switched off
+\item[precondition:] at least one Tin Bot's power switch is in the on position
+\item[trigger:] power switches of the currently-switched-on Tin Bots are switched off
 \item[scenario:] \ 
 \begin{enumerate}
-	\item user switches off all of the running E-Pucks
+	\item user switches off all of the running Tin Bots
 	\item user switches off the LPS
 \end{enumerate}
 \end{description}
 
-\subsection{Removing an E-Puck}
+\subsection{Removing A Tin Bot}
 \begin{description}
 \item[primary actor:] user
-\item[goal in context:] simulate hardware failure in one of the E-Pucks
-\item[precondition:] at least two E-Pucks one the table are switched on and running; requirement \ref{req:puckFault} is implemented
-\item[trigger:] power switch of one of the switched-on E-Pucks is switched off
+\item[goal in context:] simulate hardware failure in one of the Tin Bots
+\item[precondition:] at least two Tin Bots one the table are switched on and running; requirement \ref{req:puckFault} is implemented
+\item[trigger:] power switch of one of the switched-on Tin Bots is switched off
 \item[scenario:] \ 
 \begin{enumerate}
-	\item user selects some E-Pucks to be deactivated (at most all except one)
-	\item user switches off these E-Pucks
-	\item user removes none, some, or all of these E-Pucks (the other switched-off E-Pucks shall be considered \enquote{obstacles})
+	\item user selects some Tin Bots to be deactivated (at most all except one)
+	\item user switches off these Tin Bots
+	\item user removes none, some, or all of these Tin Bots (the other switched-off Tin Bots shall be considered \enquote{obstacles})
 \end{enumerate}
-\item[exceptions:] only one switched-on E-Puck remains; no E-Pucks are running; switching off and not removing any of the selected E-Pucks would render the maze unsolvable
+\item[exceptions:] only one switched-on Tin Bot remains; no Tin Bots are running; switching off and not removing any of the selected Tin Bots would render the maze unsolvable
 \end{description}
 
 \subsection{Adding/Removing Walls}
@@ -231,7 +232,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \subsection{Disabling LPS}
 \begin{description}
 \item[primary actor:] user
-\item[goal in context:] simulate connectivity problems between LPS and E-Pucks
+\item[goal in context:] simulate connectivity problems between LPS and Tin Bots
 \item[precondition:] LPS is up and running; requirement \ref{req:missLPS} is implemented
 \item[trigger:] user switches off the LPS (either by software, or by switching off the Raspberry Pi)
 \item[scenario:] \ 
