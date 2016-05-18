@@ -1,17 +1,22 @@
 # Mac-stuff
 .DS_Store
 
-# Build by-products.
+# Build by-products
 *.aux
 *.log
 *.mw
 *.out
 document.pdf
+# Do not commit PDFs, please.
 *.synctex.gz
 *.fdb_latexmk
 *.fls
-# Do not commit PDFs, please.
 matlab-submission.zip
+work-*.cf
+# ghdl directory index; newest ghdl version uses obj93 on my platform
+*.vcd
+# Debatable, but let's ignore vcds for now.
+# Recall that there's always "git add -f important.vcd"
 
 # Autosaves
 *~

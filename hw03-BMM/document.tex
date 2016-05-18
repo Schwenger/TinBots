@@ -55,7 +55,17 @@
 
 \section*{Problem 1: MISSINGNAME}
 
-FIXME
+Here's an inverted screenshot of GTKWave (order is as expected: \texttt{clk}, \texttt{a}, \texttt{b}, \texttt{x}, \texttt{z})
+
+\includegraphics[width=\textwidth]{p1-proof}
+
+As one can easily see:
+ %
+\begin{itemize}
+    \item \texttt{x} mostly flips on every clock-change, except if \texttt{(a and b)}, as specified.
+    \item \texttt{z} is the \texttt{or}'d output, with a delay of 10ns, as specified.
+    \item there is no mystery.
+\end{itemize}
 
 
 \section*{Problem 2: VHDL 4-Bit Register}
