@@ -122,4 +122,20 @@ MK + MB:
 
 Ask Hazem about additional components for the victim.
 
+
+
+scribe: Maximilian Köhl (20.05.2016)
+- team meeting
+- entry cards do not work
+- have a look at parts and components
+- discussing problems with the connection of our own extension module (I²C is not accessible from above)
+- Ben suggested: when we found the victim, say "thank you mario but your princess is in an other castle"
+- buy teddy and magnets
+- ask Felix about connectors, send e-mail to Hazem with additional components
+- requirement "move out" split into two requirements (more details)
+- abstract first then details
+- 1. July metting -> 2 PM 29. June
+- begin with the virtual prototype
+
+
 Finished up specification document.
