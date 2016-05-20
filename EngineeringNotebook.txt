@@ -122,20 +122,40 @@ MK + MB:
 
 Ask Hazem about additional components for the victim.
 
+Finished up specification document.
 
 
-scribe: Maximilian Köhl (20.05.2016)
+==============
+
+scribe: Maximilian Köhl (first 5%), Ben Wiederhake (rest?) 20.05.2016 12-16 session
+
 - team meeting
 - entry cards do not work
 - have a look at parts and components
 - discussing problems with the connection of our own extension module (I²C is not accessible from above)
 - Ben suggested: when we found the victim, say "thank you mario but your princess is in an other castle"
+    + Refused (by Ben)
 - buy teddy and magnets
 - ask Felix about connectors, send e-mail to Hazem with additional components
 - requirement "move out" split into two requirements (more details)
 - abstract first then details
-- 1. July metting -> 2 PM 29. June
-- begin with the virtual prototype
+- 1. July meeting -> 2 PM 29. June
 
+TODO: be reasonably quick, i.e., try to do measurements "on the fly"
+    (nonfunctional nice-to-have)
 
-Finished up specification document.
+Begin with the virtual prototype
+- agreed to NOT use MATLAB for the first iteration of "designing"
+- stages:
+    + only signal detection (1 receiver)
+    + add "IR environment"
+    + add concept of direction(s), detect absolute direction
+    + rotate in order to find out angle(s)
+    + drive towards the signal
+        * invariant: don't turn and drive
+    + mßodel walls
+        * observation: maze is isomorphic to single wall
+=> use only the last $k$ measurements
+    - uses only finite memory, is easier to simulate
+    - uses only finite memory, is actually realtime
+=> need to experiment with the actual physical sensitivity
