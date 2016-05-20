@@ -127,7 +127,7 @@ Finished up specification document.
 
 ==============
 
-scribe: Maximilian Köhl (first 5%), Ben Wiederhake (rest?) 20.05.2016 12-16 session
+scribe: Maximilian Köhl (first 50%), Ben Wiederhake (50%) 20.05.2016 12-16 session
 
 - team meeting
 - entry cards do not work
@@ -143,6 +143,7 @@ scribe: Maximilian Köhl (first 5%), Ben Wiederhake (rest?) 20.05.2016 12-16 ses
 
 TODO: be reasonably quick, i.e., try to do measurements "on the fly"
     (nonfunctional nice-to-have)
+    e-mail to Hazem with additional components
 
 Begin with the virtual prototype
 - agreed to NOT use MATLAB for the first iteration of "designing"
@@ -153,9 +154,15 @@ Begin with the virtual prototype
     + rotate in order to find out angle(s)
     + drive towards the signal
         * invariant: don't turn and drive
-    + mßodel walls
+    + model walls
         * observation: maze is isomorphic to single wall
 => use only the last $k$ measurements
     - uses only finite memory, is easier to simulate
     - uses only finite memory, is actually realtime
 => need to experiment with the actual physical sensitivity
+
+
+- use OccupancyGrid (Marlene) to model the environment:
+    + http://de.mathworks.com/help/robotics/examples/path-planning-in-environments-of-different-complexity.html
+    + http://de.mathworks.com/help/robotics/examples/path-following-for-a-differential-drive-robot.html
+    + http://de.mathworks.com/help/robotics/examples/update-an-occupancy-grid-from-range-sensor-data.html
