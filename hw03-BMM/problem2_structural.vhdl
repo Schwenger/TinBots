@@ -27,12 +27,11 @@ ARCHITECTURE structural of Register1 IS
 	
 		PROCESS (clk) BEGIN
 			out0 <= q;
-			reset <= en and (not in0);
-			set <= en and in0;
+			reset <= en and (not in0) and clk;
+			set <= en and in0 and clk;
 		END PROCESS;
 	END structural;
-		
-		
+
 
 ENTITY Register4 IS
 	PORT (in3, in2, in1, in0 : IN Bit; out3, out2, out1, out0 : OUT Bit; en, clk : IN Bit);
