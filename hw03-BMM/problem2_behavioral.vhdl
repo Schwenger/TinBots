@@ -4,13 +4,12 @@ END Register4;
 
 ARCHITECTURE behavioral of Register4 IS
 	BEGIN
-		PROCESS
+		PROCESS (clk)
 			VARIABLE t3 : Bit := '0';
 			VARIABLE t2 : Bit := '0';
 			VARIABLE t1 : Bit := '0';
 			VARIABLE t0 : Bit := '0';
 		BEGIN
-			WAIT UNTIL clk'EVENT AND clk = '1';
 			out3 <= t3;
 			out2 <= t2;
 			out1 <= t1;
