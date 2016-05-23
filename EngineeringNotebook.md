@@ -161,8 +161,36 @@ Begin with the virtual prototype
     - uses only finite memory, is actually realtime
 => need to experiment with the actual physical sensitivity
 
-
 - use OccupancyGrid (Marlene) to model the environment:
     + http://de.mathworks.com/help/robotics/examples/path-planning-in-environments-of-different-complexity.html
     + http://de.mathworks.com/help/robotics/examples/path-following-for-a-differential-drive-robot.html
     + http://de.mathworks.com/help/robotics/examples/update-an-occupancy-grid-from-range-sensor-data.html
+
+
+==============
+
+scribe: Ben Wiederhake 23.05.2016 16-18 session
+
+feedback regarding simulation:
+- simulation NOT of pathfinding algorithm, but of "path-executing"
+- rather not swap simulation software tool, but investigation is a good idea
+
+discussing path-executing virtual-model:
+- path-execution is isomorphic to single
+- separate into three steps:
+	* rotate to goal
+	* move to goal
+	* say when we're done
+- assume arbitrary parameters for now, e.g.: 100 steps per 360°, 100 steps per unit length
+	* TODO: measure that!
+	* rotational velocity according to web: 0.00628 rad/s -- OF THE WHEELS!
+- look at what data we actually send to the stepping motors:
+	* seems to be the multiple of the basic stepping speed
+- "Webots"nlooks like a nice simulation-y thing.  TODO: check whether we can use any of this.
+- do NOT drive backwards just because it's quicker to rotate.
+
+discussing right-hand-rule virtual-model:
+- robot passes x and y position directly, for simplicity
+- use half-plane for simplicity
+	"x >= 5 && y <= 3"
+- proximity sensors are located at: -150°, -90°, -45°, \approx -20°, \approx 20°, 45°, 90°, 150°
