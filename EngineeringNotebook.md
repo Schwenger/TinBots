@@ -239,10 +239,9 @@ Use cases:
 
 Wir wollen also:
 - Simulation per vrep
-- Simulation per Viertelebene
+- Simulation per Viertelebene (MS & BW)
+	* result: works reasonably well, but needs refinement until we're done
 - Simulation zu GPS Daten
-- Simulation von "IR-Winkel rausfinden"
-
-
-
+- Simulation von "IR-Winkel rausfinden" (MB & MK)
+	* result: "Yup, we're progressing"
 
