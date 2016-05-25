@@ -257,3 +257,13 @@ Distributed work:
 	of the signal received by this sensor.
 	* IR sensor range may not exceed 120 degrees for the simulation in
 	ir_info_sim due to environment calculation.
+
+==============
+
+scribe: Ben Wiederhake 25.05.2016 14-16 session
+
+right-hand rule:
+- algorithm:
+    + rotate until only right "Gesichtshaelfte" sees something
+    + attempt invariant: 45° sensor sees something (except if too close)
+

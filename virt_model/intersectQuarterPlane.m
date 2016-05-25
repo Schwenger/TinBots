@@ -24,8 +24,8 @@ invalidY = 1 - isOnHalf(y + checkTimes * sin(dir), QP_v(2), QP_q(2));
 invalidT = checkTimes < 0;
 inval = invalidX + invalidY + invalidT;
 
-for i = [1:length(checkTimes)]
-    if inval(i)
+for i = 1:length(checkTimes)
+    if inval(i) || checkTimes(i) > 20
         checkTimes(i) = Inf;
     end
 end
@@ -42,10 +42,4 @@ function t = whenReaches(x, dx, v)
     % No need to special-case "parallel" and "parallel and identical",
     % since Inf is fine in these cases.
     t = (v-x) ./ dx;
-end
-
-function b = isBasically(A, B)
-    % Stolen from:
-    % http://de.mathworks.com/matlabcentral/answers/97069-how-can-i-compare-numbers-for-equality-within-a-tolerance-in-matlab-8-0-r2012b
-    b = abs(A-B) < 1e4*eps(min(abs(A),abs(B)));
 end
