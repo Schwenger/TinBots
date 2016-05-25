@@ -194,3 +194,55 @@ discussing right-hand-rule virtual-model:
 - use half-plane for simplicity
 	"x >= 5 && y <= 3"
 - proximity sensors are located at: -150°, -90°, -45°, \approx -20°, \approx 20°, 45°, 90°, 150°
+
+
+==============
+
+scribe: Ben Wiederhake 25.05.2016 10-12 session
+
+ITEM GET!  IR Emitter
+(TODO: Eintragen.)
+
+(Noch keine Hardware von Conrad gekauft, weil wir zu faul sind, und wir 
+genügend Zeug eh schon zu hause haben.)
+
+vrep:
+- Simulation ist seltsam: "Dreht sich"
+- C code schreiben und von Python aus aufrufen
+- Simulation: Motoren einzeln ansteuern != Motoren "simultan" ansteuern = echt
+- Tutor: wir sollten es in Simulink einbinden
+	* Umgebung sollte in Simulink auftauchen :(
+
+vrep integration:
+- [1] C <-> Py <-> vrep <-> log <-> Matlab
+	* disadvantage: Matlab doesn't *do* anything
+- [2] vrep <-> Matlab <-> C
+	* vrep does the simulation of environment and sensors; Matlab/C 
+	  responds with the commands/actions
+	  
+Feedback zur Map:
+- Map sind Daten aus der Sensorik
+- "Darstellung als Matrix" -> Ungern
+- Als Viertelebene -> findet er nicht schlecht
+- ein "paar" Simulationen in vrep sind okay; hauptsache, nicht *alle*
+- und noch eine Simulation zu "GPS Daten bekommen"
+
+Use cases:
+- ask LPS
+- RHS (1)
+- pathfinding
+- IR info proc (2)
+- Com T2T (3)
+	* map updates
+	* map vetos
+	* victim info
+
+Wir wollen also:
+- Simulation per vrep
+- Simulation per Viertelebene
+- Simulation zu GPS Daten
+- Simulation von "IR-Winkel rausfinden"
+
+
+
+
