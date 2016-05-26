@@ -33,13 +33,13 @@ classdef TinMap < handle
                             case 'T'
                                 if i == round(resolution / 2)
                                     col = round((index - 1) * resolution + resolution / 2);
-                                    row(col) = length(obj.bots) + 100;
+                                    %row(col) = 2; %length(obj.bots) + 100;
                                     obj.bots = [obj.bots; TinBot(obj, length(obj.bots) + 1, obj.height, col)];
                                 end
                             case 'V'
                                 if i == round(resolution / 2)
                                     col = round((index - 1) * resolution + resolution / 2);
-                                    row(col) = length(obj.victims) + 200;
+                                    %row(col) = 3; %length(obj.victims) + 200;
                                     obj.victims = [obj.victims; TinVictim(obj, length(obj.victims) + 1, obj.height, col)];
                                 end
                         end

@@ -26,6 +26,10 @@ classdef TinBot < handle
             obj.col = col;
         end
         
+        function detect(obj, direction, view_angle)
+            direction = mod(direction + obj.orientation, 2 * pi);
+        end
+        
         function forward(obj, delta)
             target_row = round(obj.row - delta * obj.map.resolution * sin(obj.orientation));
             target_col = round(obj.col + delta * obj.map.resolution * cos(obj.orientation));
