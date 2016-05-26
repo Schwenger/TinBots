@@ -41,8 +41,16 @@ classdef TinUtils < handle
                     next_row = next_row + delta_row;
                     next_col = next_col + delta_col;
                     if (next_row < 1) || (next_row > rows) || (next_col < 1) || (next_col > cols)
-                        next_row = next_row - delta_row;
-                        next_col = next_col - delta_col;
+                        if (next_row < 1)
+                            next_row = 1;
+                        elseif (next_row > rows)
+                            next_row = rows;
+                        end
+                        if (next_col < 1)
+                            next_col = 1;
+                        elseif (next_col > cols)
+                            next_col = cols;
+                        end
                         break;
                     end
                 end
@@ -53,7 +61,7 @@ classdef TinUtils < handle
         
         function [distance, object] = raycast(matrix, row, col, direction)
             deg = round(360 * mod(direction, 2 * pi) / (2 * pi));
-            tangens = tan(direction);
+            tangens = tan(deg2rad(deg));
             if (deg == 0)
                 [distance, object] = TinUtils.raycast_hv(matrix, row, col, 0, 1);
             elseif (deg == 90)

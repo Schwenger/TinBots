@@ -1,5 +1,5 @@
 Model {
-  Name			  "ProximitySensor"
+  Name			  "IRSensor"
   Version		  8.7
   MdlSubVersion		  1
   SavedCharacterEncoding  "UTF-8"
@@ -29,23 +29,16 @@ Model {
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
-    NumRootOutports	    2
+    NumRootOutports	    1
     Outport {
-      Name		      "distance"
+      Name		      "triggered"
       BusObject		      ""
       BusOutputAsStruct	      "off"
-      SignalName	      "distance"
-      UnitExpr		      "inherit"
-    }
-    Outport {
-      Name		      "object"
-      BusObject		      ""
-      BusOutputAsStruct	      "off"
-      SignalName	      "object"
+      SignalName	      "out"
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.12"
+    ComputedModelVersion    "1.7"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -70,7 +63,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1920.0, 0.0, 1920.0, 1174.0]
+      Location		      [2428.0, 167.0, 1055.0, 829.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -94,21 +87,21 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1864.0, 993.0]
+	Extents			[999.0, 648.0]
 	ZoomFactor		[1.0]
 	Offset			[0.0, 0.0]
       }
     }
   }
-  Created		  "Thu May 26 21:07:18 2016"
+  Created		  "Thu May 26 23:46:18 2016"
   Creator		  "maximilian"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 26 23:50:59 2016"
-  RTWModifiedTimeStamp	  386205990
-  ModelVersionFormat	  "1.%<AutoIncrement:12>"
+  LastModifiedDate	  "Thu May 26 23:55:06 2016"
+  RTWModifiedTimeStamp	  386207697
+  ModelVersionFormat	  "1.%<AutoIncrement:7>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -158,12 +151,12 @@ Model {
     $PropName		    "DataLoggingOverride"
     $ObjectID		    6
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
-    model_		    "ProximitySensor"
-    overrideMode_	    [0.0]
+    model_		    "IRSensor"
+    overrideMode_	    [0U]
     Array {
       Type		      "Cell"
       Dimension		      1
-      Cell		      "ProximitySensor"
+      Cell		      "IRSensor"
       PropName		      "logAsSpecifiedByModels_"
     }
     Array {
@@ -936,8 +929,8 @@ Model {
     }
   }
   System {
-    Name		    "ProximitySensor"
-    Location		    [1920, 0, 3840, 1174]
+    Name		    "IRSensor"
+    Location		    [2428, 167, 3483, 996]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -951,50 +944,50 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "12"
+    SIDHighWatermark	    "7"
     Block {
       BlockType		      Inport
       Name		      "map"
-      SID		      "7"
-      Position		      [315, 218, 345, 232]
-      ZOrder		      23
+      SID		      "1"
+      Position		      [325, 298, 355, 312]
+      ZOrder		      30
       IconDisplay	      "Port number"
       PortDimensions	      "[100 100]"
     }
     Block {
       BlockType		      Inport
       Name		      "row"
-      SID		      "8"
-      Position		      [315, 273, 345, 287]
-      ZOrder		      24
+      SID		      "2"
+      Position		      [325, 353, 355, 367]
+      ZOrder		      31
       Port		      "2"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
       Name		      "col"
-      SID		      "9"
-      Position		      [315, 328, 345, 342]
-      ZOrder		      25
+      SID		      "3"
+      Position		      [325, 408, 355, 422]
+      ZOrder		      32
       Port		      "3"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
       Name		      "direction"
-      SID		      "10"
-      Position		      [315, 383, 345, 397]
-      ZOrder		      26
+      SID		      "4"
+      Position		      [325, 463, 355, 477]
+      ZOrder		      33
       Port		      "4"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      SubSystem
       Name		      "Sensor"
-      SID		      "2"
-      Ports		      [4, 2]
-      Position		      [415, 200, 535, 415]
-      ZOrder		      18
+      SID		      "5"
+      Ports		      [4, 1]
+      Position		      [425, 280, 545, 495]
+      ZOrder		      29
       LibraryVersion	      "1.32"
       ErrorFcn		      "Stateflow.Translate.translate"
       PermitHierarchicalResolution "ExplicitOnly"
@@ -1021,7 +1014,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "matrix"
-	  SID			  "2::1"
+	  SID			  "5::1"
 	  Position		  [20, 101, 40, 119]
 	  ZOrder		  -1
 	  IconDisplay		  "Port number"
@@ -1029,7 +1022,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "row"
-	  SID			  "2::20"
+	  SID			  "5::20"
 	  Position		  [20, 136, 40, 154]
 	  ZOrder		  11
 	  Port			  "2"
@@ -1038,7 +1031,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "col"
-	  SID			  "2::21"
+	  SID			  "5::21"
 	  Position		  [20, 171, 40, 189]
 	  ZOrder		  12
 	  Port			  "3"
@@ -1047,7 +1040,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "direction"
-	  SID			  "2::19"
+	  SID			  "5::19"
 	  Position		  [20, 206, 40, 224]
 	  ZOrder		  10
 	  Port			  "4"
@@ -1056,7 +1049,7 @@ Model {
 	Block {
 	  BlockType		  Demux
 	  Name			  " Demux "
-	  SID			  "2::17"
+	  SID			  "5::17"
 	  Ports			  [1, 1]
 	  Position		  [270, 230, 320, 270]
 	  ZOrder		  8
@@ -1065,24 +1058,18 @@ Model {
 	Block {
 	  BlockType		  S-Function
 	  Name			  " SFunction "
-	  SID			  "2::16"
-	  Tag			  "Stateflow S-Function ProximitySensor 2"
-	  Ports			  [4, 3]
+	  SID			  "5::16"
+	  Tag			  "Stateflow S-Function IRSensor 2"
+	  Ports			  [4, 2]
 	  Position		  [180, 102, 230, 203]
 	  ZOrder		  7
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[4 3]"
+	  PortCounts		  "[4 2]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  Port {
 	    PortNumber		    2
-	    Name		    "distance"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
-	  Port {
-	    PortNumber		    3
-	    Name		    "object"
+	    Name		    "out"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
 	  }
@@ -1090,82 +1077,64 @@ Model {
 	Block {
 	  BlockType		  Terminator
 	  Name			  " Terminator "
-	  SID			  "2::18"
+	  SID			  "5::18"
 	  Position		  [460, 241, 480, 259]
 	  ZOrder		  9
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "distance"
-	  SID			  "2::5"
+	  Name			  "out"
+	  SID			  "5::5"
 	  Position		  [460, 101, 480, 119]
 	  ZOrder		  -5
 	  IconDisplay		  "Port number"
 	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "object"
-	  SID			  "2::22"
-	  Position		  [460, 136, 480, 154]
-	  ZOrder		  13
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
 	Line {
-	  ZOrder		  41
+	  ZOrder		  9
 	  SrcBlock		  "matrix"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  42
+	  ZOrder		  10
 	  SrcBlock		  "row"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  43
+	  ZOrder		  11
 	  SrcBlock		  "col"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  44
+	  ZOrder		  12
 	  SrcBlock		  "direction"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  Name			  "distance"
-	  ZOrder		  45
+	  Name			  "out"
+	  ZOrder		  13
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
-	  DstBlock		  "distance"
+	  DstBlock		  "out"
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "object"
-	  ZOrder		  46
-	  Labels		  [0, 0]
-	  SrcBlock		  " SFunction "
-	  SrcPort		  3
-	  DstBlock		  "object"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  47
+	  ZOrder		  14
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  48
+	  ZOrder		  15
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1175,61 +1144,45 @@ Model {
     }
     Block {
       BlockType		      Outport
-      Name		      "distance"
-      SID		      "11"
-      Position		      [635, 248, 665, 262]
-      ZOrder		      27
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Outport
-      Name		      "object"
-      SID		      "12"
-      Position		      [635, 353, 665, 367]
-      ZOrder		      28
-      Port		      "2"
+      Name		      "triggered"
+      SID		      "6"
+      Position		      [650, 383, 680, 397]
+      ZOrder		      34
       IconDisplay	      "Port number"
     }
     Line {
-      ZOrder		      7
+      ZOrder		      1
       SrcBlock		      "map"
       SrcPort		      1
       DstBlock		      "Sensor"
       DstPort		      1
     }
     Line {
-      ZOrder		      9
+      ZOrder		      2
       SrcBlock		      "col"
       SrcPort		      1
       DstBlock		      "Sensor"
       DstPort		      3
     }
     Line {
-      ZOrder		      8
+      ZOrder		      3
       SrcBlock		      "row"
       SrcPort		      1
       DstBlock		      "Sensor"
       DstPort		      2
     }
     Line {
-      ZOrder		      10
+      ZOrder		      4
       SrcBlock		      "direction"
       SrcPort		      1
       DstBlock		      "Sensor"
       DstPort		      4
     }
     Line {
-      ZOrder		      11
+      ZOrder		      5
       SrcBlock		      "Sensor"
       SrcPort		      1
-      DstBlock		      "distance"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      13
-      SrcBlock		      "Sensor"
-      SrcPort		      2
-      DstBlock		      "object"
+      DstBlock		      "triggered"
       DstPort		      1
     }
   }
@@ -1242,10 +1195,10 @@ Model {
 Stateflow {
   machine {
     id			    1
-    name		    "ProximitySensor"
-    created		    "26-May-2016 21:07:34"
+    name		    "IRSensor"
+    created		    "26-May-2016 23:46:25"
     isLibrary		    0
-    firstTarget		    13
+    firstTarget		    12
     sfVersion		    80000009
   }
   chart {
@@ -1255,8 +1208,8 @@ Stateflow {
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 3600 1200 1.180555555555556]
     treeNode		    [0 3 0 0]
-    firstTransition	    11
-    firstJunction	    10
+    firstTransition	    10
+    firstJunction	    9
     viewObj		    2
     visible		    1
     machine		    1
@@ -1286,8 +1239,10 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function [distance, object] = raycast(matrix, row, col, direction)\n    [distance, object] = TinU"
-      "tils.raycast(matrix, row, col, direction);\nend\n    "
+      script		      "function out  = raycast(matrix, row, col, direction)\n    out = 0;\n    start = mod(direction - d"
+      "eg2rad(80) / 2, 2 * pi);\n    step = deg2rad(80) / 100;\n    for i = 0:100\n        [~, object] = TinUtils.rayca"
+      "st(matrix, row, col, start + step * i);\n        if (object == 2)\n            out = 1;\n            break;\n   "
+      "     end\n    end\nend\n    "
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -1366,7 +1321,7 @@ Stateflow {
   data {
     id			    7
     ssIdNumber		    5
-    name		    "distance"
+    name		    "out"
     linkNode		    [2 6 8]
     scope		    OUTPUT_DATA
     machine		    1
@@ -1390,7 +1345,7 @@ Stateflow {
     id			    8
     ssIdNumber		    6
     name		    "direction"
-    linkNode		    [2 7 9]
+    linkNode		    [2 7 0]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1411,33 +1366,8 @@ Stateflow {
     }
     dataType		    "Inherit: Same as Simulink"
   }
-  data {
-    id			    9
-    ssIdNumber		    9
-    name		    "object"
-    linkNode		    [2 8 0]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
   junction {
-    id			    10
+    id			    9
     position		    [23.5747 49.5747 7]
     chart		    2
     linkNode		    [2 0 0]
@@ -1446,7 +1376,7 @@ Stateflow {
     type		    CONNECTIVE_JUNCTION
   }
   transition {
-    id			    11
+    id			    10
     labelString		    "{eML_blk_kernel();}"
     labelPosition	    [28.125 13.875 102.544 14.964]
     fontSize		    12
@@ -1454,7 +1384,7 @@ Stateflow {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
     }
     dst {
-      id		      10
+      id		      9
       intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
     }
     midPoint		    [23.5747 24.9468]
@@ -1470,13 +1400,13 @@ Stateflow {
     ssIdNumber		    2
   }
   instance {
-    id			    12
+    id			    11
     name		    "Sensor"
     machine		    1
     chart		    2
   }
   target {
-    id			    13
+    id			    12
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
