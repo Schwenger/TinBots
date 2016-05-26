@@ -1,5 +1,5 @@
 Model {
-  Name			  "drive"
+  Name			  "DifferentialDrive"
   Version		  8.7
   MdlSubVersion		  1
   SavedCharacterEncoding  "UTF-8"
@@ -43,7 +43,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.12"
+    ComputedModelVersion    "1.13"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -56,7 +56,7 @@ Model {
       Type		      "Cell"
       Dimension		      2
       Cell		      "HDLSubsystem"
-      Cell		      "drive"
+      Cell		      "DifferentialDrive"
       PropName		      "mdlProps"
     }
   }
@@ -103,7 +103,7 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1884.0, 918.0]
+	Extents			[1864.0, 899.0]
 	ZoomFactor		[2.0]
 	Offset			[-131.87651858683057, -173.8]
       }
@@ -115,9 +115,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 26 17:41:43 2016"
-  RTWModifiedTimeStamp	  386185299
-  ModelVersionFormat	  "1.%<AutoIncrement:12>"
+  LastModifiedDate	  "Thu May 26 22:53:48 2016"
+  RTWModifiedTimeStamp	  386204021
+  ModelVersionFormat	  "1.%<AutoIncrement:13>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -168,7 +168,7 @@ Model {
     $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "drive"
-    overrideMode_	    [0U]
+    overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
       Dimension		      1
@@ -955,7 +955,7 @@ Model {
     }
   }
   System {
-    Name		    "drive"
+    Name		    "DifferentialDrive"
     Location		    [3840, 60, 5760, 1140]
     Open		    on
     ModelBrowserVisibility  off
@@ -975,7 +975,7 @@ Model {
       BlockType		      Inport
       Name		      "motor_left"
       SID		      "1"
-      Position		      [10, 103, 40, 117]
+      Position		      [-55, 103, -25, 117]
       ZOrder		      1
       IconDisplay	      "Port number"
     }
@@ -983,7 +983,7 @@ Model {
       BlockType		      Inport
       Name		      "motor_right"
       SID		      "2"
-      Position		      [10, 38, 40, 52]
+      Position		      [-55, 38, -25, 52]
       ZOrder		      2
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1086,7 +1086,7 @@ Model {
       SID		      "6"
       Position		      [10, 190, 40, 220]
       ZOrder		      6
-      Value		      "0.053"
+      Value		      "0.53"
     }
     Block {
       BlockType		      Outport
@@ -1118,7 +1118,7 @@ Model {
       ZOrder		      14
       SrcBlock		      "motor_left"
       SrcPort		      1
-      Points		      [29, 0]
+      Points		      [94, 0]
       Branch {
 	ZOrder			19
 	DstBlock		"sub"
@@ -1135,7 +1135,7 @@ Model {
       ZOrder		      15
       SrcBlock		      "motor_right"
       SrcPort		      1
-      Points		      [43, 0]
+      Points		      [108, 0]
       Branch {
 	ZOrder			17
 	Points			[0, 50]
@@ -1246,7 +1246,7 @@ Model {
 Stateflow {
   machine {
     id			    1
-    name		    "drive"
+    name		    "DifferentialDrive"
     created		    "26-May-2016 17:05:52"
     isLibrary		    0
     firstTarget		    2
