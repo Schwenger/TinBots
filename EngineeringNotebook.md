@@ -239,10 +239,31 @@ Use cases:
 
 Wir wollen also:
 - Simulation per vrep
-- Simulation per Viertelebene
+- Simulation per Viertelebene (MS & BW)
+	* result: works reasonably well, but needs refinement until we're done
 - Simulation zu GPS Daten
-- Simulation von "IR-Winkel rausfinden"
+- Simulation von "IR-Winkel rausfinden" (MB & MK)
+	* result: "Yup, we're progressing"
 
+==============
 
+scribe: Marlene Böhmer 25.05.2016 14-16 session
 
+Distributed work:
+
+- Marlene and Maxi work on ir_info_sim:
+	* Use some sensor that is not receiving a signal to identify the 
+	angleof the victim by turning and checking the start and end angle
+	of the signal received by this sensor.
+	* IR sensor range may not exceed 120 degrees for the simulation in
+	ir_info_sim due to environment calculation.
+
+==============
+
+scribe: Ben Wiederhake 25.05.2016 14-16 session
+
+right-hand rule:
+- algorithm:
+    + rotate until only right "Gesichtshaelfte" sees something
+    + attempt invariant: 45° sensor sees something (except if too close)
 
