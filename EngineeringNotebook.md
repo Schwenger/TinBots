@@ -304,3 +304,15 @@ complete physical model -> Maxi + Marlene
 
 Addendum by Maxi:
 "todo: find a way to tell matlab to treat included model as nonatomic subsystem (necessary for tin bot map introducer subsystem)"
+
+
+==============
+
+Braindump on right-hand-rule
+(Ben Wiederhake)
+
+- seems to behave nicely in all cases with the current tolerances
+- tested:
+    + walking flat towards edge
+    + walking directly towards corner from 45° (symmetric view)
+    + walking at -4° toward edge (test 'stayClose' and 'runClose' settings)
