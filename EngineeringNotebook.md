@@ -239,7 +239,7 @@ Use cases:
 
 Wir wollen also:
 - Simulation per vrep
-- Simulation per Viertelebene (MS & BW)
+- Simulation per Quaterplane (MS & BW)
 	* result: works reasonably well, but needs refinement until we're done
 - Simulation zu GPS Daten
 - Simulation von "IR-Winkel rausfinden" (MB & MK)
@@ -253,7 +253,7 @@ Distributed work:
 
 - Marlene and Maxi work on ir_info_sim:
 	* Use some sensor that is not receiving a signal to identify the 
-	angleof the victim by turning and checking the start and end angle
+	angle of the victim by turning and checking the start and end angle
 	of the signal received by this sensor.
 	* IR sensor range may not exceed 120 degrees for the simulation in
 	ir_info_sim due to environment calculation.
@@ -267,3 +267,35 @@ right-hand rule:
     + rotate until only right "Gesichtshaelfte" sees something
     + attempt invariant: 45° sensor sees something (except if too close)
 
+
+==============
+
+scribe: Maximilian Schwenger 27.05.2016 14-16 session
+
+Discussing Maxi's work.
+-> Stop simulation when colliding with wall. (TODO)
+-> Problems with units of measure. Apparently, even Europeans cannot handle the metric system. (agree on dm. Discussed using 1 e-Puck as unit of area, but root-e-puck is a rather unfortunate unit of distance. TODO go over model and change!)
+-> raycast simulates 80 rays to detect the victim -> more realistic
+    ->-> Problem: might miss something when casting in distance of 1 deg in far distances.
+-> TODO: for proximity sensor, cast three rays instead of just one.
+
+What is left to do:
+- Tin Bot:
+    + One file uniting the subcomponents into a working overall TinBot model; contains wiring only, no real logic.
+- LPS
+- Right-Hand-Rule control logic
+    + reuse differential drive
+- Charting logic, including inner representation of map.
+    + [Tin Bot + Tin Bot communication incl. veto]
+- LPS blackout
+- Physical model / environment 
+
+Consensus:
+Environment : Everything that is NOT connected to Tin Bot
+Tin Bot (physical): Everything connected to tin bot, but NOT requiring any software
+Tin Bot (software): Every logic implementing bit on the tin bot.
+
+Right Hand Rule -> Ben + Max
+    => Managed to get the path-following right
+    => Fixed numerical stability in quarter plane
+complete physical model -> Maxi + Marlene
