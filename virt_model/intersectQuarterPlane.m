@@ -32,10 +32,14 @@ end
 
 dist = min(checkTimes);
 
+if isnan(dist)
+    [x y dir]
+end
+
 end
 
 function b = isOnHalf(u, v, q)
-    b = (u - v)*q >= 0;
+    b = (u - v)*q >= -1e-9;
 end
 
 function t = whenReaches(x, dx, v)

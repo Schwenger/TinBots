@@ -21,6 +21,7 @@ work-*.cf
 # Autosaves
 *~
 *.mdl.autosave
+*.slx.autosave
 *.bak
 
 # Matlab build
