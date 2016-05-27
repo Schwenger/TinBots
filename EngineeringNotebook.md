@@ -285,6 +285,8 @@ What is left to do:
 - LPS
 - Right-Hand-Rule control logic
     + reuse differential drive
+    + add logic for left-face
+    + add logic to use the distance properly (?)
 - Charting logic, including inner representation of map.
     + [Tin Bot + Tin Bot communication incl. veto]
 - LPS blackout
