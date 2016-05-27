@@ -301,3 +301,6 @@ Right Hand Rule -> Ben + Max
     => Managed to get the path-following right
     => Fixed numerical stability in quarter plane
 complete physical model -> Maxi + Marlene
+
+Addendum by Maxi:
+"todo: find a way to tell matlab to treat included model as nonatomic subsystem (necessary for tin bot map introducer subsystem)"
