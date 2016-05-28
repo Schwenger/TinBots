@@ -33,38 +33,37 @@ classdef TinBuilder
             
             add_line(name, 'Map/1', 'Environment/1');
             add_line(name, 'Environment/1', 'Viewer/1');
-            
             start_state = Stateflow.State(env);
             start_state.LabelString = ['Start', 10, 'entry:', 10, 'map = map_init;', 10, 'map_out = map;'];
             
             for index = 1:length(map.bots)
-                add_block('sflib/Chart', [name, sprintf('/TinBot%i', index)], 'Position', [500 index*100-100 800 index*100-30]);
+                add_block('tinbot/Tin Bot Physical', [name, sprintf('/Tin Bot %i', index)], 'Position', [500 index*200-200 800 index*200-30]);
                 
-                bot = model.find('-isa','Stateflow.Chart', '-and', 'Name', sprintf('TinBot%i', index));
+                %bot = model.find('-isa','Stateflow.Chart', '-and', 'Name', sprintf('TinBot%i', index));
                 
-                motor_left = Stateflow.Data(bot);
-                motor_left.Scope = 'OUTPUT_DATA';
-                motor_left.Name = 'motor_left';
+                %motor_left = Stateflow.Data(bot);
+                %motor_left.Scope = 'OUTPUT_DATA';
+                %motor_left.Name = 'motor_left';
                 
-                motor_right = Stateflow.Data(bot);
-                motor_right.Scope = 'OUTPUT_DATA';
-                motor_right.Name = 'motor_right';
+                %motor_right = Stateflow.Data(bot);
+                %motor_right.Scope = 'OUTPUT_DATA';
+                %motor_right.Name = 'motor_right';
                 
-                leds = Stateflow.Data(bot);
-                leds.Scope = 'OUTPUT_DATA';
-                leds.Name = 'leds';
+                %leds = Stateflow.Data(bot);
+                %leds.Scope = 'OUTPUT_DATA';
+                %leds.Name = 'leds';
                 
-                lps_position = Stateflow.Data(bot);
-                lps_position.Scope = 'INPUT_DATA';
-                lps_position.Name = 'lps_position';
+                %lps_position = Stateflow.Data(bot);
+                %lps_position.Scope = 'INPUT_DATA';
+                %lps_position.Name = 'lps_position';
                 
-                lps_phi = Stateflow.Data(bot);
-                lps_phi.Scope = 'INPUT_DATA';
-                lps_phi.Name = 'lps_phi';
+                %lps_phi = Stateflow.Data(bot);
+                %lps_phi.Scope = 'INPUT_DATA';
+                %lps_phi.Name = 'lps_phi';
                 
-                proximity = Stateflow.Data(bot);
-                proximity.Scope = 'INPUT_DATA';
-                proximity.Name = 'proximity';
+                %proximity = Stateflow.Data(bot);
+                %proximity.Scope = 'INPUT_DATA';
+                %proximity.Name = 'proximity';
             end
             
                 
