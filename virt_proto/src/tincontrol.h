@@ -1,0 +1,1 @@
+extern double test_function();
