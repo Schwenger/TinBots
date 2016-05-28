@@ -325,5 +325,7 @@ Braindump on right-hand-rule
 Done (Maxi) 28.05.2016:
 - implement physical TinBot model (by Marlene and Maxi)
 - implement map TinBot introduction and elemination (by Marlene and Maxi)
-- solve problems with nonatomic subsystems by introducing own TinBot block library
+- solve problems with nonatomic subsystems and algebraic loops by introducing own TinBot block library
+- @group: matlab needs to be tweaked before library modification
+
 
