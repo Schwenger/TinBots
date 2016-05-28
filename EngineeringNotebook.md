@@ -318,3 +318,12 @@ Braindump on right-hand-rule
     + walking directly towards corner from 45° (symmetric view)
     + walking at -4° toward edge (test 'stayClose' and 'runClose' settings)
     + standing/incoming in a way so that an "unusual" sensor goes off first
+
+
+
+================
+Done (Maxi) 28.05.2016:
+- implement physical TinBot model (by Marlene and Maxi)
+- implement map TinBot introduction and elemination (by Marlene and Maxi)
+- solve problems with nonatomic subsystems by introducing own TinBot block library
+
