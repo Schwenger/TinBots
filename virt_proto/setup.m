@@ -1,5 +1,5 @@
 function setup()
     addpath('classes');
-    addpath('environment');
+    addpath('library');
     addpath('models');
     addpath('software');
