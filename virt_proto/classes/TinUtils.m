@@ -29,8 +29,10 @@ classdef TinUtils < handle
         
         function [distance, object] = raycast_diag(matrix, row, col, delta_row, delta_col)
             [rows, cols] = size(matrix);
-            next_row = row + delta_row + 0.5;
-            next_col = col + delta_col + 0.5;
+            row = row + 0.5;
+            col = col + 0.5;
+            next_row = row + delta_row;
+            next_col = col + delta_col;
             delta_row = delta_row * 2;
             delta_col = delta_col * 2;
             if (next_row < 1) || (next_row > rows) || (next_col < 1) || (next_col > cols)
