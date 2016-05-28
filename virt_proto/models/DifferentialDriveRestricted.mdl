@@ -81,7 +81,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.40"
+    ComputedModelVersion    "1.41"
     NumModelReferences	    1
     ModelReference {
       ModelRefBlockPath	      "DifferentialDriveRestricted/Drive|DifferentialDrive"
@@ -109,7 +109,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [9.0, 74.0, 1920.0, 1055.0]
+      Location		      [1920.0, 0.0, 1920.0, 1174.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -131,11 +131,11 @@ Model {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1864.0, 874.0]
-	ZoomFactor		[0.8]
-	Offset			[-502.61126612537004, 292.07782817759153]
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"28"
+	Extents			[1884.0, 1012.0]
+	ZoomFactor		[1.7497812773403325]
+	Offset			[285.625, 86.187]
       }
     }
   }
@@ -145,9 +145,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 26 23:13:34 2016"
-  RTWModifiedTimeStamp	  386205213
-  ModelVersionFormat	  "1.%<AutoIncrement:40>"
+  LastModifiedDate	  "Sat May 28 15:18:43 2016"
+  RTWModifiedTimeStamp	  386349518
+  ModelVersionFormat	  "1.%<AutoIncrement:41>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1059,8 +1059,8 @@ Model {
   }
   System {
     Name		    "DifferentialDriveRestricted"
-    Location		    [9, 74, 1929, 1129]
-    Open		    on
+    Location		    [1920, 0, 3840, 1174]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1207,7 +1207,7 @@ Model {
       System {
 	Name			"Restrict"
 	Location		[1920, 0, 3840, 1174]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1893,7 +1893,7 @@ Stateflow {
     id			    2
     name		    "Restrict"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [285.625 1362.196 86.187 664.472]
+    viewLimits		    [285.625 1362.331 86.187 664.545]
     zoomFactor		    0.762
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1903,7 +1903,10 @@ Stateflow {
     treeNode		    [0 4 0 0]
     firstTransition	    17
     viewObj		    2
+    visible		    1
     machine		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    25
     decomposition	    CLUSTER_CHART
     firstData		    5
@@ -2269,9 +2272,8 @@ Stateflow {
   }
   transition {
     id			    18
-    labelString		    "{\n	x = next_x; y = next_y;\n	col = floor(y) + 1; row = floor(x) + 1;\n	current_x = x;\n	current"
-    "_y = y;\n}"
-    labelPosition	    [746.417 231 209.352 86]
+    labelString		    "{\n	x = next_x; y = next_y;\n	col = floor(y); row = floor(x) ;\n	current_x = x;\n	current_y = y;\n}"
+    labelPosition	    [746.417 231 171.996 86]
     fontSize		    12
     src {
       id		      4
@@ -2320,9 +2322,9 @@ Stateflow {
   }
   transition {
     id			    20
-    labelString		    "[map(floor(next_y) + 1, floor(next_x) + 1) ~= 0 && floor(next_y) + 1 ~= row && floor(next_x) + 1"
-    " ~= col]{\n	reset = 1;\n	current_x = x;\n	current_y = y;\n}"
-    labelPosition	    [772.531 337.575 547.469 72]
+    labelString		    "[map(floor(next_y), floor(next_x)) ~= 0 && floor(next_y) ~= row && floor(next_x) ~= col]{\n	rese"
+    "t = 1;\n	current_x = x;\n	current_y = y;\n}"
+    labelPosition	    [772.531 337.575 466.094 72]
     fontSize		    12
     src {
       id		      4
