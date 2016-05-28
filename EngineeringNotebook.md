@@ -312,7 +312,9 @@ Braindump on right-hand-rule
 (Ben Wiederhake)
 
 - seems to behave nicely in all cases with the current tolerances
+  => If we need a different scale, remember to scale up both mv_per_sec and sens_tol
 - tested:
     + walking flat towards edge
     + walking directly towards corner from 45° (symmetric view)
     + walking at -4° toward edge (test 'stayClose' and 'runClose' settings)
+    + standing/incoming in a way so that an "unusual" sensor goes off first
