@@ -347,3 +347,46 @@ scribe: Marlene Böhmer, Ben Wiederhake, Max Schwenger 30.05.2016 16-18 session
 - We agreed on using cm as default unit
 
 TODO: Fix names, test "run_external_code" (name might deviate)
+
+================
+
+Brain dump (Ben)
+
+Done:
+- write "controller" (the skeleton and general interface / top level view for the software)
+- fix rhr-test (but not rhr)
+- get pretty annoyed by Simulink's lack-yet-abundance of proper trigger/event/message/signal mechanism (?!)
+    * I probably misunderstand something here
+
+Complete TODO list:
+- fix constants in software/follow_right_hand.mdl
+    -> Wiederhake or Schwenger
+- implement software/ir_info_sim.slx from ../virt_model/ir_info_sim.slx
+    -> I'd propose Bömer / Köhl, since you implemented the previous version
+- Include the concept of "run" signals or "reset" messages, or something like that.
+  The following software models need updating:
+    * software/follow_right_hand.mdl
+    * software/ir_info_sim.slx
+    * software/path_finder.mdl
+    * software/Verkehrspolizist.mdl
+    * software/Path.slx
+    * software/victim_detector.mdl
+    -> Don't worry, this is the easy part.
+- (maybe) create tests/test_ir_info_sim.slx for software/ir_info_sim.slx
+- (maybe) create tests/test_path.slx for software/path.slx
+- implement software/Verkehrspolizist.mdl -> should be easy-ish, should be "just" a stateflow chart
+- implement software/victim_detector.mdl -> that's the triangulation algorithm in C
+    -> Uuh
+- implement software/path_finder.mdl -> that's the A* algorithm in C
+    -> Oh god
+
+TODO list, wont-happen-till-thursday:
+- LPS
+    * comm system
+    * detect blackout
+    * interpolation
+- Right-Hand-Rule control logic
+    + add logic to use the distance properly (?)
+- T2T logic: Tin Bot + Tin Bot communication incl. veto
+    (-> after monday's lecture, we probably don't want to use this approach anymore,
+        and try an "externally-controlled" thing.)
