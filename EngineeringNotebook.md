@@ -328,4 +328,16 @@ Done (Maxi) 28.05.2016:
 - solve problems with nonatomic subsystems and algebraic loops by introducing own TinBot block library
 - @group: matlab needs to be tweaked before library modification
 
+==============
 
+scribe: Marlene Böhmer 30.05.2016 16-18 session
+
+- single "Verkehrspolizist" as a Stateflow chart
+	* includes path *finding* logic
+	* decides "who is allowed to drive"
+- all "drivers" (RHR, path execution, possibly more) must obey to this
+- drivers are:
+	* RHR
+	* Path execution (A* "zum" victim)
+	* Andocken (in Matlab: no-op)
+	* Path execution (A* "vom victim weg")
