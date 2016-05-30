@@ -303,12 +303,12 @@ Right Hand Rule -> Ben + Max
 complete physical model -> Maxi + Marlene
 
 Addendum by Maxi:
-"todo: find a way to tell matlab to treat included model as nonatomic subsystem (necessary for tin bot map introducer subsystem)"
+"ToDo: find a way to tell MatLab to treat included model as non-atomic subsystem (necessary for tin bot map introducer subsystem)"
 
 
 ==============
 
-Braindump on right-hand-rule
+Brain dump on right-hand-rule
 (Ben Wiederhake)
 
 - seems to behave nicely in all cases with the current tolerances
@@ -319,25 +319,31 @@ Braindump on right-hand-rule
     + walking at -4° toward edge (test 'stayClose' and 'runClose' settings)
     + standing/incoming in a way so that an "unusual" sensor goes off first
 
-
-
 ================
+
 Done (Maxi) 28.05.2016:
 - implement physical TinBot model (by Marlene and Maxi)
-- implement map TinBot introduction and elemination (by Marlene and Maxi)
-- solve problems with nonatomic subsystems and algebraic loops by introducing own TinBot block library
-- @group: matlab needs to be tweaked before library modification
+- implement map TinBot introduction and elimination (by Marlene and Maxi)
+- solve problems with non-atomic subsystems and algebraic loops by introducing own TinBot block library
+- @group: MatLab needs to be tweaked before library modification
 
 ==============
 
-scribe: Marlene Böhmer 30.05.2016 16-18 session
+scribe: Marlene Böhmer, Ben Wiederhake, Max Schwenger 30.05.2016 16-18 session
 
-- single "Verkehrspolizist" as a Stateflow chart
-	* includes path *finding* logic
+- single "Verkehrspolizist" as a StateFlow chart
+	* includes path *finding* logic -> No! (Royal Veto)
 	* decides "who is allowed to drive"
 - all "drivers" (RHR, path execution, possibly more) must obey to this
 - drivers are:
 	* RHR
-	* Path execution (A* "zum" victim)
-	* Andocken (in Matlab: no-op)
-	* Path execution (A* "vom victim weg")
+	* Path execution (A* "to" victim)
+	* Docking the victim (in MatLab: no-op)
+	* Path execution (A* "away from victim")
+    * Triangulation according to sensed data
+    * Reinitialize interrupted driver after restart
+
+- Detect walking in circles while executing right-hand-rule
+- We agreed on using cm as default unit
+
+TODO: Fix names, test "run_external_code" (name might deviate)
