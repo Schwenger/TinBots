@@ -5,7 +5,7 @@ classdef TinUtils < handle
         % error, so the bounds are:
         % [-1/sqrt(2) 1/sqrt(2)]
         error_range = [-1 +1]/sqrt(2);
-        radius = 0;%5.3/2;
+        radius = 5.3/2;
     end
     
     methods (Static)

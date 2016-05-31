@@ -17,8 +17,4 @@ for i = order
     end
 end
 
-wall_dist
-wall_p
-wall_rot
-
 end
