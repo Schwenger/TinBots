@@ -33,7 +33,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.21"
+    ComputedModelVersion    "1.25"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -94,8 +94,8 @@ Model {
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"8"
 	Extents			[1246.0, 816.0]
-	ZoomFactor		[0.94161958568738235]
-	Offset			[146.57536203708389, 8.8525116859974]
+	ZoomFactor		[1.25]
+	Offset			[180.00683631638231, 354.20586718863774]
       }
     }
   }
@@ -105,9 +105,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue May 31 22:25:36 2016"
-  RTWModifiedTimeStamp	  386634322
-  ModelVersionFormat	  "1.%<AutoIncrement:21>"
+  LastModifiedDate	  "Tue May 31 23:46:04 2016"
+  RTWModifiedTimeStamp	  386638885
+  ModelVersionFormat	  "1.%<AutoIncrement:25>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1429,20 +1429,20 @@ Model {
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1','DataLoggingLimitDataPoints',true,'DataLoggi"
       "ngMaxPoints','10000'),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('MinYLimRea"
-      "l','5.00000','MaxYLimReal','7.00000','YLabelReal','','MinYLimMag','5.00000','MaxYLimMag','7.00000','LegendVisibi"
-      "lity','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627450980392"
-      "2 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706"
-      " 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529"
-      " 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','Li"
-      "nePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'Chart/ChartMode'}},'ShowConte"
-      "nt',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','5.00000','MaxYLimReal','7.00000','YLabe"
-      "lReal','','MinYLimMag','5.00000','MaxYLimMag','7.00000','LegendVisibility','Off','XGrid',true,'YGrid',true,'Plot"
-      "MagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'Col"
-      "orOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.7"
-      "17647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1"
-      ";1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAutoscal"
-      "e','XY'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1287"
-      " 44 593 904],'VisibleAtModelOpen','on')"
+      "l','0.00000','MaxYLimReal','10.00000','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','10.00000','LegendVisi"
+      "bility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803"
+      "922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.6235294117647"
+      "06 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.7176470588235"
+      "29 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','"
+      "LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'Chart/ChartMode'}},'ShowCon"
+      "tent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','0.00000','MaxYLimReal','10.00000','YL"
+      "abelReal','','MinYLimMag','0.00000','MaxYLimMag','10.00000','LegendVisibility','Off','XGrid',true,'YGrid',true,'"
+      "PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],"
+      "'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667"
+      ";0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647"
+      " 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAuto"
+      "scale','XY','OnceAtStop',false,'PreviousZoomMode','ZoomX'),extmgr.Configuration('Tools','Measurements',true,'Ver"
+      "sion','2016a')),'Version','2016a','Position',[1 42 1280 875],'VisibleAtModelOpen','on')"
     }
     Block {
       BlockType		      Outport
@@ -1661,8 +1661,8 @@ Stateflow {
     id			    2
     name		    "Chart"
     windowPosition	    [1280 0 1280 983]
-    viewLimits		    [146.575 1469.827 8.853 875.445]
-    zoomFactor		    1.416
+    viewLimits		    [180.007 1176.807 354.206 1007.006]
+    zoomFactor		    1.067
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -1739,7 +1739,7 @@ Stateflow {
   }
   state {
     id			    6
-    labelString		    "claustrophobia\n% known: have -20, -45, -90\nentry:\nmove_fwd = 0;\nrot_l = 0;\nrot_r = 0;"
+    labelString		    "claustrophobia\n% known: have -20, -45, -90\nentry:\nmove_fwd = 0;\nrot_l = 1;\nrot_r = 0;"
     position		    [860.0942 428.4724 174.5357 94.6544]
     fontSize		    12
     chart		    2
@@ -1754,7 +1754,7 @@ Stateflow {
   }
   state {
     id			    7
-    labelString		    "avoidCollision\n% known: have -20, -45\nentry:\nmove_fwd = 0;\nrot_l = 0;\nrot_r = 0;"
+    labelString		    "avoidCollision\n% known: have -20, -45\nentry:\nmove_fwd = 0;\nrot_l = 1;\nrot_r = 0;"
     position		    [594.3417 430.5045 139.7644 89.0149]
     fontSize		    12
     chart		    2
@@ -1814,9 +1814,10 @@ Stateflow {
   }
   state {
     id			    11
-    labelString		    "=> Move roughly sin(44 degree)*(x length unit) towards straight wall\n=> if we just drifted away"
-    ", that's all we need to find the wall again"
-    position		    [468.7611 667.8001 361.1562 30]
+    labelString		    "=> Move roughly sin(70 degree)*(x length unit) towards straight wall\n=> if we just drifted away"
+    ", that's all we need to find the wall again\n=> circle must have at least the radius of the TinBot, so:\n=> requir"
+    "ement: x >> TinBotDIAMETER * cot(44 degree)"
+    position		    [468.7611 667.8001 361.1562 58]
     fontSize		    12
     chart		    2
     treeNode		    [2 0 10 12]
@@ -1830,7 +1831,7 @@ Stateflow {
   }
   state {
     id			    12
-    labelString		    "stayClose\n% known: have -90, NOT have -45\nentry:\nmove_fwd = 0;\nrot_l = 0;\nrot_r = 0;"
+    labelString		    "stayClose\n% known: have -90, NOT have -45\nentry:\nmove_fwd = 0;\nrot_l = 0;\nrot_r = 1;"
     position		    [442.7464 733.066 202.8893 93.0792]
     fontSize		    12
     chart		    2
@@ -1860,8 +1861,10 @@ Stateflow {
   }
   state {
     id			    14
-    labelString		    "=> Move roughly sin(5 degree)*(4 length units) away from straight wall"
-    position		    [753.8915 810.1452 374.4688 16]
+    labelString		    "=> Move roughly sin(5 degree)*(10 length unit) away from straight wall\n=> Make sure that runClo"
+    "se moves at least this much towards the wall again\n=> requirement: sin(70 degree)*x >> sin(5 degree)*(10 length u"
+    "nit)\n=> requirement: 70 degree <= 90 degree"
+    position		    [753.8915 810.1452 407.1875 58]
     fontSize		    12
     chart		    2
     treeNode		    [2 0 13 0]
@@ -2181,7 +2184,7 @@ Stateflow {
     scope		    CONSTANT_DATA
     machine		    1
     props {
-      initialValue	      "7"
+      initialValue	      "10"
       type {
 	primitive		SF_DOUBLE_TYPE
 	isSigned		1
@@ -2682,8 +2685,8 @@ Stateflow {
   }
   transition {
     id			    48
-    labelString		    "[s_m45 > sens_tol && after(0.6/mv_per_sec, sec)]"
-    labelPosition	    [445.735 648.429 268.395 16]
+    labelString		    "[s_m45 > sens_tol && after(10/mv_per_sec, sec)]"
+    labelPosition	    [445.735 648.429 265.062 16]
     fontSize		    12
     src {
       id		      10
@@ -2732,7 +2735,7 @@ Stateflow {
   }
   transition {
     id			    50
-    labelString		    "[after(44*(pi/180)/rot_per_sec, sec)]"
+    labelString		    "[after(70*(pi/180)/rot_per_sec, sec)]"
     labelPosition	    [234.568 787.042 191.371 16]
     fontSize		    12
     src {
@@ -2757,8 +2760,8 @@ Stateflow {
   }
   transition {
     id			    51
-    labelString		    "[after(4/mv_per_sec, sec)]"
-    labelPosition	    [777.128 785.766 141.352 16]
+    labelString		    "[after(10/mv_per_sec, sec)]"
+    labelPosition	    [777.128 785.766 148.023 16]
     fontSize		    12
     src {
       id		      13
