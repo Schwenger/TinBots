@@ -4,6 +4,35 @@ classdef TinUtils < handle
             coder.extrinsic('fgets');
             line = fgets(file_handle);
         end
+        
+        function path = calculate_path(matrix, dst_x, dst_y, current_x, current_y)
+            % inspired by:
+            % http://de.mathworks.com/help/robotics/examples/path-planning-in-environments-of-different-complexity.html
+            
+            grid = robotics.BinaryOccupancyGrid(matrix, 1);
+            
+            % inflate walls with robot radius
+            inflate(grid, 2);
+            
+            start_location = [floor(current_x) floor(current_y)];
+            end_location = [floor(dst_x) floor(dst_y)];
+            
+            prm = robotics.PRM;
+            prm.Map = grid;
+            
+            path = findpath(prm, start_location, end_location);
+            
+            counter = 0;
+            
+            while isempty(path) && counter < 20
+                prm.NumNodes = prm.NumNodes + 20;
+                update(prm);
+                path = findpath(prm, start_location, end_location);
+                counter = counter + 1;
+            end
+                        
+            show(prm);
+        end
                 
         function [distance, object] = raycast_hv(matrix, row, col, delta_row, delta_col)
             [rows, cols] = size(matrix);
