@@ -6,6 +6,9 @@ classdef TinUtils < handle
         % [-1/sqrt(2) 1/sqrt(2)]
         error_range = [-1 +1]/sqrt(2);
         radius = 5.3/2;
+        % The proximity sensor blocks substract 2.5, for whatever reason.
+        % This counters that effect.
+        rogue_bias = -2.5;
     end
     
     methods (Static)
@@ -61,7 +64,7 @@ classdef TinUtils < handle
                 % A square (i, j) represents the 2D interval $$[i, i+1) \times
                 % [j, j+1)$$, with precisely these parens (half-open).
                 distance = intersectQuarterSquare(pos(1)+0.5, pos(2)+0.5, phi, to + QP_vd, QP_q);
-                distance = max(0, distance - TinUtils.radius);
+                distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
                 if distance >= Inf
                     object = 0;
                 end
