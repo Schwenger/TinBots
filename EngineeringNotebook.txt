@@ -408,3 +408,70 @@ TODO until tomorrow:
 - Recheck IR-sim.
 - Create file containing all test cases/primary test case.
 - Test traffic cop.
+
+
+
+================
+scribe: Maximilian Köhl 02.05.2016 01:03 AM
+
+done:
+- LPS takes exact x,y coordinates, sends exact position to tin bot every 2 secs (2 secs is better than 10)
+- Recheck IR-sim.
+- Create file containing all test cases/primary test case.
+- Test traffic cop. (Ben)
+- clean up existing tests -- some are broken, some are useless  (Maxi)
+- add more internal debugging to library (maxi)
+- Re-introduce XY Graph into some tests (simulation is slow, movement isn't well visible on the map viewer)
+
+- fix, restructure and cleanup many things
+- add readme file
+
+
+state of the virtual prototype:
+- single component tests done
+
+todo:
+- complete traffic cop and other software parts (review needed) and test the whole controller software
+- prepare screencasts of the simulations (and speed them up) for the presentation on friday
+
+
+
+
+
+
+##############################################################################
+Piratepad-Dump: https://piratenpad.de/p/ZuCsUfLZOdj0ua
+##############################################################################
+Long-term TODO:
+- Docking code (was ist docking code?)
+    * which modules will be needed?
+    * how does that integrate into traffic cop?
+
+- T2T data
+    * wie machen wir das in matlab, ideen? (s.u.)
+    * wir benutzen dann "time-triggered", oder?  Dann bekommen wir automatisch die
+       "interessanten, neuesten" Daten der anderen TinBots, und können die Messungen
+       aus path_finder löschen (aber nur für die position, oder?)
+       Warum nicht Position *und* selbst-gemessene Karte?
+    * map aus path_finder "lesen" um es (teilweise) an T2T zu senden?
+    → aber nur die eigenen Messwerte
+
+
+
+======================
+
+Vorschlag zum T2T (betrifft NICHT die Donnerstag-Deadline):
+So wie "map_in, map_out", nur mit einem Vektor von "Nachrichten".  Jeder Tin Bot hat 'ne
+ID und schreibt nur in die eigenene Stelle.  Wir können annehmen, dass Kommunikation
+entweder vollständig funktioniert, oder ein Tin Bot *vollständig* ausfällt (und die Nachricht
+"OFFLINE" sendet), da dieses Problem sonst ziemlich kompliziert wäre (siehe Vorlesungen
+wie "Theory Of Distributed Systems", da gibt's ein paar kranke Unmöglichkeitsresultate.)
+
+"Nachricht" wäre ein eigener Datentyp, der mindestens enthält:
+    - EIGENE Messdaten, größenbeschränkt (wird dann im echten Tin Bot zeilenweise aktualisiert oder so)
+      (also nicht die Historie, sondern dass, was path_finder momentan "glaubt, gemessen zu haben")
+    - eigene Position
+    - Winkel- und Positions-Daten über Victim (uff, das wird unschön, das sauber einzubinden!)
+    - eigene Start-Position (immer, selbst wenn OFFLINE) 
+##############################################################################
+
