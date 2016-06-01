@@ -1,5 +1,5 @@
 Model {
-  Name			  "Verkehrspolizist"
+  Name			  "traffic_cop"
   Version		  8.7
   MdlSubVersion		  1
   SavedCharacterEncoding  "US-ASCII"
@@ -75,17 +75,17 @@ Model {
       UnitExpr		      "inherit"
     }
     Outport {
-      Name		      "run_rhr"
-      BusObject		      ""
-      BusOutputAsStruct	      "off"
-      SignalName	      "run_rhr"
-      UnitExpr		      "inherit"
-    }
-    Outport {
       Name		      "run_path_finder"
       BusObject		      ""
       BusOutputAsStruct	      "off"
       SignalName	      "run_path_finder"
+      UnitExpr		      "inherit"
+    }
+    Outport {
+      Name		      "run_rhr"
+      BusObject		      ""
+      BusOutputAsStruct	      "off"
+      SignalName	      "run_rhr"
       UnitExpr		      "inherit"
     }
     Outport {
@@ -96,7 +96,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.55"
+    ComputedModelVersion    "1.56"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -109,7 +109,7 @@ Model {
       Type		      "Cell"
       Dimension		      2
       Cell		      "HDLSubsystem"
-      Cell		      "Verkehrspolizist"
+      Cell		      "traffic_cop"
       PropName		      "mdlProps"
     }
   }
@@ -168,9 +168,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 15:18:57 2016"
-  RTWModifiedTimeStamp	  386695119
-  ModelVersionFormat	  "1.%<AutoIncrement:55>"
+  LastModifiedDate	  "Wed Jun 01 15:24:52 2016"
+  RTWModifiedTimeStamp	  386695490
+  ModelVersionFormat	  "1.%<AutoIncrement:56>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -998,7 +998,7 @@ Model {
     }
   }
   System {
-    Name		    "Verkehrspolizist"
+    Name		    "traffic_cop"
     Location		    [0, 23, 1280, 796]
     Open		    on
     ModelBrowserVisibility  off
@@ -1217,7 +1217,7 @@ Model {
 	  BlockType		  S-Function
 	  Name			  " SFunction "
 	  SID			  "1::77"
-	  Tag			  "Stateflow S-Function Verkehrspolizist 1"
+	  Tag			  "Stateflow S-Function traffic_cop 1"
 	  Ports			  [9, 6]
 	  Position		  [180, 110, 230, 310]
 	  ZOrder		  57
@@ -1239,13 +1239,13 @@ Model {
 	  }
 	  Port {
 	    PortNumber		    4
-	    Name		    "run_rhr"
+	    Name		    "run_path_finder"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
 	  }
 	  Port {
 	    PortNumber		    5
-	    Name		    "run_path_finder"
+	    Name		    "run_rhr"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
 	  }
@@ -1282,19 +1282,19 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "run_rhr"
-	  SID			  "1::101"
+	  Name			  "run_path_finder"
+	  SID			  "1::100"
 	  Position		  [460, 171, 480, 189]
-	  ZOrder		  81
+	  ZOrder		  80
 	  Port			  "3"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "run_path_finder"
-	  SID			  "1::100"
+	  Name			  "run_rhr"
+	  SID			  "1::101"
 	  Position		  [460, 206, 480, 224]
-	  ZOrder		  80
+	  ZOrder		  81
 	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
@@ -1308,63 +1308,63 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  505
+	  ZOrder		  537
 	  SrcBlock		  "need_angle"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  506
+	  ZOrder		  538
 	  SrcBlock		  "found_victim_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  507
+	  ZOrder		  539
 	  SrcBlock		  "found_victim_xy"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  508
+	  ZOrder		  540
 	  SrcBlock		  "no_path"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  ZOrder		  509
+	  ZOrder		  541
 	  SrcBlock		  "path_completed"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  5
 	}
 	Line {
-	  ZOrder		  510
+	  ZOrder		  542
 	  SrcBlock		  "victim_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  6
 	}
 	Line {
-	  ZOrder		  511
+	  ZOrder		  543
 	  SrcBlock		  "victim_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  7
 	}
 	Line {
-	  ZOrder		  512
+	  ZOrder		  544
 	  SrcBlock		  "origin_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  8
 	}
 	Line {
-	  ZOrder		  513
+	  ZOrder		  545
 	  SrcBlock		  "origin_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
@@ -1372,7 +1372,7 @@ Model {
 	}
 	Line {
 	  Name			  "dst_x"
-	  ZOrder		  514
+	  ZOrder		  546
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1381,7 +1381,7 @@ Model {
 	}
 	Line {
 	  Name			  "dst_y"
-	  ZOrder		  515
+	  ZOrder		  547
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -1389,26 +1389,26 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "run_rhr"
-	  ZOrder		  516
+	  Name			  "run_path_finder"
+	  ZOrder		  548
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  4
-	  DstBlock		  "run_rhr"
-	  DstPort		  1
-	}
-	Line {
-	  Name			  "run_path_finder"
-	  ZOrder		  517
-	  Labels		  [0, 0]
-	  SrcBlock		  " SFunction "
-	  SrcPort		  5
 	  DstBlock		  "run_path_finder"
 	  DstPort		  1
 	}
 	Line {
+	  Name			  "run_rhr"
+	  ZOrder		  549
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  5
+	  DstBlock		  "run_rhr"
+	  DstPort		  1
+	}
+	Line {
 	  Name			  "run_victim_finder"
-	  ZOrder		  518
+	  ZOrder		  550
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  6
@@ -1416,14 +1416,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  519
+	  ZOrder		  551
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  520
+	  ZOrder		  552
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1450,19 +1450,19 @@ Model {
     }
     Block {
       BlockType		      Outport
-      Name		      "run_rhr"
-      SID		      "14"
-      Position		      [790, 413, 820, 427]
-      ZOrder		      171
+      Name		      "run_path_finder"
+      SID		      "15"
+      Position		      [790, 563, 820, 577]
+      ZOrder		      172
       Port		      "3"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Outport
-      Name		      "run_path_finder"
-      SID		      "15"
-      Position		      [790, 488, 820, 502]
-      ZOrder		      172
+      Name		      "run_rhr"
+      SID		      "14"
+      Position		      [790, 413, 820, 427]
+      ZOrder		      171
       Port		      "4"
       IconDisplay	      "Port number"
     }
@@ -1470,7 +1470,7 @@ Model {
       BlockType		      Outport
       Name		      "run_victim_finder"
       SID		      "16"
-      Position		      [790, 563, 820, 577]
+      Position		      [790, 488, 820, 502]
       ZOrder		      173
       Port		      "5"
       IconDisplay	      "Port number"
@@ -1514,20 +1514,23 @@ Model {
       ZOrder		      10
       SrcBlock		      "traffic_cop"
       SrcPort		      5
+      Points		      [0, -75]
       DstBlock		      "run_victim_finder"
       DstPort		      1
     }
     Line {
       ZOrder		      11
       SrcBlock		      "traffic_cop"
-      SrcPort		      4
+      SrcPort		      3
+      Points		      [0, 150]
       DstBlock		      "run_path_finder"
       DstPort		      1
     }
     Line {
       ZOrder		      12
       SrcBlock		      "traffic_cop"
-      SrcPort		      3
+      SrcPort		      4
+      Points		      [0, -75]
       DstBlock		      "run_rhr"
       DstPort		      1
     }
@@ -1583,7 +1586,7 @@ Model {
 Stateflow {
   machine {
     id			    1
-    name		    "Verkehrspolizist"
+    name		    "traffic_cop"
     created		    "30-May-2016 22:57:17"
     isLibrary		    0
     firstTarget		    36
@@ -1593,7 +1596,7 @@ Stateflow {
     id			    2
     name		    "traffic_cop"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [269.434 1623.95 5.955 690.823]
+    viewLimits		    [269.434 1623.836 5.955 690.765]
     zoomFactor		    1.087
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -2135,8 +2138,8 @@ Stateflow {
   }
   data {
     id			    28
-    ssIdNumber		    25
-    name		    "run_rhr"
+    ssIdNumber		    24
+    name		    "run_path_finder"
     linkNode		    [2 27 29]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2160,8 +2163,8 @@ Stateflow {
   }
   data {
     id			    29
-    ssIdNumber		    24
-    name		    "run_path_finder"
+    ssIdNumber		    25
+    name		    "run_rhr"
     linkNode		    [2 28 30]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2224,7 +2227,7 @@ Stateflow {
     midPoint		    [568.3845 261.6373]
     chart		    2
     linkNode		    [2 0 32]
-    dataLimits		    [565.984 570.784 189.886 341.388]
+    dataLimits		    [565.985 570.784 189.886 341.388]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2249,7 +2252,7 @@ Stateflow {
     midPoint		    [940.692 392.9595]
     chart		    2
     linkNode		    [2 31 33]
-    dataLimits		    [874.983 1014.401 390.559 395.359]
+    dataLimits		    [874.983 1014.4 390.56 395.359]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2274,7 +2277,7 @@ Stateflow {
     midPoint		    [933.7632 429.3432]
     chart		    2
     linkNode		    [2 32 34]
-    dataLimits		    [845.126 1014.401 426.943 431.743]
+    dataLimits		    [845.126 1014.4 426.943 431.743]
     subviewer		    2
     drawStyle		    SMART
     slide {
