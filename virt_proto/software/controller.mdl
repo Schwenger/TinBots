@@ -2,11 +2,11 @@ Model {
   Name			  "controller"
   Version		  8.7
   MdlSubVersion		  1
-  SavedCharacterEncoding  "US-ASCII"
+  SavedCharacterEncoding  "UTF-8"
   GraphicalInterface {
-    NumRootInports	    3
+    NumRootInports	    4
     Inport {
-      Name		      "prox"
+      Name		      "proximity"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -18,30 +18,33 @@ Model {
       UnitExpr		      "inherit"
     }
     Inport {
-      Name		      "lps"
+      Name		      "current_x_y_phi"
+      BusObject		      ""
+      OutputFunctionCall      "off"
+      UnitExpr		      "inherit"
+    }
+    Inport {
+      Name		      "initial_position"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
     NumRootOutports	    2
     Outport {
-      Name		      "mot_l"
+      Name		      "motor_left"
       BusObject		      ""
       BusOutputAsStruct	      "off"
       UnitExpr		      "inherit"
     }
     Outport {
-      Name		      "mot_r"
+      Name		      "motor_right"
       BusObject		      ""
       BusOutputAsStruct	      "off"
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.33"
-    NumModelReferences	    7
-    ModelReference {
-      ModelRefBlockPath	      "controller/Model|hold_initial"
-    }
+    ComputedModelVersion    "1.36"
+    NumModelReferences	    6
     ModelReference {
       ModelRefBlockPath	      "controller/find_and_execute_path/path_executor|Path"
     }
@@ -84,7 +87,7 @@ Model {
   MinMaxOverflowArchiveMode "Overwrite"
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  LastSavedArchitecture	  "maci64"
+  LastSavedArchitecture	  "glnxa64"
   Object {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    2
@@ -94,7 +97,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 23.0, 1280.0, 773.0]
+      Location		      [1920.0, 0.0, 1920.0, 1174.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -118,9 +121,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1246.0, 630.0]
-	ZoomFactor		[1.6314729132563093]
-	Offset			[752.30986088101918, 596.9914837401443]
+	Extents			[1884.0, 1042.0]
+	ZoomFactor		[1.0]
+	Offset			[234.25088530371386, 171.94664492958532]
       }
     }
   }
@@ -128,11 +131,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "max"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 15:37:28 2016"
-  RTWModifiedTimeStamp	  386696207
-  ModelVersionFormat	  "1.%<AutoIncrement:33>"
+  LastModifiedDate	  "Wed Jun 01 19:04:48 2016"
+  RTWModifiedTimeStamp	  386707811
+  ModelVersionFormat	  "1.%<AutoIncrement:36>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -987,7 +990,7 @@ Model {
   }
   System {
     Name		    "controller"
-    Location		    [0, 23, 1280, 796]
+    Location		    [1920, 0, 3840, 1174]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -999,12 +1002,12 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "163"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "65"
+    SIDHighWatermark	    "67"
     Block {
       BlockType		      Inport
-      Name		      "prox"
+      Name		      "proximity"
       SID		      "1"
       Position		      [995, 883, 1025, 897]
       ZOrder		      366
@@ -1021,11 +1024,20 @@ Model {
     }
     Block {
       BlockType		      Inport
-      Name		      "lps"
+      Name		      "current_x_y_phi"
       SID		      "3"
       Position		      [470, 913, 500, 927]
       ZOrder		      364
       Port		      "3"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "initial_position"
+      SID		      "66"
+      Position		      [1145, 333, 1175, 347]
+      ZOrder		      386
+      Port		      "4"
       IconDisplay	      "Port number"
     }
     Block {
@@ -1061,42 +1073,6 @@ Model {
       ShowName		      off
       Outputs		      "3"
       DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      ModelReference
-      Name		      "Model"
-      SID		      "30"
-      Ports		      [1, 1]
-      Position		      [1295, 382, 1435, 408]
-      ZOrder		      379
-      ModelNameDialog	      "hold_initial"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.1"
-      List {
-	ListType		InputPortNames
-	port0			"In1"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"Out1"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"initial"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-      }
     }
     Block {
       BlockType		      Mux
@@ -1190,7 +1166,7 @@ Model {
 	  BlockType		  Inport
 	  Name			  "current_x_y_phi"
 	  SID			  "60"
-	  Position		  [1398, 988, 1428, 1002]
+	  Position		  [1400, 988, 1430, 1002]
 	  ZOrder		  391
 	  Port			  "5"
 	  IconDisplay		  "Port number"
@@ -1211,7 +1187,7 @@ Model {
 	  Name			  "path_executor"
 	  SID			  "17"
 	  Ports			  [4, 3]
-	  Position		  [2285, 944, 2430, 1076]
+	  Position		  [2285, 946, 2430, 1079]
 	  ZOrder		  358
 	  ModelNameDialog	  "Path.slx"
 	  SimulationMode	  "Normal"
@@ -1514,7 +1490,7 @@ Model {
       ModelNameDialog	      "traffic_cop"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.56"
+      ModelReferenceVersion   "1.58"
       List {
 	ListType		InputPortNames
 	port0			"origin_x"
@@ -1586,12 +1562,12 @@ Model {
       ModelNameDialog	      "ir_info_sim.slx"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.28"
+      ModelReferenceVersion   "1.40"
       List {
 	ListType		InputPortNames
 	port0			"ir"
 	port1			"current_x_y_phi"
-	port2			"reset"
+	port2			"run_finder"
       }
       List {
 	ListType		OutputPortNames
@@ -1708,15 +1684,15 @@ Model {
     }
     Block {
       BlockType		      Outport
-      Name		      "mot_l"
+      Name		      "motor_left"
       SID		      "21"
-      Position		      [2055, 788, 2085, 802]
+      Position		      [2055, 768, 2085, 782]
       ZOrder		      372
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Outport
-      Name		      "mot_r"
+      Name		      "motor_right"
       SID		      "22"
       Position		      [2055, 808, 2085, 822]
       ZOrder		      373
@@ -1725,7 +1701,7 @@ Model {
     }
     Line {
       ZOrder		      5
-      SrcBlock		      "lps"
+      SrcBlock		      "current_x_y_phi"
       SrcPort		      1
       Points		      [48, 0]
       Branch {
@@ -1737,22 +1713,13 @@ Model {
       Branch {
 	ZOrder			341
 	Points			[0, -340]
-	Branch {
-	  ZOrder		  88
-	  Points		  [0, -185]
-	  DstBlock		  "Model"
-	  DstPort		  1
-	}
-	Branch {
-	  ZOrder		  85
-	  DstBlock		  "victim finder"
-	  DstPort		  2
-	}
+	DstBlock		"victim finder"
+	DstPort			2
       }
     }
     Line {
       ZOrder		      8
-      SrcBlock		      "prox"
+      SrcBlock		      "proximity"
       SrcPort		      1
       Points		      [126, 0]
       Branch {
@@ -1843,9 +1810,10 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      91
-      SrcBlock		      "Model"
+      ZOrder		      382
+      SrcBlock		      "initial_position"
       SrcPort		      1
+      Points		      [174, 0; 0, 55]
       DstBlock		      "Demux1"
       DstPort		      1
     }
@@ -1928,14 +1896,15 @@ Model {
       ZOrder		      250
       SrcBlock		      "Demux"
       SrcPort		      1
-      DstBlock		      "mot_l"
+      Points		      [20, 0; 0, -20]
+      DstBlock		      "motor_left"
       DstPort		      1
     }
     Line {
       ZOrder		      251
       SrcBlock		      "Demux"
       SrcPort		      2
-      DstBlock		      "mot_r"
+      DstBlock		      "motor_right"
       DstPort		      1
     }
     Line {
