@@ -46,6 +46,21 @@ classdef TinUtils < handle
             show(prm);
         end
         
+        function l = get_path_length(path)
+            l = 1;
+            l = length(path);
+        end
+        
+        function c = get_path_point(path, i, x)
+            c = 3.1415;
+            c = path(i, x);
+        end
+        
+        function i = convert_path_point(p)
+            i = 3.1415;
+            i = p;
+        end
+            
         function is_same = same_square(row, col, next_row, next_col)
             is_same = floor(next_row) == floor(row) && floor(next_col) == floor(col);
         end
