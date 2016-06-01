@@ -96,7 +96,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.56"
+    ComputedModelVersion    "1.57"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -154,11 +154,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"1"
 	Extents			[1246.0, 630.0]
-	ZoomFactor		[1.18]
-	Offset			[0.0, 101.69491525423729]
+	ZoomFactor		[0.91996320147194111]
+	Offset			[269.43400000000008, 5.9550000000000125]
       }
     }
   }
@@ -168,9 +168,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 15:24:52 2016"
-  RTWModifiedTimeStamp	  386695490
-  ModelVersionFormat	  "1.%<AutoIncrement:56>"
+  LastModifiedDate	  "Wed Jun 01 15:39:18 2016"
+  RTWModifiedTimeStamp	  386696345
+  ModelVersionFormat	  "1.%<AutoIncrement:57>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1000,7 +1000,7 @@ Model {
   System {
     Name		    "traffic_cop"
     Location		    [0, 23, 1280, 796]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1111,7 +1111,7 @@ Model {
       System {
 	Name			"traffic_cop"
 	Location		[0, 23, 1280, 796]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1589,7 +1589,7 @@ Stateflow {
     name		    "traffic_cop"
     created		    "30-May-2016 22:57:17"
     isLibrary		    0
-    firstTarget		    36
+    firstTarget		    37
     sfVersion		    80000009
   }
   chart {
@@ -1610,7 +1610,7 @@ Stateflow {
     machine		    1
     subviewS {
     }
-    ssIdHighWaterMark	    71
+    ssIdHighWaterMark	    74
     decomposition	    CLUSTER_CHART
     firstData		    17
     chartFileNumber	    1
@@ -1631,6 +1631,8 @@ Stateflow {
     ssIdNumber		    1
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -1644,6 +1646,8 @@ Stateflow {
     ssIdNumber		    61
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    5
@@ -1657,6 +1661,8 @@ Stateflow {
     ssIdNumber		    30
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
@@ -1671,6 +1677,8 @@ Stateflow {
     ssIdNumber		    66
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    7
@@ -1685,6 +1693,8 @@ Stateflow {
     ssIdNumber		    51
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    8
@@ -1698,6 +1708,8 @@ Stateflow {
     ssIdNumber		    37
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    9
@@ -1713,6 +1725,8 @@ Stateflow {
     ssIdNumber		    44
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    10
@@ -1727,6 +1741,8 @@ Stateflow {
     ssIdNumber		    71
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   junction {
     id			    11
@@ -2213,6 +2229,30 @@ Stateflow {
   }
   transition {
     id			    31
+    labelString		    ""
+    labelPosition	    [498.791 26.458 0 0]
+    fontSize		    12
+    src {
+      intersection	      [0 -0 1 0 498.791 11.4577 0 0]
+    }
+    dst {
+      id		      10
+      intersection	      [1 0 -1 0.35 498.791 41.4577 0 0]
+    }
+    midPoint		    [498.791 26.4577]
+    chart		    2
+    linkNode		    [2 0 32]
+    dataLimits		    [496.391 501.191 11.458 41.458]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    74
+  }
+  transition {
+    id			    32
     labelString		    "[found_victim_xy == 1]"
     labelPosition	    [575.763 250.934 121.969 14]
     fontSize		    12
@@ -2226,7 +2266,7 @@ Stateflow {
     }
     midPoint		    [568.3845 261.6373]
     chart		    2
-    linkNode		    [2 0 32]
+    linkNode		    [2 31 33]
     dataLimits		    [565.985 570.784 189.886 341.388]
     subviewer		    2
     drawStyle		    SMART
@@ -2237,7 +2277,7 @@ Stateflow {
     ssIdNumber		    45
   }
   transition {
-    id			    32
+    id			    33
     labelString		    "[no_path == 1]"
     labelPosition	    [905.916 373.551 79.344 14]
     fontSize		    12
@@ -2251,7 +2291,7 @@ Stateflow {
     }
     midPoint		    [940.692 392.9595]
     chart		    2
-    linkNode		    [2 31 33]
+    linkNode		    [2 32 34]
     dataLimits		    [874.983 1014.4 390.56 395.359]
     subviewer		    2
     drawStyle		    SMART
@@ -2262,7 +2302,7 @@ Stateflow {
     ssIdNumber		    68
   }
   transition {
-    id			    33
+    id			    34
     labelString		    "[after(30, sec)]"
     labelPosition	    [908.059 409.671 79.281 14]
     fontSize		    12
@@ -2276,7 +2316,7 @@ Stateflow {
     }
     midPoint		    [933.7632 429.3432]
     chart		    2
-    linkNode		    [2 32 34]
+    linkNode		    [2 33 35]
     dataLimits		    [845.126 1014.4 426.943 431.743]
     subviewer		    2
     drawStyle		    SMART
@@ -2287,7 +2327,7 @@ Stateflow {
     ssIdNumber		    67
   }
   transition {
-    id			    34
+    id			    35
     labelString		    "[path_completed == 1]"
     labelPosition	    [690.83 554.265 121.328 14]
     fontSize		    12
@@ -2301,7 +2341,7 @@ Stateflow {
     }
     midPoint		    [690.1387 537.559]
     chart		    2
-    linkNode		    [2 33 0]
+    linkNode		    [2 34 0]
     dataLimits		    [687.739 692.539 479.915 603.203]
     subviewer		    2
     drawStyle		    SMART
@@ -2312,13 +2352,13 @@ Stateflow {
     ssIdNumber		    64
   }
   instance {
-    id			    35
+    id			    36
     name		    "traffic_cop"
     machine		    1
     chart		    2
   }
   target {
-    id			    36
+    id			    37
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
