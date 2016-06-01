@@ -394,3 +394,17 @@ TODO list, probably-wont-happen-till-thursday:
 - T2T logic: Tin Bot + Tin Bot communication incl. veto
     (-> after monday's lecture, we probably don't want to use this approach anymore,
         and try an "externally-controlled" thing.)
+
+==============
+
+scribe: Max Schwenger 01.05.2016 14-16 session
+
+- Ben wrapped up the IR sensor component.
+- Max wrapped up Verkehrspolizist and renamed to traffic cop.
+- Maxi + Marlene wrapped up path finder; position and orientation approximation.
+
+TODO until tomorrow:
+- LPS takes exact x,y coordinates, sends exact position to tin bot every 10 secs
+- Recheck IR-sim.
+- Create file containing all test cases/primary test case.
+- Test traffic cop.
