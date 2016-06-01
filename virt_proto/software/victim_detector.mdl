@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.3"
+    ComputedModelVersion    "1.6"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -89,7 +89,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1280.0, 31.0, 1280.0, 983.0]
+      Location		      [0.0, 0.0, 1920.0, 1052.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -111,11 +111,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.5]
-	Offset			[139.25572884959382, 121.75777523556118]
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"1"
+	Extents			[1886.0, 883.0]
+	ZoomFactor		[1.0]
+	Offset			[-267.60349430356746, 299.79303722362545]
       }
     }
   }
@@ -123,11 +123,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "marlene"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 18:52:44 2016"
-  RTWModifiedTimeStamp	  386707961
-  ModelVersionFormat	  "1.%<AutoIncrement:3>"
+  LastModifiedDate	  "Wed Jun 01 20:58:32 2016"
+  RTWModifiedTimeStamp	  386714415
+  ModelVersionFormat	  "1.%<AutoIncrement:6>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -956,8 +956,8 @@ Model {
   }
   System {
     Name		    "victim_detector"
-    Location		    [1280, 31, 2560, 1014]
-    Open		    on
+    Location		    [0, 0, 1920, 1052]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1003,8 +1003,8 @@ Model {
       BlockType		      SubSystem
       Name		      "victim detector (C)"
       SID		      "1"
-      Ports		      [3, 4]
-      Position		      [390, 276, 580, 419]
+      Ports		      [4, 4]
+      Position		      [390, 280, 580, 425]
       ZOrder		      167
       LibraryVersion	      "1.267"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -1015,8 +1015,8 @@ Model {
       Variant		      off
       System {
 	Name			"victim detector (C)"
-	Location		[0, 31, 1280, 983]
-	Open			off
+	Location		[0, 0, 1920, 1052]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1028,31 +1028,40 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"96"
-	Block {
-	  BlockType		  Inport
-	  Name			  "ir"
-	  SID			  "1::81"
-	  Position		  [20, 101, 40, 119]
-	  ZOrder		  61
-	  IconDisplay		  "Port number"
-	}
+	SIDHighWatermark	"98"
 	Block {
 	  BlockType		  Inport
 	  Name			  "found_victim_phi"
 	  SID			  "1::93"
-	  Position		  [20, 136, 40, 154]
+	  Position		  [20, 101, 40, 119]
 	  ZOrder		  73
-	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "victim_angle"
 	  SID			  "1::88"
-	  Position		  [20, 171, 40, 189]
+	  Position		  [20, 136, 40, 154]
 	  ZOrder		  68
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "current_x"
+	  SID			  "1::97"
+	  Position		  [20, 171, 40, 189]
+	  ZOrder		  77
 	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "current_y"
+	  SID			  "1::98"
+	  Position		  [20, 206, 40, 224]
+	  ZOrder		  78
+	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -1069,11 +1078,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "1::77"
 	  Tag			  "Stateflow S-Function victim_detector 2"
-	  Ports			  [3, 5]
+	  Ports			  [4, 5]
 	  Position		  [180, 120, 230, 240]
 	  ZOrder		  57
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[3 5]"
+	  PortCounts		  "[4 5]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  Port {
@@ -1144,29 +1153,36 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  1
-	  SrcBlock		  "ir"
+	  ZOrder		  31
+	  SrcBlock		  "found_victim_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  2
-	  SrcBlock		  "found_victim_phi"
+	  ZOrder		  32
+	  SrcBlock		  "victim_angle"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  3
-	  SrcBlock		  "victim_angle"
+	  ZOrder		  33
+	  SrcBlock		  "current_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
+	  ZOrder		  34
+	  SrcBlock		  "current_y"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  4
+	}
+	Line {
 	  Name			  "need_angle"
-	  ZOrder		  4
+	  ZOrder		  35
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1175,7 +1191,7 @@ Model {
 	}
 	Line {
 	  Name			  "found_victim_xy"
-	  ZOrder		  5
+	  ZOrder		  36
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -1184,7 +1200,7 @@ Model {
 	}
 	Line {
 	  Name			  "victim_x"
-	  ZOrder		  6
+	  ZOrder		  37
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  4
@@ -1193,7 +1209,7 @@ Model {
 	}
 	Line {
 	  Name			  "victim_y"
-	  ZOrder		  7
+	  ZOrder		  38
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  5
@@ -1201,14 +1217,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  8
+	  ZOrder		  39
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  9
+	  ZOrder		  40
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1255,27 +1271,29 @@ Model {
       ZOrder		      1
       SrcBlock		      "ir"
       SrcPort		      1
-      DstBlock		      "victim detector (C)"
-      DstPort		      1
+      Points		      [40, 0; 10, -15]
     }
     Line {
       ZOrder		      2
       SrcBlock		      "found_victim_phi"
       SrcPort		      1
+      Points		      [40, 0]
       DstBlock		      "victim detector (C)"
-      DstPort		      2
+      DstPort		      1
     }
     Line {
       ZOrder		      3
       SrcBlock		      "victim_angle"
       SrcPort		      1
+      Points		      [40, 0]
       DstBlock		      "victim detector (C)"
-      DstPort		      3
+      DstPort		      2
     }
     Line {
       ZOrder		      4
       SrcBlock		      "victim detector (C)"
       SrcPort		      1
+      Points		      [0, -5]
       DstBlock		      "need_angle"
       DstPort		      1
     }
@@ -1283,6 +1301,7 @@ Model {
       ZOrder		      5
       SrcBlock		      "victim detector (C)"
       SrcPort		      2
+      Points		      [0, -5]
       DstBlock		      "found_victim_xy"
       DstPort		      1
     }
@@ -1290,6 +1309,7 @@ Model {
       ZOrder		      6
       SrcBlock		      "victim detector (C)"
       SrcPort		      3
+      Points		      [0, -5]
       DstBlock		      "victim_x"
       DstPort		      1
     }
@@ -1297,6 +1317,7 @@ Model {
       ZOrder		      7
       SrcBlock		      "victim detector (C)"
       SrcPort		      4
+      Points		      [0, -5]
       DstBlock		      "victim_y"
       DstPort		      1
     }
@@ -1313,27 +1334,30 @@ Stateflow {
     name		    "victim_detector"
     created		    "30-May-2016 22:46:37"
     isLibrary		    0
-    firstTarget		    13
+    firstTarget		    29
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "victim detector (C)"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [0 1245.688 0 784.804]
+    viewLimits		    [-267.603 1618.397 299.793 1182.793]
     zoomFactor		    1.333
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
-    treeNode		    [0 3 0 0]
-    firstTransition	    11
+    treeNode		    [0 5 0 0]
+    firstTransition	    23
     viewObj		    2
+    visible		    1
     machine		    1
-    ssIdHighWaterMark	    14
+    subviewS {
+    }
+    ssIdHighWaterMark	    42
     decomposition	    CLUSTER_CHART
-    firstData		    4
+    firstData		    11
     chartFileNumber	    2
     saturateOnIntegerOverflow 1
     userSpecifiedStateTransitionExecutionOrder 1
@@ -1342,122 +1366,174 @@ Stateflow {
   }
   state {
     id			    3
-    labelString		    "Wut"
-    position		    [280 191 90 60]
+    labelString		    "WaitForNewInformation"
+    position		    [650.1333 590.8733 211.7333 89.6]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 0 0]
+    treeNode		    [2 0 6 4]
     visible		    0
     subviewer		    2
-    ssIdNumber		    10
+    ssIdNumber		    15
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
-  data {
+  state {
     id			    4
-    ssIdNumber		    14
-    name		    "need_angle"
-    linkNode		    [2 0 5]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
+    labelString		    "EnoughInformationAboutVictim\n\nentry:\n	information(1,2) = information(1,1);\n	information(2,2)"
+    " = information(2,1);\n	information(3,2) = information(3,1);\n	information(1,1) = current_x;\n	information(2,1) = c"
+    "urrent_y;\n	information(3,1) = victim_angle;\n	[computed_victim_x, computed_victim_y] = compute_position(informati"
+    "on);\n	point_acceptable = 1;\n	if (computed_victim_x < 1 || computed_victim_x > 200 || computed_victim_y < 1 || co"
+    "mputed_victim_y > 200)\n	    point_acceptable = 0;\n	end;\n	if (point_acceptable == 1)\n	    victim_x = computed_v"
+    "ictim_x;\n	    victim_y = computed_victim_y;\n	    found_victim_xy = 1;\n	end;"
+    position		    [322.9667 816.2829 658.7333 276.6667]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 3 7]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    16
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
     }
-    dataType		    "Inherit: Same as Simulink"
   }
-  data {
+  state {
     id			    5
-    ssIdNumber		    13
-    name		    "found_victim_xy"
-    linkNode		    [2 4 6]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
+    labelString		    "NoInformationAboutVictim\n\nentry:\n	need_angle = 1;\n	found_victim_xy = 0;\n	%row 1: x, row 2: "
+    "y, row 3: phi\n	information = zeros(3, 2);"
+    position		    [652.2 218.5171 207.6 125.3]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 0 6]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    17
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
     }
-    dataType		    "Inherit: Same as Simulink"
   }
-  data {
+  state {
     id			    6
-    ssIdNumber		    1
-    name		    "ir"
-    linkNode		    [2 5 7]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
+    labelString		    "SomeInformationAboutVictim\n\nentry:\n	information(1,1) = current_x;\n	information(2,1) = curren"
+    "t_y;\n	information(3,1) = victim_angle;"
+    position		    [650.3333 412.444 211.3333 100.5333]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 5 3]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    18
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
     }
-    dataType		    "Inherit: Same as Simulink"
   }
-  data {
+  state {
     id			    7
-    ssIdNumber		    4
-    name		    "victim_x"
-    linkNode		    [2 6 8]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
+    labelString		    "[x, y] = compute_position(info)"
+    position		    [1223.4976 830.8829 195.4 68.6]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 4 0]
+    superState		    SUBCHART
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    36
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    firstData		    8
+    eml {
+      isEML		      1
+      script		      "function [x, y] = compute_position(info)\n    %graden-darstellung: y=ax+b\n\n    %grade1\n    a1 "
+      "= sin(info(3,1))/cos(info(3,1));\n    b1 = info(2,1) - a1*info(1,1);\n    %grade2    \n    a2 = sin(info(3,2))/c"
+      "os(info(3,2));\n    b2 = info(2,2) - a1*info(1,2);\n    %schnittpunkt\n    x = (b2 - b1) / (a1 - a2);\n    y = a"
+      "1 * x + b1;"
+      editorLayout	      "100 M4x1[10 5 700 500]"
     }
-    dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    8
-    ssIdNumber		    5
-    name		    "victim_y"
-    linkNode		    [2 7 9]
+    ssIdNumber		    37
+    name		    "info"
+    linkNode		    [7 0 9]
+    scope		    FUNCTION_INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    9
+    ssIdNumber		    38
+    name		    "x"
+    linkNode		    [7 8 10]
+    scope		    FUNCTION_OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    10
+    ssIdNumber		    39
+    name		    "y"
+    linkNode		    [7 9 0]
+    scope		    FUNCTION_OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    11
+    ssIdNumber		    14
+    name		    "need_angle"
+    linkNode		    [2 0 12]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -1479,10 +1555,85 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    9
+    id			    12
+    ssIdNumber		    13
+    name		    "found_victim_xy"
+    linkNode		    [2 11 13]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    13
+    ssIdNumber		    4
+    name		    "victim_x"
+    linkNode		    [2 12 14]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    14
+    ssIdNumber		    5
+    name		    "victim_y"
+    linkNode		    [2 13 15]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    15
     ssIdNumber		    12
     name		    "found_victim_phi"
-    linkNode		    [2 8 10]
+    linkNode		    [2 14 16]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1504,10 +1655,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    10
+    id			    16
     ssIdNumber		    6
     name		    "victim_angle"
-    linkNode		    [2 9 0]
+    linkNode		    [2 15 17]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1528,38 +1679,289 @@ Stateflow {
     }
     dataType		    "Inherit: Same as Simulink"
   }
+  data {
+    id			    17
+    ssIdNumber		    21
+    name		    "current_x"
+    linkNode		    [2 16 18]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    18
+    ssIdNumber		    22
+    name		    "current_y"
+    linkNode		    [2 17 19]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    19
+    ssIdNumber		    23
+    name		    "information"
+    linkNode		    [2 18 20]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    20
+    ssIdNumber		    34
+    name		    "computed_victim_x"
+    linkNode		    [2 19 21]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    21
+    ssIdNumber		    35
+    name		    "computed_victim_y"
+    linkNode		    [2 20 22]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    22
+    ssIdNumber		    41
+    name		    "point_acceptable"
+    linkNode		    [2 21 0]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
   transition {
-    id			    11
+    id			    23
     labelString		    ""
-    labelPosition	    [300.55 176 0 0]
+    labelPosition	    [699.602 203.517 0 0]
     fontSize		    12
     src {
-      intersection	      [0 0 1 0 300.55 161 0 0]
+      intersection	      [0 0 1 0 699.602 188.5171 0 0]
     }
     dst {
-      id		      3
-      intersection	      [1 0 -1 0.2283 300.55 191 0 0]
+      id		      5
+      intersection	      [1 0 -1 0.2283 699.602 218.5171 0 0]
     }
-    midPoint		    [300.55 176]
+    midPoint		    [699.602 203.5171]
     chart		    2
-    linkNode		    [2 0 0]
-    dataLimits		    [298.15 302.95 161 191]
+    linkNode		    [2 0 24]
+    visible		    0
+    dataLimits		    [697.202 702.002 188.517 218.517]
+    subviewer		    2
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    19
+  }
+  transition {
+    id			    24
+    labelString		    "[found_victim_phi == 1]"
+    labelPosition	    [733.707 373.985 126.043 16]
+    fontSize		    12
+    src {
+      id		      5
+      intersection	      [3 -0 1 0.6074 733.7068 343.8171 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [1 0 -1 0.3945 733.7068 412.444 0 0]
+    }
+    midPoint		    [733.7068 374.1305]
+    chart		    2
+    linkNode		    [2 23 25]
+    visible		    0
+    dataLimits		    [731.307 736.107 343.817 412.444]
     subviewer		    2
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
     executionOrder	    1
-    ssIdNumber		    11
+    ssIdNumber		    20
+  }
+  transition {
+    id			    25
+    labelString		    "[found_victim_phi == 0]"
+    labelPosition	    [744.383 535.211 126.043 16]
+    fontSize		    12
+    src {
+      id		      6
+      intersection	      [3 -0 1 0.6212 730.3833 512.9773 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [1 0 -1 0.379 730.3833 590.8733 0 0]
+    }
+    midPoint		    [730.3833 547.9253]
+    chart		    2
+    linkNode		    [2 24 26]
+    dataLimits		    [727.983 732.783 512.977 590.873]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    24
+  }
+  transition {
+    id			    26
+    labelString		    "[found_victim_phi == 0]"
+    labelPosition	    [1034.316 710.007 126.043 16]
+    fontSize		    12
+    src {
+      id		      4
+      intersection	      [2 1 0 0.3747 981.7 919.9487 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [2 1 0 0.4723 861.8667 633.1916 0 0]
+    }
+    midPoint		    [1027.5976 717.5487]
+    chart		    2
+    linkNode		    [2 25 27]
+    visible		    0
+    dataLimits		    [861.867 1044.056 630.792 919.949]
+    subviewer		    2
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    32
+  }
+  transition {
+    id			    27
+    labelString		    "[found_victim_phi == 1]"
+    labelPosition	    [729.584 749.114 126.043 16]
+    fontSize		    12
+    src {
+      id		      3
+      intersection	      [3 -0 1 0.6248 729.5833 680.4733 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [1 0 -1 0.6173 729.5833 816.2829 0 0]
+    }
+    midPoint		    [729.5833 744.3781]
+    chart		    2
+    linkNode		    [2 26 0]
+    visible		    0
+    dataLimits		    [727.183 731.983 680.473 816.283]
+    subviewer		    2
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    31
   }
   instance {
-    id			    12
+    id			    28
     name		    "victim detector (C)"
     machine		    1
     chart		    2
   }
   target {
-    id			    13
+    id			    29
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
