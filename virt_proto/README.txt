@@ -3,6 +3,11 @@ Tin Bot – Group 6
 
 Welcome to our virtual prototype.
 
+Setup:
+------
+ 1. Start Matlab and navigate to this folder.
+ 2. Execute `setup()` to setup the simulation environment.
+
 Structure:
 ----------
  - library: custom Simulink blocks to build Tin Bot simulations
