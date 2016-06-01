@@ -43,7 +43,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.41"
+    ComputedModelVersion    "1.44"
     NumModelReferences	    6
     ModelReference {
       ModelRefBlockPath	      "controller/Follow Right Hand|follow_right_hand"
@@ -122,8 +122,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1864.0, 1023.0]
-	ZoomFactor		[0.8]
-	Offset			[454.90361370775122, 33.449396343232593]
+	ZoomFactor		[1.0]
+	Offset			[365.90361370775122, 192.94939634323259]
       }
     }
   }
@@ -133,9 +133,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 21:15:59 2016"
-  RTWModifiedTimeStamp	  386716542
-  ModelVersionFormat	  "1.%<AutoIncrement:41>"
+  LastModifiedDate	  "Thu Jun 02 00:21:14 2016"
+  RTWModifiedTimeStamp	  386727668
+  ModelVersionFormat	  "1.%<AutoIncrement:44>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -238,7 +238,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "1"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.01"
+	  FixedStep		  "auto"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -807,7 +807,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
+      ConfigPrmDlgPosition     [ 116, 111, 1499, 815 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -999,7 +999,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "80"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "72"
     Block {
@@ -1018,6 +1018,7 @@ Model {
       ZOrder		      365
       Port		      "2"
       IconDisplay	      "Port number"
+      PortDimensions	      "[6]"
     }
     Block {
       BlockType		      Inport
@@ -1078,7 +1079,7 @@ Model {
       Ports		      [2, 2]
       Position		      [1265, 766, 1450, 844]
       ZOrder		      391
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Follow Right Hand"
       SourceType	      ""
       SimulationMode	      "Normal"
@@ -1124,14 +1125,14 @@ Model {
       Ports		      [3, 4]
       Position		      [705, 525, 840, 630]
       ZOrder		      388
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Victim Direction"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.40"
+      ModelReferenceVersion   "1.41"
       List {
 	ListType		InputPortNames
 	port0			"ir"
@@ -1215,14 +1216,14 @@ Model {
       Ports		      [9, 5]
       Position		      [1775, 375, 1985, 615]
       ZOrder		      390
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Traffic Cop"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.60"
+      ModelReferenceVersion   "1.75"
       List {
 	ListType		InputPortNames
 	port0			"initial_x"
@@ -1261,13 +1262,13 @@ Model {
       }
       List {
 	ListType		InputPortSignalNames
-	port0			""
-	port1			""
+	port0			"initial_x"
+	port1			"initial_y"
 	port2			"found_victim_phi"
 	port3			"need_angle"
 	port4			"found_victim_xy"
-	port5			""
-	port6			""
+	port5			"victim_x"
+	port6			"victim_y"
 	port7			"path_completed"
 	port8			"no_path"
       }
@@ -1303,14 +1304,14 @@ Model {
       Ports		      [3, 4]
       Position		      [1155, 471, 1365, 559]
       ZOrder		      389
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Victim Detector"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.3"
+      ModelReferenceVersion   "1.8"
       List {
 	ListType		InputPortNames
 	port0			"ir"
@@ -1512,7 +1513,7 @@ Model {
 	  ModelNameDialog	  "path_finder"
 	  SimulationMode	  "Normal"
 	  Variant		  off
-	  ModelReferenceVersion	  "1.74"
+	  ModelReferenceVersion	  "1.75"
 	  List {
 	    ListType		    InputPortNames
 	    port0		    "proximity"
