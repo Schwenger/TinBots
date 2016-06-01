@@ -43,7 +43,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.44"
+    ComputedModelVersion    "1.45"
     NumModelReferences	    6
     ModelReference {
       ModelRefBlockPath	      "controller/Follow Right Hand|follow_right_hand"
@@ -97,7 +97,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1920.0, 9.0, 1920.0, 1174.0]
+      Location		      [1856.0, 9.0, 1920.0, 1174.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -112,7 +112,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[0]
+	Visible			[1]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -121,9 +121,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1864.0, 1023.0]
-	ZoomFactor		[1.0]
-	Offset			[365.90361370775122, 192.94939634323259]
+	Extents			[1886.0, 1005.0]
+	ZoomFactor		[1.25]
+	Offset			[355.3202803744183, 337.849078185067]
       }
     }
   }
@@ -131,11 +131,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "maximilian"
+  LastModifiedBy	  "marlene"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 00:21:14 2016"
-  RTWModifiedTimeStamp	  386727668
-  ModelVersionFormat	  "1.%<AutoIncrement:44>"
+  LastModifiedDate	  "Wed Jun 01 23:17:18 2016"
+  RTWModifiedTimeStamp	  386723759
+  ModelVersionFormat	  "1.%<AutoIncrement:45>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -238,7 +238,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "1"
 	  AbsTol		  "auto"
-	  FixedStep		  "auto"
+	  FixedStep		  "0.01"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -807,7 +807,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 116, 111, 1499, 815 ] 
+      ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -987,7 +987,7 @@ Model {
   }
   System {
     Name		    "controller"
-    Location		    [1920, 9, 3840, 1183]
+    Location		    [1856, 9, 3776, 1183]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -999,14 +999,14 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "125"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "72"
     Block {
       BlockType		      Inport
       Name		      "proximity"
       SID		      "1"
-      Position		      [995, 883, 1025, 897]
+      Position		      [1065, 883, 1095, 897]
       ZOrder		      366
       IconDisplay	      "Port number"
     }
@@ -1014,11 +1014,10 @@ Model {
       BlockType		      Inport
       Name		      "ir"
       SID		      "2"
-      Position		      [590, 473, 620, 487]
+      Position		      [470, 328, 500, 342]
       ZOrder		      365
       Port		      "2"
       IconDisplay	      "Port number"
-      PortDimensions	      "[6]"
     }
     Block {
       BlockType		      Inport
@@ -1079,7 +1078,7 @@ Model {
       Ports		      [2, 2]
       Position		      [1265, 766, 1450, 844]
       ZOrder		      391
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.149"
       SourceBlock	      "tinbot/Follow Right Hand"
       SourceType	      ""
       SimulationMode	      "Normal"
@@ -1123,16 +1122,16 @@ Model {
       Name		      "Model"
       SID		      "68"
       Ports		      [3, 4]
-      Position		      [705, 525, 840, 630]
+      Position		      [615, 529, 845, 626]
       ZOrder		      388
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.149"
       SourceBlock	      "tinbot/Victim Direction"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.41"
+      ModelReferenceVersion   "1.42"
       List {
 	ListType		InputPortNames
 	port0			"ir"
@@ -1213,28 +1212,29 @@ Model {
       BlockType		      Reference
       Name		      "Traffic Cop"
       SID		      "71"
-      Ports		      [9, 5]
-      Position		      [1775, 375, 1985, 615]
+      Ports		      [10, 5]
+      Position		      [1780, 377, 1985, 638]
       ZOrder		      390
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.149"
       SourceBlock	      "tinbot/Traffic Cop"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.75"
+      ModelReferenceVersion   "1.96"
       List {
 	ListType		InputPortNames
 	port0			"initial_x"
 	port1			"initial_y"
 	port2			"found_victim_phi"
-	port3			"need_angle"
+	port3			"ir"
 	port4			"found_victim_xy"
 	port5			"victim_x"
 	port6			"victim_y"
 	port7			"path_completed"
 	port8			"no_path"
+	port9			"current_x_y_phi"
       }
       List {
 	ListType		OutputPortNames
@@ -1265,12 +1265,13 @@ Model {
 	port0			"initial_x"
 	port1			"initial_y"
 	port2			"found_victim_phi"
-	port3			"need_angle"
+	port3			""
 	port4			"found_victim_xy"
 	port5			"victim_x"
 	port6			"victim_y"
 	port7			"path_completed"
 	port8			"no_path"
+	port9			""
       }
       List {
 	ListType		InputPortLatchByCopyingInsideSignal
@@ -1283,6 +1284,7 @@ Model {
 	port6			"off"
 	port7			"off"
 	port8			"off"
+	port9			"off"
       }
       List {
 	ListType		InputPortLatchByDelayingOutsideSignal
@@ -1295,49 +1297,47 @@ Model {
 	port6			"off"
 	port7			"off"
 	port8			"off"
+	port9			"off"
       }
     }
     Block {
       BlockType		      Reference
       Name		      "Victim Detector"
       SID		      "69"
-      Ports		      [3, 4]
-      Position		      [1155, 471, 1365, 559]
+      Ports		      [3, 3]
+      Position		      [1120, 480, 1365, 560]
       ZOrder		      389
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.149"
       SourceBlock	      "tinbot/Victim Detector"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.8"
+      ModelReferenceVersion   "1.9"
       List {
 	ListType		InputPortNames
-	port0			"ir"
-	port1			"found_victim_phi"
-	port2			"victim_angle"
+	port0			"found_victim_phi"
+	port1			"victim_angle"
+	port2			"current_x_y_phi"
       }
       List {
 	ListType		OutputPortNames
-	port0			"need_angle"
-	port1			"found_victim_xy"
-	port2			"victim_x"
-	port3			"victim_y"
+	port0			"found_victim_xy"
+	port1			"victim_x"
+	port2			"victim_y"
       }
       List {
 	ListType		OutputPortOutputBusAsStructs
 	port0			"off"
 	port1			"off"
 	port2			"off"
-	port3			"off"
       }
       List {
 	ListType		OutputPortSignalNames
-	port0			"need_angle"
-	port1			"found_victim_xy"
-	port2			"victim_x"
-	port3			"victim_y"
+	port0			"found_victim_xy"
+	port1			"victim_x"
+	port2			"victim_y"
       }
       List {
 	ListType		InputPortLatchByCopyingInsideSignal
@@ -1354,14 +1354,14 @@ Model {
       Port {
 	PortNumber		1
 	Name			"need_angle"
-	PropagatedSignals	"need_angle"
+	PropagatedSignals	"found_victim_xy"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       Port {
 	PortNumber		2
 	Name			"found_victim_xy"
-	PropagatedSignals	"found_victim_xy"
+	PropagatedSignals	"victim_x"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
@@ -1377,7 +1377,7 @@ Model {
       Variant		      off
       System {
 	Name			"find_and_execute_path"
-	Location		[1920, 9, 3840, 1183]
+	Location		[1856, 9, 3776, 1183]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1513,7 +1513,7 @@ Model {
 	  ModelNameDialog	  "path_finder"
 	  SimulationMode	  "Normal"
 	  Variant		  off
-	  ModelReferenceVersion	  "1.75"
+	  ModelReferenceVersion	  "1.74"
 	  List {
 	    ListType		    InputPortNames
 	    port0		    "proximity"
@@ -1731,16 +1731,36 @@ Model {
       }
       Branch {
 	ZOrder			342
-	Points			[0, 1; 1585, 0; 0, -326]
-	DstBlock		"find_and_execute_path"
-	DstPort			5
+	Points			[0, 1; 444, 0]
+	Branch {
+	  ZOrder		  538
+	  Points		  [0, -376]
+	  DstBlock		  "Victim Detector"
+	  DstPort		  3
+	}
+	Branch {
+	  ZOrder		  537
+	  Points		  [738, 0]
+	  Branch {
+	    ZOrder		    582
+	    Points		    [0, -301]
+	    DstBlock		    "Traffic Cop"
+	    DstPort		    10
+	  }
+	  Branch {
+	    ZOrder		    581
+	    Points		    [403, 0; 0, -326]
+	    DstBlock		    "find_and_execute_path"
+	    DstPort		    5
+	  }
+	}
       }
     }
     Line {
       ZOrder		      8
       SrcBlock		      "proximity"
       SrcPort		      1
-      Points		      [126, 0]
+      Points		      [56, 0]
       Branch {
 	ZOrder			498
 	Points			[0, -65]
@@ -1758,46 +1778,18 @@ Model {
       ZOrder		      11
       SrcBlock		      "ir"
       SrcPort		      1
-      Points		      [48, 0; 0, 5]
+      Points		      [87, 0; 0, 135]
       Branch {
-	ZOrder			475
-	DstBlock		"Victim Detector"
-	DstPort			1
+	ZOrder			579
+	DstBlock		"Traffic Cop"
+	DstPort			4
       }
       Branch {
-	ZOrder			439
-	Points			[0, 60]
+	ZOrder			578
+	Points			[0, 80]
 	DstBlock		"Model"
 	DstPort			1
       }
-    }
-    Line {
-      Name		      "found_victim_phi"
-      ZOrder		      443
-      Labels		      [1, 1]
-      SrcBlock		      "Model"
-      SrcPort		      1
-      Points		      [94, 0; 0, -25]
-      Branch {
-	ZOrder			486
-	Labels			[-1, 0]
-	Points			[0, -70]
-	DstBlock		"Traffic Cop"
-	DstPort			3
-      }
-      Branch {
-	ZOrder			473
-	DstBlock		"Victim Detector"
-	DstPort			2
-      }
-    }
-    Line {
-      ZOrder		      474
-      SrcBlock		      "Model"
-      SrcPort		      2
-      Points		      [257, 0; 0, -20]
-      DstBlock		      "Victim Detector"
-      DstPort		      3
     }
     Line {
       ZOrder		      247
@@ -1837,38 +1829,29 @@ Model {
     }
     Line {
       Name		      "need_angle"
-      ZOrder		      488
-      Labels		      [2, 1]
+      ZOrder		      574
+      Labels		      [1, 0]
       SrcBlock		      "Victim Detector"
       SrcPort		      1
-      Points		      [200, 0; 0, -15]
       DstBlock		      "Traffic Cop"
-      DstPort		      4
+      DstPort		      5
     }
     Line {
       Name		      "found_victim_xy"
-      ZOrder		      489
-      Labels		      [2, 1]
+      ZOrder		      573
+      Labels		      [1, 0]
       SrcBlock		      "Victim Detector"
       SrcPort		      2
-      Points		      [200, 0; 0, -10]
       DstBlock		      "Traffic Cop"
-      DstPort		      5
+      DstPort		      6
     }
     Line {
       ZOrder		      492
       SrcBlock		      "Traffic Cop"
       SrcPort		      5
-      Points		      [27, 0; 0, 98; -1478, 0; 0, -78]
+      Points		      [27, 0; 0, 83; -1428, 0; 0, -83]
       DstBlock		      "Model"
       DstPort		      3
-    }
-    Line {
-      ZOrder		      497
-      SrcBlock		      "Victim Detector"
-      SrcPort		      4
-      DstBlock		      "Traffic Cop"
-      DstPort		      7
     }
     Line {
       ZOrder		      491
@@ -1888,16 +1871,16 @@ Model {
       ZOrder		      485
       SrcBlock		      "Traffic Cop"
       SrcPort		      3
+      Points		      [0, -15]
       DstBlock		      "find_and_execute_path"
       DstPort		      3
     }
     Line {
-      ZOrder		      493
+      ZOrder		      572
       SrcBlock		      "Victim Detector"
       SrcPort		      3
-      Points		      [200, 0; 0, -5]
       DstBlock		      "Traffic Cop"
-      DstPort		      6
+      DstPort		      7
     }
     Line {
       ZOrder		      249
@@ -1925,6 +1908,7 @@ Model {
       ZOrder		      496
       SrcBlock		      "Traffic Cop"
       SrcPort		      1
+      Points		      [0, -15]
       DstBlock		      "find_and_execute_path"
       DstPort		      1
     }
@@ -1932,6 +1916,7 @@ Model {
       ZOrder		      487
       SrcBlock		      "Traffic Cop"
       SrcPort		      2
+      Points		      [0, -15]
       DstBlock		      "find_and_execute_path"
       DstPort		      2
     }
@@ -1939,7 +1924,7 @@ Model {
       ZOrder		      499
       SrcBlock		      "Traffic Cop"
       SrcPort		      4
-      Points		      [38, 0; 0, 115; -860, 0; 0, 125]
+      Points		      [38, 0; 0, 100; -860, 0; 0, 125]
       DstBlock		      "Follow Right Hand"
       DstPort		      1
     }
@@ -1947,7 +1932,7 @@ Model {
       ZOrder		      490
       SrcBlock		      "find_and_execute_path"
       SrcPort		      2
-      Points		      [40, 0; 0, 153; -730, 0; 0, -53]
+      Points		      [40, 0; 0, 228; -764, 0; 0, -128]
       DstBlock		      "Traffic Cop"
       DstPort		      9
     }
@@ -1982,6 +1967,33 @@ Model {
       SrcPort		      4
       DstBlock		      "Mux1"
       DstPort		      2
+    }
+    Line {
+      ZOrder		      536
+      SrcBlock		      "Model"
+      SrcPort		      2
+      Points		      [116, 0; 0, -45]
+      DstBlock		      "Victim Detector"
+      DstPort		      2
+    }
+    Line {
+      Name		      "found_victim_phi"
+      ZOrder		      583
+      Labels		      [0, 0]
+      SrcBlock		      "Model"
+      SrcPort		      1
+      Points		      [56, 0; 0, -45]
+      Branch {
+	ZOrder			585
+	DstBlock		"Victim Detector"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			584
+	Points			[0, -50]
+	DstBlock		"Traffic Cop"
+	DstPort			3
+      }
     }
   }
 }
