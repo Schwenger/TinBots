@@ -18,4 +18,4 @@ Tests:
  - ir_test: test physical model of IR sensor
  - victim_direction_test: test victim direction calculation
  - approximator_test: test approximation of current position and orientation
-
+ - follow_right_hand_tist: test right hand rule
