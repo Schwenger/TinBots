@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.40"
+    ComputedModelVersion    "1.41"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -115,7 +115,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1864.0, 901.0]
 	ZoomFactor		[1.25]
-	Offset			[17.329706834145782, -106.49379260413752]
+	Offset			[-141.07029316585422, -108.89379260413752]
       }
     }
   }
@@ -125,9 +125,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 21:04:41 2016"
-  RTWModifiedTimeStamp	  386696517
-  ModelVersionFormat	  "1.%<AutoIncrement:40>"
+  LastModifiedDate	  "Wed Jun 01 21:33:32 2016"
+  RTWModifiedTimeStamp	  386717545
+  ModelVersionFormat	  "1.%<AutoIncrement:41>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -230,7 +230,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "inf"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.01"
+	  FixedStep		  "auto"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -799,7 +799,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
+      ConfigPrmDlgPosition     [ 89, 87, 1008, 765 ] 
     }
     PropName		    "ConfigurationSets"
   }
