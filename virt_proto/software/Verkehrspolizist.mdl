@@ -6,7 +6,13 @@ Model {
   GraphicalInterface {
     NumRootInports	    9
     Inport {
-      Name		      "need_angle"
+      Name		      "origin_x"
+      BusObject		      ""
+      OutputFunctionCall      "off"
+      UnitExpr		      "inherit"
+    }
+    Inport {
+      Name		      "origin_y"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -18,19 +24,13 @@ Model {
       UnitExpr		      "inherit"
     }
     Inport {
+      Name		      "need_angle"
+      BusObject		      ""
+      OutputFunctionCall      "off"
+      UnitExpr		      "inherit"
+    }
+    Inport {
       Name		      "found_victim_xy"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    Inport {
-      Name		      "path_completed"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    Inport {
-      Name		      "no_path"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -48,13 +48,13 @@ Model {
       UnitExpr		      "inherit"
     }
     Inport {
-      Name		      "origin_x"
+      Name		      "path_completed"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
     Inport {
-      Name		      "origin_y"
+      Name		      "no_path"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -96,7 +96,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.40"
+    ComputedModelVersion    "1.54"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -168,9 +168,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 14:33:35 2016"
-  RTWModifiedTimeStamp	  386692414
-  ModelVersionFormat	  "1.%<AutoIncrement:40>"
+  LastModifiedDate	  "Wed Jun 01 14:49:31 2016"
+  RTWModifiedTimeStamp	  386693318
+  ModelVersionFormat	  "1.%<AutoIncrement:54>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1016,10 +1016,19 @@ Model {
     SIDHighWatermark	    "24"
     Block {
       BlockType		      Inport
-      Name		      "need_angle"
-      SID		      "5"
-      Position		      [295, 253, 325, 267]
-      ZOrder		      162
+      Name		      "origin_x"
+      SID		      "21"
+      Position		      [295, 533, 325, 547]
+      ZOrder		      178
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "origin_y"
+      SID		      "22"
+      Position		      [295, 573, 325, 587]
+      ZOrder		      179
+      Port		      "2"
       IconDisplay	      "Port number"
     }
     Block {
@@ -1028,7 +1037,16 @@ Model {
       SID		      "4"
       Position		      [295, 293, 325, 307]
       ZOrder		      161
-      Port		      "2"
+      Port		      "3"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "need_angle"
+      SID		      "5"
+      Position		      [295, 253, 325, 267]
+      ZOrder		      162
+      Port		      "4"
       IconDisplay	      "Port number"
     }
     Block {
@@ -1037,24 +1055,6 @@ Model {
       SID		      "6"
       Position		      [295, 333, 325, 347]
       ZOrder		      163
-      Port		      "3"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Inport
-      Name		      "path_completed"
-      SID		      "23"
-      Position		      [295, 413, 325, 427]
-      ZOrder		      180
-      Port		      "4"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Inport
-      Name		      "no_path"
-      SID		      "24"
-      Position		      [295, 373, 325, 387]
-      ZOrder		      181
       Port		      "5"
       IconDisplay	      "Port number"
     }
@@ -1078,19 +1078,19 @@ Model {
     }
     Block {
       BlockType		      Inport
-      Name		      "origin_x"
-      SID		      "21"
-      Position		      [295, 533, 325, 547]
-      ZOrder		      178
+      Name		      "path_completed"
+      SID		      "23"
+      Position		      [295, 413, 325, 427]
+      ZOrder		      180
       Port		      "8"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
-      Name		      "origin_y"
-      SID		      "22"
-      Position		      [295, 573, 325, 587]
-      ZOrder		      179
+      Name		      "no_path"
+      SID		      "24"
+      Position		      [295, 373, 325, 387]
+      ZOrder		      181
       Port		      "9"
       IconDisplay	      "Port number"
     }
@@ -1586,7 +1586,7 @@ Stateflow {
     name		    "Verkehrspolizist"
     created		    "30-May-2016 22:57:17"
     isLibrary		    0
-    firstTarget		    41
+    firstTarget		    36
     sfVersion		    80000009
   }
   chart {
@@ -1600,16 +1600,16 @@ Stateflow {
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
-    treeNode		    [0 7 0 0]
-    firstTransition	    32
+    treeNode		    [0 10 0 0]
+    firstTransition	    31
     viewObj		    2
     visible		    1
     machine		    1
     subviewS {
     }
-    ssIdHighWaterMark	    69
+    ssIdHighWaterMark	    71
     decomposition	    CLUSTER_CHART
-    firstData		    18
+    firstData		    17
     chartFileNumber	    1
     saturateOnIntegerOverflow 1
     userSpecifiedStateTransitionExecutionOrder 1
@@ -1618,11 +1618,11 @@ Stateflow {
   }
   state {
     id			    3
-    labelString		    "Initialization\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;\nrun_victim_finder = 0;\n"
-    position		    [303.8014 85.0313 160.0714 88.4286]
+    labelString		    "InitialRHR\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;\nrun_victim_finder = 0;\n"
+    position		    [311.6182 86.4577 160.0714 88.4286]
     fontSize		    12
     chart		    2
-    treeNode		    [7 0 4 0]
+    treeNode		    [10 0 0 8]
     visible		    0
     subviewer		    2
     ssIdNumber		    1
@@ -1631,103 +1631,6 @@ Stateflow {
   }
   state {
     id			    4
-    labelString		    "GotVictimTrace\n% actually not needed, debugging only\nentry:\nrun_victim_finder = 0;\nrun_rhr = 1;\n"
-    position		    [604.9147 84.3765 218 89.7381]
-    fontSize		    12
-    chart		    2
-    treeNode		    [7 0 0 3]
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    26
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    5
-    labelString		    "RunToVictim\nentry:\nrun_rhr = 0;\nrun_path_finder = 1;\ndst_x = victim_x;\ndst_y = victim_y;\n"
-    position		    [307.6942 381.0017 152.2857 98.8571]
-    fontSize		    12
-    chart		    2
-    treeNode		    [9 0 10 0]
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    30
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    6
-    labelString		    "NoPathFound\n% fault tolerance state: no path found but\n% by assumtions there is one -> faulty "
-    "sensor data -> RHR\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;"
-    position		    [1003.5296 382.6753 337.8568 91.5257]
-    fontSize		    12
-    chart		    2
-    treeNode		    [2 0 9 11]
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    66
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    7
-    labelString		    "RoamTheStreetsToFindTracesOfVictim"
-    position		    [287.7143 51 569.0713 161.518]
-    fontSize		    12
-    chart		    2
-    treeNode		    [2 4 0 8]
-    firstTransition	    13
-    firstJunction	    12
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    35
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    8
-    labelString		    "SenseAngle\nentry:\nrun_rhr = 0;\nrun_victim_finder = 1;"
-    position		    [1024.8992 97.1876 148.8571 69.1429]
-    fontSize		    12
-    chart		    2
-    treeNode		    [2 0 7 9]
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    37
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    9
-    labelString		    "FollowPath"
-    position		    [293.1094 329.4303 555.7838 198.0157]
-    fontSize		    12
-    chart		    2
-    treeNode		    [2 10 8 6]
-    firstTransition	    15
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    44
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    10
-    labelString		    "GetOuttaHere\n% not needed, debugging/readability\nentry:\nrun_path_finder = 1;\ndst_x = origin_"
-    "x;\ndst_y = origin_y;\n"
-    position		    [585.8652 378.7717 214 101.1429]
-    fontSize		    12
-    chart		    2
-    treeNode		    [9 0 0 5]
-    firstJunction	    17
-    visible		    0
-    subviewer		    2
-    ssIdNumber		    51
-    type		    OR_STATE
-    decomposition	    CLUSTER_STATE
-  }
-  state {
-    id			    11
     labelString		    "GetTheLadiesOrGentlemen\n% Done ^.^\nentry:\nrun_path_finder = 0;"
     position		    [607.3652 603.2034 171 59.5]
     fontSize		    12
@@ -1739,67 +1642,101 @@ Stateflow {
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
   }
-  junction {
-    id			    12
-    labelString		    "H"
-    position		    [841.687 153.5093 7.7143]
+  state {
+    id			    5
+    labelString		    "RunToVictim\nentry:\nrun_rhr = 0;\nrun_path_finder = 1;\ndst_x = victim_x;\ndst_y = victim_y;\n"
+    position		    [307.6942 381.0017 152.2857 98.8571]
+    fontSize		    12
     chart		    2
-    linkNode		    [7 0 0]
+    treeNode		    [9 0 7 0]
+    visible		    0
     subviewer		    2
-    ssIdNumber		    36
+    ssIdNumber		    30
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    6
+    labelString		    "NoPathFound\n% fault tolerance state: no path found but\n% by assumtions there is one -> faulty "
+    "sensor data -> RHR\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;\nexit:\nrun_rhr = 0;"
+    position		    [1014.4005 358.7593 338.9439 108.9192]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 9 4]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    66
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    7
+    labelString		    "GetOuttaHere\n% not needed, debugging/readability\nentry:\nrun_path_finder = 1;\ndst_x = origin_"
+    "x;\ndst_y = origin_y;\n"
+    position		    [585.8652 378.7717 214 101.1429]
+    fontSize		    12
+    chart		    2
+    treeNode		    [9 0 0 5]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    51
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    8
+    labelString		    "SenseAngle\nentry:\nrun_rhr = 0;\nrun_victim_finder = 1;"
+    position		    [710.4298 96.1005 148.8571 69.1429]
+    fontSize		    12
+    chart		    2
+    treeNode		    [10 0 3 0]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    37
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    9
+    labelString		    "FollowPath"
+    position		    [293.1094 341.3883 581.874 166.49]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 7 10 6]
+    firstTransition	    12
+    firstJunction	    11
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    44
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    10
+    labelString		    "InitialRHR"
+    position		    [296.6182 41.4577 577.6687 148.4286]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 3 0 9]
+    firstTransition	    14
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    71
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  junction {
+    id			    11
+    labelString		    "H"
+    position		    [838.1259 429.3432 7]
+    chart		    2
+    linkNode		    [9 0 0]
+    subviewer		    2
+    ssIdNumber		    52
     type		    HISTORY_JUNCTION
   }
   transition {
-    id			    13
-    labelString		    ""
-    labelPosition	    [340.351 70.031 0 0]
-    fontSize		    12
-    src {
-      intersection	      [0 0 1 0 340.351 55.0313 0 0]
-    }
-    dst {
-      id		      3
-      intersection	      [1 0 -1 0.2283 340.351 85.0313 0 0]
-    }
-    midPoint		    [340.351 70.0313]
-    chart		    2
-    linkNode		    [7 0 14]
-    dataLimits		    [337.951 342.751 55.031 85.031]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    2
-  }
-  transition {
-    id			    14
-    labelString		    "[found_victim_phi == 1]"
-    labelPosition	    [476.796 103.065 125.969 14]
-    fontSize		    12
-    src {
-      id		      3
-      intersection	      [2 1 0 0.4075 463.8728 121.0644 0 0]
-    }
-    dst {
-      id		      4
-      intersection	      [4 -1 -0 0.5912 604.9147 121.0644 0 0]
-    }
-    midPoint		    [530.3937 121.0644]
-    chart		    2
-    linkNode		    [7 13 0]
-    dataLimits		    [463.873 604.915 118.664 123.464]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    40
-  }
-  transition {
-    id			    15
+    id			    12
     labelString		    ""
     labelPosition	    [420.757 366.002 0 0]
     fontSize		    12
@@ -1812,7 +1749,7 @@ Stateflow {
     }
     midPoint		    [420.7574 366.0017]
     chart		    2
-    linkNode		    [9 0 16]
+    linkNode		    [9 0 13]
     dataLimits		    [418.357 423.157 351.002 381.002]
     subviewer		    2
     drawStyle		    SMART
@@ -1823,7 +1760,7 @@ Stateflow {
     ssIdNumber		    46
   }
   transition {
-    id			    16
+    id			    13
     labelString		    "[path_completed == 1]"
     labelPosition	    [464.723 404.191 121.328 14]
     fontSize		    12
@@ -1832,12 +1769,12 @@ Stateflow {
       intersection	      [2 1 0 0.4588 459.9799 426.3541 0 0]
     }
     dst {
-      id		      10
+      id		      7
       intersection	      [4 -1 -0 0.5296 585.8652 426.3541 0 0]
     }
     midPoint		    [518.9226 426.3541]
     chart		    2
-    linkNode		    [9 15 0]
+    linkNode		    [9 12 0]
     dataLimits		    [459.98 585.865 423.954 428.754]
     subviewer		    2
     drawStyle		    SMART
@@ -1847,21 +1784,110 @@ Stateflow {
     executionOrder	    1
     ssIdNumber		    60
   }
-  junction {
-    id			    17
-    labelString		    "H"
-    position		    [784.8584 430.4302 7]
+  transition {
+    id			    14
+    labelString		    ""
+    labelPosition	    [405.321 71.458 0 0]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 405.3208 56.4577 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [1 0 -1 0.5854 405.3208 86.4577 0 0]
+    }
+    midPoint		    [405.3208 71.4577]
     chart		    2
-    linkNode		    [10 0 0]
+    linkNode		    [10 0 15]
+    dataLimits		    [402.921 407.721 56.458 86.458]
     subviewer		    2
-    ssIdNumber		    52
-    type		    HISTORY_JUNCTION
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  transition {
+    id			    15
+    labelString		    "[need_angle == 1]"
+    labelPosition	    [541.752 89.019 98.688 14]
+    fontSize		    12
+    src {
+      id		      3
+      intersection	      [2 1 0 0.3067 471.6896 113.577 0 0]
+    }
+    dst {
+      id		      8
+      intersection	      [4 -1 0 0.7472 710.4298 113.577 0 0]
+    }
+    midPoint		    [587.0597 113.577]
+    chart		    2
+    linkNode		    [10 14 16]
+    dataLimits		    [471.69 710.43 111.177 115.977]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    39
+  }
+  transition {
+    id			    16
+    labelString		    "[found_victim_phi == 1]"
+    labelPosition	    [535.303 157.02 125.969 14]
+    fontSize		    12
+    src {
+      id		      8
+      intersection	      [4 -1 0 0.2284 710.4298 149.451 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [2 1 0 0.7124 471.6896 149.451 0 0]
+    }
+    midPoint		    [595.0597 149.451]
+    chart		    2
+    linkNode		    [10 15 0]
+    dataLimits		    [471.69 710.43 147.051 151.851]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    38
+  }
+  data {
+    id			    17
+    ssIdNumber		    19
+    name		    "need_angle"
+    linkNode		    [2 0 18]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    18
-    ssIdNumber		    19
-    name		    "need_angle"
-    linkNode		    [2 0 19]
+    ssIdNumber		    17
+    name		    "found_victim_phi"
+    linkNode		    [2 17 19]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1884,8 +1910,8 @@ Stateflow {
   }
   data {
     id			    19
-    ssIdNumber		    17
-    name		    "found_victim_phi"
+    ssIdNumber		    18
+    name		    "found_victim_xy"
     linkNode		    [2 18 20]
     scope		    INPUT_DATA
     machine		    1
@@ -1909,8 +1935,8 @@ Stateflow {
   }
   data {
     id			    20
-    ssIdNumber		    18
-    name		    "found_victim_xy"
+    ssIdNumber		    20
+    name		    "no_path"
     linkNode		    [2 19 21]
     scope		    INPUT_DATA
     machine		    1
@@ -1934,8 +1960,8 @@ Stateflow {
   }
   data {
     id			    21
-    ssIdNumber		    20
-    name		    "no_path"
+    ssIdNumber		    69
+    name		    "path_completed"
     linkNode		    [2 20 22]
     scope		    INPUT_DATA
     machine		    1
@@ -1959,8 +1985,8 @@ Stateflow {
   }
   data {
     id			    22
-    ssIdNumber		    69
-    name		    "path_completed"
+    ssIdNumber		    7
+    name		    "victim_x"
     linkNode		    [2 21 23]
     scope		    INPUT_DATA
     machine		    1
@@ -1984,8 +2010,8 @@ Stateflow {
   }
   data {
     id			    23
-    ssIdNumber		    7
-    name		    "victim_x"
+    ssIdNumber		    8
+    name		    "victim_y"
     linkNode		    [2 22 24]
     scope		    INPUT_DATA
     machine		    1
@@ -2009,8 +2035,8 @@ Stateflow {
   }
   data {
     id			    24
-    ssIdNumber		    8
-    name		    "victim_y"
+    ssIdNumber		    55
+    name		    "origin_x"
     linkNode		    [2 23 25]
     scope		    INPUT_DATA
     machine		    1
@@ -2034,8 +2060,8 @@ Stateflow {
   }
   data {
     id			    25
-    ssIdNumber		    55
-    name		    "origin_x"
+    ssIdNumber		    56
+    name		    "origin_y"
     linkNode		    [2 24 26]
     scope		    INPUT_DATA
     machine		    1
@@ -2059,10 +2085,10 @@ Stateflow {
   }
   data {
     id			    26
-    ssIdNumber		    56
-    name		    "origin_y"
+    ssIdNumber		    14
+    name		    "dst_x"
     linkNode		    [2 25 27]
-    scope		    INPUT_DATA
+    scope		    OUTPUT_DATA
     machine		    1
     props {
       array {
@@ -2075,7 +2101,7 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
+      frame		      SF_FRAME_NO
       unit {
 	name			"inherit"
       }
@@ -2084,8 +2110,8 @@ Stateflow {
   }
   data {
     id			    27
-    ssIdNumber		    14
-    name		    "dst_x"
+    ssIdNumber		    15
+    name		    "dst_y"
     linkNode		    [2 26 28]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2109,8 +2135,8 @@ Stateflow {
   }
   data {
     id			    28
-    ssIdNumber		    15
-    name		    "dst_y"
+    ssIdNumber		    25
+    name		    "run_rhr"
     linkNode		    [2 27 29]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2134,8 +2160,8 @@ Stateflow {
   }
   data {
     id			    29
-    ssIdNumber		    25
-    name		    "run_rhr"
+    ssIdNumber		    24
+    name		    "run_path_finder"
     linkNode		    [2 28 30]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2159,34 +2185,9 @@ Stateflow {
   }
   data {
     id			    30
-    ssIdNumber		    24
-    name		    "run_path_finder"
-    linkNode		    [2 29 31]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    31
     ssIdNumber		    23
     name		    "run_victim_finder"
-    linkNode		    [2 30 0]
+    linkNode		    [2 29 0]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2208,121 +2209,22 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   transition {
-    id			    32
-    labelString		    ""
-    labelPosition	    [626.868 36 0 0]
-    fontSize		    12
-    src {
-      intersection	      [0 -0 1 0 626.8683 21 0 0]
-    }
-    dst {
-      id		      7
-      intersection	      [1 0 -1 0.596 626.8683 51 0 0]
-    }
-    midPoint		    [626.8683 36]
-    chart		    2
-    linkNode		    [2 0 33]
-    dataLimits		    [624.468 629.268 21 51]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    47
-  }
-  transition {
-    id			    33
-    labelString		    "[need_angle == 1]"
-    labelPosition	    [889.999 90.486 98.688 14]
-    fontSize		    12
-    src {
-      id		      7
-      intersection	      [2 1 0 0.3965 856.7856 115.0438 0 0]
-    }
-    dst {
-      id		      8
-      intersection	      [4 -1 0 0.7417 1024.8992 115.0438 0 0]
-    }
-    midPoint		    [936.8424 115.0438]
-    chart		    2
-    linkNode		    [2 32 34]
-    dataLimits		    [856.786 1024.899 112.644 117.444]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    2
-    ssIdNumber		    39
-  }
-  transition {
-    id			    34
-    labelString		    "[found_victim_phi == 1]"
-    labelPosition	    [893.451 162.165 125.969 14]
-    fontSize		    12
-    src {
-      id		      8
-      intersection	      [4 -1 0 0.1854 1024.8992 153.5093 0 0]
-    }
-    dst {
-      id		      12
-      intersection	      [2 1 0 0 849.4013 153.5093 0 0]
-    }
-    midPoint		    [941.1503 153.5093]
-    chart		    2
-    linkNode		    [2 33 35]
-    dataLimits		    [849.401 1024.899 151.109 155.909]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    38
-  }
-  transition {
-    id			    35
-    labelString		    "[no_path == 1]"
-    labelPosition	    [562.187 250.372 79.344 14]
-    fontSize		    12
-    src {
-      id		      9
-      intersection	      [1 0 -1 0.3447 484.6784 329.4303 0 0]
-    }
-    dst {
-      id		      4
-      intersection	      [3 -0 1 0.8534 636.8712 174.1146 0 0]
-    }
-    midPoint		    [560.7748 255.7724]
-    chart		    2
-    linkNode		    [2 34 36]
-    dataLimits		    [484.678 639.271 174.115 329.43]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    65
-  }
-  transition {
-    id			    36
+    id			    31
     labelString		    "[found_victim_xy == 1]"
-    labelPosition	    [712.413 240.257 121.969 14]
+    labelPosition	    [575.763 250.934 121.969 14]
     fontSize		    12
     src {
-      id		      7
-      intersection	      [3 0 1 0.2604 708.6193 212.518 0 0]
+      id		      10
+      intersection	      [3 0 1 0.5295 568.3845 189.8863 0 0]
     }
     dst {
       id		      9
-      intersection	      [1 0 -1 0.7467 708.1258 329.4303 0 0]
+      intersection	      [1 0 -1 0.4731 568.3845 341.3883 0 0]
     }
-    midPoint		    [708.3725 266.9742]
+    midPoint		    [568.3845 261.6373]
     chart		    2
-    linkNode		    [2 35 37]
-    dataLimits		    [705.726 710.526 212.518 329.43]
+    linkNode		    [2 0 32]
+    dataLimits		    [565.984 570.784 189.886 341.388]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2332,47 +2234,47 @@ Stateflow {
     ssIdNumber		    45
   }
   transition {
-    id			    37
+    id			    32
     labelString		    "[no_path == 1]"
-    labelPosition	    [1001.938 324.677 79.344 14]
+    labelPosition	    [905.916 373.551 79.344 14]
     fontSize		    12
     src {
       id		      9
-      intersection	      [2 1 0 0.211 848.8932 371.2176 0 0]
+      intersection	      [2 1 0 0.3098 874.9834 392.9595 0 0]
     }
     dst {
       id		      6
-      intersection	      [1 0 -1 0.2436 1085.84 382.6753 0 0]
+      intersection	      [4 -1 0 0.686 1014.4005 392.9595 0 0]
     }
-    midPoint		    [996.9881 343.325]
+    midPoint		    [940.692 392.9595]
     chart		    2
-    linkNode		    [2 36 38]
-    dataLimits		    [848.893 1088.24 338.653 382.675]
+    linkNode		    [2 31 33]
+    dataLimits		    [874.983 1014.401 390.559 395.359]
     subviewer		    2
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
-    executionOrder	    2
+    executionOrder	    1
     ssIdNumber		    68
   }
   transition {
-    id			    38
-    labelString		    "[after(30, sec)]{run_rhr = 0;}"
-    labelPosition	    [838.532 410.758 149.812 14]
+    id			    33
+    labelString		    "[after(30, sec)]"
+    labelPosition	    [908.059 409.671 79.281 14]
     fontSize		    12
     src {
       id		      6
-      intersection	      [4 -1 0 0.4782 1003.5296 430.4302 0 0]
+      intersection	      [4 -1 0 0.352 1014.4005 429.3432 0 0]
     }
     dst {
-      id		      17
-      intersection	      [2 1 0 0 791.8584 430.4302 0 0]
+      id		      11
+      intersection	      [2 1 0 0 845.1259 429.3432 0 0]
     }
-    midPoint		    [901.694 430.4302]
+    midPoint		    [933.7632 429.3432]
     chart		    2
-    linkNode		    [2 37 39]
-    dataLimits		    [791.858 1003.53 428.03 432.83]
+    linkNode		    [2 32 34]
+    dataLimits		    [845.126 1014.401 426.943 431.743]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2382,21 +2284,21 @@ Stateflow {
     ssIdNumber		    67
   }
   transition {
-    id			    39
+    id			    34
     labelString		    "[path_completed == 1]"
     labelPosition	    [690.83 554.265 121.328 14]
     fontSize		    12
     src {
-      id		      10
+      id		      7
       intersection	      [3 0 1 0.5127 690.1387 479.9146 0 0]
     }
     dst {
-      id		      11
+      id		      4
       intersection	      [1 0 -1 0.4841 690.1387 603.2034 0 0]
     }
     midPoint		    [690.1387 537.559]
     chart		    2
-    linkNode		    [2 38 0]
+    linkNode		    [2 33 0]
     dataLimits		    [687.739 692.539 479.915 603.203]
     subviewer		    2
     drawStyle		    SMART
@@ -2407,13 +2309,13 @@ Stateflow {
     ssIdNumber		    64
   }
   instance {
-    id			    40
+    id			    35
     name		    "Verkehrspolizist"
     machine		    1
     chart		    2
   }
   target {
-    id			    41
+    id			    36
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
