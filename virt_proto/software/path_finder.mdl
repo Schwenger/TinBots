@@ -2,7 +2,7 @@ Model {
   Name			  "path_finder"
   Version		  8.7
   MdlSubVersion		  1
-  SavedCharacterEncoding  "US-ASCII"
+  SavedCharacterEncoding  "UTF-8"
   GraphicalInterface {
     NumRootInports	    5
     Inport {
@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.74"
+    ComputedModelVersion    "1.75"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -98,7 +98,7 @@ Model {
   MinMaxOverflowArchiveMode "Overwrite"
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  LastSavedArchitecture	  "maci64"
+  LastSavedArchitecture	  "glnxa64"
   Object {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    2
@@ -108,7 +108,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 23.0, 1280.0, 773.0]
+      Location		      [0.0, 60.0, 1280.0, 773.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -132,9 +132,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1246.0, 630.0]
+	Extents			[1224.0, 622.0]
 	ZoomFactor		[1.25]
-	Offset			[0.0, 127.19999999999999]
+	Offset			[188.79999999999998, 131.99999999999997]
       }
     }
   }
@@ -142,11 +142,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "max"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 15:13:56 2016"
-  RTWModifiedTimeStamp	  386694834
-  ModelVersionFormat	  "1.%<AutoIncrement:74>"
+  LastModifiedDate	  "Wed Jun 01 23:54:38 2016"
+  RTWModifiedTimeStamp	  386726068
+  ModelVersionFormat	  "1.%<AutoIncrement:75>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1073,7 +1073,7 @@ Model {
   }
   System {
     Name		    "path_finder"
-    Location		    [0, 23, 1280, 796]
+    Location		    [0, 60, 1280, 833]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1162,7 +1162,7 @@ Model {
       YMax		      "1"
       AxisColorbar	      off
       AxisParams	      off
-      AxisOrigin	      "Upper left corner"
+      AxisOrigin	      "Lower left corner"
       AxisTickMode	      "Auto"
       XTickRange	      "[0 1]"
       YTickRange	      "[0 1]"
@@ -1511,20 +1511,21 @@ Model {
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
-      "nYLimReal','9.06365','MaxYLimReal','86.92716','YLabelReal','','MinYLimMag','9.06365','MaxYLimMag','86.92716','Le"
-      "gendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.6862"
-      "74509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.62352"
-      "9411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.71764"
-      "7058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalL"
-      "abel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'ShowContent',t"
-      "rue,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','9.06365','MaxYLimReal','86.92716','YLabelRea"
-      "l','','MinYLimMag','9.06365','MaxYLimMag','86.92716','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMag"
-      "Phase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorO"
-      "rder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.7176"
-      "47058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 "
-      "0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuratio"
-      "n('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[345 185 590 431],'VisibleAtModel"
-      "Open','on')"
+      "nYLimReal','2.65982','MaxYLimReal','101.45235','YLabelReal','','MinYLimMag','2.65982','MaxYLimMag','101.45235','"
+      "LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68"
+      "6274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623"
+      "529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717"
+      "647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<Signa"
+      "lLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',8,'LineNames',{{'proximity:1','pro"
+      "ximity:2','proximity:3','proximity:4','proximity:5','proximity:6','proximity:7','proximity:8'}},'ShowContent',tr"
+      "ue,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','2.65982','MaxYLimReal','101.45235','YLabelRea"
+      "l','','MinYLimMag','2.65982','MaxYLimMag','101.45235','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMa"
+      "gPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'Color"
+      "Order',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.717"
+      "647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1"
+      " 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configurati"
+      "on('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[341 181 598 433],'VisibleAtMode"
+      "lOpen','on')"
     }
     Block {
       BlockType		      Outport
@@ -1574,7 +1575,7 @@ Model {
       ZOrder		      1
       SrcBlock		      "proximity"
       SrcPort		      1
-      Points		      [22, 0; 0, 0]
+      Points		      [22, 0]
       Branch {
 	ZOrder			16
 	Points			[0, -120]
@@ -1708,10 +1709,7 @@ Stateflow {
     treeNode		    [0 3 0 0]
     firstTransition	    31
     viewObj		    2
-    visible		    1
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    71
     decomposition	    CLUSTER_CHART
     firstData		    12

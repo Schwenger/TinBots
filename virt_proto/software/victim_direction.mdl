@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.44"
+    ComputedModelVersion    "1.41"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -104,7 +104,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -113,9 +113,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1886.0, 883.0]
+	Extents			[1864.0, 901.0]
 	ZoomFactor		[1.25]
-	Offset			[0.0, 0.0]
+	Offset			[-141.07029316585422, -108.89379260413752]
       }
     }
   }
@@ -123,11 +123,11 @@ Model {
   Creator		  "maximilian"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "marlene"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 23:26:12 2016"
-  RTWModifiedTimeStamp	  386724368
-  ModelVersionFormat	  "1.%<AutoIncrement:44>"
+  LastModifiedDate	  "Wed Jun 01 21:33:32 2016"
+  RTWModifiedTimeStamp	  386717545
+  ModelVersionFormat	  "1.%<AutoIncrement:41>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -230,7 +230,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "inf"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.01"
+	  FixedStep		  "auto"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -799,7 +799,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
+      ConfigPrmDlgPosition     [ 89, 87, 1008, 765 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -1366,7 +1366,7 @@ Stateflow {
     id			    2
     name		    "Chart"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [153.551 2039.079 -12.435 870.344]
+    viewLimits		    [153.551 2039.551 -12.435 872.565]
     zoomFactor		    1.333
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1444,7 +1444,7 @@ Stateflow {
   state {
     id			    7
     labelString		    "Done\nentry:\nvictim_found = 1;\nmotor_right = 0;\nmotor_left = 0;"
-    position		    [933.2865 545.4785 119.7957 84]
+    position		    [933.2865 545.4785 102.8 84]
     fontSize		    12
     chart		    2
     treeNode		    [3 0 6 0]
@@ -1507,7 +1507,7 @@ Stateflow {
     midPoint		    [907.5809 220.1808]
     chart		    2
     linkNode		    [3 9 11]
-    dataLimits		    [829.951 993.211 217.781 222.581]
+    dataLimits		    [829.951 993.21 217.781 222.581]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -1552,12 +1552,12 @@ Stateflow {
     }
     dst {
       id		      7
-      intersection	      [1 0 -1 0.3854 979.4565 545.4785 0 0]
+      intersection	      [1 0 -1 0.4491 979.4565 545.4785 0 0]
     }
     midPoint		    [979.4565 494.8703]
     chart		    2
     linkNode		    [3 11 0]
-    dataLimits		    [977.057 981.856 452.262 545.479]
+    dataLimits		    [977.056 981.856 452.262 545.478]
     subviewer		    2
     drawStyle		    SMART
     slide {
