@@ -4,7 +4,19 @@ Model {
   MdlSubVersion		  1
   SavedCharacterEncoding  "UTF-8"
   GraphicalInterface {
-    NumRootInports	    7
+    NumRootInports	    9
+    Inport {
+      Name		      "initial_x"
+      BusObject		      ""
+      OutputFunctionCall      "off"
+      UnitExpr		      "inherit"
+    }
+    Inport {
+      Name		      "initial_y"
+      BusObject		      ""
+      OutputFunctionCall      "off"
+      UnitExpr		      "inherit"
+    }
     Inport {
       Name		      "found_victim_phi"
       BusObject		      ""
@@ -89,7 +101,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.59"
+    ComputedModelVersion    "1.60"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -147,11 +159,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"StateflowChart"
-	LoadSaveID		"1"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1234.0, 600.0]
-	ZoomFactor		[0.91996320147194088]
-	Offset			[-88.039998464520153, 92.2258197001078]
+	ZoomFactor		[1.75]
+	Offset			[19.961259079903243, 303.47937789650189]
       }
     }
   }
@@ -161,9 +173,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 19:01:01 2016"
-  RTWModifiedTimeStamp	  386708285
-  ModelVersionFormat	  "1.%<AutoIncrement:59>"
+  LastModifiedDate	  "Wed Jun 01 19:26:01 2016"
+  RTWModifiedTimeStamp	  386709959
+  ModelVersionFormat	  "1.%<AutoIncrement:60>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -999,7 +1011,7 @@ Model {
   System {
     Name		    "traffic_cop"
     Location		    [0, 31, 1280, 804]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1010,15 +1022,33 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "118"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "25"
+    SIDHighWatermark	    "27"
+    Block {
+      BlockType		      Inport
+      Name		      "initial_x"
+      SID		      "26"
+      Position		      [240, 533, 270, 547]
+      ZOrder		      183
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "initial_y"
+      SID		      "27"
+      Position		      [240, 573, 270, 587]
+      ZOrder		      184
+      Port		      "2"
+      IconDisplay	      "Port number"
+    }
     Block {
       BlockType		      Inport
       Name		      "found_victim_phi"
       SID		      "4"
       Position		      [240, 293, 270, 307]
       ZOrder		      161
+      Port		      "3"
       IconDisplay	      "Port number"
       Port {
 	PortNumber		1
@@ -1033,7 +1063,7 @@ Model {
       SID		      "5"
       Position		      [240, 253, 270, 267]
       ZOrder		      162
-      Port		      "2"
+      Port		      "4"
       IconDisplay	      "Port number"
       Port {
 	PortNumber		1
@@ -1048,7 +1078,7 @@ Model {
       SID		      "6"
       Position		      [240, 333, 270, 347]
       ZOrder		      163
-      Port		      "3"
+      Port		      "5"
       IconDisplay	      "Port number"
       Port {
 	PortNumber		1
@@ -1063,7 +1093,7 @@ Model {
       SID		      "7"
       Position		      [240, 453, 270, 467]
       ZOrder		      164
-      Port		      "4"
+      Port		      "6"
       IconDisplay	      "Port number"
     }
     Block {
@@ -1072,7 +1102,7 @@ Model {
       SID		      "8"
       Position		      [240, 493, 270, 507]
       ZOrder		      165
-      Port		      "5"
+      Port		      "7"
       IconDisplay	      "Port number"
     }
     Block {
@@ -1081,7 +1111,7 @@ Model {
       SID		      "23"
       Position		      [240, 413, 270, 427]
       ZOrder		      180
-      Port		      "6"
+      Port		      "8"
       IconDisplay	      "Port number"
       Port {
 	PortNumber		1
@@ -1096,7 +1126,7 @@ Model {
       SID		      "24"
       Position		      [240, 373, 270, 387]
       ZOrder		      181
-      Port		      "7"
+      Port		      "9"
       IconDisplay	      "Port number"
       Port {
 	PortNumber		1
@@ -1113,7 +1143,8 @@ Model {
       Position		      [135, 680, 235, 875]
       ZOrder		      182
       BlockMirror	      on
-      ScopeSpecificationString "C++SS(StrPVP('SaveName','ScopeData'))"
+      ScopeSpecificationString "C++SS(StrPVP('SaveName','ScopeData'),StrPVP('LimitDataPoints','on'),StrPVP('DataFormat"
+      "','Array'),StrPVP('Decimation','1'),StrPVP('BlockParamSampleInput','off'))"
       NumInputPorts	      "8"
     }
     Block {
@@ -1154,7 +1185,7 @@ Model {
       System {
 	Name			"traffic_cop"
 	Location		[0, 31, 1280, 804]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1698,6 +1729,20 @@ Model {
 	DstPort			4
       }
     }
+    Line {
+      ZOrder		      62
+      SrcBlock		      "initial_x"
+      SrcPort		      1
+      DstBlock		      "traffic_cop"
+      DstPort		      8
+    }
+    Line {
+      ZOrder		      63
+      SrcBlock		      "initial_y"
+      SrcPort		      1
+      DstBlock		      "traffic_cop"
+      DstPort		      9
+    }
   }
 }
 #Finite State Machines
@@ -1728,10 +1773,7 @@ Stateflow {
     treeNode		    [0 10 0 0]
     firstTransition	    33
     viewObj		    2
-    visible		    1
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    77
     decomposition	    CLUSTER_CHART
     firstData		    19
@@ -1753,8 +1795,6 @@ Stateflow {
     ssIdNumber		    1
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1768,8 +1808,6 @@ Stateflow {
     ssIdNumber		    61
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    5
@@ -1783,8 +1821,6 @@ Stateflow {
     ssIdNumber		    30
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -1799,8 +1835,6 @@ Stateflow {
     ssIdNumber		    66
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    7
@@ -1814,8 +1848,6 @@ Stateflow {
     ssIdNumber		    51
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
@@ -1829,8 +1861,6 @@ Stateflow {
     ssIdNumber		    37
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    9
@@ -1846,8 +1876,6 @@ Stateflow {
     ssIdNumber		    44
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    10
@@ -1862,8 +1890,6 @@ Stateflow {
     ssIdNumber		    71
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    11

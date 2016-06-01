@@ -43,7 +43,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.35"
+    ComputedModelVersion    "1.36"
     NumModelReferences	    6
     ModelReference {
       ModelRefBlockPath	      "controller/find_and_execute_path/path_executor|Path"
@@ -97,7 +97,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1920.0, 0.0, 1920.0, 1174.0]
+      Location		      [1920.0, 31.0, 1920.0, 1174.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -112,7 +112,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[0]
+	Visible			[1]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -121,9 +121,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1884.0, 1042.0]
-	ZoomFactor		[0.8]
-	Offset			[270.34251449829912, 129.59904848623614]
+	Extents			[1886.0, 1007.0]
+	ZoomFactor		[1.5]
+	Offset			[1500.1536137077517, 271.78481141261767]
       }
     }
   }
@@ -131,11 +131,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "maximilian"
+  LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 19:12:39 2016"
-  RTWModifiedTimeStamp	  386709158
-  ModelVersionFormat	  "1.%<AutoIncrement:35>"
+  LastModifiedDate	  "Wed Jun 01 19:27:33 2016"
+  RTWModifiedTimeStamp	  386710034
+  ModelVersionFormat	  "1.%<AutoIncrement:36>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -987,7 +987,7 @@ Model {
   }
   System {
     Name		    "controller"
-    Location		    [1920, 0, 3840, 1174]
+    Location		    [1920, 31, 3840, 1205]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -999,7 +999,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "80"
+    ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "66"
     Block {
@@ -1065,7 +1065,7 @@ Model {
       Name		      "Demux1"
       SID		      "31"
       Ports		      [1, 2]
-      Position		      [1520, 386, 1525, 439]
+      Position		      [1520, 381, 1525, 434]
       ZOrder		      380
       ShowName		      off
       Outputs		      "2"
@@ -1098,7 +1098,7 @@ Model {
       Name		      "find_and_execute_path"
       SID		      "55"
       Ports		      [5, 3]
-      Position		      [2155, 386, 2405, 604]
+      Position		      [2155, 371, 2405, 619]
       ZOrder		      -21
       RequestExecContextInheritance off
       Variant		      off
@@ -1474,22 +1474,24 @@ Model {
       BlockType		      ModelReference
       Name		      "traffic_cop"
       SID		      "51"
-      Ports		      [7, 5]
-      Position		      [1770, 313, 2005, 547]
+      Ports		      [9, 5]
+      Position		      [1775, 375, 1985, 615]
       ZOrder		      383
       ModelNameDialog	      "traffic_cop"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.59"
+      ModelReferenceVersion   "1.60"
       List {
 	ListType		InputPortNames
-	port0			"found_victim_phi"
-	port1			"need_angle"
-	port2			"found_victim_xy"
-	port3			"victim_x"
-	port4			"victim_y"
-	port5			"path_completed"
-	port6			"no_path"
+	port0			"initial_x"
+	port1			"initial_y"
+	port2			"found_victim_phi"
+	port3			"need_angle"
+	port4			"found_victim_xy"
+	port5			"victim_x"
+	port6			"victim_y"
+	port7			"path_completed"
+	port8			"no_path"
       }
       List {
 	ListType		OutputPortNames
@@ -1517,13 +1519,15 @@ Model {
       }
       List {
 	ListType		InputPortSignalNames
-	port0			"found_victim_phi"
-	port1			"need_angle"
-	port2			"found_victim_xy"
-	port3			""
-	port4			""
-	port5			"path_completed"
-	port6			"no_path"
+	port0			""
+	port1			""
+	port2			"found_victim_phi"
+	port3			"need_angle"
+	port4			"found_victim_xy"
+	port5			""
+	port6			""
+	port7			"path_completed"
+	port8			"no_path"
       }
       List {
 	ListType		InputPortLatchByCopyingInsideSignal
@@ -1534,6 +1538,8 @@ Model {
 	port4			"off"
 	port5			"off"
 	port6			"off"
+	port7			"off"
+	port8			"off"
       }
       List {
 	ListType		InputPortLatchByDelayingOutsideSignal
@@ -1544,6 +1550,8 @@ Model {
 	port4			"off"
 	port5			"off"
 	port6			"off"
+	port7			"off"
+	port8			"off"
       }
     }
     Block {
@@ -1700,7 +1708,7 @@ Model {
       Points		      [48, 0]
       Branch {
 	ZOrder			342
-	Points			[0, 1; 1585, 0; 0, -336]
+	Points			[0, 1; 1585, 0; 0, -326]
 	DstBlock		"find_and_execute_path"
 	DstPort			5
       }
@@ -1724,7 +1732,7 @@ Model {
       }
       Branch {
 	ZOrder			319
-	Points			[964, 0; 0, -350]
+	Points			[964, 0; 0, -345]
 	DstBlock		"find_and_execute_path"
 	DstPort			4
       }
@@ -1756,7 +1764,7 @@ Model {
       Branch {
 	ZOrder			311
 	Labels			[-1, 0]
-	Points			[0, -58; 784, 0; 0, -57]
+	Points			[0, -65]
 	DstBlock		"traffic_cop"
 	DstPort			3
       }
@@ -1817,7 +1825,6 @@ Model {
       Labels		      [1, 0]
       SrcBlock		      "victim_detector"
       SrcPort		      1
-      Points		      [320, 0; 0, -40]
       DstBlock		      "traffic_cop"
       DstPort		      4
     }
@@ -1827,7 +1834,6 @@ Model {
       Labels		      [1, 0]
       SrcBlock		      "victim_detector"
       SrcPort		      2
-      Points		      [245, 0; 0, -30]
       DstBlock		      "traffic_cop"
       DstPort		      5
     }
@@ -1835,7 +1841,7 @@ Model {
       ZOrder		      239
       SrcBlock		      "traffic_cop"
       SrcPort		      5
-      Points		      [7, 0; 0, 173; -1321, 0; 0, -78]
+      Points		      [27, 0; 0, 98; -1321, 0; 0, -78]
       DstBlock		      "victim finder"
       DstPort		      3
     }
@@ -1843,7 +1849,6 @@ Model {
       ZOrder		      235
       SrcBlock		      "victim_detector"
       SrcPort		      4
-      Points		      [195, 0; 0, -10]
       DstBlock		      "traffic_cop"
       DstPort		      7
     }
@@ -1851,7 +1856,6 @@ Model {
       ZOrder		      384
       SrcBlock		      "Demux1"
       SrcPort		      2
-      Points		      [118, 0; 0, -65]
       DstBlock		      "traffic_cop"
       DstPort		      2
     }
@@ -1859,7 +1863,6 @@ Model {
       ZOrder		      383
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [104, 0; 0, -75]
       DstBlock		      "traffic_cop"
       DstPort		      1
     }
@@ -1867,7 +1870,6 @@ Model {
       ZOrder		      336
       SrcBlock		      "traffic_cop"
       SrcPort		      3
-      Points		      [14, 0; 0, 65]
       DstBlock		      "find_and_execute_path"
       DstPort		      3
     }
@@ -1875,7 +1877,6 @@ Model {
       ZOrder		      231
       SrcBlock		      "victim_detector"
       SrcPort		      3
-      Points		      [95, 0; 0, -20]
       DstBlock		      "traffic_cop"
       DstPort		      6
     }
@@ -1905,7 +1906,6 @@ Model {
       ZOrder		      316
       SrcBlock		      "traffic_cop"
       SrcPort		      1
-      Points		      [70, 0; 0, 65]
       DstBlock		      "find_and_execute_path"
       DstPort		      1
     }
@@ -1913,7 +1913,6 @@ Model {
       ZOrder		      317
       SrcBlock		      "traffic_cop"
       SrcPort		      2
-      Points		      [33, 0; 0, 65]
       DstBlock		      "find_and_execute_path"
       DstPort		      2
     }
@@ -1921,29 +1920,33 @@ Model {
       ZOrder		      337
       SrcBlock		      "traffic_cop"
       SrcPort		      4
-      Points		      [18, 0; 0, 185; -860, 0; 0, 125]
+      Points		      [38, 0; 0, 115; -860, 0; 0, 125]
       DstBlock		      "right hand rule"
       DstPort		      1
     }
     Line {
-      ZOrder		      321
+      ZOrder		      421
       SrcBlock		      "find_and_execute_path"
       SrcPort		      2
-      Points		      [40, 0; 0, 153; -699, 0; 0, -53; 9, 0]
+      Points		      [40, 0; 0, 153; -730, 0; 0, -53]
+      DstBlock		      "traffic_cop"
+      DstPort		      9
     }
     Line {
       ZOrder		      322
       SrcBlock		      "find_and_execute_path"
       SrcPort		      3
-      Points		      [24, 0; 0, 293; -557, 0; 0, -38]
+      Points		      [24, 0; 0, 283; -557, 0; 0, -38]
       DstBlock		      "Add"
       DstPort		      3
     }
     Line {
-      ZOrder		      329
+      ZOrder		      420
       SrcBlock		      "find_and_execute_path"
       SrcPort		      1
-      Points		      [58, 0; 0, 576; -819, 0; 0, -431; 111, 0]
+      Points		      [58, 0; 0, 576; -835, 0; 0, -421]
+      DstBlock		      "traffic_cop"
+      DstPort		      8
     }
     Line {
       Name		      "found_victim_phi"
