@@ -19,3 +19,4 @@ Tests:
  - victim_direction_test: test victim direction calculation
  - approximator_test: test approximation of current position and orientation
  - follow_right_hand_tist: test right hand rule
+ - path_finder_test: test internal map generation and escape path calculation
