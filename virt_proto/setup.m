@@ -3,5 +3,5 @@ function setup()
     addpath('library');
     addpath('software');
        
-    disp(fileread('README'));
+    disp(fileread('README.txt'));
 end
