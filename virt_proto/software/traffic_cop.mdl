@@ -96,7 +96,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.54"
+    ComputedModelVersion    "1.55"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -154,11 +154,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"StateflowChart"
-	LoadSaveID		"1"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1246.0, 630.0]
-	ZoomFactor		[0.91988582468190061]
-	Offset			[269.434330738422, 5.9549027955185352]
+	ZoomFactor		[1.18]
+	Offset			[0.0, 101.69491525423729]
       }
     }
   }
@@ -168,9 +168,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 14:49:31 2016"
-  RTWModifiedTimeStamp	  386693318
-  ModelVersionFormat	  "1.%<AutoIncrement:54>"
+  LastModifiedDate	  "Wed Jun 01 15:18:57 2016"
+  RTWModifiedTimeStamp	  386695119
+  ModelVersionFormat	  "1.%<AutoIncrement:55>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1000,7 +1000,7 @@ Model {
   System {
     Name		    "Verkehrspolizist"
     Location		    [0, 23, 1280, 796]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1096,7 +1096,7 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Verkehrspolizist"
+      Name		      "traffic_cop"
       SID		      "1"
       Ports		      [9, 5]
       Position		      [420, 231, 740, 609]
@@ -1109,9 +1109,9 @@ Model {
       SFBlockType	      "Chart"
       Variant		      off
       System {
-	Name			"Verkehrspolizist"
+	Name			"traffic_cop"
 	Location		[0, 23, 1280, 796]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1479,68 +1479,68 @@ Model {
       ZOrder		      3
       SrcBlock		      "found_victim_phi"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      2
     }
     Line {
       ZOrder		      4
       SrcBlock		      "need_angle"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      1
     }
     Line {
       ZOrder		      5
       SrcBlock		      "found_victim_xy"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      3
     }
     Line {
       ZOrder		      6
       SrcBlock		      "victim_x"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      6
     }
     Line {
       ZOrder		      7
       SrcBlock		      "victim_y"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      7
     }
     Line {
       ZOrder		      10
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      5
       DstBlock		      "run_victim_finder"
       DstPort		      1
     }
     Line {
       ZOrder		      11
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      4
       DstBlock		      "run_path_finder"
       DstPort		      1
     }
     Line {
       ZOrder		      12
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      3
       DstBlock		      "run_rhr"
       DstPort		      1
     }
     Line {
       ZOrder		      13
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      2
       DstBlock		      "dst_y"
       DstPort		      1
     }
     Line {
       ZOrder		      14
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      1
       DstBlock		      "dst_x"
       DstPort		      1
@@ -1549,28 +1549,28 @@ Model {
       ZOrder		      19
       SrcBlock		      "origin_x"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      8
     }
     Line {
       ZOrder		      20
       SrcBlock		      "origin_y"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      9
     }
     Line {
       ZOrder		      28
       SrcBlock		      "path_completed"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      5
     }
     Line {
       ZOrder		      29
       SrcBlock		      "no_path"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      4
     }
   }
@@ -1591,7 +1591,7 @@ Stateflow {
   }
   chart {
     id			    2
-    name		    "Verkehrspolizist"
+    name		    "traffic_cop"
     windowPosition	    [199.5 216.75 417 348.75]
     viewLimits		    [269.434 1623.95 5.955 690.823]
     zoomFactor		    1.087
@@ -2310,7 +2310,7 @@ Stateflow {
   }
   instance {
     id			    35
-    name		    "Verkehrspolizist"
+    name		    "traffic_cop"
     machine		    1
     chart		    2
   }

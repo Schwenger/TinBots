@@ -37,16 +37,13 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.23"
+    ComputedModelVersion    "1.24"
     NumModelReferences	    7
     ModelReference {
       ModelRefBlockPath	      "controller/Model|hold_initial"
     }
     ModelReference {
       ModelRefBlockPath	      "controller/Model1|victim_detector"
-    }
-    ModelReference {
-      ModelRefBlockPath	      "controller/Verkehrspolizist|Verkehrspolizist"
     }
     ModelReference {
       ModelRefBlockPath	      "controller/find_and_execute_path/path_executor|Path"
@@ -56,6 +53,9 @@ Model {
     }
     ModelReference {
       ModelRefBlockPath	      "controller/right hand rule|follow_right_hand"
+    }
+    ModelReference {
+      ModelRefBlockPath	      "controller/traffic_cop|traffic_cop"
     }
     ModelReference {
       ModelRefBlockPath	      "controller/victim finder|ir_info_sim"
@@ -120,7 +120,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1246.0, 630.0]
 	ZoomFactor		[0.69028366781307759]
-	Offset			[1051.4189089894837, 361.4008495391023]
+	Offset			[1562.8028754077498, 610.57377368624554]
       }
     }
   }
@@ -130,9 +130,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 15:16:52 2016"
-  RTWModifiedTimeStamp	  386695012
-  ModelVersionFormat	  "1.%<AutoIncrement:23>"
+  LastModifiedDate	  "Wed Jun 01 15:20:52 2016"
+  RTWModifiedTimeStamp	  386695217
+  ModelVersionFormat	  "1.%<AutoIncrement:24>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1193,78 +1193,6 @@ Model {
       ZOrder		      382
     }
     Block {
-      BlockType		      ModelReference
-      Name		      "Verkehrspolizist"
-      SID		      "51"
-      Ports		      [9, 5]
-      Position		      [1765, 378, 2000, 612]
-      ZOrder		      383
-      ModelNameDialog	      "Verkehrspolizist"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.54"
-      List {
-	ListType		InputPortNames
-	port0			"origin_x"
-	port1			"origin_y"
-	port2			"found_victim_phi"
-	port3			"need_angle"
-	port4			"found_victim_xy"
-	port5			"victim_x"
-	port6			"victim_y"
-	port7			"path_completed"
-	port8			"no_path"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_rhr"
-	port3			"run_path_finder"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_rhr"
-	port3			"run_path_finder"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "find_and_execute_path"
       SID		      "55"
@@ -1643,6 +1571,78 @@ Model {
     }
     Block {
       BlockType		      ModelReference
+      Name		      "traffic_cop"
+      SID		      "51"
+      Ports		      [9, 5]
+      Position		      [1765, 378, 2000, 612]
+      ZOrder		      383
+      ModelNameDialog	      "traffic_cop"
+      SimulationMode	      "Normal"
+      Variant		      off
+      ModelReferenceVersion   "1.55"
+      List {
+	ListType		InputPortNames
+	port0			"origin_x"
+	port1			"origin_y"
+	port2			"found_victim_phi"
+	port3			"need_angle"
+	port4			"found_victim_xy"
+	port5			"victim_x"
+	port6			"victim_y"
+	port7			"path_completed"
+	port8			"no_path"
+      }
+      List {
+	ListType		OutputPortNames
+	port0			"dst_x"
+	port1			"dst_y"
+	port2			"run_rhr"
+	port3			"run_path_finder"
+	port4			"run_victim_finder"
+      }
+      List {
+	ListType		OutputPortOutputBusAsStructs
+	port0			"off"
+	port1			"off"
+	port2			"off"
+	port3			"off"
+	port4			"off"
+      }
+      List {
+	ListType		OutputPortSignalNames
+	port0			"dst_x"
+	port1			"dst_y"
+	port2			"run_rhr"
+	port3			"run_path_finder"
+	port4			"run_victim_finder"
+      }
+      List {
+	ListType		InputPortLatchByCopyingInsideSignal
+	port0			"off"
+	port1			"off"
+	port2			"off"
+	port3			"off"
+	port4			"off"
+	port5			"off"
+	port6			"off"
+	port7			"off"
+	port8			"off"
+      }
+      List {
+	ListType		InputPortLatchByDelayingOutsideSignal
+	port0			"off"
+	port1			"off"
+	port2			"off"
+	port3			"off"
+	port4			"off"
+	port5			"off"
+	port6			"off"
+	port7			"off"
+	port8			"off"
+      }
+    }
+    Block {
+      BlockType		      ModelReference
       Name		      "victim finder"
       SID		      "20"
       Ports		      [3, 4]
@@ -1787,7 +1787,7 @@ Model {
 	ZOrder			311
 	Labels			[-1, 0]
 	Points			[0, -65]
-	DstBlock		"Verkehrspolizist"
+	DstBlock		"traffic_cop"
 	DstPort			3
       }
       Branch {
@@ -1861,7 +1861,7 @@ Model {
       Labels		      [1, 0]
       SrcBlock		      "Model1"
       SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      4
     }
     Line {
@@ -1870,12 +1870,12 @@ Model {
       Labels		      [1, 0]
       SrcBlock		      "Model1"
       SrcPort		      2
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      5
     }
     Line {
       ZOrder		      239
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      5
       Points		      [9, 0; 0, 108; -1318, 0; 0, -78]
       DstBlock		      "victim finder"
@@ -1885,26 +1885,26 @@ Model {
       ZOrder		      235
       SrcBlock		      "Model1"
       SrcPort		      4
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      7
     }
     Line {
       ZOrder		      233
       SrcBlock		      "Demux1"
       SrcPort		      3
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      2
     }
     Line {
       ZOrder		      230
       SrcBlock		      "Demux1"
       SrcPort		      2
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      1
     }
     Line {
       ZOrder		      241
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      3
       Points		      [187, 0; 0, 690]
       DstBlock		      "right hand rule"
@@ -1914,7 +1914,7 @@ Model {
       ZOrder		      231
       SrcBlock		      "Model1"
       SrcPort		      3
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      6
     }
     Line {
@@ -1947,7 +1947,7 @@ Model {
     }
     Line {
       ZOrder		      316
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      1
       Points		      [416, 0; 0, 935]
       DstBlock		      "find_and_execute_path"
@@ -1955,7 +1955,7 @@ Model {
     }
     Line {
       ZOrder		      317
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      2
       Points		      [70, 0; 0, 905]
       DstBlock		      "find_and_execute_path"
@@ -1963,7 +1963,7 @@ Model {
     }
     Line {
       ZOrder		      331
-      SrcBlock		      "Verkehrspolizist"
+      SrcBlock		      "traffic_cop"
       SrcPort		      4
       Points		      [100, 0; 0, 830]
       DstBlock		      "find_and_execute_path"
@@ -1974,7 +1974,7 @@ Model {
       SrcBlock		      "find_and_execute_path"
       SrcPort		      1
       Points		      [124, 0; 0, 79; -1153, 0; 0, -829]
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      9
     }
     Line {
@@ -1990,7 +1990,7 @@ Model {
       SrcBlock		      "find_and_execute_path"
       SrcPort		      3
       Points		      [9, 0; 0, 43; -1052, 0; 0, -868]
-      DstBlock		      "Verkehrspolizist"
+      DstBlock		      "traffic_cop"
       DstPort		      8
     }
   }
