@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.2"
+    ComputedModelVersion    "1.3"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -115,7 +115,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1246.0, 816.0]
 	ZoomFactor		[1.5]
-	Offset			[173.37479484584588, 185.69430767500842]
+	Offset			[139.25572884959382, 121.75777523556118]
       }
     }
   }
@@ -125,9 +125,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon May 30 23:13:52 2016"
-  RTWModifiedTimeStamp	  386550828
-  ModelVersionFormat	  "1.%<AutoIncrement:2>"
+  LastModifiedDate	  "Wed Jun 01 18:52:44 2016"
+  RTWModifiedTimeStamp	  386707961
+  ModelVersionFormat	  "1.%<AutoIncrement:3>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -978,7 +978,6 @@ Model {
       Position		      [300, 298, 330, 312]
       ZOrder		      168
       IconDisplay	      "Port number"
-      OutDataTypeStr	      "[double]"
     }
     Block {
       BlockType		      Inport
