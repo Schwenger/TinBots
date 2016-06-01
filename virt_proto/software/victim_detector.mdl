@@ -6,12 +6,6 @@ Model {
   GraphicalInterface {
     NumRootInports	    3
     Inport {
-      Name		      "ir"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    Inport {
       Name		      "found_victim_phi"
       BusObject		      ""
       OutputFunctionCall      "off"
@@ -19,6 +13,12 @@ Model {
     }
     Inport {
       Name		      "victim_angle"
+      BusObject		      ""
+      OutputFunctionCall      "off"
+      UnitExpr		      "inherit"
+    }
+    Inport {
+      Name		      "current_x_y_phi"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.6"
+    ComputedModelVersion    "1.7"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -111,11 +111,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"StateflowChart"
-	LoadSaveID		"1"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1886.0, 883.0]
-	ZoomFactor		[1.0]
-	Offset			[-267.60349430356746, 299.79303722362545]
+	ZoomFactor		[1.5]
+	Offset			[-139.71428571428567, -10.095238095238017]
       }
     }
   }
@@ -125,9 +125,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "marlene"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 20:58:32 2016"
-  RTWModifiedTimeStamp	  386714415
-  ModelVersionFormat	  "1.%<AutoIncrement:6>"
+  LastModifiedDate	  "Wed Jun 01 21:44:00 2016"
+  RTWModifiedTimeStamp	  386717270
+  ModelVersionFormat	  "1.%<AutoIncrement:7>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -957,7 +957,7 @@ Model {
   System {
     Name		    "victim_detector"
     Location		    [0, 0, 1920, 1052]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -970,22 +970,13 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "8"
-    Block {
-      BlockType		      Inport
-      Name		      "ir"
-      SID		      "2"
-      Position		      [300, 298, 330, 312]
-      ZOrder		      168
-      IconDisplay	      "Port number"
-    }
+    SIDHighWatermark	    "11"
     Block {
       BlockType		      Inport
       Name		      "found_victim_phi"
       SID		      "3"
-      Position		      [300, 343, 330, 357]
+      Position		      [275, 293, 305, 307]
       ZOrder		      169
-      Port		      "2"
       IconDisplay	      "Port number"
       OutDataTypeStr	      "boolean"
     }
@@ -993,11 +984,38 @@ Model {
       BlockType		      Inport
       Name		      "victim_angle"
       SID		      "4"
-      Position		      [300, 388, 330, 402]
+      Position		      [275, 328, 305, 342]
       ZOrder		      170
-      Port		      "3"
+      Port		      "2"
       IconDisplay	      "Port number"
       OutDataTypeStr	      "double"
+    }
+    Block {
+      BlockType		      Inport
+      Name		      "current_x_y_phi"
+      SID		      "9"
+      Position		      [275, 398, 305, 412]
+      ZOrder		      175
+      Port		      "3"
+      IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      SID		      "10"
+      Ports		      [1, 3]
+      Position		      [350, 350, 355, 460]
+      ZOrder		      176
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      SID		      "11"
+      Position		      [390, 430, 410, 450]
+      ZOrder		      177
     }
     Block {
       BlockType		      SubSystem
@@ -1016,7 +1034,7 @@ Model {
       System {
 	Name			"victim detector (C)"
 	Location		[0, 0, 1920, 1052]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1236,7 +1254,7 @@ Model {
       BlockType		      Outport
       Name		      "need_angle"
       SID		      "5"
-      Position		      [645, 288, 675, 302]
+      Position		      [645, 293, 675, 307]
       ZOrder		      171
       IconDisplay	      "Port number"
     }
@@ -1244,7 +1262,7 @@ Model {
       BlockType		      Outport
       Name		      "found_victim_xy"
       SID		      "6"
-      Position		      [645, 323, 675, 337]
+      Position		      [645, 328, 675, 342]
       ZOrder		      172
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1253,7 +1271,7 @@ Model {
       BlockType		      Outport
       Name		      "victim_x"
       SID		      "7"
-      Position		      [645, 358, 675, 372]
+      Position		      [645, 363, 675, 377]
       ZOrder		      173
       Port		      "3"
       IconDisplay	      "Port number"
@@ -1262,22 +1280,15 @@ Model {
       BlockType		      Outport
       Name		      "victim_y"
       SID		      "8"
-      Position		      [645, 393, 675, 407]
+      Position		      [645, 398, 675, 412]
       ZOrder		      174
       Port		      "4"
       IconDisplay	      "Port number"
     }
     Line {
-      ZOrder		      1
-      SrcBlock		      "ir"
-      SrcPort		      1
-      Points		      [40, 0; 10, -15]
-    }
-    Line {
       ZOrder		      2
       SrcBlock		      "found_victim_phi"
       SrcPort		      1
-      Points		      [40, 0]
       DstBlock		      "victim detector (C)"
       DstPort		      1
     }
@@ -1285,7 +1296,6 @@ Model {
       ZOrder		      3
       SrcBlock		      "victim_angle"
       SrcPort		      1
-      Points		      [40, 0]
       DstBlock		      "victim detector (C)"
       DstPort		      2
     }
@@ -1293,7 +1303,6 @@ Model {
       ZOrder		      4
       SrcBlock		      "victim detector (C)"
       SrcPort		      1
-      Points		      [0, -5]
       DstBlock		      "need_angle"
       DstPort		      1
     }
@@ -1301,7 +1310,6 @@ Model {
       ZOrder		      5
       SrcBlock		      "victim detector (C)"
       SrcPort		      2
-      Points		      [0, -5]
       DstBlock		      "found_victim_xy"
       DstPort		      1
     }
@@ -1309,7 +1317,6 @@ Model {
       ZOrder		      6
       SrcBlock		      "victim detector (C)"
       SrcPort		      3
-      Points		      [0, -5]
       DstBlock		      "victim_x"
       DstPort		      1
     }
@@ -1317,8 +1324,35 @@ Model {
       ZOrder		      7
       SrcBlock		      "victim detector (C)"
       SrcPort		      4
-      Points		      [0, -5]
       DstBlock		      "victim_y"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      9
+      SrcBlock		      "Demux"
+      SrcPort		      1
+      DstBlock		      "victim detector (C)"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      10
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      DstBlock		      "victim detector (C)"
+      DstPort		      4
+    }
+    Line {
+      ZOrder		      11
+      SrcBlock		      "Demux"
+      SrcPort		      3
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      12
+      SrcBlock		      "current_x_y_phi"
+      SrcPort		      1
+      DstBlock		      "Demux"
       DstPort		      1
     }
   }
@@ -1341,8 +1375,8 @@ Stateflow {
     id			    2
     name		    "victim detector (C)"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [-267.603 1618.397 299.793 1182.793]
-    zoomFactor		    1.333
+    viewLimits		    [-468.353 1889.147 199.543 1303.293]
+    zoomFactor		    1.667
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -1376,8 +1410,6 @@ Stateflow {
     ssIdNumber		    15
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1396,8 +1428,6 @@ Stateflow {
     ssIdNumber		    16
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    5
@@ -1412,8 +1442,6 @@ Stateflow {
     ssIdNumber		    17
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -1428,8 +1456,6 @@ Stateflow {
     ssIdNumber		    18
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    7
@@ -1844,7 +1870,6 @@ Stateflow {
     midPoint		    [699.602 203.5171]
     chart		    2
     linkNode		    [2 0 24]
-    visible		    0
     dataLimits		    [697.202 702.002 188.517 218.517]
     subviewer		    2
     slide {
@@ -1869,7 +1894,6 @@ Stateflow {
     midPoint		    [733.7068 374.1305]
     chart		    2
     linkNode		    [2 23 25]
-    visible		    0
     dataLimits		    [731.307 736.107 343.817 412.444]
     subviewer		    2
     drawStyle		    SMART
@@ -1920,7 +1944,6 @@ Stateflow {
     midPoint		    [1027.5976 717.5487]
     chart		    2
     linkNode		    [2 25 27]
-    visible		    0
     dataLimits		    [861.867 1044.056 630.792 919.949]
     subviewer		    2
     slide {
@@ -1945,7 +1968,6 @@ Stateflow {
     midPoint		    [729.5833 744.3781]
     chart		    2
     linkNode		    [2 26 0]
-    visible		    0
     dataLimits		    [727.183 731.983 680.473 816.283]
     subviewer		    2
     slide {
