@@ -4,7 +4,7 @@ Model {
   MdlSubVersion		  1
   SavedCharacterEncoding  "US-ASCII"
   GraphicalInterface {
-    NumRootInports	    12
+    NumRootInports	    9
     Inport {
       Name		      "need_angle"
       BusObject		      ""
@@ -24,13 +24,7 @@ Model {
       UnitExpr		      "inherit"
     }
     Inport {
-      Name		      "waypoint_available"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    Inport {
-      Name		      "waypoint_reached"
+      Name		      "path_completed"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -65,19 +59,7 @@ Model {
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
-    Inport {
-      Name		      "waypoint_x"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    Inport {
-      Name		      "waypoint_y"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    NumRootOutports	    6
+    NumRootOutports	    5
     Outport {
       Name		      "dst_x"
       BusObject		      ""
@@ -113,15 +95,8 @@ Model {
       SignalName	      "run_victim_finder"
       UnitExpr		      "inherit"
     }
-    Outport {
-      Name		      "run_path_execution"
-      BusObject		      ""
-      BusOutputAsStruct	      "off"
-      SignalName	      "run_path_execution"
-      UnitExpr		      "inherit"
-    }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.24"
+    ComputedModelVersion    "1.40"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -182,8 +157,8 @@ Model {
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"1"
 	Extents			[1246.0, 630.0]
-	ZoomFactor		[0.91988582468190072]
-	Offset			[269.43433073842186, 6.3346429402164972]
+	ZoomFactor		[0.91988582468190061]
+	Offset			[269.434330738422, 5.9549027955185352]
       }
     }
   }
@@ -193,9 +168,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 14:07:44 2016"
-  RTWModifiedTimeStamp	  386690838
-  ModelVersionFormat	  "1.%<AutoIncrement:24>"
+  LastModifiedDate	  "Wed Jun 01 14:33:35 2016"
+  RTWModifiedTimeStamp	  386692414
+  ModelVersionFormat	  "1.%<AutoIncrement:40>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1038,12 +1013,12 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "118"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "23"
+    SIDHighWatermark	    "24"
     Block {
       BlockType		      Inport
       Name		      "need_angle"
       SID		      "5"
-      Position		      [295, 238, 325, 252]
+      Position		      [295, 253, 325, 267]
       ZOrder		      162
       IconDisplay	      "Port number"
     }
@@ -1051,7 +1026,7 @@ Model {
       BlockType		      Inport
       Name		      "found_victim_phi"
       SID		      "4"
-      Position		      [295, 268, 325, 282]
+      Position		      [295, 293, 325, 307]
       ZOrder		      161
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1060,98 +1035,71 @@ Model {
       BlockType		      Inport
       Name		      "found_victim_xy"
       SID		      "6"
-      Position		      [295, 298, 325, 312]
+      Position		      [295, 333, 325, 347]
       ZOrder		      163
       Port		      "3"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
-      Name		      "waypoint_available"
-      SID		      "9"
-      Position		      [295, 328, 325, 342]
-      ZOrder		      166
+      Name		      "path_completed"
+      SID		      "23"
+      Position		      [295, 413, 325, 427]
+      ZOrder		      180
       Port		      "4"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
-      Name		      "waypoint_reached"
-      SID		      "10"
-      Position		      [295, 358, 325, 372]
-      ZOrder		      167
-      Port		      "5"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Inport
       Name		      "no_path"
-      SID		      "23"
-      Position		      [295, 388, 325, 402]
-      ZOrder		      180
-      Port		      "6"
+      SID		      "24"
+      Position		      [295, 373, 325, 387]
+      ZOrder		      181
+      Port		      "5"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
       Name		      "victim_x"
       SID		      "7"
-      Position		      [295, 418, 325, 432]
+      Position		      [295, 453, 325, 467]
       ZOrder		      164
-      Port		      "7"
+      Port		      "6"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
       Name		      "victim_y"
       SID		      "8"
-      Position		      [295, 448, 325, 462]
+      Position		      [295, 493, 325, 507]
       ZOrder		      165
-      Port		      "8"
+      Port		      "7"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
       Name		      "origin_x"
       SID		      "21"
-      Position		      [295, 478, 325, 492]
+      Position		      [295, 533, 325, 547]
       ZOrder		      178
-      Port		      "9"
+      Port		      "8"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      Inport
       Name		      "origin_y"
       SID		      "22"
-      Position		      [295, 508, 325, 522]
+      Position		      [295, 573, 325, 587]
       ZOrder		      179
-      Port		      "10"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Inport
-      Name		      "waypoint_x"
-      SID		      "19"
-      Position		      [295, 538, 325, 552]
-      ZOrder		      176
-      Port		      "11"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Inport
-      Name		      "waypoint_y"
-      SID		      "20"
-      Position		      [295, 568, 325, 582]
-      ZOrder		      177
-      Port		      "12"
+      Port		      "9"
       IconDisplay	      "Port number"
     }
     Block {
       BlockType		      SubSystem
       Name		      "Verkehrspolizist"
       SID		      "1"
-      Ports		      [12, 6]
-      Position		      [420, 223, 740, 597]
+      Ports		      [9, 5]
+      Position		      [420, 231, 740, 609]
       ZOrder		      158
       LibraryVersion	      "1.267"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -1175,7 +1123,7 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"108"
+	SIDHighWatermark	"109"
 	Block {
 	  BlockType		  Inport
 	  Name			  "need_angle"
@@ -1204,83 +1152,56 @@ Model {
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "waypoint_available"
-	  SID			  "1::106"
+	  Name			  "no_path"
+	  SID			  "1::95"
 	  Position		  [20, 206, 40, 224]
-	  ZOrder		  86
+	  ZOrder		  75
 	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "waypoint_reached"
-	  SID			  "1::107"
+	  Name			  "path_completed"
+	  SID			  "1::109"
 	  Position		  [20, 246, 40, 264]
-	  ZOrder		  87
+	  ZOrder		  89
 	  Port			  "5"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "no_path"
-	  SID			  "1::95"
-	  Position		  [20, 281, 40, 299]
-	  ZOrder		  75
-	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "victim_x"
 	  SID			  "1::85"
-	  Position		  [20, 316, 40, 334]
+	  Position		  [20, 281, 40, 299]
 	  ZOrder		  65
-	  Port			  "7"
+	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "victim_y"
 	  SID			  "1::86"
-	  Position		  [20, 351, 40, 369]
+	  Position		  [20, 316, 40, 334]
 	  ZOrder		  66
-	  Port			  "8"
+	  Port			  "7"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "origin_x"
 	  SID			  "1::104"
-	  Position		  [20, 386, 40, 404]
+	  Position		  [20, 351, 40, 369]
 	  ZOrder		  84
-	  Port			  "9"
+	  Port			  "8"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "origin_y"
 	  SID			  "1::105"
-	  Position		  [20, 426, 40, 444]
+	  Position		  [20, 386, 40, 404]
 	  ZOrder		  85
-	  Port			  "10"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "waypoint_x"
-	  SID			  "1::103"
-	  Position		  [20, 461, 40, 479]
-	  ZOrder		  83
-	  Port			  "11"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "waypoint_y"
-	  SID			  "1::102"
-	  Position		  [20, 496, 40, 514]
-	  ZOrder		  82
-	  Port			  "12"
+	  Port			  "9"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -1288,7 +1209,7 @@ Model {
 	  Name			  " Demux "
 	  SID			  "1::78"
 	  Ports			  [1, 1]
-	  Position		  [270, 350, 320, 390]
+	  Position		  [270, 315, 320, 355]
 	  ZOrder		  58
 	  Outputs		  "1"
 	}
@@ -1297,11 +1218,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "1::77"
 	  Tag			  "Stateflow S-Function Verkehrspolizist 1"
-	  Ports			  [12, 7]
-	  Position		  [180, 110, 230, 370]
+	  Ports			  [9, 6]
+	  Position		  [180, 110, 230, 310]
 	  ZOrder		  57
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[12 7]"
+	  PortCounts		  "[9 6]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  Port {
@@ -1334,18 +1255,12 @@ Model {
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
 	  }
-	  Port {
-	    PortNumber		    7
-	    Name		    "run_path_execution"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
 	}
 	Block {
 	  BlockType		  Terminator
 	  Name			  " Terminator "
 	  SID			  "1::99"
-	  Position		  [460, 361, 480, 379]
+	  Position		  [460, 326, 480, 344]
 	  ZOrder		  79
 	}
 	Block {
@@ -1392,102 +1307,72 @@ Model {
 	  Port			  "5"
 	  IconDisplay		  "Port number"
 	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "run_path_execution"
-	  SID			  "1::108"
-	  Position		  [460, 281, 480, 299]
-	  ZOrder		  88
-	  Port			  "6"
-	  IconDisplay		  "Port number"
-	}
 	Line {
-	  ZOrder		  384
+	  ZOrder		  505
 	  SrcBlock		  "need_angle"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  385
+	  ZOrder		  506
 	  SrcBlock		  "found_victim_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  386
+	  ZOrder		  507
 	  SrcBlock		  "found_victim_xy"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  387
-	  SrcBlock		  "waypoint_available"
+	  ZOrder		  508
+	  SrcBlock		  "no_path"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  ZOrder		  388
-	  SrcBlock		  "waypoint_reached"
+	  ZOrder		  509
+	  SrcBlock		  "path_completed"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  5
 	}
 	Line {
-	  ZOrder		  389
-	  SrcBlock		  "no_path"
+	  ZOrder		  510
+	  SrcBlock		  "victim_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  6
 	}
 	Line {
-	  ZOrder		  390
-	  SrcBlock		  "victim_x"
+	  ZOrder		  511
+	  SrcBlock		  "victim_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  7
 	}
 	Line {
-	  ZOrder		  391
-	  SrcBlock		  "victim_y"
+	  ZOrder		  512
+	  SrcBlock		  "origin_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  8
 	}
 	Line {
-	  ZOrder		  392
-	  SrcBlock		  "origin_x"
+	  ZOrder		  513
+	  SrcBlock		  "origin_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  9
 	}
 	Line {
-	  ZOrder		  393
-	  SrcBlock		  "origin_y"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  10
-	}
-	Line {
-	  ZOrder		  394
-	  SrcBlock		  "waypoint_x"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  11
-	}
-	Line {
-	  ZOrder		  395
-	  SrcBlock		  "waypoint_y"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  12
-	}
-	Line {
 	  Name			  "dst_x"
-	  ZOrder		  396
+	  ZOrder		  514
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1496,7 +1381,7 @@ Model {
 	}
 	Line {
 	  Name			  "dst_y"
-	  ZOrder		  397
+	  ZOrder		  515
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -1505,7 +1390,7 @@ Model {
 	}
 	Line {
 	  Name			  "run_rhr"
-	  ZOrder		  398
+	  ZOrder		  516
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  4
@@ -1514,7 +1399,7 @@ Model {
 	}
 	Line {
 	  Name			  "run_path_finder"
-	  ZOrder		  399
+	  ZOrder		  517
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  5
@@ -1523,7 +1408,7 @@ Model {
 	}
 	Line {
 	  Name			  "run_victim_finder"
-	  ZOrder		  400
+	  ZOrder		  518
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  6
@@ -1531,23 +1416,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "run_path_execution"
-	  ZOrder		  401
-	  Labels		  [0, 0]
-	  SrcBlock		  " SFunction "
-	  SrcPort		  7
-	  DstBlock		  "run_path_execution"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  402
+	  ZOrder		  519
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  403
+	  ZOrder		  520
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1559,7 +1435,7 @@ Model {
       BlockType		      Outport
       Name		      "dst_x"
       SID		      "12"
-      Position		      [790, 253, 820, 267]
+      Position		      [790, 263, 820, 277]
       ZOrder		      169
       IconDisplay	      "Port number"
     }
@@ -1567,7 +1443,7 @@ Model {
       BlockType		      Outport
       Name		      "dst_y"
       SID		      "13"
-      Position		      [790, 313, 820, 327]
+      Position		      [790, 338, 820, 352]
       ZOrder		      170
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1576,7 +1452,7 @@ Model {
       BlockType		      Outport
       Name		      "run_rhr"
       SID		      "14"
-      Position		      [790, 373, 820, 387]
+      Position		      [790, 413, 820, 427]
       ZOrder		      171
       Port		      "3"
       IconDisplay	      "Port number"
@@ -1585,7 +1461,7 @@ Model {
       BlockType		      Outport
       Name		      "run_path_finder"
       SID		      "15"
-      Position		      [790, 433, 820, 447]
+      Position		      [790, 488, 820, 502]
       ZOrder		      172
       Port		      "4"
       IconDisplay	      "Port number"
@@ -1594,18 +1470,9 @@ Model {
       BlockType		      Outport
       Name		      "run_victim_finder"
       SID		      "16"
-      Position		      [790, 493, 820, 507]
+      Position		      [790, 563, 820, 577]
       ZOrder		      173
       Port		      "5"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Outport
-      Name		      "run_path_execution"
-      SID		      "18"
-      Position		      [790, 553, 820, 567]
-      ZOrder		      175
-      Port		      "6"
       IconDisplay	      "Port number"
     }
     Line {
@@ -1634,28 +1501,14 @@ Model {
       SrcBlock		      "victim_x"
       SrcPort		      1
       DstBlock		      "Verkehrspolizist"
-      DstPort		      7
+      DstPort		      6
     }
     Line {
       ZOrder		      7
       SrcBlock		      "victim_y"
       SrcPort		      1
       DstBlock		      "Verkehrspolizist"
-      DstPort		      8
-    }
-    Line {
-      ZOrder		      15
-      SrcBlock		      "waypoint_available"
-      SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
-      DstPort		      4
-    }
-    Line {
-      ZOrder		      16
-      SrcBlock		      "waypoint_reached"
-      SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
-      DstPort		      5
+      DstPort		      7
     }
     Line {
       ZOrder		      10
@@ -1693,46 +1546,32 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      17
-      SrcBlock		      "waypoint_x"
-      SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
-      DstPort		      11
-    }
-    Line {
-      ZOrder		      18
-      SrcBlock		      "waypoint_y"
-      SrcPort		      1
-      DstBlock		      "Verkehrspolizist"
-      DstPort		      12
-    }
-    Line {
       ZOrder		      19
       SrcBlock		      "origin_x"
       SrcPort		      1
       DstBlock		      "Verkehrspolizist"
-      DstPort		      9
+      DstPort		      8
     }
     Line {
       ZOrder		      20
       SrcBlock		      "origin_y"
       SrcPort		      1
       DstBlock		      "Verkehrspolizist"
-      DstPort		      10
+      DstPort		      9
     }
     Line {
-      ZOrder		      21
+      ZOrder		      28
+      SrcBlock		      "path_completed"
+      SrcPort		      1
+      DstBlock		      "Verkehrspolizist"
+      DstPort		      5
+    }
+    Line {
+      ZOrder		      29
       SrcBlock		      "no_path"
       SrcPort		      1
       DstBlock		      "Verkehrspolizist"
-      DstPort		      6
-    }
-    Line {
-      ZOrder		      22
-      SrcBlock		      "Verkehrspolizist"
-      SrcPort		      6
-      DstBlock		      "run_path_execution"
-      DstPort		      1
+      DstPort		      4
     }
   }
 }
@@ -1747,14 +1586,14 @@ Stateflow {
     name		    "Verkehrspolizist"
     created		    "30-May-2016 22:57:17"
     isLibrary		    0
-    firstTarget		    44
+    firstTarget		    41
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "Verkehrspolizist"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [269.434 1623.95 6.335 691.202]
+    viewLimits		    [269.434 1623.95 5.955 690.823]
     zoomFactor		    1.087
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1762,13 +1601,13 @@ Stateflow {
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
     treeNode		    [0 7 0 0]
-    firstTransition	    36
+    firstTransition	    32
     viewObj		    2
     visible		    1
     machine		    1
     subviewS {
     }
-    ssIdHighWaterMark	    64
+    ssIdHighWaterMark	    69
     decomposition	    CLUSTER_CHART
     firstData		    18
     chartFileNumber	    1
@@ -1779,8 +1618,7 @@ Stateflow {
   }
   state {
     id			    3
-    labelString		    "Initialization\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;\nrun_victim_finder = 0;\nrun_path_exe"
-    "cution = 0;\n"
+    labelString		    "Initialization\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;\nrun_victim_finder = 0;\n"
     position		    [303.8014 85.0313 160.0714 88.4286]
     fontSize		    12
     chart		    2
@@ -1793,8 +1631,7 @@ Stateflow {
   }
   state {
     id			    4
-    labelString		    "GotVictimTrace\n% actually not needed, debugging only\nentry:\nrun_victim_finder = 0;\nrun_rhr ="
-    " 1;\nexit:\nstart_rescue = 1;"
+    labelString		    "GotVictimTrace\n% actually not needed, debugging only\nentry:\nrun_victim_finder = 0;\nrun_rhr = 1;\n"
     position		    [604.9147 84.3765 218 89.7381]
     fontSize		    12
     chart		    2
@@ -1807,8 +1644,7 @@ Stateflow {
   }
   state {
     id			    5
-    labelString		    "RunToVictim\nentry:\nrun_rhr = 0;\nrun_path_finder = 1;\nrun_path_execution = 0;\ndst_x = victim"
-    "_x;\ndst_y = victim_y;\n"
+    labelString		    "RunToVictim\nentry:\nrun_rhr = 0;\nrun_path_finder = 1;\ndst_x = victim_x;\ndst_y = victim_y;\n"
     position		    [307.6942 381.0017 152.2857 98.8571]
     fontSize		    12
     chart		    2
@@ -1821,14 +1657,15 @@ Stateflow {
   }
   state {
     id			    6
-    labelString		    "ExecutePath\nentry:\nrun_path_finder = 0;\nrun_path_execution = 1;"
-    position		    [985.049 372.74 169.4286 65.6438]
+    labelString		    "NoPathFound\n% fault tolerance state: no path found but\n% by assumtions there is one -> faulty "
+    "sensor data -> RHR\nentry:\nrun_rhr = 1;\nrun_path_finder = 0;"
+    position		    [1003.5296 382.6753 337.8568 91.5257]
     fontSize		    12
     chart		    2
     treeNode		    [2 0 9 11]
     visible		    0
     subviewer		    2
-    ssIdNumber		    32
+    ssIdNumber		    66
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
   }
@@ -1863,12 +1700,11 @@ Stateflow {
   state {
     id			    9
     labelString		    "FollowPath"
-    position		    [293.1094 329.4303 514.4743 196.9286]
+    position		    [293.1094 329.4303 555.7838 198.0157]
     fontSize		    12
     chart		    2
     treeNode		    [2 10 8 6]
-    firstTransition	    16
-    firstJunction	    15
+    firstTransition	    15
     visible		    0
     subviewer		    2
     ssIdNumber		    44
@@ -1877,12 +1713,13 @@ Stateflow {
   }
   state {
     id			    10
-    labelString		    "GetOuttaHere\n% not needed, debugging/readability\nentry:\nrun_path_finder = 1;\nrun_path_execut"
-    "ion = 0;\ndst_x = origin_x;\ndst_y = origin_y;\n"
-    position		    [547.817 379.8588 214 101.1429]
+    labelString		    "GetOuttaHere\n% not needed, debugging/readability\nentry:\nrun_path_finder = 1;\ndst_x = origin_"
+    "x;\ndst_y = origin_y;\n"
+    position		    [585.8652 378.7717 214 101.1429]
     fontSize		    12
     chart		    2
     treeNode		    [9 0 0 5]
+    firstJunction	    17
     visible		    0
     subviewer		    2
     ssIdNumber		    51
@@ -1891,8 +1728,8 @@ Stateflow {
   }
   state {
     id			    11
-    labelString		    "GetTheLadiesOrGentlemen\n% Done ^.^"
-    position		    [434.6092 598.855 171 59.5]
+    labelString		    "GetTheLadiesOrGentlemen\n% Done ^.^\nentry:\nrun_path_finder = 0;"
+    position		    [607.3652 603.2034 171 59.5]
     fontSize		    12
     chart		    2
     treeNode		    [2 0 6 0]
@@ -1905,7 +1742,7 @@ Stateflow {
   junction {
     id			    12
     labelString		    "H"
-    position		    [846.0354 153.5093 7.7143]
+    position		    [841.687 153.5093 7.7143]
     chart		    2
     linkNode		    [7 0 0]
     subviewer		    2
@@ -1961,18 +1798,8 @@ Stateflow {
     executionOrder	    1
     ssIdNumber		    40
   }
-  junction {
-    id			    15
-    labelString		    "H"
-    position		    [784.8584 430.4302 7]
-    chart		    2
-    linkNode		    [9 0 0]
-    subviewer		    2
-    ssIdNumber		    52
-    type		    HISTORY_JUNCTION
-  }
   transition {
-    id			    16
+    id			    15
     labelString		    ""
     labelPosition	    [420.757 366.002 0 0]
     fontSize		    12
@@ -1985,7 +1812,7 @@ Stateflow {
     }
     midPoint		    [420.7574 366.0017]
     chart		    2
-    linkNode		    [9 0 17]
+    linkNode		    [9 0 16]
     dataLimits		    [418.357 423.157 351.002 381.002]
     subviewer		    2
     drawStyle		    SMART
@@ -1996,9 +1823,9 @@ Stateflow {
     ssIdNumber		    46
   }
   transition {
-    id			    17
-    labelString		    "[no_path = 1]"
-    labelPosition	    [465.659 403.104 72.344 14]
+    id			    16
+    labelString		    "[path_completed == 1]"
+    labelPosition	    [464.723 404.191 121.328 14]
     fontSize		    12
     src {
       id		      5
@@ -2006,12 +1833,12 @@ Stateflow {
     }
     dst {
       id		      10
-      intersection	      [4 -1 -0 0.5403 547.817 426.3541 0 0]
+      intersection	      [4 -1 -0 0.5296 585.8652 426.3541 0 0]
     }
-    midPoint		    [499.8984 426.3541]
+    midPoint		    [518.9226 426.3541]
     chart		    2
-    linkNode		    [9 16 0]
-    dataLimits		    [459.98 547.817 423.954 428.754]
+    linkNode		    [9 15 0]
+    dataLimits		    [459.98 585.865 423.954 428.754]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2019,6 +1846,16 @@ Stateflow {
     }
     executionOrder	    1
     ssIdNumber		    60
+  }
+  junction {
+    id			    17
+    labelString		    "H"
+    position		    [784.8584 430.4302 7]
+    chart		    2
+    linkNode		    [10 0 0]
+    subviewer		    2
+    ssIdNumber		    52
+    type		    HISTORY_JUNCTION
   }
   data {
     id			    18
@@ -2097,8 +1934,8 @@ Stateflow {
   }
   data {
     id			    21
-    ssIdNumber		    57
-    name		    "waypoint_available"
+    ssIdNumber		    20
+    name		    "no_path"
     linkNode		    [2 20 22]
     scope		    INPUT_DATA
     machine		    1
@@ -2122,8 +1959,8 @@ Stateflow {
   }
   data {
     id			    22
-    ssIdNumber		    58
-    name		    "waypoint_reached"
+    ssIdNumber		    69
+    name		    "path_completed"
     linkNode		    [2 21 23]
     scope		    INPUT_DATA
     machine		    1
@@ -2147,8 +1984,8 @@ Stateflow {
   }
   data {
     id			    23
-    ssIdNumber		    20
-    name		    "no_path"
+    ssIdNumber		    7
+    name		    "victim_x"
     linkNode		    [2 22 24]
     scope		    INPUT_DATA
     machine		    1
@@ -2172,8 +2009,8 @@ Stateflow {
   }
   data {
     id			    24
-    ssIdNumber		    7
-    name		    "victim_x"
+    ssIdNumber		    8
+    name		    "victim_y"
     linkNode		    [2 23 25]
     scope		    INPUT_DATA
     machine		    1
@@ -2197,8 +2034,8 @@ Stateflow {
   }
   data {
     id			    25
-    ssIdNumber		    8
-    name		    "victim_y"
+    ssIdNumber		    55
+    name		    "origin_x"
     linkNode		    [2 24 26]
     scope		    INPUT_DATA
     machine		    1
@@ -2222,8 +2059,8 @@ Stateflow {
   }
   data {
     id			    26
-    ssIdNumber		    55
-    name		    "origin_x"
+    ssIdNumber		    56
+    name		    "origin_y"
     linkNode		    [2 25 27]
     scope		    INPUT_DATA
     machine		    1
@@ -2247,10 +2084,10 @@ Stateflow {
   }
   data {
     id			    27
-    ssIdNumber		    56
-    name		    "origin_y"
+    ssIdNumber		    14
+    name		    "dst_x"
     linkNode		    [2 26 28]
-    scope		    INPUT_DATA
+    scope		    OUTPUT_DATA
     machine		    1
     props {
       array {
@@ -2263,7 +2100,7 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
+      frame		      SF_FRAME_NO
       unit {
 	name			"inherit"
       }
@@ -2272,8 +2109,8 @@ Stateflow {
   }
   data {
     id			    28
-    ssIdNumber		    14
-    name		    "dst_x"
+    ssIdNumber		    15
+    name		    "dst_y"
     linkNode		    [2 27 29]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2297,8 +2134,8 @@ Stateflow {
   }
   data {
     id			    29
-    ssIdNumber		    15
-    name		    "dst_y"
+    ssIdNumber		    25
+    name		    "run_rhr"
     linkNode		    [2 28 30]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2322,8 +2159,8 @@ Stateflow {
   }
   data {
     id			    30
-    ssIdNumber		    25
-    name		    "run_rhr"
+    ssIdNumber		    24
+    name		    "run_path_finder"
     linkNode		    [2 29 31]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2347,109 +2184,9 @@ Stateflow {
   }
   data {
     id			    31
-    ssIdNumber		    24
-    name		    "run_path_finder"
-    linkNode		    [2 30 32]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    32
     ssIdNumber		    23
     name		    "run_victim_finder"
-    linkNode		    [2 31 33]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    33
-    ssIdNumber		    54
-    name		    "waypoint_x"
-    linkNode		    [2 32 34]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    34
-    ssIdNumber		    53
-    name		    "waypoint_y"
-    linkNode		    [2 33 35]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    35
-    ssIdNumber		    59
-    name		    "run_path_execution"
-    linkNode		    [2 34 0]
+    linkNode		    [2 30 0]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2471,7 +2208,7 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   transition {
-    id			    36
+    id			    32
     labelString		    ""
     labelPosition	    [626.868 36 0 0]
     fontSize		    12
@@ -2484,7 +2221,7 @@ Stateflow {
     }
     midPoint		    [626.8683 36]
     chart		    2
-    linkNode		    [2 0 37]
+    linkNode		    [2 0 33]
     dataLimits		    [624.468 629.268 21 51]
     subviewer		    2
     drawStyle		    SMART
@@ -2495,7 +2232,7 @@ Stateflow {
     ssIdNumber		    47
   }
   transition {
-    id			    37
+    id			    33
     labelString		    "[need_angle == 1]"
     labelPosition	    [889.999 90.486 98.688 14]
     fontSize		    12
@@ -2509,7 +2246,7 @@ Stateflow {
     }
     midPoint		    [936.8424 115.0438]
     chart		    2
-    linkNode		    [2 36 38]
+    linkNode		    [2 32 34]
     dataLimits		    [856.786 1024.899 112.644 117.444]
     subviewer		    2
     drawStyle		    SMART
@@ -2520,9 +2257,9 @@ Stateflow {
     ssIdNumber		    39
   }
   transition {
-    id			    38
+    id			    34
     labelString		    "[found_victim_phi == 1]"
-    labelPosition	    [892.376 162.165 125.969 14]
+    labelPosition	    [893.451 162.165 125.969 14]
     fontSize		    12
     src {
       id		      8
@@ -2530,12 +2267,12 @@ Stateflow {
     }
     dst {
       id		      12
-      intersection	      [2 1 0 0 853.7497 153.5093 0 0]
+      intersection	      [2 1 0 0 849.4013 153.5093 0 0]
     }
-    midPoint		    [943.3244 153.5093]
+    midPoint		    [941.1503 153.5093]
     chart		    2
-    linkNode		    [2 37 39]
-    dataLimits		    [853.75 1024.899 151.109 155.909]
+    linkNode		    [2 33 35]
+    dataLimits		    [849.401 1024.899 151.109 155.909]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2545,22 +2282,47 @@ Stateflow {
     ssIdNumber		    38
   }
   transition {
-    id			    39
-    labelString		    "[found_victim_phi == 1 && start_rescue == 1]"
-    labelPosition	    [674.004 239.853 241.938 14]
+    id			    35
+    labelString		    "[no_path == 1]"
+    labelPosition	    [562.187 250.372 79.344 14]
+    fontSize		    12
+    src {
+      id		      9
+      intersection	      [1 0 -1 0.3447 484.6784 329.4303 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [3 -0 1 0.8534 636.8712 174.1146 0 0]
+    }
+    midPoint		    [560.7748 255.7724]
+    chart		    2
+    linkNode		    [2 34 36]
+    dataLimits		    [484.678 639.271 174.115 329.43]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    65
+  }
+  transition {
+    id			    36
+    labelString		    "[found_victim_xy == 1]"
+    labelPosition	    [712.413 240.257 121.969 14]
     fontSize		    12
     src {
       id		      7
-      intersection	      [3 0 1 0.3688 646.8952 212.518 0 0]
+      intersection	      [3 0 1 0.2604 708.6193 212.518 0 0]
     }
     dst {
       id		      9
-      intersection	      [1 0 -1 0.8067 708.1258 329.4303 0 0]
+      intersection	      [1 0 -1 0.7467 708.1258 329.4303 0 0]
     }
-    midPoint		    [677.5105 266.9741]
+    midPoint		    [708.3725 266.9742]
     chart		    2
-    linkNode		    [2 38 40]
-    dataLimits		    [646.895 710.526 212.518 329.43]
+    linkNode		    [2 35 37]
+    dataLimits		    [705.726 710.526 212.518 329.43]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2570,88 +2332,88 @@ Stateflow {
     ssIdNumber		    45
   }
   transition {
-    id			    40
-    labelString		    "[waypoint_available == 1]"
-    labelPosition	    [798.921 358.498 137.312 14]
-    fontSize		    12
-    src {
-      id		      9
-      intersection	      [2 1 -0 0.3135 807.5837 391.165 0 0]
-    }
-    dst {
-      id		      6
-      intersection	      [4 -1 0 0.7193 985.049 391.165 0 0]
-    }
-    midPoint		    [892.3163 391.165]
-    chart		    2
-    linkNode		    [2 39 41]
-    dataLimits		    [807.584 985.049 388.765 393.565]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    34
-  }
-  transition {
-    id			    41
-    labelString		    "[waypoint_reached == 1]"
-    labelPosition	    [832.323 431.234 133.328 14]
-    fontSize		    12
-    src {
-      id		      6
-      intersection	      [4 -1 0 0.133 985.049 429.6532 0 0]
-    }
-    dst {
-      id		      15
-      intersection	      [2 1 0 0 791.8584 430.4302 0 0]
-    }
-    midPoint		    [892.4537 430.0417]
-    chart		    2
-    linkNode		    [2 40 42]
-    dataLimits		    [791.858 985.049 428.03 432.83]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    33
-  }
-  transition {
-    id			    42
+    id			    37
     labelString		    "[no_path == 1]"
-    labelPosition	    [502.072 558.607 79.344 14]
+    labelPosition	    [1001.938 324.677 79.344 14]
     fontSize		    12
     src {
       id		      9
-      intersection	      [3 0 1 0.5938 502.0719 526.3589 0 0]
+      intersection	      [2 1 0 0.211 848.8932 371.2176 0 0]
     }
     dst {
-      id		      11
-      intersection	      [1 -0 -1 0.3945 502.0719 598.855 0 0]
+      id		      6
+      intersection	      [1 0 -1 0.2436 1085.84 382.6753 0 0]
     }
-    midPoint		    [502.0719 558.607]
+    midPoint		    [996.9881 343.325]
     chart		    2
-    linkNode		    [2 41 0]
-    dataLimits		    [499.672 504.472 526.359 598.855]
+    linkNode		    [2 36 38]
+    dataLimits		    [848.893 1088.24 338.653 382.675]
     subviewer		    2
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
     executionOrder	    2
+    ssIdNumber		    68
+  }
+  transition {
+    id			    38
+    labelString		    "[after(30, sec)]{run_rhr = 0;}"
+    labelPosition	    [838.532 410.758 149.812 14]
+    fontSize		    12
+    src {
+      id		      6
+      intersection	      [4 -1 0 0.4782 1003.5296 430.4302 0 0]
+    }
+    dst {
+      id		      17
+      intersection	      [2 1 0 0 791.8584 430.4302 0 0]
+    }
+    midPoint		    [901.694 430.4302]
+    chart		    2
+    linkNode		    [2 37 39]
+    dataLimits		    [791.858 1003.53 428.03 432.83]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    67
+  }
+  transition {
+    id			    39
+    labelString		    "[path_completed == 1]"
+    labelPosition	    [690.83 554.265 121.328 14]
+    fontSize		    12
+    src {
+      id		      10
+      intersection	      [3 0 1 0.5127 690.1387 479.9146 0 0]
+    }
+    dst {
+      id		      11
+      intersection	      [1 0 -1 0.4841 690.1387 603.2034 0 0]
+    }
+    midPoint		    [690.1387 537.559]
+    chart		    2
+    linkNode		    [2 38 0]
+    dataLimits		    [687.739 692.539 479.915 603.203]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
     ssIdNumber		    64
   }
   instance {
-    id			    43
+    id			    40
     name		    "Verkehrspolizist"
     machine		    1
     chart		    2
   }
   target {
-    id			    44
+    id			    41
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
