@@ -7,10 +7,10 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.38"
+    ComputedModelVersion    "1.39"
     NumModelReferences	    1
     ModelReference {
-      ModelRefBlockPath	      "traffic_golden_path/Model|traffic_cop"
+      ModelRefBlockPath	      "traffic_golden_path/Traffic Cop|traffic_cop"
     }
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -46,7 +46,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 31.0, 1280.0, 952.0]
+      Location		      [0.0, 60.0, 1280.0, 952.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -61,7 +61,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -70,9 +70,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1234.0, 779.0]
+	Extents			[1224.0, 801.0]
 	ZoomFactor		[0.749384833345761]
-	Offset			[-483.00199004975121, -109.89965174129355]
+	Offset			[-601.22113322823589, -75.50288557213922]
       }
     }
   }
@@ -80,11 +80,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 23:28:25 2016"
-  RTWModifiedTimeStamp	  386724449
-  ModelVersionFormat	  "1.%<AutoIncrement:38>"
+  LastModifiedDate	  "Thu Jun 02 00:35:38 2016"
+  RTWModifiedTimeStamp	  386728536
+  ModelVersionFormat	  "1.%<AutoIncrement:39>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -833,6 +833,9 @@ Model {
       BusSelectionMode	      off
     }
     Block {
+      BlockType		      Ground
+    }
+    Block {
       BlockType		      Inport
       Port		      "1"
       OutputFunctionCall      off
@@ -850,14 +853,6 @@ Model {
       LatchByDelayingOutsideSignal off
       LatchInputForFeedbackSignals off
       Interpolate	      on
-    }
-    Block {
-      BlockType		      ModelReference
-      SimulationMode	      "Accelerator"
-      CodeInterface	      "Model reference"
-      GeneratePreprocessorConditionals off
-      ContentPreviewEnabled   off
-      CopyOfModelProtected    off
     }
     Block {
       BlockType		      Mux
@@ -935,7 +930,7 @@ Model {
   }
   System {
     Name		    "traffic_golden_path"
-    Location		    [0, 31, 1280, 983]
+    Location		    [0, 60, 1280, 1012]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -949,13 +944,13 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "75"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "103"
+    SIDHighWatermark	    "105"
     Block {
       BlockType		      SubSystem
-      Name		      "Golden Path script"
+      Name		      "Golden Path Script"
       SID		      "23"
       Ports		      [5, 10]
-      Position		      [-210, 361, 15, 659]
+      Position		      [-210, 346, 15, 644]
       ZOrder		      25
       LibraryVersion	      "1.267"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -965,7 +960,7 @@ Model {
       SFBlockType	      "Chart"
       Variant		      off
       System {
-	Name			"Golden Path script"
+	Name			"Golden Path Script"
 	Location		[0, 31, 1280, 983]
 	Open			off
 	ModelBrowserVisibility	off
@@ -1345,88 +1340,11 @@ Model {
       }
     }
     Block {
-      BlockType		      ModelReference
-      Name		      "Model"
-      SID		      "1"
-      Ports		      [9, 5]
-      Position		      [315, 348, 545, 642]
-      ZOrder		      24
-      ModelNameDialog	      "traffic_cop"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.75"
-      List {
-	ListType		InputPortNames
-	port0			"initial_x"
-	port1			"initial_y"
-	port2			"found_victim_phi"
-	port3			"need_angle"
-	port4			"found_victim_xy"
-	port5			"victim_x"
-	port6			"victim_y"
-	port7			"path_completed"
-	port8			"no_path"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_path_finder"
-	port3			"run_rhr"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_path_finder"
-	port3			"run_rhr"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		InputPortSignalNames
-	port0			"initial_x"
-	port1			"initial_y"
-	port2			"found_victim_phi"
-	port3			"need_angle"
-	port4			"found_victim_xy"
-	port5			"victim_x"
-	port6			"victim_y"
-	port7			"path_completed"
-	port8			"no_path"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
+      BlockType		      Ground
+      Name		      "Ground"
+      SID		      "105"
+      Position		      [220, 620, 240, 640]
+      ZOrder		      106
     }
     Block {
       BlockType		      Mux
@@ -1532,11 +1450,38 @@ Model {
     }
     Block {
       BlockType		      Scope
-      Name		      "Scope"
+      Name		      "Scope 1"
+      SID		      "103"
+      Ports		      [1]
+      Position		      [60, 614, 90, 646]
+      ZOrder		      36
+      BackgroundColor	      "cyan"
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-2.75','MaxYLimReal','34.75','YLabelReal','','MinYLimMag','0."
+      "00000','MaxYLimMag','34.75','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',"
+      "[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.066666666666"
+      "6667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.83137254901"
+      "9608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.6509"
+      "80392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'Li"
+      "neNames',{{[]}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-2.75','MaxYL"
+      "imReal','34.75','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','34.75','LegendVisibility','off','XGrid',tru"
+      "e,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.6"
+      "86274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0."
+      "0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0."
+      "0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',tr"
+      "ue,'OnceAtStop',false,'PreviousZoomMode','ZoomX','PreviousAutoscale','XY'),extmgr.Configuration('Tools','Measure"
+      "ments',true,'Version','2016a')),'Version','2016a','Position',[632 38 1288 908],'VisibleAtModelOpen','on')"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope 2"
       SID		      "9"
       Ports		      [6]
-      Position		      [985, 183, 1145, 477]
+      Position		      [990, 183, 1150, 477]
       ZOrder		      28
+      BackgroundColor	      "cyan"
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
@@ -1589,40 +1534,106 @@ Model {
       NumInputPorts	      "6"
     }
     Block {
-      BlockType		      Scope
-      Name		      "Scope1"
-      SID		      "103"
-      Ports		      [1]
-      Position		      [55, 629, 85, 661]
-      ZOrder		      36
-      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
-      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
-      "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
-      "',true,'SerializedDisplays',{struct('MinYLimReal','-2.75','MaxYLimReal','34.75','YLabelReal','','MinYLimMag','0."
-      "00000','MaxYLimMag','34.75','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',"
-      "[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.066666666666"
-      "6667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.83137254901"
-      "9608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.6509"
-      "80392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'Li"
-      "neNames',{{'Golden Path script/Golden_Path_scriptMode'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefa"
-      "ults',struct('MinYLimReal','-2.75','MaxYLimReal','34.75','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','34"
-      ".75','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor'"
-      ",[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 "
-      "0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.39215686274509"
-      "8 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.C"
-      "onfiguration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode','ZoomX','PreviousAutoscale','X"
-      "Y'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1281 42 1"
-      "280 906],'VisibleAtModelOpen','on')"
+      BlockType		      Reference
+      Name		      "Traffic Cop"
+      SID		      "104"
+      Ports		      [10, 5]
+      Position		      [315, 348, 545, 642]
+      ZOrder		      105
+      LibraryVersion	      "1.162"
+      SourceBlock	      "tinbot/Traffic Cop"
+      SourceType	      ""
+      SimulationMode	      "Normal"
+      CodeInterface	      "Model reference"
+      GeneratePreprocessorConditionals off
+      ContentPreviewEnabled   off
+      ModelReferenceVersion   "1.97"
+      List {
+	ListType		InputPortNames
+	port0			"initial_x"
+	port1			"initial_y"
+	port2			"found_victim_phi"
+	port3			"ir"
+	port4			"found_victim_xy"
+	port5			"victim_x"
+	port6			"victim_y"
+	port7			"path_completed"
+	port8			"no_path"
+	port9			"current_x_y_phi"
+      }
+      List {
+	ListType		OutputPortNames
+	port0			"dst_x"
+	port1			"dst_y"
+	port2			"run_path_finder"
+	port3			"run_rhr"
+	port4			"run_victim_finder"
+      }
+      List {
+	ListType		OutputPortOutputBusAsStructs
+	port0			"off"
+	port1			"off"
+	port2			"off"
+	port3			"off"
+	port4			"off"
+      }
+      List {
+	ListType		OutputPortSignalNames
+	port0			"dst_x"
+	port1			"dst_y"
+	port2			"run_path_finder"
+	port3			"run_rhr"
+	port4			"run_victim_finder"
+      }
+      List {
+	ListType		InputPortSignalNames
+	port0			"initial_x"
+	port1			"initial_y"
+	port2			"found_victim_phi"
+	port3			""
+	port4			"found_victim_xy"
+	port5			"victim_x"
+	port6			"victim_y"
+	port7			"path_completed"
+	port8			"no_path"
+	port9			""
+      }
+      List {
+	ListType		InputPortLatchByCopyingInsideSignal
+	port0			"off"
+	port1			"off"
+	port2			"off"
+	port3			"off"
+	port4			"off"
+	port5			"off"
+	port6			"off"
+	port7			"off"
+	port8			"off"
+	port9			"off"
+      }
+      List {
+	ListType		InputPortLatchByDelayingOutsideSignal
+	port0			"off"
+	port1			"off"
+	port2			"off"
+	port3			"off"
+	port4			"off"
+	port5			"off"
+	port6			"off"
+	port7			"off"
+	port8			"off"
+	port9			"off"
+      }
     }
     Line {
-      ZOrder		      54
-      SrcBlock		      "Model"
+      ZOrder		      273
+      SrcBlock		      "Traffic Cop"
       SrcPort		      1
       Points		      [57, 0]
       Branch {
 	ZOrder			101
-	Points			[0, 448; -1072, 0; 0, -433]
-	DstBlock		"Golden Path script"
+	Points			[0, 448; -1072, 0; 0, -448]
+	DstBlock		"Golden Path Script"
 	DstPort			1
       }
       Branch {
@@ -1632,8 +1643,8 @@ Model {
       }
     }
     Line {
-      ZOrder		      55
-      SrcBlock		      "Model"
+      ZOrder		      274
+      SrcBlock		      "Traffic Cop"
       SrcPort		      2
       Points		      [47, 0]
       Branch {
@@ -1643,14 +1654,14 @@ Model {
       }
       Branch {
 	ZOrder			82
-	Points			[0, 378; -1049, 0; 0, -363]
-	DstBlock		"Golden Path script"
+	Points			[0, 378; -1049, 0; 0, -378]
+	DstBlock		"Golden Path Script"
 	DstPort			2
       }
     }
     Line {
-      ZOrder		      56
-      SrcBlock		      "Model"
+      ZOrder		      270
+      SrcBlock		      "Traffic Cop"
       SrcPort		      3
       Points		      [39, 0]
       Branch {
@@ -1660,14 +1671,14 @@ Model {
       }
       Branch {
 	ZOrder			78
-	Points			[0, 308; -1026, 0; 0, -293]
-	DstBlock		"Golden Path script"
+	Points			[0, 308; -1026, 0; 0, -308]
+	DstBlock		"Golden Path Script"
 	DstPort			3
       }
     }
     Line {
-      ZOrder		      57
-      SrcBlock		      "Model"
+      ZOrder		      272
+      SrcBlock		      "Traffic Cop"
       SrcPort		      4
       Points		      [29, 0]
       Branch {
@@ -1677,14 +1688,14 @@ Model {
       }
       Branch {
 	ZOrder			81
-	Points			[0, 236; -1006, 0; 0, -221]
-	DstBlock		"Golden Path script"
+	Points			[0, 236; -1006, 0; 0, -236]
+	DstBlock		"Golden Path Script"
 	DstPort			4
       }
     }
     Line {
-      ZOrder		      58
-      SrcBlock		      "Model"
+      ZOrder		      275
+      SrcBlock		      "Traffic Cop"
       SrcPort		      5
       Points		      [20, 0]
       Branch {
@@ -1694,8 +1705,8 @@ Model {
       }
       Branch {
 	ZOrder			80
-	Points			[0, 165; -987, 0; 0, -150]
-	DstBlock		"Golden Path script"
+	Points			[0, 165; -987, 0; 0, -165]
+	DstBlock		"Golden Path Script"
 	DstPort			5
       }
     }
@@ -1705,8 +1716,8 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux3"
       SrcPort		      1
-      Points		      [135, 0; 0, -100]
-      DstBlock		      "Scope"
+      Points		      [134, 0; 0, -100]
+      DstBlock		      "Scope 2"
       DstPort		      6
     }
     Line {
@@ -1715,7 +1726,7 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux2"
       SrcPort		      1
-      DstBlock		      "Scope"
+      DstBlock		      "Scope 2"
       DstPort		      5
     }
     Line {
@@ -1724,8 +1735,8 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux4"
       SrcPort		      1
-      Points		      [368, 0; 0, 120]
-      DstBlock		      "Scope"
+      Points		      [480, 0; 0, 120]
+      DstBlock		      "Scope 2"
       DstPort		      4
     }
     Line {
@@ -1734,8 +1745,8 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux1"
       SrcPort		      1
-      Points		      [435, 0; 0, 130]
-      DstBlock		      "Scope"
+      Points		      [508, 0; 0, 130]
+      DstBlock		      "Scope 2"
       DstPort		      3
     }
     Line {
@@ -1744,8 +1755,8 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux5"
       SrcPort		      1
-      Points		      [494, 0; 0, 155]
-      DstBlock		      "Scope"
+      Points		      [534, 0; 0, 155]
+      DstBlock		      "Scope 2"
       DstPort		      2
     }
     Line {
@@ -1754,169 +1765,176 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux"
       SrcPort		      1
-      Points		      [546, 0; 0, 180]
-      DstBlock		      "Scope"
+      Points		      [559, 0; 0, 180]
+      DstBlock		      "Scope 2"
       DstPort		      1
     }
     Line {
       ZOrder		      220
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      1
       Points		      [138, 0]
       Branch {
-	ZOrder			127
-	Points			[0, -365]
-	DstBlock		"Mux"
+	ZOrder			277
+	DstBlock		"Traffic Cop"
 	DstPort			1
       }
       Branch {
-	ZOrder			126
-	DstBlock		"Model"
+	ZOrder			127
+	Points			[0, -350]
+	DstBlock		"Mux"
 	DstPort			1
       }
     }
     Line {
       ZOrder		      216
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      2
       Points		      [152, 0]
       Branch {
-	ZOrder			125
-	Points			[0, -365]
-	DstBlock		"Mux"
+	ZOrder			271
+	DstBlock		"Traffic Cop"
 	DstPort			2
       }
       Branch {
-	ZOrder			124
-	DstBlock		"Model"
+	ZOrder			125
+	Points			[0, -350]
+	DstBlock		"Mux"
 	DstPort			2
       }
     }
     Line {
       ZOrder		      223
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      4
       Points		      [178, 0]
       Branch {
-	ZOrder			121
-	Points			[0, -365]
-	DstBlock		"Mux5"
-	DstPort			2
+	ZOrder			279
+	DstBlock		"Traffic Cop"
+	DstPort			4
       }
       Branch {
-	ZOrder			120
-	DstBlock		"Model"
-	DstPort			4
+	ZOrder			121
+	Points			[0, -350]
+	DstBlock		"Mux5"
+	DstPort			2
       }
     }
     Line {
       ZOrder		      219
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      3
       Points		      [164, 0]
       Branch {
-	ZOrder			123
-	Points			[0, -365]
-	DstBlock		"Mux5"
-	DstPort			1
+	ZOrder			278
+	DstBlock		"Traffic Cop"
+	DstPort			3
       }
       Branch {
-	ZOrder			122
-	DstBlock		"Model"
-	DstPort			3
+	ZOrder			259
+	Points			[0, -350]
+	DstBlock		"Mux5"
+	DstPort			1
       }
     }
     Line {
       ZOrder		      218
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      6
       Points		      [204, 0]
       Branch {
-	ZOrder			117
-	Points			[0, -365]
-	DstBlock		"Mux1"
-	DstPort			1
+	ZOrder			282
+	DstBlock		"Traffic Cop"
+	DstPort			6
       }
       Branch {
-	ZOrder			116
-	DstBlock		"Model"
-	DstPort			6
+	ZOrder			117
+	Points			[0, -350]
+	DstBlock		"Mux1"
+	DstPort			1
       }
     }
     Line {
       ZOrder		      217
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      5
       Points		      [190, 0]
       Branch {
-	ZOrder			119
-	Points			[0, -365]
-	DstBlock		"Mux5"
-	DstPort			3
+	ZOrder			280
+	DstBlock		"Traffic Cop"
+	DstPort			5
       }
       Branch {
-	ZOrder			118
-	DstBlock		"Model"
-	DstPort			5
+	ZOrder			119
+	Points			[0, -350]
+	DstBlock		"Mux5"
+	DstPort			3
       }
     }
     Line {
       ZOrder		      215
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      7
       Points		      [217, 0]
       Branch {
-	ZOrder			115
-	Points			[0, -365]
-	DstBlock		"Mux1"
-	DstPort			2
+	ZOrder			281
+	DstBlock		"Traffic Cop"
+	DstPort			7
       }
       Branch {
-	ZOrder			114
-	DstBlock		"Model"
-	DstPort			7
+	ZOrder			115
+	Points			[0, -350]
+	DstBlock		"Mux1"
+	DstPort			2
       }
     }
     Line {
       ZOrder		      221
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      8
       Points		      [233, 0]
       Branch {
-	ZOrder			113
-	Points			[0, -365]
-	DstBlock		"Mux4"
-	DstPort			1
+	ZOrder			283
+	DstBlock		"Traffic Cop"
+	DstPort			8
       }
       Branch {
-	ZOrder			112
-	DstBlock		"Model"
-	DstPort			8
+	ZOrder			113
+	Points			[0, -350]
+	DstBlock		"Mux4"
+	DstPort			1
       }
     }
     Line {
       ZOrder		      222
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      9
       Points		      [247, 0]
       Branch {
-	ZOrder			111
-	Points			[0, -365]
-	DstBlock		"Mux4"
-	DstPort			2
+	ZOrder			276
+	DstBlock		"Traffic Cop"
+	DstPort			9
       }
       Branch {
-	ZOrder			110
-	DstBlock		"Model"
-	DstPort			9
+	ZOrder			111
+	Points			[0, -350]
+	DstBlock		"Mux4"
+	DstPort			2
       }
     }
     Line {
       ZOrder		      248
-      SrcBlock		      "Golden Path script"
+      SrcBlock		      "Golden Path Script"
       SrcPort		      10
-      DstBlock		      "Scope1"
+      DstBlock		      "Scope 1"
       DstPort		      1
+    }
+    Line {
+      ZOrder		      284
+      SrcBlock		      "Ground"
+      SrcPort		      1
+      DstBlock		      "Traffic Cop"
+      DstPort		      10
     }
   }
 }
@@ -1936,7 +1954,7 @@ Stateflow {
   }
   chart {
     id			    2
-    name		    "Golden Path script"
+    name		    "Golden Path Script"
     windowPosition	    [1280 31 1280 983]
     viewLimits		    [715.863 1949.863 72.398 916.398]
     zoomFactor		    1.333
@@ -4141,7 +4159,7 @@ Stateflow {
   }
   instance {
     id			    109
-    name		    "Golden Path script"
+    name		    "Golden Path Script"
     machine		    1
     chart		    2
   }
