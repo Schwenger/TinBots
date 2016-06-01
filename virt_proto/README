@@ -1,0 +1,11 @@
+Tin Bot – Group 6
+=================
+
+Welcome to our virtual prototype.
+
+Structure:
+----------
+ - library: custom Simulink blocks to build Tin Bot simulations
+ - classes: Matlab classes used by the simulation
+ - software: the "Software" components running on the physical Tin Bot
+ - tests: various test cases for different components
