@@ -36,6 +36,7 @@ classdef TinMap < handle
                                     obj.bots = [obj.bots; TinBot(obj, length(obj.bots) + 1, obj.height, col)];
                                 end
                             case 'V'
+                                row((index - 1) * resolution + 1:index * resolution) = 2;
                                 if i == round(resolution / 2)
                                     col = round((index - 1) * resolution + resolution / 2);
                                     row(col) = 2;
