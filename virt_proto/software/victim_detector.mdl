@@ -46,7 +46,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.10"
+    ComputedModelVersion    "1.11"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -82,7 +82,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 0.0, 1920.0, 1052.0]
+      Location		      [0.0, 60.0, 1920.0, 1052.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -97,7 +97,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -106,9 +106,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1886.0, 883.0]
+	Extents			[1864.0, 901.0]
 	ZoomFactor		[1.75]
-	Offset			[-119.04761904761881, 60.676190476190584]
+	Offset			[-119.0476190476187, 60.676190476190584]
       }
     }
   }
@@ -116,11 +116,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "marlene"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 23:26:34 2016"
-  RTWModifiedTimeStamp	  386724391
-  ModelVersionFormat	  "1.%<AutoIncrement:10>"
+  LastModifiedDate	  "Thu Jun 02 00:27:22 2016"
+  RTWModifiedTimeStamp	  386727995
+  ModelVersionFormat	  "1.%<AutoIncrement:11>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -223,7 +223,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.01"
+	  FixedStep		  "auto"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -792,7 +792,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
+      ConfigPrmDlgPosition     [ 80, 79, 1019, 802 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -949,7 +949,7 @@ Model {
   }
   System {
     Name		    "victim_detector"
-    Location		    [0, 0, 1920, 1052]
+    Location		    [0, 60, 1920, 1112]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1359,6 +1359,8 @@ Stateflow {
     ssIdNumber		    15
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -1377,6 +1379,8 @@ Stateflow {
     ssIdNumber		    16
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    5
@@ -1391,6 +1395,8 @@ Stateflow {
     ssIdNumber		    17
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
@@ -1405,6 +1411,8 @@ Stateflow {
     ssIdNumber		    18
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    7

@@ -43,7 +43,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.45"
+    ComputedModelVersion    "1.48"
     NumModelReferences	    6
     ModelReference {
       ModelRefBlockPath	      "controller/Follow Right Hand|follow_right_hand"
@@ -97,7 +97,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1856.0, 9.0, 1920.0, 1174.0]
+      Location		      [1911.0, 9.0, 1920.0, 1174.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -112,7 +112,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -121,9 +121,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1886.0, 1005.0]
+	Extents			[1864.0, 1023.0]
 	ZoomFactor		[1.25]
-	Offset			[355.3202803744183, 337.849078185067]
+	Offset			[355.32028037441819, 337.849078185067]
       }
     }
   }
@@ -131,11 +131,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "marlene"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 23:17:18 2016"
-  RTWModifiedTimeStamp	  386723759
-  ModelVersionFormat	  "1.%<AutoIncrement:45>"
+  LastModifiedDate	  "Thu Jun 02 00:25:58 2016"
+  RTWModifiedTimeStamp	  386727954
+  ModelVersionFormat	  "1.%<AutoIncrement:48>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -238,7 +238,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "1"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.01"
+	  FixedStep		  "auto"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -807,7 +807,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
+      ConfigPrmDlgPosition     [ 98, 95, 997, 728 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -987,7 +987,7 @@ Model {
   }
   System {
     Name		    "controller"
-    Location		    [1856, 9, 3776, 1183]
+    Location		    [1911, 9, 3831, 1183]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1078,7 +1078,7 @@ Model {
       Ports		      [2, 2]
       Position		      [1265, 766, 1450, 844]
       ZOrder		      391
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Follow Right Hand"
       SourceType	      ""
       SimulationMode	      "Normal"
@@ -1124,14 +1124,14 @@ Model {
       Ports		      [3, 4]
       Position		      [615, 529, 845, 626]
       ZOrder		      388
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Victim Direction"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.42"
+      ModelReferenceVersion   "1.41"
       List {
 	ListType		InputPortNames
 	port0			"ir"
@@ -1215,14 +1215,14 @@ Model {
       Ports		      [10, 5]
       Position		      [1780, 377, 1985, 638]
       ZOrder		      390
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Traffic Cop"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.96"
+      ModelReferenceVersion   "1.97"
       List {
 	ListType		InputPortNames
 	port0			"initial_x"
@@ -1307,14 +1307,14 @@ Model {
       Ports		      [3, 3]
       Position		      [1120, 480, 1365, 560]
       ZOrder		      389
-      LibraryVersion	      "1.149"
+      LibraryVersion	      "1.162"
       SourceBlock	      "tinbot/Victim Detector"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.9"
+      ModelReferenceVersion   "1.10"
       List {
 	ListType		InputPortNames
 	port0			"found_victim_phi"
@@ -1513,7 +1513,7 @@ Model {
 	  ModelNameDialog	  "path_finder"
 	  SimulationMode	  "Normal"
 	  Variant		  off
-	  ModelReferenceVersion	  "1.74"
+	  ModelReferenceVersion	  "1.75"
 	  List {
 	    ListType		    InputPortNames
 	    port0		    "proximity"
