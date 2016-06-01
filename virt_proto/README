@@ -9,3 +9,9 @@ Structure:
  - classes: Matlab classes used by the simulation
  - software: the "Software" components running on the physical Tin Bot
  - tests: various test cases for different components
+
+
+Tests:
+------
+ - drive_test: test physical model of differential drive
+ - 
