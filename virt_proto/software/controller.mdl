@@ -2,7 +2,7 @@ Model {
   Name			  "controller"
   Version		  8.7
   MdlSubVersion		  1
-  SavedCharacterEncoding  "UTF-8"
+  SavedCharacterEncoding  "US-ASCII"
   GraphicalInterface {
     NumRootInports	    3
     Inport {
@@ -37,7 +37,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.9"
+    ComputedModelVersion    "1.23"
     NumModelReferences	    7
     ModelReference {
       ModelRefBlockPath	      "controller/Model|hold_initial"
@@ -46,13 +46,13 @@ Model {
       ModelRefBlockPath	      "controller/Model1|victim_detector"
     }
     ModelReference {
-      ModelRefBlockPath	      "controller/Model2|Verkehrspolizist"
+      ModelRefBlockPath	      "controller/Verkehrspolizist|Verkehrspolizist"
     }
     ModelReference {
-      ModelRefBlockPath	      "controller/Model3|path_finder"
+      ModelRefBlockPath	      "controller/find_and_execute_path/path_executor|Path"
     }
     ModelReference {
-      ModelRefBlockPath	      "controller/path_executor|Path"
+      ModelRefBlockPath	      "controller/find_and_execute_path/path_finder|path_finder"
     }
     ModelReference {
       ModelRefBlockPath	      "controller/right hand rule|follow_right_hand"
@@ -84,7 +84,7 @@ Model {
   MinMaxOverflowArchiveMode "Overwrite"
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  LastSavedArchitecture	  "glnxa64"
+  LastSavedArchitecture	  "maci64"
   Object {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    2
@@ -94,7 +94,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 31.0, 1280.0, 952.0]
+      Location		      [0.0, 23.0, 1280.0, 773.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -109,7 +109,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -118,9 +118,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1246.0, 785.0]
-	ZoomFactor		[1.25]
-	Offset			[2007.3743263158653, 822.88246998351747]
+	Extents			[1246.0, 630.0]
+	ZoomFactor		[0.69028366781307759]
+	Offset			[1051.4189089894837, 361.4008495391023]
       }
     }
   }
@@ -128,11 +128,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon May 30 23:11:59 2016"
-  RTWModifiedTimeStamp	  386550707
-  ModelVersionFormat	  "1.%<AutoIncrement:9>"
+  LastModifiedDate	  "Wed Jun 01 15:16:52 2016"
+  RTWModifiedTimeStamp	  386695012
+  ModelVersionFormat	  "1.%<AutoIncrement:23>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -934,6 +934,38 @@ Model {
       InitialOutput	      "[]"
     }
     Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      FunctionInterfaceSpec   "void_void"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      Opaque		      off
+      MaskHideContents	      off
+      SFBlockType	      "NONE"
+      GeneratePreprocessorConditionals off
+      TreatAsGroupedWhenPropagatingVariantConditions on
+      ContentPreviewEnabled   off
+      IsWebBlock	      off
+    }
+    Block {
       BlockType		      Sum
       IconShape		      "rectangular"
       Inputs		      "++"
@@ -955,7 +987,7 @@ Model {
   }
   System {
     Name		    "controller"
-    Location		    [0, 31, 1280, 983]
+    Location		    [0, 23, 1280, 796]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -967,9 +999,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "125"
+    ZoomFactor		    "69"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "54"
+    SIDHighWatermark	    "65"
     Block {
       BlockType		      Inport
       Name		      "prox"
@@ -1024,7 +1056,7 @@ Model {
       Name		      "Demux1"
       SID		      "31"
       Ports		      [1, 3]
-      Position		      [1520, 400, 1525, 450]
+      Position		      [1520, 359, 1525, 431]
       ZOrder		      380
       ShowName		      off
       Outputs		      "3"
@@ -1035,7 +1067,7 @@ Model {
       Name		      "Model"
       SID		      "30"
       Ports		      [1, 1]
-      Position		      [1295, 412, 1435, 438]
+      Position		      [1295, 382, 1435, 408]
       ZOrder		      379
       ModelNameDialog	      "hold_initial"
       SimulationMode	      "Normal"
@@ -1071,12 +1103,12 @@ Model {
       Name		      "Model1"
       SID		      "32"
       Ports		      [3, 4]
-      Position		      [1165, 464, 1370, 521]
+      Position		      [1165, 460, 1370, 555]
       ZOrder		      381
       ModelNameDialog	      "victim_detector"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.1"
+      ModelReferenceVersion   "1.2"
       List {
 	ListType		InputPortNames
 	port0			"ir"
@@ -1132,142 +1164,6 @@ Model {
       }
     }
     Block {
-      BlockType		      ModelReference
-      Name		      "Model2"
-      SID		      "51"
-      Ports		      [9, 5]
-      Position		      [1770, 407, 1950, 563]
-      ZOrder		      383
-      ModelNameDialog	      "Verkehrspolizist"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.1"
-      List {
-	ListType		InputPortNames
-	port0			"x_0"
-	port1			"y_0"
-	port2			"found_victim_phi"
-	port3			"need_angle"
-	port4			"found_victim_xy"
-	port5			"victim_x"
-	port6			"victim_y"
-	port7			"no_path"
-	port8			"path_step_done"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_rhr"
-	port3			"run_path_finder"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_rhr"
-	port3			"run_path_finder"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-    }
-    Block {
-      BlockType		      ModelReference
-      Name		      "Model3"
-      SID		      "54"
-      Ports		      [5, 4]
-      Position		      [2250, 1327, 2400, 1443]
-      ZOrder		      386
-      ModelNameDialog	      "path_finder"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.1"
-      List {
-	ListType		InputPortNames
-	port0			"proximity"
-	port1			"lps"
-	port2			"dst_x"
-	port3			"dst_y"
-	port4			"compute"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"drive"
-	port1			"next_x"
-	port2			"next_y"
-	port3			"no_path"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"drive"
-	port1			"next_x"
-	port2			"next_y"
-	port3			"no_path"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      Port {
-	PortNumber		4
-	Name			"no_path"
-	PropagatedSignals	"no_path"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
       BlockType		      Mux
       Name		      "Mux1"
       SID		      "10"
@@ -1290,59 +1186,58 @@ Model {
       DisplayOption	      "bar"
     }
     Block {
-      BlockType		      Mux
-      Name		      "Mux4"
-      SID		      "13"
-      Ports		      [2, 1]
-      Position		      [2945, 1323, 2950, 1407]
-      ZOrder		      371
-      ShowName		      off
-      Inputs		      "2"
-      DisplayOption	      "bar"
-    }
-    Block {
       BlockType		      Terminator
       Name		      "Terminator"
       SID		      "50"
-      Position		      [1572, 385, 1578, 390]
+      Position		      [1575, 367, 1580, 373]
       ZOrder		      382
-      BlockRotation	      270
     }
     Block {
       BlockType		      ModelReference
-      Name		      "path_executor"
-      SID		      "17"
-      Ports		      [4, 3]
-      Position		      [2780, 1323, 2915, 1447]
-      ZOrder		      358
-      ModelNameDialog	      "Path.slx"
+      Name		      "Verkehrspolizist"
+      SID		      "51"
+      Ports		      [9, 5]
+      Position		      [1765, 378, 2000, 612]
+      ZOrder		      383
+      ModelNameDialog	      "Verkehrspolizist"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.23"
+      ModelReferenceVersion   "1.54"
       List {
 	ListType		InputPortNames
-	port0			"drive"
-	port1			"dest_x"
-	port2			"dest_y"
-	port3			"lps"
+	port0			"origin_x"
+	port1			"origin_y"
+	port2			"found_victim_phi"
+	port3			"need_angle"
+	port4			"found_victim_xy"
+	port5			"victim_x"
+	port6			"victim_y"
+	port7			"path_completed"
+	port8			"no_path"
       }
       List {
 	ListType		OutputPortNames
-	port0			"wheel_l"
-	port1			"wheel_r"
-	port2			"path_step_done"
+	port0			"dst_x"
+	port1			"dst_y"
+	port2			"run_rhr"
+	port3			"run_path_finder"
+	port4			"run_victim_finder"
       }
       List {
 	ListType		OutputPortOutputBusAsStructs
 	port0			"off"
 	port1			"off"
 	port2			"off"
+	port3			"off"
+	port4			"off"
       }
       List {
 	ListType		OutputPortSignalNames
-	port0			"wheel_l"
-	port1			"wheel_r"
-	port2			"party_hard"
+	port0			"dst_x"
+	port1			"dst_y"
+	port2			"run_rhr"
+	port3			"run_path_finder"
+	port4			"run_victim_finder"
       }
       List {
 	ListType		InputPortLatchByCopyingInsideSignal
@@ -1350,6 +1245,11 @@ Model {
 	port1			"off"
 	port2			"off"
 	port3			"off"
+	port4			"off"
+	port5			"off"
+	port6			"off"
+	port7			"off"
+	port8			"off"
       }
       List {
 	ListType		InputPortLatchByDelayingOutsideSignal
@@ -1357,13 +1257,346 @@ Model {
 	port1			"off"
 	port2			"off"
 	port3			"off"
+	port4			"off"
+	port5			"off"
+	port6			"off"
+	port7			"off"
+	port8			"off"
       }
-      Port {
-	PortNumber		3
-	Name			"path_step_done"
-	PropagatedSignals	"party_hard"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "find_and_execute_path"
+      SID		      "55"
+      Ports		      [5, 3]
+      Position		      [2570, 1335, 2775, 1405]
+      ZOrder		      -21
+      RequestExecContextInheritance off
+      Variant		      off
+      System {
+	Name			"find_and_execute_path"
+	Location		[0, 23, 1280, 796]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"125"
+	Block {
+	  BlockType		  Inport
+	  Name			  "dst_x"
+	  SID			  "56"
+	  Position		  [1535, 1018, 1565, 1032]
+	  ZOrder		  387
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dst_y"
+	  SID			  "57"
+	  Position		  [1535, 1048, 1565, 1062]
+	  ZOrder		  388
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "run_path_finder"
+	  SID			  "58"
+	  Position		  [1535, 1078, 1565, 1092]
+	  ZOrder		  389
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "proximity_data"
+	  SID			  "59"
+	  Position		  [1540, 959, 1565, 971]
+	  ZOrder		  390
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "current_x_y_phi"
+	  SID			  "60"
+	  Position		  [1398, 988, 1428, 1002]
+	  ZOrder		  391
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux4"
+	  SID			  "13"
+	  Ports			  [2, 1]
+	  Position		  [2450, 935, 2455, 1030]
+	  ZOrder		  371
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  ModelReference
+	  Name			  "path_executor"
+	  SID			  "17"
+	  Ports			  [4, 3]
+	  Position		  [2285, 944, 2430, 1076]
+	  ZOrder		  358
+	  ModelNameDialog	  "Path.slx"
+	  SimulationMode	  "Normal"
+	  Variant		  off
+	  ModelReferenceVersion	  "1.24"
+	  List {
+	    ListType		    InputPortNames
+	    port0		    "drive"
+	    port1		    "dest_x"
+	    port2		    "dest_y"
+	    port3		    "current_x_y_phi"
+	  }
+	  List {
+	    ListType		    OutputPortNames
+	    port0		    "wheel_l"
+	    port1		    "wheel_r"
+	    port2		    "path_step_done"
+	  }
+	  List {
+	    ListType		    OutputPortOutputBusAsStructs
+	    port0		    "off"
+	    port1		    "off"
+	    port2		    "off"
+	  }
+	  List {
+	    ListType		    OutputPortSignalNames
+	    port0		    "wheel_l"
+	    port1		    "wheel_r"
+	    port2		    "party_hard"
+	  }
+	  List {
+	    ListType		    InputPortLatchByCopyingInsideSignal
+	    port0		    "off"
+	    port1		    "off"
+	    port2		    "off"
+	    port3		    "off"
+	  }
+	  List {
+	    ListType		    InputPortLatchByDelayingOutsideSignal
+	    port0		    "off"
+	    port1		    "off"
+	    port2		    "off"
+	    port3		    "off"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "path_step_done"
+	    PropagatedSignals	    "party_hard"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  ModelReference
+	  Name			  "path_finder"
+	  SID			  "54"
+	  Ports			  [5, 5]
+	  Position		  [1755, 945, 1930, 1105]
+	  ZOrder		  386
+	  ModelNameDialog	  "path_finder"
+	  SimulationMode	  "Normal"
+	  Variant		  off
+	  ModelReferenceVersion	  "1.74"
+	  List {
+	    ListType		    InputPortNames
+	    port0		    "proximity"
+	    port1		    "current_x_y_phi"
+	    port2		    "dst_x"
+	    port3		    "dst_y"
+	    port4		    "compute"
+	  }
+	  List {
+	    ListType		    OutputPortNames
+	    port0		    "drive"
+	    port1		    "next_x"
+	    port2		    "next_y"
+	    port3		    "no_path"
+	    port4		    "path_completed"
+	  }
+	  List {
+	    ListType		    OutputPortOutputBusAsStructs
+	    port0		    "off"
+	    port1		    "off"
+	    port2		    "off"
+	    port3		    "off"
+	    port4		    "off"
+	  }
+	  List {
+	    ListType		    OutputPortSignalNames
+	    port0		    "drive"
+	    port1		    "next_x"
+	    port2		    "next_y"
+	    port3		    "no_path"
+	    port4		    "path_completed"
+	  }
+	  List {
+	    ListType		    InputPortLatchByCopyingInsideSignal
+	    port0		    "off"
+	    port1		    "off"
+	    port2		    "off"
+	    port3		    "off"
+	    port4		    "off"
+	  }
+	  List {
+	    ListType		    InputPortLatchByDelayingOutsideSignal
+	    port0		    "off"
+	    port1		    "off"
+	    port2		    "off"
+	    port3		    "off"
+	    port4		    "off"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "no_path"
+	    PropagatedSignals	    "no_path"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "no_path"
+	  SID			  "61"
+	  Position		  [2080, 1048, 2110, 1062]
+	  ZOrder		  392
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "wheel_ctrl"
+	  SID			  "62"
+	  Position		  [2560, 978, 2590, 992]
+	  ZOrder		  393
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "path_completed"
+	  SID			  "64"
+	  Position		  [2080, 1078, 2110, 1092]
+	  ZOrder		  395
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  ZOrder		  319
+	  SrcBlock		  "proximity_data"
+	  SrcPort		  1
+	  DstBlock		  "path_finder"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  320
+	  SrcBlock		  "current_x_y_phi"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  Branch {
+	    ZOrder		    335
+	    DstBlock		    "path_finder"
+	    DstPort		    2
+	  }
+	  Branch {
+	    ZOrder		    333
+	    Points		    [0, 131; 700, 0; 0, -71]
+	    DstBlock		    "path_executor"
+	    DstPort		    4
+	  }
+	}
+	Line {
+	  ZOrder		  259
+	  SrcBlock		  "path_finder"
+	  SrcPort		  3
+	  DstBlock		  "path_executor"
+	  DstPort		  3
+	}
+	Line {
+	  ZOrder		  322
+	  SrcBlock		  "Mux4"
+	  SrcPort		  1
+	  DstBlock		  "wheel_ctrl"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  317
+	  SrcBlock		  "dst_y"
+	  SrcPort		  1
+	  DstBlock		  "path_finder"
+	  DstPort		  4
+	}
+	Line {
+	  Name			  "no_path"
+	  ZOrder		  321
+	  Labels		  [1, 0]
+	  SrcBlock		  "path_finder"
+	  SrcPort		  4
+	  DstBlock		  "no_path"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  258
+	  SrcBlock		  "path_finder"
+	  SrcPort		  2
+	  DstBlock		  "path_executor"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  257
+	  SrcBlock		  "path_finder"
+	  SrcPort		  1
+	  DstBlock		  "path_executor"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  318
+	  SrcBlock		  "run_path_finder"
+	  SrcPort		  1
+	  DstBlock		  "path_finder"
+	  DstPort		  5
+	}
+	Line {
+	  ZOrder		  39
+	  SrcBlock		  "path_executor"
+	  SrcPort		  2
+	  DstBlock		  "Mux4"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  316
+	  SrcBlock		  "dst_x"
+	  SrcPort		  1
+	  DstBlock		  "path_finder"
+	  DstPort		  3
+	}
+	Line {
+	  ZOrder		  40
+	  SrcBlock		  "path_executor"
+	  SrcPort		  1
+	  DstBlock		  "Mux4"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  329
+	  SrcBlock		  "path_finder"
+	  SrcPort		  5
+	  DstBlock		  "path_completed"
+	  DstPort		  1
+	}
       }
     }
     Block {
@@ -1376,7 +1609,7 @@ Model {
       ModelNameDialog	      "follow_right_hand.mdl"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.16"
+      ModelReferenceVersion   "1.25"
       List {
 	ListType		InputPortNames
 	port0			"run_rhr"
@@ -1418,11 +1651,11 @@ Model {
       ModelNameDialog	      "ir_info_sim.slx"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.23"
+      ModelReferenceVersion   "1.27"
       List {
 	ListType		InputPortNames
 	port0			"ir"
-	port1			"lps"
+	port1			"current_x_y_phi"
 	port2			"reset"
       }
       List {
@@ -1440,6 +1673,13 @@ Model {
 	port3			"off"
       }
       List {
+	ListType		OutputPortSignalNames
+	port0			"motor_left"
+	port1			"motor_right"
+	port2			"victim_found"
+	port3			"victim_phi"
+      }
+      List {
 	ListType		InputPortLatchByCopyingInsideSignal
 	port0			"off"
 	port1			"off"
@@ -1454,6 +1694,7 @@ Model {
       Port {
 	PortNumber		3
 	Name			"found_victim_phi"
+	PropagatedSignals	"victim_found"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
@@ -1479,13 +1720,13 @@ Model {
       ZOrder		      5
       SrcBlock		      "lps"
       SrcPort		      1
-      Points		      [73, 0]
+      Points		      [73, 0; 0, -60]
       Branch {
-	ZOrder			4
-	Points			[0, -880]
+	ZOrder			330
+	Points			[0, -820]
 	Branch {
 	  ZOrder		  88
-	  Points		  [0, -155]
+	  Points		  [0, -185]
 	  DstBlock		  "Model"
 	  DstPort		  1
 	}
@@ -1496,20 +1737,9 @@ Model {
 	}
       }
       Branch {
-	ZOrder			3
-	Points			[1426, 0]
-	Branch {
-	  ZOrder		  255
-	  Points		  [0, -100]
-	  DstBlock		  "Model3"
-	  DstPort		  2
-	}
-	Branch {
-	  ZOrder		  172
-	  Points		  [0, 29; 711, 0; 0, -59]
-	  DstBlock		  "path_executor"
-	  DstPort		  4
-	}
+	ZOrder			320
+	DstBlock		"find_and_execute_path"
+	DstPort			5
       }
     }
     Line {
@@ -1518,31 +1748,31 @@ Model {
       SrcPort		      1
       Points		      [21, 0]
       Branch {
+	ZOrder			319
+	Points			[0, 160]
+	DstBlock		"find_and_execute_path"
+	DstPort			4
+      }
+      Branch {
 	ZOrder			261
 	DstBlock		"right hand rule"
 	DstPort			2
-      }
-      Branch {
-	ZOrder			252
-	Points			[0, 110]
-	DstBlock		"Model3"
-	DstPort			1
       }
     }
     Line {
       ZOrder		      11
       SrcBlock		      "ir"
       SrcPort		      1
-      Points		      [48, 0]
+      Points		      [48, 0; 0, 5]
       Branch {
-	ZOrder			136
-	DstBlock		"Model1"
+	ZOrder			310
+	Points			[0, 65]
+	DstBlock		"victim finder"
 	DstPort			1
       }
       Branch {
-	ZOrder			67
-	Points			[0, 70]
-	DstBlock		"victim finder"
+	ZOrder			136
+	DstBlock		"Model1"
 	DstPort			1
       }
     }
@@ -1552,12 +1782,12 @@ Model {
       Labels		      [1, 1]
       SrcBlock		      "victim finder"
       SrcPort		      3
-      Points		      [94, 0; 0, -95]
+      Points		      [94, 0; 0, -80]
       Branch {
-	ZOrder			232
+	ZOrder			311
 	Labels			[-1, 0]
-	Points			[0, -40]
-	DstBlock		"Model2"
+	Points			[0, -65]
+	DstBlock		"Verkehrspolizist"
 	DstPort			3
       }
       Branch {
@@ -1567,39 +1797,18 @@ Model {
       }
     }
     Line {
-      ZOrder		      259
-      SrcBlock		      "Model3"
-      SrcPort		      3
-      DstBlock		      "path_executor"
-      DstPort		      3
-    }
-    Line {
-      ZOrder		      258
-      SrcBlock		      "Model3"
-      SrcPort		      2
-      DstBlock		      "path_executor"
-      DstPort		      2
-    }
-    Line {
       ZOrder		      135
       SrcBlock		      "victim finder"
       SrcPort		      4
-      Points		      [112, 0; 0, -100]
+      Points		      [112, 0; 0, -75]
       DstBlock		      "Model1"
       DstPort		      3
-    }
-    Line {
-      ZOrder		      257
-      SrcBlock		      "Model3"
-      SrcPort		      1
-      DstBlock		      "path_executor"
-      DstPort		      1
     }
     Line {
       ZOrder		      247
       SrcBlock		      "Mux1"
       SrcPort		      1
-      Points		      [464, 0; 0, 305]
+      Points		      [186, 0; 0, 14; 278, 0; 0, 291]
       DstBlock		      "Add"
       DstPort		      1
     }
@@ -1640,28 +1849,6 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      246
-      SrcBlock		      "Mux4"
-      SrcPort		      1
-      Points		      [65, 0; 0, -475]
-      DstBlock		      "Add"
-      DstPort		      3
-    }
-    Line {
-      ZOrder		      39
-      SrcBlock		      "path_executor"
-      SrcPort		      2
-      DstBlock		      "Mux4"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      40
-      SrcBlock		      "path_executor"
-      SrcPort		      1
-      DstBlock		      "Mux4"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      91
       SrcBlock		      "Model"
       SrcPort		      1
@@ -1674,7 +1861,7 @@ Model {
       Labels		      [1, 0]
       SrcBlock		      "Model1"
       SrcPort		      1
-      DstBlock		      "Model2"
+      DstBlock		      "Verkehrspolizist"
       DstPort		      4
     }
     Line {
@@ -1683,87 +1870,43 @@ Model {
       Labels		      [1, 0]
       SrcBlock		      "Model1"
       SrcPort		      2
-      DstBlock		      "Model2"
+      DstBlock		      "Verkehrspolizist"
       DstPort		      5
-    }
-    Line {
-      Name		      "path_step_done"
-      ZOrder		      237
-      Labels		      [-1, 1]
-      SrcBlock		      "path_executor"
-      SrcPort		      3
-      Points		      [266, 0; 0, -435; -1481, 0; 0, -445]
-      DstBlock		      "Model2"
-      DstPort		      9
-    }
-    Line {
-      Name		      "no_path"
-      ZOrder		      260
-      Labels		      [-1, 1]
-      SrcBlock		      "Model3"
-      SrcPort		      4
-      Points		      [76, 0; 0, -429; -788, 0; 0, -471]
-      DstBlock		      "Model2"
-      DstPort		      8
     }
     Line {
       ZOrder		      239
-      SrcBlock		      "Model2"
+      SrcBlock		      "Verkehrspolizist"
       SrcPort		      5
-      Points		      [31, 0; 0, 148; -1290, 0; 0, -78]
+      Points		      [9, 0; 0, 108; -1318, 0; 0, -78]
       DstBlock		      "victim finder"
       DstPort		      3
-    }
-    Line {
-      ZOrder		      254
-      SrcBlock		      "Model2"
-      SrcPort		      1
-      Points		      [110, 0; 0, 960]
-      DstBlock		      "Model3"
-      DstPort		      3
-    }
-    Line {
-      ZOrder		      253
-      SrcBlock		      "Model2"
-      SrcPort		      2
-      Points		      [104, 0; 0, 955]
-      DstBlock		      "Model3"
-      DstPort		      4
-    }
-    Line {
-      ZOrder		      256
-      SrcBlock		      "Model2"
-      SrcPort		      4
-      Points		      [99, 0; 0, 920]
-      DstBlock		      "Model3"
-      DstPort		      5
     }
     Line {
       ZOrder		      235
       SrcBlock		      "Model1"
       SrcPort		      4
-      DstBlock		      "Model2"
+      DstBlock		      "Verkehrspolizist"
       DstPort		      7
     }
     Line {
       ZOrder		      233
       SrcBlock		      "Demux1"
       SrcPort		      3
-      DstBlock		      "Model2"
+      DstBlock		      "Verkehrspolizist"
       DstPort		      2
     }
     Line {
       ZOrder		      230
       SrcBlock		      "Demux1"
       SrcPort		      2
-      DstBlock		      "Model2"
+      DstBlock		      "Verkehrspolizist"
       DstPort		      1
     }
     Line {
       ZOrder		      241
-      SrcBlock		      "Model2"
+      SrcBlock		      "Verkehrspolizist"
       SrcPort		      3
-      Points		      [237, 0; 0, 700]
+      Points		      [187, 0; 0, 690]
       DstBlock		      "right hand rule"
       DstPort		      1
     }
@@ -1771,14 +1914,13 @@ Model {
       ZOrder		      231
       SrcBlock		      "Model1"
       SrcPort		      3
-      DstBlock		      "Model2"
+      DstBlock		      "Verkehrspolizist"
       DstPort		      6
     }
     Line {
       ZOrder		      228
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [45, 0]
       DstBlock		      "Terminator"
       DstPort		      1
     }
@@ -1802,6 +1944,54 @@ Model {
       SrcPort		      2
       DstBlock		      "mot_r"
       DstPort		      1
+    }
+    Line {
+      ZOrder		      316
+      SrcBlock		      "Verkehrspolizist"
+      SrcPort		      1
+      Points		      [416, 0; 0, 935]
+      DstBlock		      "find_and_execute_path"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      317
+      SrcBlock		      "Verkehrspolizist"
+      SrcPort		      2
+      Points		      [70, 0; 0, 905]
+      DstBlock		      "find_and_execute_path"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      331
+      SrcBlock		      "Verkehrspolizist"
+      SrcPort		      4
+      Points		      [100, 0; 0, 830]
+      DstBlock		      "find_and_execute_path"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      321
+      SrcBlock		      "find_and_execute_path"
+      SrcPort		      1
+      Points		      [124, 0; 0, 79; -1153, 0; 0, -829]
+      DstBlock		      "Verkehrspolizist"
+      DstPort		      9
+    }
+    Line {
+      ZOrder		      322
+      SrcBlock		      "find_and_execute_path"
+      SrcPort		      2
+      Points		      [255, 0; 0, -480]
+      DstBlock		      "Add"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      329
+      SrcBlock		      "find_and_execute_path"
+      SrcPort		      3
+      Points		      [9, 0; 0, 43; -1052, 0; 0, -868]
+      DstBlock		      "Verkehrspolizist"
+      DstPort		      8
     }
   }
 }

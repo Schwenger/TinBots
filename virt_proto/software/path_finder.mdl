@@ -2,9 +2,9 @@ Model {
   Name			  "path_finder"
   Version		  8.7
   MdlSubVersion		  1
-  SavedCharacterEncoding  "UTF-8"
+  SavedCharacterEncoding  "US-ASCII"
   GraphicalInterface {
-    NumRootInports	    6
+    NumRootInports	    5
     Inport {
       Name		      "proximity"
       BusObject		      ""
@@ -31,12 +31,6 @@ Model {
     }
     Inport {
       Name		      "compute"
-      BusObject		      ""
-      OutputFunctionCall      "off"
-      UnitExpr		      "inherit"
-    }
-    Inport {
-      Name		      "run_path_finder"
       BusObject		      ""
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
@@ -78,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.73"
+    ComputedModelVersion    "1.74"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -104,7 +98,7 @@ Model {
   MinMaxOverflowArchiveMode "Overwrite"
   FPTRunName		  "Run 1"
   MaxMDLFileLineLength	  120
-  LastSavedArchitecture	  "glnxa64"
+  LastSavedArchitecture	  "maci64"
   Object {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    2
@@ -114,7 +108,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [9.0, -8.0, 1920.0, 1071.0]
+      Location		      [0.0, 23.0, 1280.0, 773.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -138,9 +132,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1864.0, 922.0]
+	Extents			[1246.0, 630.0]
 	ZoomFactor		[1.25]
-	Offset			[0.0, 0.0]
+	Offset			[0.0, 127.19999999999999]
       }
     }
   }
@@ -148,11 +142,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "maximilian"
+  LastModifiedBy	  "max"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 14:43:54 2016"
-  RTWModifiedTimeStamp	  386693032
-  ModelVersionFormat	  "1.%<AutoIncrement:73>"
+  LastModifiedDate	  "Wed Jun 01 15:13:56 2016"
+  RTWModifiedTimeStamp	  386694834
+  ModelVersionFormat	  "1.%<AutoIncrement:74>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1079,7 +1073,7 @@ Model {
   }
   System {
     Name		    "path_finder"
-    Location		    [9, -8, 1929, 1063]
+    Location		    [0, 23, 1280, 796]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1098,7 +1092,7 @@ Model {
       BlockType		      Inport
       Name		      "proximity"
       SID		      "2"
-      Position		      [250, 263, 280, 277]
+      Position		      [250, 268, 280, 282]
       ZOrder		      357
       IconDisplay	      "Port number"
       PortDimensions	      "[8]"
@@ -1107,7 +1101,7 @@ Model {
       BlockType		      Inport
       Name		      "current_x_y_phi"
       SID		      "3"
-      Position		      [250, 463, 280, 477]
+      Position		      [250, 493, 280, 507]
       ZOrder		      358
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1117,7 +1111,7 @@ Model {
       BlockType		      Inport
       Name		      "dst_x"
       SID		      "4"
-      Position		      [250, 303, 280, 317]
+      Position		      [250, 313, 280, 327]
       ZOrder		      359
       Port		      "3"
       IconDisplay	      "Port number"
@@ -1126,7 +1120,7 @@ Model {
       BlockType		      Inport
       Name		      "dst_y"
       SID		      "5"
-      Position		      [250, 343, 280, 357]
+      Position		      [250, 358, 280, 372]
       ZOrder		      360
       Port		      "4"
       IconDisplay	      "Port number"
@@ -1135,18 +1129,9 @@ Model {
       BlockType		      Inport
       Name		      "compute"
       SID		      "8"
-      Position		      [250, 383, 280, 397]
+      Position		      [250, 403, 280, 417]
       ZOrder		      363
       Port		      "5"
-      IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Inport
-      Name		      "run_path_finder"
-      SID		      "19"
-      Position		      [250, 543, 280, 557]
-      ZOrder		      374
-      Port		      "6"
       IconDisplay	      "Port number"
     }
     Block {
@@ -1154,7 +1139,7 @@ Model {
       Name		      "Demux"
       SID		      "15"
       Ports		      [1, 3]
-      Position		      [325, 410, 335, 530]
+      Position		      [325, 435, 335, 565]
       ZOrder		      370
       ShowName		      off
       Outputs		      "3"
@@ -1191,7 +1176,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Path Finder"
       SID		      "1"
-      Ports		      [8, 6]
+      Ports		      [7, 6]
       Position		      [385, 243, 615, 577]
       ZOrder		      356
       LibraryVersion	      "1.267"
@@ -1203,7 +1188,7 @@ Model {
       Variant		      off
       System {
 	Name			"Path Finder"
-	Location		[9, -8, 1929, 1063]
+	Location		[0, 23, 1280, 796]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1280,15 +1265,6 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Block {
-	  BlockType		  Inport
-	  Name			  "run_path_finder"
-	  SID			  "1::116"
-	  Position		  [20, 351, 40, 369]
-	  ZOrder		  94
-	  Port			  "8"
-	  IconDisplay		  "Port number"
-	}
-	Block {
 	  BlockType		  Demux
 	  Name			  " Demux "
 	  SID			  "1::78"
@@ -1302,11 +1278,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "1::77"
 	  Tag			  "Stateflow S-Function path_finder 3"
-	  Ports			  [8, 7]
-	  Position		  [180, 155, 230, 335]
+	  Ports			  [7, 7]
+	  Position		  [180, 155, 230, 315]
 	  ZOrder		  57
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[8 7]"
+	  PortCounts		  "[7 7]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  Port {
@@ -1407,64 +1383,57 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  122
+	  ZOrder		  138
 	  SrcBlock		  "proximity"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  123
+	  ZOrder		  139
 	  SrcBlock		  "dst_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  124
+	  ZOrder		  140
 	  SrcBlock		  "dst_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  125
+	  ZOrder		  141
 	  SrcBlock		  "compute"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  ZOrder		  126
+	  ZOrder		  142
 	  SrcBlock		  "current_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  5
 	}
 	Line {
-	  ZOrder		  127
+	  ZOrder		  143
 	  SrcBlock		  "current_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  6
 	}
 	Line {
-	  ZOrder		  128
+	  ZOrder		  144
 	  SrcBlock		  "current_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  7
 	}
 	Line {
-	  ZOrder		  129
-	  SrcBlock		  "run_path_finder"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  8
-	}
-	Line {
 	  Name			  "drive"
-	  ZOrder		  130
+	  ZOrder		  145
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1473,7 +1442,7 @@ Model {
 	}
 	Line {
 	  Name			  "next_x"
-	  ZOrder		  131
+	  ZOrder		  146
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -1482,7 +1451,7 @@ Model {
 	}
 	Line {
 	  Name			  "next_y"
-	  ZOrder		  132
+	  ZOrder		  147
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  4
@@ -1491,7 +1460,7 @@ Model {
 	}
 	Line {
 	  Name			  "no_path"
-	  ZOrder		  133
+	  ZOrder		  148
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  5
@@ -1500,7 +1469,7 @@ Model {
 	}
 	Line {
 	  Name			  "map"
-	  ZOrder		  134
+	  ZOrder		  149
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  6
@@ -1509,7 +1478,7 @@ Model {
 	}
 	Line {
 	  Name			  "path_completed"
-	  ZOrder		  135
+	  ZOrder		  150
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  7
@@ -1517,14 +1486,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  136
+	  ZOrder		  151
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  137
+	  ZOrder		  152
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1547,16 +1516,15 @@ Model {
       "74509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.62352"
       "9411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.71764"
       "7058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalL"
-      "abel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',8,'LineNames',{{'proximity:1','proxi"
-      "mity:2','proximity:3','proximity:4','proximity:5','proximity:6','proximity:7','proximity:8'}},'ShowContent',true"
-      ",'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','9.06365','MaxYLimReal','86.92716','YLabelReal',"
-      "'','MinYLimMag','9.06365','MaxYLimMag','86.92716','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPha"
-      "se',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrde"
-      "r',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.7176470"
-      "58823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0"
-      "745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('"
-      "Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[344 504 590 431],'VisibleAtModelOpe"
-      "n','on')"
+      "abel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'ShowContent',t"
+      "rue,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','9.06365','MaxYLimReal','86.92716','YLabelRea"
+      "l','','MinYLimMag','9.06365','MaxYLimMag','86.92716','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMag"
+      "Phase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorO"
+      "rder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.7176"
+      "47058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 "
+      "0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuratio"
+      "n('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[345 185 590 431],'VisibleAtModel"
+      "Open','on')"
     }
     Block {
       BlockType		      Outport
@@ -1606,10 +1574,10 @@ Model {
       ZOrder		      1
       SrcBlock		      "proximity"
       SrcPort		      1
-      Points		      [22, 0]
+      Points		      [22, 0; 0, 0]
       Branch {
 	ZOrder			16
-	Points			[0, -115]
+	Points			[0, -120]
 	DstBlock		"Scope"
 	DstPort			1
       }
@@ -1704,13 +1672,6 @@ Model {
       DstPort		      7
     }
     Line {
-      ZOrder		      17
-      SrcBlock		      "run_path_finder"
-      SrcPort		      1
-      DstBlock		      "Path Finder"
-      DstPort		      8
-    }
-    Line {
       ZOrder		      31
       SrcBlock		      "Path Finder"
       SrcPort		      6
@@ -1730,14 +1691,14 @@ Stateflow {
     name		    "path_finder"
     created		    "30-May-2016 23:07:56"
     isLibrary		    0
-    firstTarget		    36
+    firstTarget		    35
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [287.141 1363.713 282.151 927.294]
+    viewLimits		    [287.141 1236.593 282.151 762.211]
     zoomFactor		    0.762
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1745,7 +1706,7 @@ Stateflow {
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
     treeNode		    [0 3 0 0]
-    firstTransition	    32
+    firstTransition	    31
     viewObj		    2
     visible		    1
     machine		    1
@@ -1773,8 +1734,6 @@ Stateflow {
     ssIdNumber		    29
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1814,8 +1773,6 @@ Stateflow {
     ssIdNumber		    50
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   data {
     id			    6
@@ -2381,34 +2338,9 @@ Stateflow {
   }
   data {
     id			    30
-    ssIdNumber		    69
-    name		    "run_path_finder"
-    linkNode		    [2 29 31]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    31
     ssIdNumber		    71
     name		    "path_completed"
-    linkNode		    [2 30 0]
+    linkNode		    [2 29 0]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2430,7 +2362,7 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   transition {
-    id			    32
+    id			    31
     labelString		    "{\n	% write initial variables\n	drive = 0;\n	next_x = 0;\n	next_y = 0;\n	no_path = 0;\n	% sensor"
     " view directions from:\n	% https:%www.cyberbotics.com/guide/using-the-e-puck-robot.php\n	VIEW_DIRECTIONS = [mod(1."
     "27 - pi/2, 2 * pi) mod(0.77 - pi/2, 2 * pi) mod(0.00 - pi/2, 2 * pi) mod(5.21 - pi/2, 2 * pi) mod(4.21 - pi/2, 2 *"
@@ -2447,7 +2379,7 @@ Stateflow {
     }
     midPoint		    [597.4687 175.3795]
     chart		    2
-    linkNode		    [2 0 33]
+    linkNode		    [2 0 32]
     dataLimits		    [595.069 599.869 74.102 284.657]
     subviewer		    2
     drawStyle		    SMART
@@ -2458,7 +2390,7 @@ Stateflow {
     ssIdNumber		    30
   }
   transition {
-    id			    33
+    id			    32
     labelString		    "[i > points] {\n	path_completed = 1;\n}"
     labelPosition	    [319.408 456.843 131.047 44]
     fontSize		    12
@@ -2472,7 +2404,7 @@ Stateflow {
     }
     midPoint		    [461.9985 446.1513]
     chart		    2
-    linkNode		    [2 32 34]
+    linkNode		    [2 31 33]
     dataLimits		    [457.185 535.2 320.037 647.437]
     subviewer		    2
     drawStyle		    SMART
@@ -2483,7 +2415,7 @@ Stateflow {
     ssIdNumber		    70
   }
   transition {
-    id			    34
+    id			    33
     labelString		    "[compute == 1] {\n	coder.extrinsic('TinUtils.calculate_path');\n	path = TinUtils.calculate_path("
     "map, dst_x, dst_y, current_x, current_y);\n	points = TinUtils.get_path_length(path);\n}"
     labelPosition	    [594.672 395.31 396.652 72]
@@ -2498,7 +2430,7 @@ Stateflow {
     }
     midPoint		    [590.3055 430.8917]
     chart		    2
-    linkNode		    [2 33 0]
+    linkNode		    [2 32 0]
     dataLimits		    [587.906 592.706 387.652 482.131]
     subviewer		    2
     drawStyle		    SMART
@@ -2509,13 +2441,13 @@ Stateflow {
     ssIdNumber		    53
   }
   instance {
-    id			    35
+    id			    34
     name		    "Path Finder"
     machine		    1
     chart		    2
   }
   target {
-    id			    36
+    id			    35
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
