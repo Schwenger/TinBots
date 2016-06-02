@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.42"
+    ComputedModelVersion    "1.43"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -89,7 +89,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 60.0, 1920.0, 1052.0]
+      Location		      [0.0, 31.0, 1280.0, 952.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -111,11 +111,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"StateflowChart"
-	LoadSaveID		"77"
-	Extents			[1886.0, 885.0]
-	ZoomFactor		[1.000250062515629]
-	Offset			[153.55099999999996, -12.435000000000002]
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
+	Extents			[1246.0, 785.0]
+	ZoomFactor		[1.25]
+	Offset			[0.0, 0.0]
       }
     }
   }
@@ -125,9 +125,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 21:34:39 2016"
-  RTWModifiedTimeStamp	  386804065
-  ModelVersionFormat	  "1.%<AutoIncrement:42>"
+  LastModifiedDate	  "Fri Jun 03 00:16:50 2016"
+  RTWModifiedTimeStamp	  386813793
+  ModelVersionFormat	  "1.%<AutoIncrement:43>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -230,7 +230,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "inf"
 	  AbsTol		  "auto"
-	  FixedStep		  "auto"
+	  FixedStep		  "0.01"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -956,8 +956,8 @@ Model {
   }
   System {
     Name		    "victim_direction"
-    Location		    [0, 60, 1920, 1112]
-    Open		    off
+    Location		    [0, 31, 1280, 983]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1015,8 +1015,8 @@ Model {
       Variant		      off
       System {
 	Name			"Chart"
-	Location		[0, 60, 1920, 1112]
-	Open			on
+	Location		[0, 31, 1280, 983]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1366,8 +1366,8 @@ Stateflow {
     id			    2
     name		    "Chart"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [153.551 2039.079 -12.435 872.344]
-    zoomFactor		    1.333
+    viewLimits		    [258.324 1289.836 79.682 729.55]
+    zoomFactor		    1.104
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -1376,7 +1376,6 @@ Stateflow {
     treeNode		    [0 3 0 0]
     firstTransition	    24
     viewObj		    2
-    visible		    1
     machine		    1
     subviewS {
     }
