@@ -110,10 +110,10 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.107"
+    ComputedModelVersion    "1.108"
     NumModelReferences	    1
     ModelReference {
-      ModelRefBlockPath	      "traffic_cop/Model|blind_cop"
+      ModelRefBlockPath	      "traffic_cop/Blind Traffic Cop/Model|blind_cop"
     }
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -149,7 +149,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [0.0, 31.0, 1920.0, 1052.0]
+      Location		      [46.0, 55.0, 1920.0, 1052.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -164,7 +164,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -173,9 +173,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1886.0, 885.0]
-	ZoomFactor		[1.75]
-	Offset			[-163.04931238518265, 77.0151128648383]
+	Extents			[1864.0, 901.0]
+	ZoomFactor		[1.0]
+	Offset			[-134.47811665111908, -97.460862321796355]
       }
     }
   }
@@ -183,11 +183,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 02:07:33 2016"
-  RTWModifiedTimeStamp	  386734052
-  ModelVersionFormat	  "1.%<AutoIncrement:107>"
+  LastModifiedDate	  "Thu Jun 02 17:38:13 2016"
+  RTWModifiedTimeStamp	  386789891
+  ModelVersionFormat	  "1.%<AutoIncrement:108>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -586,7 +586,7 @@ Model {
 	  Version		  "1.16.2"
 	  Array {
 	    Type		    "Cell"
-	    Dimension		    15
+	    Dimension		    16
 	    Cell		    "IncludeHyperlinkInReport"
 	    Cell		    "GenerateTraceInfo"
 	    Cell		    "GenerateTraceReport"
@@ -602,6 +602,7 @@ Model {
 	    Cell		    "CodeExecutionProfiling"
 	    Cell		    "CodeProfilingSaveOptions"
 	    Cell		    "CodeProfilingInstrumentation"
+	    Cell		    "GenerateMissedCodeReplacementReport"
 	    PropName		    "DisabledProps"
 	  }
 	  SystemTargetFile	  "grt.tlc"
@@ -858,6 +859,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
+      ExtraOptions	      "-aGenerateTraceInfo=0 -aIgnoreTestpoints=0 "
       CurrentDlgPage	      "Solver"
       ConfigPrmDlgPosition     [ 71, 71, 1030, 839 ] 
     }
@@ -964,14 +966,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      ModelReference
-      SimulationMode	      "Accelerator"
-      CodeInterface	      "Model reference"
-      GeneratePreprocessorConditionals off
-      ContentPreviewEnabled   off
-      CopyOfModelProtected    off
-    }
-    Block {
       BlockType		      Outport
       Port		      "1"
       OutMin		      "[]"
@@ -1039,7 +1033,7 @@ Model {
   }
   System {
     Name		    "traffic_cop"
-    Location		    [0, 31, 1920, 1083]
+    Location		    [46, 55, 1966, 1107]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1051,14 +1045,14 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "175"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "76"
+    SIDHighWatermark	    "78"
     Block {
       BlockType		      Inport
       Name		      "initial_x"
       SID		      "26"
-      Position		      [1060, 613, 1090, 627]
+      Position		      [980, 613, 1010, 627]
       ZOrder		      183
       IconDisplay	      "Port number"
       Port {
@@ -1072,7 +1066,7 @@ Model {
       BlockType		      Inport
       Name		      "initial_y"
       SID		      "27"
-      Position		      [1060, 653, 1090, 667]
+      Position		      [980, 653, 1010, 667]
       ZOrder		      184
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1126,7 +1120,7 @@ Model {
       BlockType		      Inport
       Name		      "victim_x"
       SID		      "7"
-      Position		      [1060, 533, 1090, 547]
+      Position		      [980, 533, 1010, 547]
       ZOrder		      164
       Port		      "6"
       IconDisplay	      "Port number"
@@ -1141,7 +1135,7 @@ Model {
       BlockType		      Inport
       Name		      "victim_y"
       SID		      "8"
-      Position		      [1060, 573, 1090, 587]
+      Position		      [980, 573, 1010, 587]
       ZOrder		      165
       Port		      "7"
       IconDisplay	      "Port number"
@@ -1156,7 +1150,7 @@ Model {
       BlockType		      Inport
       Name		      "path_completed"
       SID		      "23"
-      Position		      [1060, 493, 1090, 507]
+      Position		      [980, 493, 1010, 507]
       ZOrder		      180
       Port		      "8"
       IconDisplay	      "Port number"
@@ -1171,7 +1165,7 @@ Model {
       BlockType		      Inport
       Name		      "no_path"
       SID		      "24"
-      Position		      [1060, 453, 1090, 467]
+      Position		      [980, 453, 1010, 467]
       ZOrder		      181
       Port		      "9"
       IconDisplay	      "Port number"
@@ -1190,6 +1184,40 @@ Model {
       ZOrder		      292
       Port		      "10"
       IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Blind Traffic Cop"
+      SID		      "78"
+      Ports		      [9, 5]
+      Position		      [1175, 324, 1410, 676]
+      ZOrder		      310
+      LibraryVersion	      "1.178"
+      SourceBlock	      "tinbot/Blind Traffic Cop"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      GeneratePreprocessorConditionals off
+      ContentPreviewEnabled   off
+      Port {
+	PortNumber		3
+	Name			"run_path_finder"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+      Port {
+	PortNumber		4
+	Name			"run_rhr"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+      Port {
+	PortNumber		5
+	Name			"run_victim_finder"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Demux
@@ -1212,99 +1240,6 @@ Model {
       ShowName		      off
       Outputs		      "3"
       DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      ModelReference
-      Name		      "Model"
-      SID		      "61"
-      Ports		      [9, 5]
-      Position		      [1205, 324, 1390, 676]
-      ZOrder		      306
-      ModelNameDialog	      "blind_cop"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.102"
-      List {
-	ListType		InputPortNames
-	port0			"need_angle"
-	port1			"found_victim_phi"
-	port2			"found_victim_xy"
-	port3			"no_path"
-	port4			"path_completed"
-	port5			"victim_x"
-	port6			"victim_y"
-	port7			"initial_x"
-	port8			"initial_y"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_path_finder"
-	port3			"run_rhr"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_path_finder"
-	port3			"run_rhr"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-      Port {
-	PortNumber		3
-	Name			"run_path_finder"
-	PropagatedSignals	"run_path_finder"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		4
-	Name			"run_rhr"
-	PropagatedSignals	"run_rhr"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		5
-	Name			"run_victim_finder"
-	PropagatedSignals	"run_victim_finder"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
     }
     Block {
       BlockType		      Scope
@@ -1648,97 +1583,97 @@ Model {
     }
     Line {
       Name		      "run_victim_finder"
-      ZOrder		      234
+      ZOrder		      326
       Labels		      [-1, 0]
-      SrcBlock		      "Model"
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      5
       DstBlock		      "run_victim_finder"
       DstPort		      1
     }
     Line {
       Name		      "run_path_finder"
-      ZOrder		      236
+      ZOrder		      321
       Labels		      [-1, 0]
-      SrcBlock		      "Model"
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      3
       DstBlock		      "run_path_finder"
       DstPort		      1
     }
     Line {
       Name		      "run_rhr"
-      ZOrder		      235
+      ZOrder		      320
       Labels		      [-1, 0]
-      SrcBlock		      "Model"
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      4
       DstBlock		      "run_rhr"
       DstPort		      1
     }
     Line {
-      ZOrder		      237
-      SrcBlock		      "Model"
+      ZOrder		      327
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      2
       DstBlock		      "dst_y"
       DstPort		      1
     }
     Line {
-      ZOrder		      238
-      SrcBlock		      "Model"
+      ZOrder		      323
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      1
       DstBlock		      "dst_x"
       DstPort		      1
     }
     Line {
       Name		      "no_path"
-      ZOrder		      281
+      ZOrder		      322
       Labels		      [0, 0]
       SrcBlock		      "no_path"
       SrcPort		      1
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      4
     }
     Line {
       Name		      "path_completed"
-      ZOrder		      287
+      ZOrder		      329
       Labels		      [0, 0]
       SrcBlock		      "path_completed"
       SrcPort		      1
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      5
     }
     Line {
       Name		      "victim_x"
-      ZOrder		      283
+      ZOrder		      332
       Labels		      [0, 0]
       SrcBlock		      "victim_x"
       SrcPort		      1
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      6
     }
     Line {
       Name		      "victim_y"
-      ZOrder		      284
+      ZOrder		      330
       Labels		      [0, 0]
       SrcBlock		      "victim_y"
       SrcPort		      1
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      7
     }
     Line {
       Name		      "initial_x"
-      ZOrder		      285
+      ZOrder		      325
       Labels		      [0, 0]
       SrcBlock		      "initial_x"
       SrcPort		      1
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      8
     }
     Line {
       Name		      "initial_y"
-      ZOrder		      286
+      ZOrder		      331
       Labels		      [0, 0]
       SrcBlock		      "initial_y"
       SrcPort		      1
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      9
     }
     Line {
@@ -1758,9 +1693,9 @@ Model {
 	ZOrder			70
 	Points			[69, 0]
 	Branch {
-	  ZOrder		  288
+	  ZOrder		  324
 	  Points		  [0, 100]
-	  DstBlock		  "Model"
+	  DstBlock		  "Blind Traffic Cop"
 	  DstPort		  3
 	}
 	Branch {
@@ -1787,9 +1722,9 @@ Model {
 	ZOrder			33
 	Points			[105, 0]
 	Branch {
-	  ZOrder		  282
+	  ZOrder		  328
 	  Points		  [0, 100]
-	  DstBlock		  "Model"
+	  DstBlock		  "Blind Traffic Cop"
 	  DstPort		  2
 	}
 	Branch {
@@ -1898,11 +1833,11 @@ Model {
       DstPort		      6
     }
     Line {
-      ZOrder		      289
+      ZOrder		      319
       SrcBlock		      "traffic_cop_eyes"
       SrcPort		      2
       Points		      [45, 0; 0, 50]
-      DstBlock		      "Model"
+      DstBlock		      "Blind Traffic Cop"
       DstPort		      1
     }
     Line {
@@ -1996,6 +1931,8 @@ Stateflow {
     ssIdNumber		    97
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -2009,6 +1946,8 @@ Stateflow {
     ssIdNumber		    110
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    5
@@ -2022,6 +1961,8 @@ Stateflow {
     ssIdNumber		    107
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
@@ -2035,6 +1976,8 @@ Stateflow {
     ssIdNumber		    103
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    7
@@ -2048,6 +1991,8 @@ Stateflow {
     ssIdNumber		    101
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    8
@@ -2062,6 +2007,8 @@ Stateflow {
     ssIdNumber		    109
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   transition {
     id			    9
@@ -2489,6 +2436,12 @@ Stateflow {
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
-    linkNode		    [1 0 0]
+    linkNode		    [1 0 28]
+  }
+  target {
+    id			    28
+    name		    "rtw"
+    machine		    1
+    linkNode		    [1 27 0]
   }
 }
