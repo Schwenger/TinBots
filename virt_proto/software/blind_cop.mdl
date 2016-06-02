@@ -8,30 +8,35 @@ Model {
     Inport {
       Name		      "need_angle"
       BusObject		      ""
+      SignalName	      "need_angle"
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
     Inport {
       Name		      "found_victim_phi"
       BusObject		      ""
+      SignalName	      "found_victim_phi"
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
     Inport {
       Name		      "found_victim_xy"
       BusObject		      ""
+      SignalName	      "found_victim_xy"
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
     Inport {
       Name		      "no_path"
       BusObject		      ""
+      SignalName	      "no_path"
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
     Inport {
       Name		      "path_completed"
       BusObject		      ""
+      SignalName	      "path_completed"
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
@@ -96,7 +101,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.102"
+    ComputedModelVersion    "1.103"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -132,7 +137,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1280.0, 31.0, 1280.0, 983.0]
+      Location		      [649.0, 31.0, 1280.0, 983.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -147,7 +152,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -156,9 +161,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1246.0, 816.0]
+	Extents			[1224.0, 834.0]
 	ZoomFactor		[1.0273794002607561]
-	Offset			[-146.06029405932748, 195.37309644670046]
+	Offset			[-131.75293365323606, 87.915825744317118]
       }
     }
   }
@@ -166,11 +171,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 01:38:49 2016"
-  RTWModifiedTimeStamp	  386732169
-  ModelVersionFormat	  "1.%<AutoIncrement:102>"
+  LastModifiedDate	  "Thu Jun 02 02:39:27 2016"
+  RTWModifiedTimeStamp	  386735964
+  ModelVersionFormat	  "1.%<AutoIncrement:103>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -913,24 +918,6 @@ Model {
   }
   BlockParameterDefaults {
     Block {
-      BlockType		      Delay
-      DelayLengthSource	      "Dialog"
-      DelayLength	      "2"
-      DelayLengthUpperLimit   "100"
-      InitialConditionSource  "Dialog"
-      InitialCondition	      "0.0"
-      ExternalReset	      "None"
-      ShowEnablePort	      off
-      PreventDirectFeedthrough off
-      DiagnosticForOutOfRangeDelayLength "None"
-      RemoveProtectionDelayLength off
-      InputProcessing	      "Elements as channels (sample based)"
-      UseCircularBuffer	      off
-      SampleTime	      "-1"
-      StateMustResolveToSignalObject off
-      CodeGenStateStorageClass "Auto"
-    }
-    Block {
       BlockType		      Demux
       Outputs		      "4"
       DisplayOption	      "none"
@@ -1023,7 +1010,7 @@ Model {
   }
   System {
     Name		    "blind_cop"
-    Location		    [1280, 31, 2560, 1014]
+    Location		    [649, 31, 1929, 1014]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1045,6 +1032,12 @@ Model {
       Position		      [20, 233, 50, 247]
       ZOrder		      306
       IconDisplay	      "Port number"
+      Port {
+	PortNumber		1
+	Name			"need_angle"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Inport
@@ -1054,6 +1047,12 @@ Model {
       ZOrder		      161
       Port		      "2"
       IconDisplay	      "Port number"
+      Port {
+	PortNumber		1
+	Name			"found_victim_phi"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Inport
@@ -1063,6 +1062,12 @@ Model {
       ZOrder		      163
       Port		      "3"
       IconDisplay	      "Port number"
+      Port {
+	PortNumber		1
+	Name			"found_victim_xy"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Inport
@@ -1072,6 +1077,12 @@ Model {
       ZOrder		      181
       Port		      "4"
       IconDisplay	      "Port number"
+      Port {
+	PortNumber		1
+	Name			"no_path"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Inport
@@ -1081,6 +1092,12 @@ Model {
       ZOrder		      180
       Port		      "5"
       IconDisplay	      "Port number"
+      Port {
+	PortNumber		1
+	Name			"path_completed"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Inport
@@ -1117,126 +1134,6 @@ Model {
       ZOrder		      184
       Port		      "9"
       IconDisplay	      "Port number"
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay1"
-      SID		      "64"
-      Ports		      [1, 1]
-      Position		      [165, 345, 195, 375]
-      ZOrder		      310
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-      Port {
-	PortNumber		1
-	Name			"no_path"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay11"
-      SID		      "65"
-      Ports		      [1, 1]
-      Position		      [165, 305, 195, 335]
-      ZOrder		      309
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-      Port {
-	PortNumber		1
-	Name			"found_victim_xy"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay13"
-      SID		      "66"
-      Ports		      [1, 1]
-      Position		      [165, 265, 195, 295]
-      ZOrder		      308
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-      Port {
-	PortNumber		1
-	Name			"found_victim_phi"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay2"
-      SID		      "67"
-      Ports		      [1, 1]
-      Position		      [165, 425, 195, 455]
-      ZOrder		      312
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay3"
-      SID		      "68"
-      Ports		      [1, 1]
-      Position		      [165, 385, 195, 415]
-      ZOrder		      311
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-      Port {
-	PortNumber		1
-	Name			"path_completed"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay4"
-      SID		      "69"
-      Ports		      [1, 1]
-      Position		      [165, 465, 195, 495]
-      ZOrder		      313
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay5"
-      SID		      "70"
-      Ports		      [1, 1]
-      Position		      [165, 545, 195, 575]
-      ZOrder		      315
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay6"
-      SID		      "71"
-      Ports		      [1, 1]
-      Position		      [165, 505, 195, 535]
-      ZOrder		      314
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-    }
-    Block {
-      BlockType		      Delay
-      Name		      "Delay9"
-      SID		      "72"
-      Ports		      [1, 1]
-      Position		      [165, 225, 195, 255]
-      ZOrder		      307
-      InputPortMap	      "u0"
-      DelayLength	      "1"
-      Port {
-	PortNumber		1
-	Name			"need_angle"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
     }
     Block {
       BlockType		      Scope
@@ -1846,75 +1743,12 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      222
+      Name		      "found_victim_xy"
+      ZOrder		      282
+      Labels		      [-1, 0]
       SrcBlock		      "found_victim_xy"
       SrcPort		      1
-      DstBlock		      "Delay11"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      225
-      SrcBlock		      "no_path"
-      SrcPort		      1
-      DstBlock		      "Delay1"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      218
-      SrcBlock		      "found_victim_phi"
-      SrcPort		      1
-      DstBlock		      "Delay13"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      223
-      SrcBlock		      "initial_y"
-      SrcPort		      1
-      DstBlock		      "Delay5"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      219
-      SrcBlock		      "victim_y"
-      SrcPort		      1
-      DstBlock		      "Delay4"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      220
-      SrcBlock		      "victim_x"
-      SrcPort		      1
-      DstBlock		      "Delay2"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      224
-      SrcBlock		      "path_completed"
-      SrcPort		      1
-      DstBlock		      "Delay3"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      221
-      SrcBlock		      "initial_x"
-      SrcPort		      1
-      DstBlock		      "Delay6"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      226
-      SrcBlock		      "need_angle"
-      SrcPort		      1
-      DstBlock		      "Delay9"
-      DstPort		      1
-    }
-    Line {
-      Name		      "found_victim_xy"
-      ZOrder		      261
-      Labels		      [1, 1]
-      SrcBlock		      "Delay11"
-      SrcPort		      1
-      Points		      [137, 0]
+      Points		      [282, 0]
       Branch {
 	ZOrder			164
 	Points			[0, 505]
@@ -1928,26 +1762,26 @@ Model {
       }
     }
     Line {
-      ZOrder		      262
-      SrcBlock		      "Delay6"
+      ZOrder		      287
+      SrcBlock		      "initial_x"
       SrcPort		      1
       DstBlock		      "blind_cop"
       DstPort		      8
     }
     Line {
-      ZOrder		      263
-      SrcBlock		      "Delay4"
+      ZOrder		      286
+      SrcBlock		      "victim_y"
       SrcPort		      1
       DstBlock		      "blind_cop"
       DstPort		      7
     }
     Line {
       Name		      "need_angle"
-      ZOrder		      264
-      Labels		      [1, 1]
-      SrcBlock		      "Delay9"
+      ZOrder		      280
+      Labels		      [-1, 0]
+      SrcBlock		      "need_angle"
       SrcPort		      1
-      Points		      [106, 0]
+      Points		      [251, 0]
       Branch {
 	ZOrder			228
 	Points			[0, 535]
@@ -1962,11 +1796,11 @@ Model {
     }
     Line {
       Name		      "found_victim_phi"
-      ZOrder		      265
-      Labels		      [1, 1]
-      SrcBlock		      "Delay13"
+      ZOrder		      281
+      Labels		      [-1, 0]
+      SrcBlock		      "found_victim_phi"
       SrcPort		      1
-      Points		      [120, 0]
+      Points		      [265, 0]
       Branch {
 	ZOrder			162
 	Points			[0, 520]
@@ -1980,19 +1814,19 @@ Model {
       }
     }
     Line {
-      ZOrder		      266
-      SrcBlock		      "Delay5"
+      ZOrder		      288
+      SrcBlock		      "initial_y"
       SrcPort		      1
       DstBlock		      "blind_cop"
       DstPort		      9
     }
     Line {
       Name		      "path_completed"
-      ZOrder		      267
+      ZOrder		      284
       Labels		      [1, 1]
-      SrcBlock		      "Delay3"
+      SrcBlock		      "path_completed"
       SrcPort		      1
-      Points		      [173, 0]
+      Points		      [318, 0]
       Branch {
 	ZOrder			161
 	Points			[0, 475]
@@ -2007,11 +1841,11 @@ Model {
     }
     Line {
       Name		      "no_path"
-      ZOrder		      268
+      ZOrder		      283
       Labels		      [1, 1]
-      SrcBlock		      "Delay1"
+      SrcBlock		      "no_path"
       SrcPort		      1
-      Points		      [152, 0]
+      Points		      [297, 0]
       Branch {
 	ZOrder			163
 	Points			[0, 490]
@@ -2025,8 +1859,8 @@ Model {
       }
     }
     Line {
-      ZOrder		      269
-      SrcBlock		      "Delay2"
+      ZOrder		      285
+      SrcBlock		      "victim_x"
       SrcPort		      1
       DstBlock		      "blind_cop"
       DstPort		      6
