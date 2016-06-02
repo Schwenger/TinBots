@@ -31,7 +31,8 @@ Tests:
  - path_finder_test: test internal map generation and escape path calculation
     Medium time, awesome visualization
  - approximator_test: test approximation of current position and orientation
-    Slow-ish
+    Slow, complete test of internal position and orientation approximation based on the
+    motor speeds and reset of wrong data according to the LPS (crash into wall)
  - follow_right_hand_test: test right hand rule
     Very slow, nearly holistic
  - controller_test: test the complete control software
