@@ -483,5 +483,10 @@ wie "Theory Of Distributed Systems", da gibt's ein paar kranke Unmöglichkeitsre
     - eigene Position
     - Winkel- und Positions-Daten über Victim (uff, das wird unschön, das sauber einzubinden!)
     - eigene Start-Position (immer, selbst wenn OFFLINE) 
+
+Comment by Maxi:
+ - this might be problematic because we would need a variable size containter structure to hold all the messages
+   in order to be able to "chain" them => check how "variable size" size signals in simulink work and whether this
+   could be archived by appending the messages to the chain inupt vector
 ##############################################################################
 
