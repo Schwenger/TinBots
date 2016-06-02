@@ -412,7 +412,7 @@ TODO until tomorrow:
 
 ================
 
-scribe: Maximilian Köhl (some Ben Wiederhake) 02.06.2016 21-03 "session"
+scribe: Maximilian Köhl 02.06.2016 21-03 "session"
 
 done:
 - LPS takes exact x,y coordinates, sends exact position to tin bot every 2 secs (2 secs is better than 10)
@@ -426,24 +426,22 @@ done:
 - add readme file
 - fix and document tests
 
-state of the virtual prototype:
-- single component tests done
+================
+
+scribe: Ben Wiederhake 03.06.2016 09-18 "session"
+
+done:
+- path_finder: implement missing required features
+- fix IR sensors and raycasting
+- triple-quadruple-check all tests, fix minor remaining bugs, notice a few edge cases
+- integrate tests into library (maxi)
 
 todo:
-- test the whole controller software
+- let controller_test run completely, check if it correctly runs back to the start
 - prepare screencasts of the simulations (and speed them up) for the presentation on friday
     -> See README.md, it contains a list of which are slow
     -> Start recording those that are slow first!
-- add some documentation about the various components either as text field or in the readme (03:08 AM "midnight thought")
-- controller_test: test the complete control software
-  BROKEN!  Map triggers unhandled corner-case ("stroke" mode)
 - add control software for the status leds
-
-taken:
-- approximator_test: test approximation of current position and orientation
-  UNTESTED (I'm not sure how to read the outputs)
-  => ask Maxi if you want to know how to interpret the output
-
 
 
 
