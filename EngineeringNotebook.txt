@@ -397,7 +397,7 @@ TODO list, probably-wont-happen-till-thursday:
 
 ==============
 
-scribe: Max Schwenger 01.05.2016 14-16 session
+scribe: Max Schwenger 01.06.2016 14-16 session
 
 - Ben wrapped up the IR sensor component.
 - Max wrapped up Verkehrspolizist and renamed to traffic cop.
@@ -410,9 +410,9 @@ TODO until tomorrow:
 - Test traffic cop.
 
 
-
 ================
-scribe: Maximilian Köhl 02.05.2016 01:03 AM
+
+scribe: Maximilian Köhl (some Ben Wiederhake) 02.06.2016 21-03 "session"
 
 done:
 - LPS takes exact x,y coordinates, sends exact position to tin bot every 2 secs (2 secs is better than 10)
@@ -422,20 +422,25 @@ done:
 - clean up existing tests -- some are broken, some are useless  (Maxi)
 - add more internal debugging to library (maxi)
 - Re-introduce XY Graph into some tests (simulation is slow, movement isn't well visible on the map viewer)
-
 - fix, restructure and cleanup many things
 - add readme file
-
+- fix and document tests
 
 state of the virtual prototype:
 - single component tests done
 
 todo:
-- complete traffic cop and other software parts (review needed) and test the whole controller software
+- test the whole controller software
 - prepare screencasts of the simulations (and speed them up) for the presentation on friday
+    -> See README.md, it contains a list of which are slow
+    -> Start recording those that are slow first!
 - add some documentation about the various components either as text field or in the readme (03:08 AM "midnight thought")
-
-
+- path_finder_test: test internal map generation and escape path calculation
+  BROKEN!  Inverted y (see Slack, pf_broken_proof.png)
+- approximator_test: test approximation of current position and orientation
+  UNTESTED (I'm not sure how to read the outputs)
+- controller_test: test the complete control software
+  BROKEN!  Map triggers unhandled corner-case ("stroke" mode)
 
 
 
@@ -447,7 +452,6 @@ Long-term TODO:
 - Docking code (was ist docking code?)
     * which modules will be needed?
     * how does that integrate into traffic cop?
-
 - T2T data
     * wie machen wir das in matlab, ideen? (s.u.)
     * wir benutzen dann "time-triggered", oder?  Dann bekommen wir automatisch die
@@ -457,9 +461,6 @@ Long-term TODO:
     * map aus path_finder "lesen" um es (teilweise) an T2T zu senden?
     → aber nur die eigenen Messwerte
 
-
-
-======================
 
 Vorschlag zum T2T (betrifft NICHT die Donnerstag-Deadline):
 So wie "map_in, map_out", nur mit einem Vektor von "Nachrichten".  Jeder Tin Bot hat 'ne

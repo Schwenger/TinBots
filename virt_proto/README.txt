@@ -29,13 +29,10 @@ Tests:
  - victim_direction_test: test victim direction calculation
     Medium time, tests environment and bare-bone software component
  - path_finder_test: test internal map generation and escape path calculation
-    BROKEN!  Inverted y (see Slack, pf_broken_proof.png)
     Medium time, awesome visualization
  - approximator_test: test approximation of current position and orientation
     Slow-ish
-    UNTESTED (I'm not sure how to read the outputs)
  - follow_right_hand_test: test right hand rule
     Very slow, nearly holistic
  - controller_test: test the complete control software
-    BROKEN!  Map triggers unhandled corner-case ("stroke" mode)
     Very slow, nearly holistic
