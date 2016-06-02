@@ -440,12 +440,15 @@ todo:
   consider switching to inverted axis representation because matlab's path finder does not support "our" representation
   and maintaining an inverted matrix inside our path finder may be confusing (different representations in different parts
   seems like a bad idea)
-- approximator_test: test approximation of current position and orientation
-  UNTESTED (I'm not sure how to read the outputs)
 - controller_test: test the complete control software
   BROKEN!  Map triggers unhandled corner-case ("stroke" mode)
 - add control software for the status leds
 - limit the range of the proximity sensors to match the real world situation
+
+taken:
+- approximator_test: test approximation of current position and orientation
+  UNTESTED (I'm not sure how to read the outputs)
+  => ask Maxi if you want to know how to interpret the output
 
 
 
