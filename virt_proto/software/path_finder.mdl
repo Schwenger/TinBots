@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.110"
+    ComputedModelVersion    "1.112"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -130,11 +130,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"1"
 	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.75]
-	Offset			[494.365782388145, 240.58787279281421]
+	ZoomFactor		[1.2496094970321774]
+	Offset			[302.69551972718079, 145.36496054563824]
       }
     }
   }
@@ -144,9 +144,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 15:28:31 2016"
-  RTWModifiedTimeStamp	  386782110
-  ModelVersionFormat	  "1.%<AutoIncrement:110>"
+  LastModifiedDate	  "Thu Jun 02 16:21:16 2016"
+  RTWModifiedTimeStamp	  386785265
+  ModelVersionFormat	  "1.%<AutoIncrement:112>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1074,7 +1074,7 @@ Model {
   System {
     Name		    "path_finder"
     Location		    [1920, 31, 3200, 1014]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1189,7 +1189,7 @@ Model {
       System {
 	Name			"Path Finder"
 	Location		[1920, 31, 3200, 1014]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1800,7 +1800,7 @@ Stateflow {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [232.988 1229.788 582.473 1287.273]
+    viewLimits		    [302.696 1299.807 145.365 798.369]
     zoomFactor		    1.067
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1812,6 +1812,8 @@ Stateflow {
     viewObj		    2
     visible		    1
     machine		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    90
     decomposition	    CLUSTER_CHART
     firstData		    22
@@ -1841,6 +1843,8 @@ Stateflow {
     ssIdNumber		    29
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -1882,6 +1886,8 @@ Stateflow {
     ssIdNumber		    50
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
@@ -1897,6 +1903,8 @@ Stateflow {
     ssIdNumber		    76
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    7
@@ -1910,6 +1918,8 @@ Stateflow {
     ssIdNumber		    78
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    8
@@ -1929,8 +1939,9 @@ Stateflow {
       isEML		      1
       script		      "function is_blocked = path_blocked()\n\n% Can't easily use IR sensors here, since path_executor r"
       "otates around a\n% lot.\n\nr = floor(current_y);\nc = floor(current_x);\n[distance, ~] = TinUtils.raycast_polymo"
-      "rphic(map, rows + 1 - r, c, step_phi, false);\nexpect_distance = norm([next_x next_y] - [current_x current_y]);\n"
-      "\nis_blocked = expect_distance > distance + 1e-4;\n\nend\n"
+      "rphic(map, rows + 1 - r, c, step_phi, false);\ndistance = distance - TinUtils.rogue_bias + TinUtils.radius;\nexp"
+      "ect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blocked = expect_distance > distance + 1e-4;"
+      "\n\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -1948,6 +1959,8 @@ Stateflow {
     ssIdNumber		    85
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   data {
     id			    10
@@ -2089,7 +2102,7 @@ Stateflow {
     midPoint		    [498.9452 604.6525]
     chart		    2
     linkNode		    [6 14 16]
-    dataLimits		    [414.405 591.486 602.252 607.052]
+    dataLimits		    [414.405 591.486 602.253 607.053]
     subviewer		    2
     drawStyle		    SMART
     slide {
