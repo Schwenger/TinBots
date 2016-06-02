@@ -433,7 +433,7 @@ state of the virtual prototype:
 todo:
 - complete traffic cop and other software parts (review needed) and test the whole controller software
 - prepare screencasts of the simulations (and speed them up) for the presentation on friday
-- add some documentation about the various components either as text field or in the readme (03:08 PM "midnight thought")
+- add some documentation about the various components either as text field or in the readme (03:08 AM "midnight thought")
 
 
 
