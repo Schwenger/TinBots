@@ -452,11 +452,7 @@ Piratepad-Dump: https://piratenpad.de/p/ZuCsUfLZOdj0ua
 ##############################################################################
 Long-term TODO:
 - path_finder
-    * collect data, even if in state "Computed"
     * remove walls if the proximity sensor indicates that there is no wall
-    * if path gets blocked during execution, do something meaningful
-        * Maybe signal "no_path"?  Traffic cop can handle this signal at any point in time.
-    * if "calculate_path" fails, signal no_path
 - Docking mode
     * Also, das "andocken" an den Teddy; ist im Moment nur no-op für Simulation.
     * which modules will be needed?

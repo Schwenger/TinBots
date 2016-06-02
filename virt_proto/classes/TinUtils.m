@@ -29,7 +29,7 @@ classdef TinUtils < handle
             grid = robotics.BinaryOccupancyGrid(matrix, 1);
             
             % inflate walls with robot radius
-            inflate(grid, 2);
+            inflate(grid, 3);
             
             start_location = [floor(current_x) floor(current_y)];
             end_location = [floor(dst_x) floor(dst_y)];
@@ -74,7 +74,7 @@ classdef TinUtils < handle
             inside = (pos(1) >= 1) && (pos(1) < cols + 1) && (pos(2) >= 1) && (pos(2) < rows + 1);
         end
 
-        function [distance, object] = raycast_to(matrix, pos, phi, to, QP_vd, QP_q)
+        function [distance, object] = raycast_to(matrix, pos, phi, to, QP_vd, QP_q, simulate)
             object = matrix(to(2), to(1));
             if object == 0
                 distance = inf;
@@ -84,15 +84,22 @@ classdef TinUtils < handle
                 % A square (i, j) represents the 2D interval $$[i, i+1) \times
                 % [j, j+1)$$, with precisely these parens (half-open).
                 distance = intersectQuarterSquare(pos(1)+0.5, pos(2)+0.5, phi, to + QP_vd, QP_q);
-                distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
-                if distance + TinUtils.rogue_bias >= TinUtils.max_distance
-                    object = 0;
-                    distance = Inf;
+                if simulate
+                    distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
+                    if distance + TinUtils.rogue_bias >= TinUtils.max_distance
+                        object = 0;
+                        distance = Inf;
+                    end
+                else
+                    if distance >= 400
+                        object = 0;
+                        distance = Inf;
+                    end
                 end
             end
         end
 
-        function [distance, object] = raycast(matrix, row, col, phi)
+        function [distance, object] = raycast_polymorphic(matrix, row, col, phi, simulate)
             step = [cos(phi) sin(phi)] .* TinUtils.step_size;
             [rows, cols] = size(matrix);
             cur_pos = [col row];
@@ -133,19 +140,19 @@ classdef TinUtils < handle
 
                 % Determine if there's an object somewhere
                 if change(1)
-                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [change(1) 0], QP_vd, QP_q);
+                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [change(1) 0], QP_vd, QP_q, simulate);
                     if object
                         break;
                     end
                 end
                 if change(2)
-                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [0 change(2)], QP_vd, QP_q);
+                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [0 change(2)], QP_vd, QP_q, simulate);
                     if object
                         break;
                     end
                 end
                 if change(1) && change(2)
-                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, next_pos, QP_vd, QP_q);
+                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, next_pos, QP_vd, QP_q, simulate);
                     if object
                         break;
                     end
@@ -155,6 +162,10 @@ classdef TinUtils < handle
                 cur_pos = next_pos;
                 cur_delta = cur_delta - change;
             end
+        end
+
+        function [distance, object] = raycast(matrix, row, col, phi)
+            [distance, object] = TinUtils.raycast_polymorphic(matrix, row, col, phi, true);
         end
     end
 end
