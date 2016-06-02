@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.41"
+    ComputedModelVersion    "1.42"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -104,18 +104,18 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[0]
+	Visible			[1]
       }
       Object {
 	$PropName		"EditorsInfo"
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1864.0, 901.0]
-	ZoomFactor		[1.25]
-	Offset			[-141.07029316585422, -108.89379260413752]
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"77"
+	Extents			[1886.0, 885.0]
+	ZoomFactor		[1.000250062515629]
+	Offset			[153.55099999999996, -12.435000000000002]
       }
     }
   }
@@ -123,11 +123,11 @@ Model {
   Creator		  "maximilian"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "maximilian"
+  LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 21:33:32 2016"
-  RTWModifiedTimeStamp	  386717545
-  ModelVersionFormat	  "1.%<AutoIncrement:41>"
+  LastModifiedDate	  "Thu Jun 02 21:34:39 2016"
+  RTWModifiedTimeStamp	  386804065
+  ModelVersionFormat	  "1.%<AutoIncrement:42>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -957,7 +957,7 @@ Model {
   System {
     Name		    "victim_direction"
     Location		    [0, 60, 1920, 1112]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1016,7 +1016,7 @@ Model {
       System {
 	Name			"Chart"
 	Location		[0, 60, 1920, 1112]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1366,7 +1366,7 @@ Stateflow {
     id			    2
     name		    "Chart"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [153.551 2039.551 -12.435 872.565]
+    viewLimits		    [153.551 2039.079 -12.435 872.344]
     zoomFactor		    1.333
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1376,7 +1376,10 @@ Stateflow {
     treeNode		    [0 3 0 0]
     firstTransition	    24
     viewObj		    2
+    visible		    1
     machine		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    31
     decomposition	    CLUSTER_CHART
     firstData		    13
@@ -1507,7 +1510,7 @@ Stateflow {
     midPoint		    [907.5809 220.1808]
     chart		    2
     linkNode		    [3 9 11]
-    dataLimits		    [829.951 993.21 217.781 222.581]
+    dataLimits		    [829.951 993.211 217.781 222.581]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -1557,7 +1560,7 @@ Stateflow {
     midPoint		    [979.4565 494.8703]
     chart		    2
     linkNode		    [3 11 0]
-    dataLimits		    [977.056 981.856 452.262 545.478]
+    dataLimits		    [977.057 981.856 452.262 545.479]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -1867,8 +1870,8 @@ Stateflow {
   }
   transition {
     id			    25
-    labelString		    "[run_finder == 0]"
-    labelPosition	    [422.389 199.77 90.035 16]
+    labelString		    "[run_finder == 0]\n{victim_found = 0;}"
+    labelPosition	    [405.393 181.775 101.039 30]
     fontSize		    12
     src {
       id		      3
