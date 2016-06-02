@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.75"
+    ComputedModelVersion    "1.77"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -132,9 +132,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1224.0, 622.0]
+	Extents			[1224.0, 624.0]
 	ZoomFactor		[1.25]
-	Offset			[188.79999999999998, 131.99999999999997]
+	Offset			[188.79999999999995, 127.80000000000004]
       }
     }
   }
@@ -144,9 +144,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 01 23:54:38 2016"
-  RTWModifiedTimeStamp	  386726068
-  ModelVersionFormat	  "1.%<AutoIncrement:75>"
+  LastModifiedDate	  "Thu Jun 02 12:37:26 2016"
+  RTWModifiedTimeStamp	  386771842
+  ModelVersionFormat	  "1.%<AutoIncrement:77>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1188,7 +1188,7 @@ Model {
       Variant		      off
       System {
 	Name			"Path Finder"
-	Location		[0, 23, 1280, 796]
+	Location		[0, 60, 1280, 833]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1699,8 +1699,8 @@ Stateflow {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [287.141 1236.593 282.151 762.211]
-    zoomFactor		    0.762
+    viewLimits		    [552.479 1164.479 274.245 586.245]
+    zoomFactor		    0.667
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -1710,6 +1710,8 @@ Stateflow {
     firstTransition	    31
     viewObj		    2
     machine		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    71
     decomposition	    CLUSTER_CHART
     firstData		    12
@@ -1722,7 +1724,7 @@ Stateflow {
   state {
     id			    3
     labelString		    "Collecting\n\nduring:\n	for i = 1:8\n	    [r, c] = calculate_cell(proximity(i) + 2.5, current_ph"
-    "i + VIEW_DIRECTIONS(i), current_x, current_y);\n	    map(r, c) = 1;\n	end\n"
+    "i + VIEW_DIRECTIONS(i), current_x, current_y);\n	    map(201 - r, c) = 1;\n	end\n"
     position		    [535.2 284.6571 567.8571 102.9953]
     fontSize		    12
     chart		    2
@@ -1732,6 +1734,8 @@ Stateflow {
     ssIdNumber		    29
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -1771,6 +1775,8 @@ Stateflow {
     ssIdNumber		    50
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   data {
     id			    6
