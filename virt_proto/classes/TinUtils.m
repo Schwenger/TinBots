@@ -9,11 +9,6 @@ classdef TinUtils < handle
         % The proximity sensor blocks substract 2.5, for whatever reason.
         % This counters that effect.
         rogue_bias = -2.5;
-        % A better value can be obtained at:
-        % http://www.e-puck.org/index.php?option=com_content&view=article&id=22&Itemid=13
-        max_distance = 12.8;
-        max_steps = 2 + (TinUtils.max_distance - TinUtils.rogue_bias ...
-            + TinUtils.radius + TinUtils.error_range(1)) / TinUtils.step_size;
     end
     
     methods (Static)
@@ -74,7 +69,7 @@ classdef TinUtils < handle
             inside = (pos(1) >= 1) && (pos(1) < cols + 1) && (pos(2) >= 1) && (pos(2) < rows + 1);
         end
 
-        function [distance, object] = raycast_to(matrix, pos, phi, to, QP_vd, QP_q, simulate)
+        function [distance, object] = raycast_to(matrix, pos, phi, to, QP_vd, QP_q, limit_distance)
             object = matrix(to(2), to(1));
             if object == 0
                 distance = inf;
@@ -84,22 +79,20 @@ classdef TinUtils < handle
                 % A square (i, j) represents the 2D interval $$[i, i+1) \times
                 % [j, j+1)$$, with precisely these parens (half-open).
                 distance = intersectQuarterSquare(pos(1)+0.5, pos(2)+0.5, phi, to + QP_vd, QP_q);
-                if simulate
-                    distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
-                    if distance + TinUtils.rogue_bias >= TinUtils.max_distance
-                        object = 0;
-                        distance = Inf;
-                    end
-                else
-                    if distance >= 400
-                        object = 0;
-                        distance = Inf;
-                    end
+                distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
+                if distance + TinUtils.rogue_bias >= limit_distance
+                    object = 0;
+                    distance = Inf;
                 end
             end
         end
 
-        function [distance, object] = raycast_polymorphic(matrix, row, col, phi, simulate)
+        function limit_steps = max_steps(limit_distance)
+            limit_steps = 2 + (limit_distance - TinUtils.rogue_bias ...
+                + TinUtils.radius + TinUtils.error_range(1)) / TinUtils.step_size;
+        end
+
+        function [distance, object] = raycast_polymorphic(matrix, row, col, phi, limit_distance)
             step = [cos(phi) sin(phi)] .* TinUtils.step_size;
             [rows, cols] = size(matrix);
             cur_pos = [col row];
@@ -107,6 +100,7 @@ classdef TinUtils < handle
             QP_q = sign(step) + (step == 0);
             QP_vd = -QP_q/2 + 0.5;
             done_steps = 0;
+            limit_steps = TinUtils.max_steps(limit_distance);
 
             % Step until we hit something
             while 1
@@ -118,7 +112,7 @@ classdef TinUtils < handle
                 end
 
                 % Are we too far away anyway?
-                if done_steps > TinUtils.max_steps
+                if done_steps > limit_steps
                     distance = inf;
                     object = 0;
                     break;
@@ -140,19 +134,19 @@ classdef TinUtils < handle
 
                 % Determine if there's an object somewhere
                 if change(1)
-                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [change(1) 0], QP_vd, QP_q, simulate);
+                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [change(1) 0], QP_vd, QP_q, limit_distance);
                     if object
                         break;
                     end
                 end
                 if change(2)
-                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [0 change(2)], QP_vd, QP_q, simulate);
+                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, cur_pos + [0 change(2)], QP_vd, QP_q, limit_distance);
                     if object
                         break;
                     end
                 end
                 if change(1) && change(2)
-                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, next_pos, QP_vd, QP_q, simulate);
+                    [distance, object] = TinUtils.raycast_to(matrix, [col row], phi, next_pos, QP_vd, QP_q, limit_distance);
                     if object
                         break;
                     end
@@ -164,8 +158,12 @@ classdef TinUtils < handle
             end
         end
 
+        % Proximity sensors
         function [distance, object] = raycast(matrix, row, col, phi)
-            [distance, object] = TinUtils.raycast_polymorphic(matrix, row, col, phi, true);
+            % A better value can be obtained at:
+            % http://www.e-puck.org/index.php?option=com_content&view=article&id=22&Itemid=13
+            max_distance = 12.8;
+            [distance, object] = TinUtils.raycast_polymorphic(matrix, row, col, phi, max_distance);
         end
     end
 end
