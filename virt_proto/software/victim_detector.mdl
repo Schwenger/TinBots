@@ -46,7 +46,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.13"
+    ComputedModelVersion    "1.22"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -106,9 +106,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"1"
-	Extents			[1246.0, 785.0]
-	ZoomFactor		[0.89986113724043437]
-	Offset			[143.49732787396758, 238.70309033717498]
+	Extents			[1234.0, 779.0]
+	ZoomFactor		[1.1570690332416411]
+	Offset			[222.1995898217624, 369.32126797403623]
       }
     }
   }
@@ -118,9 +118,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 23:24:35 2016"
-  RTWModifiedTimeStamp	  386810671
-  ModelVersionFormat	  "1.%<AutoIncrement:13>"
+  LastModifiedDate	  "Fri Jun 03 01:10:15 2016"
+  RTWModifiedTimeStamp	  386817014
+  ModelVersionFormat	  "1.%<AutoIncrement:22>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -961,7 +961,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "273"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "11"
     Block {
@@ -1327,8 +1327,8 @@ Stateflow {
     id			    2
     name		    "victim detector"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [143.497 1528.155 238.703 1111.06]
-    zoomFactor		    1.482
+    viewLimits		    [222.2 1288.687 369.321 1038.253]
+    zoomFactor		    1.152
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -1353,15 +1353,17 @@ Stateflow {
   state {
     id			    3
     labelString		    "WaitForNewInformation"
-    position		    [683.4843 593.2555 145.0313 49.1024]
+    position		    [828.5398 597.5534 145.0313 49.1024]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 6 7]
+    treeNode		    [2 0 7 4]
     visible		    0
     subviewer		    2
     ssIdNumber		    15
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -1373,18 +1375,20 @@ Stateflow {
     position		    [426.6333 755.5364 658.7333 276.6667]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 7 0]
+    treeNode		    [2 0 3 0]
     visible		    0
     subviewer		    2
     ssIdNumber		    16
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    5
     labelString		    "NoInformationAboutVictim\n\nentry:\n	found_victim_xy = 0;\n	%row 1: x, row 2: y, row 3: phi\n	in"
     "formation = zeros(3, 2);"
-    position		    [653.3112 252.9669 205.3774 104.1856]
+    position		    [425.5204 411.6923 205.3774 104.1856]
     fontSize		    12
     chart		    2
     treeNode		    [2 0 0 6]
@@ -1393,28 +1397,32 @@ Stateflow {
     ssIdNumber		    17
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
     labelString		    "SomeInformationAboutVictim\n\nentry:\n	information(1,1) = current_x;\n	information(2,1) = curren"
     "t_y;\n	information(3,1) = victim_angle;"
-    position		    [650.3333 412.444 211.3333 100.5333]
+    position		    [795.3888 413.5185 211.3333 100.5333]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 5 3]
+    treeNode		    [2 0 5 7]
     visible		    0
     subviewer		    2
     ssIdNumber		    18
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    7
     labelString		    "[x, y] = compute_position(info)"
-    position		    [900.7076 627.2036 195.4 68.6]
+    position		    [430.5091 587.8046 195.4 68.6]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 3 4]
+    treeNode		    [2 0 6 3]
     superState		    SUBCHART
     visible		    0
     subviewer		    2
@@ -1424,10 +1432,13 @@ Stateflow {
     firstData		    8
     eml {
       isEML		      1
-      script		      "function [x, y] = compute_position(info)\n    v1 = cross2d([cos(info(3,1)) sin(info(3,1))]);\n   "
-      " v2 = cross2d([cos(info(3,2)) sin(info(3,2))]);\n    o1 = [info(1,1); info(2,1)];\n    o2 = [info(1,2); info(2,2"
-      ")];\n\n    M = [v1; v2];\n    b = [v1*o1; v2*o2];\n    xy = mldivide(M, b); % Solve equation system: M * xy = b\n"
-      "    x = xy(1);\n    y = xy(2);\nend\n\nfunction v = cross2d(v)\n    v = [-v(2) v(1)];\nend\n"
+      script		      "function [x, y] = compute_position(info)\n    v1 = [cos(info(3,1)) sin(info(3,1))];\n    v1_orth "
+      "= cross2d(v1);\n    v2 = [cos(info(3,2)) sin(info(3,2))];\n    v2_orth = cross2d(v2);\n    o1 = [info(1,1); info"
+      "(2,1)];\n    o2 = [info(1,2); info(2,2)];\n\n    M = [v1_orth; v2_orth];\n    b = [v1_orth*o1; v2_orth*o2];\n   "
+      " xy = mldivide(M, b); % Solve equation system: M * xy = b\n    x = xy(1);\n    y = xy(2);\n\n    % Sanity check\n"
+      "    if v1_orth * ([x; y] - o1) >= 0.1 ...\n            || v2_orth * ([x; y] - o2) >= 0.1\n        x = -1;\n     "
+      "   y = -1;\n    end\nend\n\nfunction v = cross2d(v)\n    % The cross product in 2d is unary\n    v = [-v(2) v(1)"
+      "];\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -1759,19 +1770,19 @@ Stateflow {
   transition {
     id			    21
     labelString		    ""
-    labelPosition	    [700.206 237.967 0 0]
+    labelPosition	    [472.415 396.692 0 0]
     fontSize		    12
     src {
-      intersection	      [0 0 1 0 700.2057 222.9669 0 0]
+      intersection	      [0 0 1 0 472.4149 381.6923 0 0]
     }
     dst {
       id		      5
-      intersection	      [1 0 -1 0.2283 700.2057 252.9669 0 0]
+      intersection	      [1 0 -1 0.2283 472.4149 411.6923 0 0]
     }
-    midPoint		    [700.2057 237.9669]
+    midPoint		    [472.4149 396.6923]
     chart		    2
     linkNode		    [2 0 22]
-    dataLimits		    [697.806 702.606 222.967 252.967]
+    dataLimits		    [470.015 474.815 381.692 411.692]
     subviewer		    2
     slide {
       sticky		      BOTH_STICK
@@ -1782,20 +1793,20 @@ Stateflow {
   transition {
     id			    22
     labelString		    "[found_victim_phi == 1]"
-    labelPosition	    [734.818 377.003 126.043 16]
+    labelPosition	    [648.543 451.956 126.043 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [3 -0 1 0.6031 734.818 357.1525 0 0]
+      intersection	      [2 1 0 0.6135 630.8978 475.605 0 0]
     }
     dst {
       id		      6
-      intersection	      [1 0 -1 0.3998 734.818 412.444 0 0]
+      intersection	      [4 -1 0 0.3824 795.3888 475.605 0 0]
     }
-    midPoint		    [734.818 380.7982]
+    midPoint		    [709.1433 475.605]
     chart		    2
     linkNode		    [2 21 23]
-    dataLimits		    [732.418 737.218 357.152 412.444]
+    dataLimits		    [630.898 795.389 473.205 478.005]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -1807,20 +1818,20 @@ Stateflow {
   transition {
     id			    23
     labelString		    "[found_victim_phi == 0]"
-    labelPosition	    [777.734 536.247 126.043 16]
+    labelPosition	    [900.283 532.413 126.043 16]
     fontSize		    12
     src {
       id		      6
-      intersection	      [3 -0 1 0.4634 763.7343 512.9773 0 0]
+      intersection	      [3 0 1 0.5051 899.979 514.0518 0 0]
     }
     dst {
       id		      3
-      intersection	      [1 0 -1 0.5533 763.7343 593.2555 0 0]
+      intersection	      [1 0 -1 0.4926 899.979 597.5534 0 0]
     }
-    midPoint		    [763.7343 549.1164]
+    midPoint		    [899.979 551.8026]
     chart		    2
     linkNode		    [2 22 24]
-    dataLimits		    [761.334 766.134 512.977 593.256]
+    dataLimits		    [897.579 902.379 514.052 597.553]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -1832,20 +1843,20 @@ Stateflow {
   transition {
     id			    24
     labelString		    "[found_victim_phi == 1]"
-    labelPosition	    [585.067 648.854 126.043 16]
+    labelPosition	    [730.122 651.975 126.043 16]
     fontSize		    12
     src {
       id		      3
-      intersection	      [3 -0 1 0.6766 730.3815 642.3579 0 0]
+      intersection	      [3 -0 1 0.6766 875.437 646.6558 0 0]
     }
     dst {
       id		      4
-      intersection	      [1 0 -1 0.4611 730.3815 755.5364 0 0]
+      intersection	      [1 0 -1 0.6813 875.437 755.5364 0 0]
     }
-    midPoint		    [730.3815 694.9472]
+    midPoint		    [875.437 697.0961]
     chart		    2
     linkNode		    [2 23 25]
-    dataLimits		    [727.982 732.782 642.358 755.536]
+    dataLimits		    [873.037 877.837 646.656 755.536]
     subviewer		    2
     slide {
       sticky		      BOTH_STICK
@@ -1856,20 +1867,20 @@ Stateflow {
   transition {
     id			    25
     labelString		    "[found_victim_phi == 0]"
-    labelPosition	    [797.624 730.957 126.043 16]
+    labelPosition	    [942.679 732.134 126.043 16]
     fontSize		    12
     src {
       id		      4
-      intersection	      [1 0 -1 0.5389 781.5991 755.5364 0 0]
+      intersection	      [1 0 -1 0.7591 926.6546 755.5364 0 0]
     }
     dst {
       id		      3
-      intersection	      [3 0 1 0.3235 781.5991 642.3579 0 0]
+      intersection	      [3 0 1 0.3235 926.6546 646.6558 0 0]
     }
-    midPoint		    [781.5991 702.9472]
+    midPoint		    [926.6546 705.0961]
     chart		    2
     linkNode		    [2 24 0]
-    dataLimits		    [779.199 783.999 642.358 755.536]
+    dataLimits		    [924.255 929.055 646.656 755.536]
     subviewer		    2
     slide {
       sticky		      BOTH_STICK
