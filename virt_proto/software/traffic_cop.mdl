@@ -29,7 +29,6 @@ Model {
     Inport {
       Name		      "ir"
       BusObject		      ""
-      SignalName	      "ir_signal"
       OutputFunctionCall      "off"
       UnitExpr		      "inherit"
     }
@@ -111,7 +110,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.105"
+    ComputedModelVersion    "1.107"
     NumModelReferences	    1
     ModelReference {
       ModelRefBlockPath	      "traffic_cop/Model|blind_cop"
@@ -175,8 +174,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1886.0, 885.0]
-	ZoomFactor		[0.8]
-	Offset			[-7.6587243912877057, -31.697059988200067]
+	ZoomFactor		[1.75]
+	Offset			[-163.04931238518265, 77.0151128648383]
       }
     }
   }
@@ -186,9 +185,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 01:40:04 2016"
-  RTWModifiedTimeStamp	  386732386
-  ModelVersionFormat	  "1.%<AutoIncrement:105>"
+  LastModifiedDate	  "Thu Jun 02 02:07:33 2016"
+  RTWModifiedTimeStamp	  386734052
+  ModelVersionFormat	  "1.%<AutoIncrement:107>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1052,9 +1051,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "80"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "74"
+    SIDHighWatermark	    "76"
     Block {
       BlockType		      Inport
       Name		      "initial_x"
@@ -1107,12 +1106,6 @@ Model {
       ZOrder		      162
       Port		      "4"
       IconDisplay	      "Port number"
-      Port {
-	PortNumber		1
-	Name			"ir_signal"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
     }
     Block {
       BlockType		      Inport
@@ -1367,6 +1360,22 @@ Model {
       SID		      "59"
       Position		      [215, 170, 235, 190]
       ZOrder		      302
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "in_range"
+      SID		      "76"
+      Ports		      [1, 1]
+      Position		      [90, 225, 130, 255]
+      ZOrder		      308
+      LibraryVersion	      "1.386"
+      SourceBlock	      "simulink/Logic and Bit\nOperations/Compare\nTo Constant"
+      SourceType	      "Compare To Constant"
+      ContentPreviewEnabled   off
+      relop		      "<="
+      const		      "100"
+      OutDataTypeStr	      "boolean"
+      ZeroCross		      on
     }
     Block {
       BlockType		      Logic
@@ -1854,12 +1863,10 @@ Model {
       DstPort		      2
     }
     Line {
-      Name		      "ir_signal"
       ZOrder		      244
-      Labels		      [-1, 0]
       SrcBlock		      "ir"
       SrcPort		      1
-      DstBlock		      "Demux"
+      DstBlock		      "in_range"
       DstPort		      1
     }
     Line {
@@ -1906,6 +1913,13 @@ Model {
       SrcPort		      1
       DstBlock		      "Scope"
       DstPort		      4
+    }
+    Line {
+      ZOrder		      318
+      SrcBlock		      "in_range"
+      SrcPort		      1
+      DstBlock		      "Demux"
+      DstPort		      1
     }
     Annotation {
       SID		      "74"

@@ -43,7 +43,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.48"
+    ComputedModelVersion    "1.50"
     NumModelReferences	    6
     ModelReference {
       ModelRefBlockPath	      "controller/Follow Right Hand|follow_right_hand"
@@ -97,7 +97,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1911.0, 9.0, 1920.0, 1174.0]
+      Location		      [1911.0, 31.0, 1920.0, 1174.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -112,7 +112,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[0]
+	Visible			[1]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -121,9 +121,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1864.0, 1023.0]
-	ZoomFactor		[1.25]
-	Offset			[355.32028037441819, 337.849078185067]
+	Extents			[1886.0, 1007.0]
+	ZoomFactor		[1.75]
+	Offset			[1579.3685173755589, 481.90711361809389]
       }
     }
   }
@@ -131,11 +131,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "maximilian"
+  LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 00:25:58 2016"
-  RTWModifiedTimeStamp	  386727954
-  ModelVersionFormat	  "1.%<AutoIncrement:48>"
+  LastModifiedDate	  "Thu Jun 02 02:05:41 2016"
+  RTWModifiedTimeStamp	  386733920
+  ModelVersionFormat	  "1.%<AutoIncrement:50>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -987,7 +987,7 @@ Model {
   }
   System {
     Name		    "controller"
-    Location		    [1911, 9, 3831, 1183]
+    Location		    [1911, 31, 3831, 1205]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -999,7 +999,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "125"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "72"
     Block {
@@ -1078,7 +1078,7 @@ Model {
       Ports		      [2, 2]
       Position		      [1265, 766, 1450, 844]
       ZOrder		      391
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.164"
       SourceBlock	      "tinbot/Follow Right Hand"
       SourceType	      ""
       SimulationMode	      "Normal"
@@ -1124,7 +1124,7 @@ Model {
       Ports		      [3, 4]
       Position		      [615, 529, 845, 626]
       ZOrder		      388
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.164"
       SourceBlock	      "tinbot/Victim Direction"
       SourceType	      ""
       SimulationMode	      "Normal"
@@ -1178,13 +1178,6 @@ Model {
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
-      Port {
-	PortNumber		3
-	Name			"found_victim_phi"
-	PropagatedSignals	"motor_left"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
     }
     Block {
       BlockType		      Mux
@@ -1215,14 +1208,14 @@ Model {
       Ports		      [10, 5]
       Position		      [1780, 377, 1985, 638]
       ZOrder		      390
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.164"
       SourceBlock	      "tinbot/Traffic Cop"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.97"
+      ModelReferenceVersion   "1.105"
       List {
 	ListType		InputPortNames
 	port0			"initial_x"
@@ -1265,7 +1258,7 @@ Model {
 	port0			"initial_x"
 	port1			"initial_y"
 	port2			"found_victim_phi"
-	port3			""
+	port3			"ir_signal"
 	port4			"found_victim_xy"
 	port5			"victim_x"
 	port6			"victim_y"
@@ -1307,14 +1300,14 @@ Model {
       Ports		      [3, 3]
       Position		      [1120, 480, 1365, 560]
       ZOrder		      389
-      LibraryVersion	      "1.162"
+      LibraryVersion	      "1.164"
       SourceBlock	      "tinbot/Victim Detector"
       SourceType	      ""
       SimulationMode	      "Normal"
       CodeInterface	      "Model reference"
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
-      ModelReferenceVersion   "1.10"
+      ModelReferenceVersion   "1.11"
       List {
 	ListType		InputPortNames
 	port0			"found_victim_phi"
@@ -1351,20 +1344,6 @@ Model {
 	port1			"off"
 	port2			"off"
       }
-      Port {
-	PortNumber		1
-	Name			"need_angle"
-	PropagatedSignals	"found_victim_xy"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		2
-	Name			"found_victim_xy"
-	PropagatedSignals	"victim_x"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
     }
     Block {
       BlockType		      SubSystem
@@ -1377,7 +1356,7 @@ Model {
       Variant		      off
       System {
 	Name			"find_and_execute_path"
-	Location		[1856, 9, 3776, 1183]
+	Location		[1911, 31, 3831, 1205]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1389,7 +1368,7 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"100"
+	ZoomFactor		"150"
 	Block {
 	  BlockType		  Inport
 	  Name			  "dst_x"
@@ -1439,7 +1418,7 @@ Model {
 	  Name			  "Mux4"
 	  SID			  "13"
 	  Ports			  [2, 1]
-	  Position		  [2450, 935, 2455, 1030]
+	  Position		  [2505, 950, 2510, 1070]
 	  ZOrder		  371
 	  ShowName		  off
 	  Inputs		  "2"
@@ -1449,13 +1428,13 @@ Model {
 	  BlockType		  ModelReference
 	  Name			  "path_executor"
 	  SID			  "17"
-	  Ports			  [4, 3]
-	  Position		  [2285, 946, 2430, 1079]
+	  Ports			  [4, 2]
+	  Position		  [2285, 948, 2425, 1072]
 	  ZOrder		  358
 	  ModelNameDialog	  "Path.slx"
 	  SimulationMode	  "Normal"
 	  Variant		  off
-	  ModelReferenceVersion	  "1.24"
+	  ModelReferenceVersion	  "1.25"
 	  List {
 	    ListType		    InputPortNames
 	    port0		    "drive"
@@ -1467,19 +1446,16 @@ Model {
 	    ListType		    OutputPortNames
 	    port0		    "wheel_l"
 	    port1		    "wheel_r"
-	    port2		    "path_step_done"
 	  }
 	  List {
 	    ListType		    OutputPortOutputBusAsStructs
 	    port0		    "off"
 	    port1		    "off"
-	    port2		    "off"
 	  }
 	  List {
 	    ListType		    OutputPortSignalNames
 	    port0		    "wheel_l"
 	    port1		    "wheel_r"
-	    port2		    "party_hard"
 	  }
 	  List {
 	    ListType		    InputPortLatchByCopyingInsideSignal
@@ -1494,13 +1470,6 @@ Model {
 	    port1		    "off"
 	    port2		    "off"
 	    port3		    "off"
-	  }
-	  Port {
-	    PortNumber		    3
-	    Name		    "path_step_done"
-	    PropagatedSignals	    "party_hard"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
 	  }
 	}
 	Block {
@@ -1591,7 +1560,7 @@ Model {
 	  BlockType		  Outport
 	  Name			  "wheel_ctrl"
 	  SID			  "62"
-	  Position		  [2560, 978, 2590, 992]
+	  Position		  [2565, 1003, 2595, 1017]
 	  ZOrder		  393
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -1828,18 +1797,14 @@ Model {
       DstPort		      1
     }
     Line {
-      Name		      "need_angle"
       ZOrder		      574
-      Labels		      [1, 0]
       SrcBlock		      "Victim Detector"
       SrcPort		      1
       DstBlock		      "Traffic Cop"
       DstPort		      5
     }
     Line {
-      Name		      "found_victim_xy"
       ZOrder		      573
-      Labels		      [1, 0]
       SrcBlock		      "Victim Detector"
       SrcPort		      2
       DstBlock		      "Traffic Cop"
@@ -1953,9 +1918,7 @@ Model {
       DstPort		      8
     }
     Line {
-      Name		      "found_victim_phi"
       ZOrder		      442
-      Labels		      [0, 0]
       SrcBlock		      "Model"
       SrcPort		      3
       DstBlock		      "Mux1"
