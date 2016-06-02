@@ -7,10 +7,10 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.40"
+    ComputedModelVersion    "1.41"
     NumModelReferences	    1
     ModelReference {
-      ModelRefBlockPath	      "traffic_blind_test/Model|blind_cop"
+      ModelRefBlockPath	      "traffic_blind_test/Blind Traffic Cop/Model|blind_cop"
     }
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -71,8 +71,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1246.0, 785.0]
-	ZoomFactor		[0.75423783643894315]
-	Offset			[-483.43701479729776, -110.8198030356416]
+	ZoomFactor		[1.0]
+	Offset			[-565.46760919545568, 104.59539717517474]
       }
     }
   }
@@ -82,9 +82,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 01:38:44 2016"
-  RTWModifiedTimeStamp	  386732067
-  ModelVersionFormat	  "1.%<AutoIncrement:40>"
+  LastModifiedDate	  "Thu Jun 02 03:04:02 2016"
+  RTWModifiedTimeStamp	  386737382
+  ModelVersionFormat	  "1.%<AutoIncrement:41>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -852,14 +852,6 @@ Model {
       Interpolate	      on
     }
     Block {
-      BlockType		      ModelReference
-      SimulationMode	      "Accelerator"
-      CodeInterface	      "Model reference"
-      GeneratePreprocessorConditionals off
-      ContentPreviewEnabled   off
-      CopyOfModelProtected    off
-    }
-    Block {
       BlockType		      Mux
       Inputs		      "4"
       DisplayOption	      "none"
@@ -947,9 +939,25 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "75"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "106"
+    SIDHighWatermark	    "107"
+    Block {
+      BlockType		      Reference
+      Name		      "Blind Traffic Cop"
+      SID		      "107"
+      Ports		      [9, 5]
+      Position		      [315, 352, 550, 608]
+      ZOrder		      111
+      LibraryVersion	      "1.167"
+      SourceBlock	      "tinbot/Blind Traffic Cop"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      GeneratePreprocessorConditionals off
+      ContentPreviewEnabled   off
+    }
     Block {
       BlockType		      SubSystem
       Name		      "Golden Path Script"
@@ -1344,78 +1352,6 @@ Model {
       }
     }
     Block {
-      BlockType		      ModelReference
-      Name		      "Model"
-      SID		      "106"
-      Ports		      [9, 5]
-      Position		      [380, 334, 535, 626]
-      ZOrder		      107
-      ModelNameDialog	      "blind_cop"
-      SimulationMode	      "Normal"
-      Variant		      off
-      ModelReferenceVersion   "1.102"
-      List {
-	ListType		InputPortNames
-	port0			"need_angle"
-	port1			"found_victim_phi"
-	port2			"found_victim_xy"
-	port3			"no_path"
-	port4			"path_completed"
-	port5			"victim_x"
-	port6			"victim_y"
-	port7			"initial_x"
-	port8			"initial_y"
-      }
-      List {
-	ListType		OutputPortNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_path_finder"
-	port3			"run_rhr"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		OutputPortOutputBusAsStructs
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-      }
-      List {
-	ListType		OutputPortSignalNames
-	port0			"dst_x"
-	port1			"dst_y"
-	port2			"run_path_finder"
-	port3			"run_rhr"
-	port4			"run_victim_finder"
-      }
-      List {
-	ListType		InputPortLatchByCopyingInsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-      List {
-	ListType		InputPortLatchByDelayingOutsideSignal
-	port0			"off"
-	port1			"off"
-	port2			"off"
-	port3			"off"
-	port4			"off"
-	port5			"off"
-	port6			"off"
-	port7			"off"
-	port8			"off"
-      }
-    }
-    Block {
       BlockType		      Mux
       Name		      "Mux"
       SID		      "25"
@@ -1454,7 +1390,7 @@ Model {
       Name		      "Mux2"
       SID		      "27"
       Ports		      [2, 1]
-      Position		      [675, 331, 680, 449]
+      Position		      [675, 355, 680, 455]
       ZOrder		      31
       ShowName		      off
       Inputs		      "2"
@@ -1471,7 +1407,7 @@ Model {
       Name		      "Mux3"
       SID		      "28"
       Ports		      [3, 1]
-      Position		      [675, 451, 680, 629]
+      Position		      [675, 451, 680, 609]
       ZOrder		      32
       ShowName		      off
       Inputs		      "3"
@@ -1549,99 +1485,99 @@ Model {
       Name		      "Scope 2"
       SID		      "9"
       Ports		      [6]
-      Position		      [990, 168, 1150, 462]
+      Position		      [990, 183, 1150, 477]
       ZOrder		      28
       BackgroundColor	      "cyan"
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
-      "nYLimReal','7.125','MaxYLimReal','45.875','YLabelReal','','MinYLimMag','7.125','MaxYLimMag','45.875','LegendVisi"
-      "bility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803"
-      "922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.6235294117647"
-      "06 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.7176470588235"
-      "29 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','"
-      "LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'init_pos:1','init_pos:2'}},"
-      "'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.125','MaxYLimReal','1.125','YLabelReal','','MinYLimMa"
-      "g','0.00000','MaxYLimMag','1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesC"
-      "olor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.066666"
-      "6666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.83137"
-      "2549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 "
-      "0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines'"
-      ",3,'LineNames',{{'localising_state:1','localising_state:2','localising_state:3'}},'ShowContent',true,'Placement'"
-      ",2),struct('MinYLimReal','1.80809','MaxYLimReal','10.91021','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag',"
-      "'1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickCol"
-      "or',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215"
-      "686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215"
-      "686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title'"
-      ",'%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'victim_p"
-      "os:1','victim_pos:2'}},'ShowContent',true,'Placement',3),struct('MinYLimReal','-0.125','MaxYLimReal','1.125','YL"
-      "abelReal','','MinYLimMag','0.00000','MaxYLimMag','1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'Plo"
-      "tMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'Co"
-      "lorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0."
-      "392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 "
-      "1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChanne"
-      "lNames',{{}},'NumLines',2,'LineNames',{{'path_state:1','path_state:2'}},'ShowContent',true,'Placement',4),struct"
-      "('MinYLimReal','-5.25','MaxYLimReal','47.25','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.125','Legend"
-      "Visibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627450"
-      "9803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411"
-      "764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058"
-      "823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel"
-      ">','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'dst_pos:1','dst_pos:2'}"
-      "},'ShowContent',true,'Placement',5),struct('MinYLimReal','-0.125','MaxYLimReal','1.125','YLabelReal','','MinYLim"
-      "Mag','0.00000','MaxYLimMag','1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Axe"
-      "sColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666"
-      "666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831"
-      "372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.074509803921568"
-      "6 0.650980392156863],'Title','','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',3,'LineName"
-      "s',{{'runner:1','runner:2','runner:3'}},'ShowContent',true,'Placement',6)},'DisplayPropertyDefaults',struct('YLa"
-      "belReal','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOr"
-      "der',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.71764"
-      "7058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0"
-      ".0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[3 2],'DisplayContentCache',[]),extmgr.Configura"
-      "tion('Tools','Plot Navigation',true,'PreviousAutoscale','XY','OnceAtStop',false,'PreviousZoomMode','ZoomX'),extm"
-      "gr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1281 42 1280 906]"
-      ")"
+      "nYLimReal','-0.125','MaxYLimReal','1.125','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.125','LegendVis"
+      "ibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627450980"
+      "3922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764"
+      "706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823"
+      "529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>',"
+      "'LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'init_pos:1','init_pos:2'}}"
+      ",'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.125','MaxYLimReal','1.125','YLabelReal','','MinYLimM"
+      "ag','0.00000','MaxYLimMag','1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Axes"
+      "Color',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666"
+      "66666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313"
+      "72549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686"
+      " 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines"
+      "',3,'LineNames',{{'localising_state:1','localising_state:2','localising_state:3'}},'ShowContent',true,'Placement"
+      "',2),struct('MinYLimReal','1.80809','MaxYLimReal','10.91021','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag'"
+      ",'1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickCo"
+      "lor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.074509803921"
+      "5686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.074509803921"
+      "5686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title"
+      "','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'victim_"
+      "pos:1','victim_pos:2'}},'ShowContent',true,'Placement',3),struct('MinYLimReal','7.125','MaxYLimReal','45.875','Y"
+      "LabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'Pl"
+      "otMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'C"
+      "olorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0"
+      ".392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1"
+      " 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChann"
+      "elNames',{{}},'NumLines',2,'LineNames',{{'path_state:1','path_state:2'}},'ShowContent',true,'Placement',4),struc"
+      "t('MinYLimReal','-5.25','MaxYLimReal','47.25','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.125','Legen"
+      "dVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.6862745"
+      "09803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.62352941"
+      "1764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.71764705"
+      "8823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabe"
+      "l>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'dst_pos:1','dst_pos:2'"
+      "}},'ShowContent',true,'Placement',5),struct('MinYLimReal','-0.125','MaxYLimReal','1.125','YLabelReal','','MinYLi"
+      "mMag','0.00000','MaxYLimMag','1.125','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Ax"
+      "esColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.066"
+      "6666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.83"
+      "1372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.07450980392156"
+      "86 0.650980392156863],'Title','','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',3,'LineNam"
+      "es',{{'runner:1','runner:2','runner:3'}},'ShowContent',true,'Placement',6)},'DisplayPropertyDefaults',struct('YL"
+      "abelReal','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorO"
+      "rder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.7176"
+      "47058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 "
+      "0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[3 2],'DisplayContentCache',[]),extmgr.Configur"
+      "ation('Tools','Plot Navigation',true,'PreviousAutoscale','XY','OnceAtStop',false,'PreviousZoomMode','ZoomX'),ext"
+      "mgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1281 42 1280 906"
+      "])"
       NumInputPorts	      "6"
     }
     Line {
-      ZOrder		      323
-      SrcBlock		      "Model"
+      ZOrder		      390
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      1
-      Points		      [67, 0]
+      Points		      [52, 0]
       Branch {
-	ZOrder			101
-	Points			[0, 463; -1072, 0; 0, -448]
+	ZOrder			400
+	Points			[0, 443; -1072, 0; 0, -448]
 	DstBlock		"Golden Path Script"
 	DstPort			1
       }
       Branch {
-	ZOrder			97
+	ZOrder			391
 	DstBlock		"Mux2"
 	DstPort			1
       }
     }
     Line {
-      ZOrder		      325
-      SrcBlock		      "Model"
+      ZOrder		      392
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      2
-      Points		      [57, 0]
+      Points		      [42, 0]
       Branch {
-	ZOrder			99
+	ZOrder			393
 	DstBlock		"Mux2"
 	DstPort			2
       }
       Branch {
 	ZOrder			82
-	Points			[0, 393; -1049, 0; 0, -378]
+	Points			[0, 383; -1049, 0; 0, -378]
 	DstBlock		"Golden Path Script"
 	DstPort			2
       }
     }
     Line {
-      ZOrder		      327
-      SrcBlock		      "Model"
+      ZOrder		      394
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      3
-      Points		      [49, 0]
+      Points		      [34, 0]
       Branch {
 	ZOrder			102
 	DstBlock		"Mux3"
@@ -1655,37 +1591,37 @@ Model {
       }
     }
     Line {
-      ZOrder		      326
-      SrcBlock		      "Model"
+      ZOrder		      395
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      4
-      Points		      [39, 0]
+      Points		      [24, 0]
+      Branch {
+	ZOrder			397
+	Points			[0, 261; -1006, 0; 0, -236]
+	DstBlock		"Golden Path Script"
+	DstPort			4
+      }
       Branch {
 	ZOrder			103
 	DstBlock		"Mux3"
 	DstPort			2
       }
-      Branch {
-	ZOrder			81
-	Points			[0, 251; -1006, 0; 0, -236]
-	DstBlock		"Golden Path Script"
-	DstPort			4
-      }
     }
     Line {
-      ZOrder		      324
-      SrcBlock		      "Model"
+      ZOrder		      396
+      SrcBlock		      "Blind Traffic Cop"
       SrcPort		      5
-      Points		      [30, 0]
+      Points		      [15, 0]
+      Branch {
+	ZOrder			398
+	Points			[0, 200; -987, 0; 0, -165]
+	DstBlock		"Golden Path Script"
+	DstPort			5
+      }
       Branch {
 	ZOrder			104
 	DstBlock		"Mux3"
 	DstPort			3
-      }
-      Branch {
-	ZOrder			80
-	Points			[0, 180; -987, 0; 0, -165]
-	DstBlock		"Golden Path Script"
-	DstPort			5
       }
     }
     Line {
@@ -1694,7 +1630,7 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux3"
       SrcPort		      1
-      Points		      [134, 0; 0, -100]
+      Points		      [134, 0; 0, -75]
       DstBlock		      "Scope 2"
       DstPort		      6
     }
@@ -1713,7 +1649,7 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux4"
       SrcPort		      1
-      Points		      [480, 0; 0, 105]
+      Points		      [480, 0; 0, 120]
       DstBlock		      "Scope 2"
       DstPort		      4
     }
@@ -1723,7 +1659,7 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux1"
       SrcPort		      1
-      Points		      [508, 0; 0, 115]
+      Points		      [508, 0; 0, 130]
       DstBlock		      "Scope 2"
       DstPort		      3
     }
@@ -1733,7 +1669,7 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux5"
       SrcPort		      1
-      Points		      [534, 0; 0, 140]
+      Points		      [534, 0; 0, 155]
       DstBlock		      "Scope 2"
       DstPort		      2
     }
@@ -1743,7 +1679,7 @@ Model {
       Labels		      [-1, 0]
       SrcBlock		      "Mux"
       SrcPort		      1
-      Points		      [559, 0; 0, 165]
+      Points		      [559, 0; 0, 180]
       DstBlock		      "Scope 2"
       DstPort		      1
     }
@@ -1753,8 +1689,8 @@ Model {
       SrcPort		      1
       Points		      [138, 0]
       Branch {
-	ZOrder			329
-	DstBlock		"Model"
+	ZOrder			385
+	DstBlock		"Blind Traffic Cop"
 	DstPort			1
       }
       Branch {
@@ -1770,8 +1706,8 @@ Model {
       SrcPort		      2
       Points		      [152, 0]
       Branch {
-	ZOrder			336
-	DstBlock		"Model"
+	ZOrder			387
+	DstBlock		"Blind Traffic Cop"
 	DstPort			2
       }
       Branch {
@@ -1787,8 +1723,8 @@ Model {
       SrcPort		      4
       Points		      [178, 0]
       Branch {
-	ZOrder			330
-	DstBlock		"Model"
+	ZOrder			384
+	DstBlock		"Blind Traffic Cop"
 	DstPort			4
       }
       Branch {
@@ -1804,8 +1740,8 @@ Model {
       SrcPort		      3
       Points		      [164, 0]
       Branch {
-	ZOrder			334
-	DstBlock		"Model"
+	ZOrder			383
+	DstBlock		"Blind Traffic Cop"
 	DstPort			3
       }
       Branch {
@@ -1821,8 +1757,8 @@ Model {
       SrcPort		      6
       Points		      [204, 0]
       Branch {
-	ZOrder			331
-	DstBlock		"Model"
+	ZOrder			388
+	DstBlock		"Blind Traffic Cop"
 	DstPort			6
       }
       Branch {
@@ -1838,15 +1774,15 @@ Model {
       SrcPort		      5
       Points		      [190, 0]
       Branch {
+	ZOrder			382
+	DstBlock		"Blind Traffic Cop"
+	DstPort			5
+      }
+      Branch {
 	ZOrder			348
 	Points			[0, -350]
 	DstBlock		"Mux5"
 	DstPort			3
-      }
-      Branch {
-	ZOrder			343
-	DstBlock		"Model"
-	DstPort			5
       }
     }
     Line {
@@ -1855,8 +1791,8 @@ Model {
       SrcPort		      7
       Points		      [217, 0]
       Branch {
-	ZOrder			335
-	DstBlock		"Model"
+	ZOrder			386
+	DstBlock		"Blind Traffic Cop"
 	DstPort			7
       }
       Branch {
@@ -1872,8 +1808,8 @@ Model {
       SrcPort		      8
       Points		      [233, 0]
       Branch {
-	ZOrder			332
-	DstBlock		"Model"
+	ZOrder			381
+	DstBlock		"Blind Traffic Cop"
 	DstPort			8
       }
       Branch {
@@ -1889,8 +1825,8 @@ Model {
       SrcPort		      9
       Points		      [247, 0]
       Branch {
-	ZOrder			333
-	DstBlock		"Model"
+	ZOrder			389
+	DstBlock		"Blind Traffic Cop"
 	DstPort			9
       }
       Branch {
@@ -1938,8 +1874,6 @@ Stateflow {
     firstTransition	    101
     viewObj		    2
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    117
     decomposition	    CLUSTER_CHART
     firstData		    79
@@ -1970,8 +1904,6 @@ Stateflow {
     ssIdNumber		    15
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1986,8 +1918,6 @@ Stateflow {
     ssIdNumber		    17
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    5
@@ -2001,8 +1931,6 @@ Stateflow {
     ssIdNumber		    18
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -2016,8 +1944,6 @@ Stateflow {
     ssIdNumber		    36
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    7
@@ -2031,8 +1957,6 @@ Stateflow {
     ssIdNumber		    39
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
@@ -2073,8 +1997,6 @@ Stateflow {
     ssIdNumber		    42
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    10
@@ -2088,8 +2010,6 @@ Stateflow {
     ssIdNumber		    45
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    11
@@ -2103,8 +2023,6 @@ Stateflow {
     ssIdNumber		    47
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    12
@@ -2118,8 +2036,6 @@ Stateflow {
     ssIdNumber		    48
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    13
@@ -2133,8 +2049,6 @@ Stateflow {
     ssIdNumber		    49
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    14
@@ -2148,8 +2062,6 @@ Stateflow {
     ssIdNumber		    52
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    15
@@ -2164,8 +2076,6 @@ Stateflow {
     ssIdNumber		    58
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    16
@@ -2179,8 +2089,6 @@ Stateflow {
     ssIdNumber		    55
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    17
@@ -2194,8 +2102,6 @@ Stateflow {
     ssIdNumber		    60
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    18
@@ -2209,8 +2115,6 @@ Stateflow {
     ssIdNumber		    62
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    19
@@ -2224,8 +2128,6 @@ Stateflow {
     ssIdNumber		    63
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    20
@@ -2239,8 +2141,6 @@ Stateflow {
     ssIdNumber		    64
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    21
@@ -2254,8 +2154,6 @@ Stateflow {
     ssIdNumber		    65
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    22
@@ -2269,8 +2167,6 @@ Stateflow {
     ssIdNumber		    66
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    23
@@ -2285,8 +2181,6 @@ Stateflow {
     ssIdNumber		    68
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    24
@@ -2300,8 +2194,6 @@ Stateflow {
     ssIdNumber		    70
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    25
@@ -2315,8 +2207,6 @@ Stateflow {
     ssIdNumber		    72
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    26
@@ -2330,8 +2220,6 @@ Stateflow {
     ssIdNumber		    75
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    27
@@ -2345,8 +2233,6 @@ Stateflow {
     ssIdNumber		    77
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    28
@@ -2360,8 +2246,6 @@ Stateflow {
     ssIdNumber		    79
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    29
@@ -2376,8 +2260,6 @@ Stateflow {
     ssIdNumber		    81
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    30
@@ -2391,8 +2273,6 @@ Stateflow {
     ssIdNumber		    84
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    31
@@ -2406,8 +2286,6 @@ Stateflow {
     ssIdNumber		    86
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    32
@@ -2421,8 +2299,6 @@ Stateflow {
     ssIdNumber		    87
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    33
@@ -2436,8 +2312,6 @@ Stateflow {
     ssIdNumber		    88
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    34
@@ -2452,8 +2326,6 @@ Stateflow {
     ssIdNumber		    98
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    35
@@ -2467,8 +2339,6 @@ Stateflow {
     ssIdNumber		    94
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    36
@@ -2482,8 +2352,6 @@ Stateflow {
     ssIdNumber		    102
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    37
@@ -2497,8 +2365,6 @@ Stateflow {
     ssIdNumber		    104
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    38
@@ -2512,8 +2378,6 @@ Stateflow {
     ssIdNumber		    105
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    39
@@ -2527,8 +2391,6 @@ Stateflow {
     ssIdNumber		    108
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    40
@@ -2542,8 +2404,6 @@ Stateflow {
     ssIdNumber		    111
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    41
@@ -2557,8 +2417,6 @@ Stateflow {
     ssIdNumber		    114
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    42
@@ -2573,8 +2431,6 @@ Stateflow {
     ssIdNumber		    115
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    43
@@ -2588,8 +2444,6 @@ Stateflow {
     ssIdNumber		    116
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    44

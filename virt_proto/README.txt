@@ -26,4 +26,4 @@ Tests:
  - follow_right_hand_test: test right hand rule
  - path_finder_test: test internal map generation and escape path calculation
  - controller_test: test the complete control software
- - traffic_golden_path_test: test the "golden path" of the traffic cop
+ - traffic_blind_test: test the "blind" part of the traffic cop
