@@ -33,7 +33,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.25"
+    ComputedModelVersion    "1.29"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -91,11 +91,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"StateflowChart"
-	LoadSaveID		"8"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.25]
-	Offset			[180.00683631638231, 354.20586718863774]
+	ZoomFactor		[1.8399999999999996]
+	Offset			[198.13823055421406, 39.673995672083009]
       }
     }
   }
@@ -105,9 +105,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue May 31 23:46:04 2016"
-  RTWModifiedTimeStamp	  386638885
-  ModelVersionFormat	  "1.%<AutoIncrement:25>"
+  LastModifiedDate	  "Thu Jun 02 17:40:04 2016"
+  RTWModifiedTimeStamp	  386789980
+  ModelVersionFormat	  "1.%<AutoIncrement:29>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -960,7 +960,7 @@ Model {
   System {
     Name		    "follow_right_hand"
     Location		    [1280, 31, 2560, 1014]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1066,7 +1066,7 @@ Model {
       System {
 	Name			"Chart"
 	Location		[1280, 31, 2560, 1014]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1081,7 +1081,7 @@ Model {
 	SIDHighWatermark	"101"
 	Block {
 	  BlockType		  Inport
-	  Name			  "run"
+	  Name			  "run_rhr"
 	  SID			  "8::101"
 	  Position		  [20, 101, 40, 119]
 	  ZOrder		  80
@@ -1249,7 +1249,7 @@ Model {
 	}
 	Line {
 	  ZOrder		  114
-	  SrcBlock		  "run"
+	  SrcBlock		  "run_rhr"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
@@ -1380,7 +1380,6 @@ Model {
       Ports		      [3]
       Position		      [850, 312, 880, 348]
       ZOrder		      14
-      Commented		      "on"
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true,'DataLoggingLimitDataPoints',true,'DataLoggingMaxPoints','10000'),extmgr.Configurat"
@@ -1442,7 +1441,7 @@ Model {
       ";0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647"
       " 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAuto"
       "scale','XY','OnceAtStop',false,'PreviousZoomMode','ZoomX'),extmgr.Configuration('Tools','Measurements',true,'Ver"
-      "sion','2016a')),'Version','2016a','Position',[1 42 1280 875],'VisibleAtModelOpen','on')"
+      "sion','2016a')),'Version','2016a','Position',[2 42 1280 875],'VisibleAtModelOpen','on')"
     }
     Block {
       BlockType		      Outport
@@ -1654,173 +1653,158 @@ Stateflow {
     name		    "follow_right_hand"
     created		    "28-May-2016 12:24:56"
     isLibrary		    0
-    firstTarget		    53
+    firstTarget		    58
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "Chart"
     windowPosition	    [1280 0 1280 983]
-    viewLimits		    [180.007 1176.807 354.206 1007.006]
-    zoomFactor		    1.067
+    viewLimits		    [-397.927 848.073 -219.059 596.941]
+    zoomFactor		    1.333
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
-    treeNode		    [0 3 0 0]
-    firstTransition	    33
+    treeNode		    [0 15 0 0]
+    firstTransition	    54
     viewObj		    2
     visible		    1
     machine		    1
     subviewS {
     }
-    ssIdHighWaterMark	    73
+    ssIdHighWaterMark	    78
     decomposition	    CLUSTER_CHART
-    firstData		    15
+    firstData		    36
     chartFileNumber	    3
     saturateOnIntegerOverflow 1
     userSpecifiedStateTransitionExecutionOrder 1
     disableImplicitCasting  1
     actionLanguage	    2
-    outputData		    30
+    outputData		    51
     activeStateOutput {
+      activityMode	      LEAF_STATE_ACTIVITY
       useCustomName	      1
       customName	      "ChartMode"
       useCustomEnumTypeName   1
-      enumTypeName	      "ChartModeType1"
+      enumTypeName	      "ChartModeType"
     }
   }
   state {
     id			    3
     labelString		    "findWall\nentry:\nmove_fwd=mv_per_sec;\nrot_l = 0;\nrot_r = 0;"
-    position		    [505.585 31.1151 153.0021 94.7169]
+    position		    [820.585 150.1151 153.0021 94.7169]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 0 4]
+    treeNode		    [16 0 0 4]
     visible		    0
     subviewer		    2
     ssIdNumber		    1
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
     labelString		    "checkWall\n% known: nothing\nentry:\nmove_fwd = 0;\nrot_r = 0;\nrot_l = 0;\n[wall_p wall_rot] = "
     "find_wall([s_m150, s_m90, s_m45, s_m20, s_p20, s_p45, s_p90, s_p150]);"
-    position		    [167.7611 160.9486 501.2934 112.6518]
+    position		    [482.7611 279.9486 501.2934 112.6518]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 3 5]
+    treeNode		    [16 0 3 5]
     visible		    0
     subviewer		    2
     ssIdNumber		    52
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    5
     labelString		    "wallWaiter"
-    position		    [529.9964 302.8932 90 60]
+    position		    [844.9964 421.8932 90 60]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 4 6]
+    treeNode		    [16 0 4 6]
     visible		    0
     subviewer		    2
     ssIdNumber		    68
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
     labelString		    "claustrophobia\n% known: have -20, -45, -90\nentry:\nmove_fwd = 0;\nrot_l = 1;\nrot_r = 0;"
-    position		    [860.0942 428.4724 174.5357 94.6544]
+    position		    [1175.0942 547.4724 174.5357 94.6544]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 5 7]
+    treeNode		    [16 0 5 9]
     visible		    0
     subviewer		    2
     ssIdNumber		    26
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    7
     labelString		    "avoidCollision\n% known: have -20, -45\nentry:\nmove_fwd = 0;\nrot_l = 1;\nrot_r = 0;"
-    position		    [594.3417 430.5045 139.7644 89.0149]
+    position		    [909.3417 549.5045 139.7644 89.0149]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 6 8]
+    treeNode		    [16 0 9 8]
     visible		    0
     subviewer		    2
     ssIdNumber		    21
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
     labelString		    "orientToWall\n% known: have -20\nentry:\nmove_fwd = mv_per_sec;\nrot_r = 0;\nrot_l = 0;"
-    position		    [245.8488 431.8884 167.4101 107.6704]
+    position		    [560.8488 550.8884 167.4101 107.6704]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 7 9]
+    treeNode		    [16 0 7 10]
     visible		    0
     subviewer		    2
     ssIdNumber		    3
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    9
     labelString		    "follow\n% known: have -45, -90\nentry:\nmove_fwd = mv_per_sec;\nrot_l = 0;\nrot_r = 0;"
-    position		    [944.3614 605.3265 148.2824 100.9552]
+    position		    [1613.7614 547.4724 148.2824 100.9552]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 8 10]
+    treeNode		    [16 0 6 7]
     visible		    0
     subviewer		    2
     ssIdNumber		    24
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    10
     labelString		    "runClose\n% known: (should) have -45\nentry:\nmove_fwd = mv_per_sec;\nrot_l = 0;\nrot_r = 0;"
-    position		    [207.519 646.9817 195.8557 94.9702]
+    position		    [522.519 765.9817 195.8557 94.9702]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 9 11]
+    treeNode		    [16 0 8 11]
     visible		    0
     subviewer		    2
     ssIdNumber		    36
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    11
     labelString		    "=> Move roughly sin(70 degree)*(x length unit) towards straight wall\n=> if we just drifted away"
     ", that's all we need to find the wall again\n=> circle must have at least the radius of the TinBot, so:\n=> requir"
     "ement: x >> TinBotDIAMETER * cot(44 degree)"
-    position		    [468.7611 667.8001 361.1562 58]
+    position		    [798.6458 930.8001 361.1562 58]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 10 12]
+    treeNode		    [16 0 10 13]
     superState		    GROUPED
     isNoteBox		    1
     visible		    0
@@ -1832,42 +1816,38 @@ Stateflow {
   state {
     id			    12
     labelString		    "stayClose\n% known: have -90, NOT have -45\nentry:\nmove_fwd = 0;\nrot_l = 0;\nrot_r = 1;"
-    position		    [442.7464 733.066 202.8893 93.0792]
+    position		    [760.2464 1033.316 202.8893 93.0792]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 11 13]
+    treeNode		    [16 0 13 14]
     visible		    0
     subviewer		    2
     ssIdNumber		    30
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    13
     labelString		    "goOn"
-    position		    [936.056 765.1056 138.5955 33.7472]
+    position		    [1351.056 1014.1056 138.5955 33.7472]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 12 14]
+    treeNode		    [16 0 11 12]
     visible		    0
     subviewer		    2
     ssIdNumber		    40
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    14
     labelString		    "=> Move roughly sin(5 degree)*(10 length unit) away from straight wall\n=> Make sure that runClo"
     "se moves at least this much towards the wall again\n=> requirement: sin(70 degree)*x >> sin(5 degree)*(10 length u"
     "nit)\n=> requirement: 70 degree <= 90 degree"
-    position		    [753.8915 810.1452 407.1875 58]
+    position		    [1283.2915 1152.7452 407.1875 58]
     fontSize		    12
     chart		    2
-    treeNode		    [2 0 13 0]
+    treeNode		    [16 0 12 0]
     superState		    GROUPED
     isNoteBox		    1
     visible		    0
@@ -1876,11 +1856,512 @@ Stateflow {
     type		    GROUP_STATE
     decomposition	    CLUSTER_STATE
   }
-  data {
+  state {
     id			    15
+    labelString		    "Inactive\nen:\nrot_r = 0;\nrot_l = 0;\nmove_fwd=0;"
+    position		    [20.617 50.7241 150 125.6]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 0 16]
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    74
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  state {
+    id			    16
+    labelString		    "Active"
+    position		    [372.9187 50.7241 1495.4109 1321.1399]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 3 15 0]
+    firstTransition	    17
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    76
+    type		    OR_STATE
+    decomposition	    CLUSTER_STATE
+  }
+  transition {
+    id			    17
+    labelString		    ""
+    labelPosition	    [560.235 205.546 0 0]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 560.2351 139.1432 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [1 0 -1 0.1545 560.2351 279.9486 0 0]
+    }
+    midPoint		    [560.2351 205.5459]
+    chart		    2
+    linkNode		    [16 0 18]
+    dataLimits		    [557.835 562.635 139.143 279.949]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  transition {
+    id			    18
+    labelString		    "[wall_p == 0]"
+    labelPosition	    [770.338 258.359 70.023 16]
+    fontSize		    12
+    src {
+      id		      4
+      intersection	      [1 0 -1 0.7404 853.9017 279.9486 0 0]
+    }
+    dst {
+      id		      3
+      intersection	      [3 0 1 0.7822 853.9017 244.832 0 0]
+    }
+    midPoint		    [853.9017 266.3903]
+    chart		    2
+    linkNode		    [16 17 19]
+    dataLimits		    [851.502 856.302 244.832 279.949]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    4
+    ssIdNumber		    62
+  }
+  transition {
+    id			    19
+    labelString		    "[s_m45 <= sens_tol || s_m20 <= sens_tol || s_p45 <= sens_tol || s_p20 <= sens_tol]"
+    labelPosition	    [904.593 253.571 446.211 16]
+    fontSize		    12
+    src {
+      id		      3
+      intersection	      [3 0 1 0.5208 893.9017 244.832 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [1 0 -1 0.8202 893.9017 279.9486 0 0]
+    }
+    midPoint		    [893.9017 258.3903]
+    chart		    2
+    linkNode		    [16 18 20]
+    dataLimits		    [891.502 896.302 244.832 279.949]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    61
+  }
+  transition {
+    id			    20
+    labelString		    "[wall_p == 1 && wall_rot == 0]"
+    labelPosition	    [480.138 404.69 161.383 16]
+    fontSize		    12
+    src {
+      id		      4
+      intersection	      [3 0 1 0.6607 652.8437 392.6004 0 0]
+    }
+    dst {
+      id		      8
+      intersection	      [1 0 -1 0.5495 652.8437 550.8884 0 0]
+    }
+    midPoint		    [652.8437 467.7444]
+    chart		    2
+    linkNode		    [16 19 21]
+    dataLimits		    [650.444 655.244 392.6 550.888]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    3
+    ssIdNumber		    53
+  }
+  transition {
+    id			    21
+    labelString		    "[wall_p == 1 && wall_rot > 0]{rot_l = 1;}"
+    labelPosition	    [675.663 395.332 209.402 16]
+    fontSize		    12
+    src {
+      id		      4
+      intersection	      [3 0 1 0.1888 889.4017 392.6004 0 0]
+    }
+    dst {
+      id		      5
+      intersection	      [1 -0 -1 0.4934 889.4017 421.8932 0 0]
+    }
+    midPoint		    [889.4017 403.2468]
+    chart		    2
+    linkNode		    [16 20 22]
+    dataLimits		    [887.002 891.802 392.6 421.893]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    66
+  }
+  transition {
+    id			    22
+    labelString		    "[wall_p == 1 && wall_rot <= 0]{rot_r = 1; wall_rot = -wall_rot;}"
+    labelPosition	    [928.622 396.669 324.746 16]
+    fontSize		    12
+    src {
+      id		      4
+      intersection	      [3 0 1 0.1464 910.6517 392.6004 0 0]
+    }
+    dst {
+      id		      5
+      intersection	      [1 -0 -1 0.7295 910.6517 421.8932 0 0]
+    }
+    midPoint		    [910.6517 403.2468]
+    chart		    2
+    linkNode		    [16 21 23]
+    dataLimits		    [908.252 913.052 392.6 421.893]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    65
+  }
+  transition {
+    id			    23
+    labelString		    "[after(wall_rot*(pi/180)/rot_per_sec, sec)]"
+    labelPosition	    [727.16 498.352 219.363 16]
+    fontSize		    12
+    src {
+      id		      5
+      intersection	      [4 -1 0 0.5 844.9964 451.8932 0 0]
+    }
+    dst {
+      id		      8
+      intersection	      [1 0 -1 0.7619 688.4017 550.8884 0 0]
+    }
+    midPoint		    [744.0599 474.7516]
+    chart		    2
+    linkNode		    [16 22 24]
+    dataLimits		    [686.002 844.996 451.893 550.888]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    70
+  }
+  transition {
+    id			    24
+    labelString		    "[s_m20 > sens_tol && after(5*(pi/180)/rot_per_sec,sec)]"
+    labelPosition	    [1348.469 524.527 298.219 14]
+    fontSize		    12
+    src {
+      id		      6
+      intersection	      [2 1 0 0.2051 1349.6299 566.8826 0 0]
+    }
+    dst {
+      id		      9
+      intersection	      [4 -1 0 0.8077 1613.7614 566.8826 0 0]
+    }
+    midPoint		    [1477.6957 566.8826]
+    chart		    2
+    linkNode		    [16 23 25]
+    dataLimits		    [1349.63 1613.761 564.483 569.283]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    28
+  }
+  transition {
+    id			    25
+    labelString		    "[s_m45 <= sens_tol]"
+    labelPosition	    [770.185 562.748 109.984 14]
+    fontSize		    12
+    src {
+      id		      8
+      intersection	      [2 1 0 0.3146 728.2589 584.7591 0 0]
+    }
+    dst {
+      id		      7
+      intersection	      [4 -1 0 0.6039 909.3417 584.7591 0 0]
+    }
+    midPoint		    [814.8003 584.7591]
+    chart		    2
+    linkNode		    [16 24 26]
+    dataLimits		    [728.259 909.342 582.359 587.159]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    22
+  }
+  transition {
+    id			    26
+    labelString		    "[s_m90 <= sens_tol]"
+    labelPosition	    [1056.683 565.248 109.984 14]
+    fontSize		    12
+    src {
+      id		      7
+      intersection	      [2 1 0 0.5088 1049.1061 594.7996 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [4 -1 0 0.5 1175.0942 594.7996 0 0]
+    }
+    midPoint		    [1108.1002 594.7996]
+    chart		    2
+    linkNode		    [16 25 27]
+    dataLimits		    [1049.106 1175.094 592.4 597.2]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    27
+  }
+  transition {
+    id			    27
+    labelString		    "[s_m45 > sens_tol && after(5*(pi/180)/rot_per_sec, sec)]"
+    labelPosition	    [730.154 648.354 301.738 16]
+    fontSize		    12
+    src {
+      id		      7
+      intersection	      [4 -1 0 0.4568 909.3417 597.8537 0 0]
+    }
+    dst {
+      id		      8
+      intersection	      [2 1 -0 0.4362 728.2589 597.8537 0 0]
+    }
+    midPoint		    [822.8003 597.8537]
+    chart		    2
+    linkNode		    [16 26 28]
+    dataLimits		    [728.259 909.342 595.454 600.254]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    25
+  }
+  transition {
+    id			    28
+    labelString		    "[s_m20 <= sens_tol]"
+    labelPosition	    [1442.136 628.578 109.984 14]
+    fontSize		    12
+    src {
+      id		      9
+      intersection	      [4 -1 0 0.1579 1613.7614 632.4839 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [2 1 0 0.867 1349.6299 629.5378 0 0]
+    }
+    midPoint		    [1485.6957 631.0108]
+    chart		    2
+    linkNode		    [16 27 29]
+    dataLimits		    [1349.63 1613.761 627.138 632.484]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    29
+  }
+  transition {
+    id			    29
+    labelString		    "[s_m20 <= sens_tol]"
+    labelPosition	    [1236.507 972.233 110.039 16]
+    fontSize		    12
+    src {
+      id		      13
+      intersection	      [1 0 -1 0.0658 1360.179 1014.1056 0 0]
+    }
+    dst {
+      id		      6
+      intersection	      [3 0 1 0.7296 1222.2949 642.1268 0 0]
+    }
+    midPoint		    [1291.237 832.1162]
+    chart		    2
+    linkNode		    [16 28 30]
+    dataLimits		    [1219.895 1360.179 642.127 1014.106]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    47
+  }
+  transition {
+    id			    30
+    labelString		    "[s_m45 > sens_tol]"
+    labelPosition	    [1580.556 661.583 102.984 14]
+    fontSize		    12
+    src {
+      id		      9
+      intersection	      [3 0 1 0.4151 1700.4897 648.4276 0 0]
+    }
+    dst {
+      id		      13
+      intersection	      [1 0 -1 0.298 1392.3621 1014.1056 0 0]
+    }
+    midPoint		    [1546.4259 827.2666]
+    chart		    2
+    linkNode		    [16 29 31]
+    dataLimits		    [1389.962 1700.49 648.428 1014.106]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    31
+  }
+  transition {
+    id			    31
+    labelString		    "[s_m45 <= sens_tol]"
+    labelPosition	    [1482.018 989.682 110.039 16]
+    fontSize		    12
+    src {
+      id		      13
+      intersection	      [1 0 -1 0.8624 1470.579 1014.1056 0 0]
+    }
+    dst {
+      id		      9
+      intersection	      [3 0 1 0.1516 1739.5639 648.4276 0 0]
+    }
+    midPoint		    [1605.0714 835.2666]
+    chart		    2
+    linkNode		    [16 30 32]
+    dataLimits		    [1470.579 1741.964 648.428 1014.106]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    3
+    ssIdNumber		    50
+  }
+  transition {
+    id			    32
+    labelString		    "[s_m20 <= sens_tol]"
+    labelPosition	    [525.976 740.156 109.984 14]
+    fontSize		    12
+    src {
+      id		      10
+      intersection	      [1 0 -1 0.6123 642.4323 765.9817 0 0]
+    }
+    dst {
+      id		      8
+      intersection	      [3 -0 1 0.5127 642.4323 658.5588 0 0]
+    }
+    midPoint		    [642.4323 716.2702]
+    chart		    2
+    linkNode		    [16 31 33]
+    dataLimits		    [640.032 644.832 658.559 765.982]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    37
+  }
+  transition {
+    id			    33
+    labelString		    "[s_m45 > sens_tol && after(10/mv_per_sec, sec)]"
+    labelPosition	    [796.012 908.781 265.062 16]
+    fontSize		    12
+    src {
+      id		      10
+      intersection	      [2 1 0 0.3697 718.3747 801.0878 0 0]
+    }
+    dst {
+      id		      12
+      intersection	      [1 0 -1 0.1357 787.7879 1033.316 0 0]
+    }
+    midPoint		    [782.4221 883.8611]
+    chart		    2
+    linkNode		    [16 32 34]
+    dataLimits		    [718.375 790.188 801.088 1033.316]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    2
+    ssIdNumber		    46
+  }
+  transition {
+    id			    34
+    labelString		    "[after(70*(pi/180)/rot_per_sec, sec)]"
+    labelPosition	    [537.212 937.723 191.371 16]
+    fontSize		    12
+    src {
+      id		      12
+      intersection	      [4 -1 0 0.4786 760.2464 1081.8494 0 0]
+    }
+    dst {
+      id		      10
+      intersection	      [3 0 1 0.2478 669.8413 860.9519 0 0]
+    }
+    midPoint		    [686.1317 1004.3128]
+    chart		    2
+    linkNode		    [16 33 35]
+    dataLimits		    [667.441 760.246 860.952 1081.849]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    32
+  }
+  transition {
+    id			    35
+    labelString		    "[after(10/mv_per_sec, sec)]"
+    labelPosition	    [1198.172 1044.674 148.023 16]
+    fontSize		    12
+    src {
+      id		      13
+      intersection	      [4 -1 0 0.4445 1351.056 1032.8537 0 0]
+    }
+    dst {
+      id		      12
+      intersection	      [2 1 0 0.7369 963.1357 1101.906 0 0]
+    }
+    midPoint		    [1161.0959 1067.3798]
+    chart		    2
+    linkNode		    [16 34 0]
+    dataLimits		    [963.136 1351.056 1032.854 1104.306]
+    subviewer		    2
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    41
+  }
+  data {
+    id			    36
     ssIdNumber		    73
-    name		    "run"
-    linkNode		    [2 0 16]
+    name		    "run_rhr"
+    linkNode		    [2 0 37]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1902,10 +2383,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    16
+    id			    37
     ssIdNumber		    13
     name		    "s_m20"
-    linkNode		    [2 15 17]
+    linkNode		    [2 36 38]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1927,10 +2408,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    17
+    id			    38
     ssIdNumber		    12
     name		    "s_m45"
-    linkNode		    [2 16 18]
+    linkNode		    [2 37 39]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -1952,10 +2433,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    18
+    id			    39
     ssIdNumber		    7
     name		    "move_fwd"
-    linkNode		    [2 17 19]
+    linkNode		    [2 38 40]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -1977,10 +2458,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    19
+    id			    40
     ssIdNumber		    8
     name		    "rot_l"
-    linkNode		    [2 18 20]
+    linkNode		    [2 39 41]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2002,10 +2483,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    20
+    id			    41
     ssIdNumber		    9
     name		    "rot_r"
-    linkNode		    [2 19 21]
+    linkNode		    [2 40 42]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2027,10 +2508,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    21
+    id			    42
     ssIdNumber		    11
     name		    "s_m90"
-    linkNode		    [2 20 22]
+    linkNode		    [2 41 43]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2052,10 +2533,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    22
+    id			    43
     ssIdNumber		    10
     name		    "s_m150"
-    linkNode		    [2 21 23]
+    linkNode		    [2 42 44]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2077,10 +2558,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    23
+    id			    44
     ssIdNumber		    17
     name		    "s_p150"
-    linkNode		    [2 22 24]
+    linkNode		    [2 43 45]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2102,10 +2583,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    24
+    id			    45
     ssIdNumber		    16
     name		    "s_p90"
-    linkNode		    [2 23 25]
+    linkNode		    [2 44 46]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2127,10 +2608,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    25
+    id			    46
     ssIdNumber		    15
     name		    "s_p45"
-    linkNode		    [2 24 26]
+    linkNode		    [2 45 47]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2152,10 +2633,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    26
+    id			    47
     ssIdNumber		    14
     name		    "s_p20"
-    linkNode		    [2 25 27]
+    linkNode		    [2 46 48]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2177,10 +2658,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    27
+    id			    48
     ssIdNumber		    34
     name		    "sens_tol"
-    linkNode		    [2 26 28]
+    linkNode		    [2 47 49]
     scope		    CONSTANT_DATA
     machine		    1
     props {
@@ -2197,10 +2678,10 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    28
+    id			    49
     ssIdNumber		    35
     name		    "rot_per_sec"
-    linkNode		    [2 27 29]
+    linkNode		    [2 48 50]
     scope		    CONSTANT_DATA
     machine		    1
     props {
@@ -2217,10 +2698,10 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    29
+    id			    50
     ssIdNumber		    43
     name		    "mv_per_sec"
-    linkNode		    [2 28 30]
+    linkNode		    [2 49 51]
     scope		    CONSTANT_DATA
     machine		    1
     props {
@@ -2237,10 +2718,10 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    30
+    id			    51
     ssIdNumber		    45
     name		    "ChartMode"
-    linkNode		    [2 29 31]
+    linkNode		    [2 50 52]
     scope		    OUTPUT_DATA
     outputState		    2
     machine		    1
@@ -2248,7 +2729,7 @@ Stateflow {
       type {
 	method			SF_ENUM_TYPE
 	primitive		SF_ENUM_TYPE
-	enumType		"ChartModeType1"
+	enumType		"ChartModeType"
 	isSigned		1
 	wordLength		"16"
       }
@@ -2257,13 +2738,13 @@ Stateflow {
 	name			"inherit"
       }
     }
-    dataType		    "Enum: ChartModeType1"
+    dataType		    "Enum: ChartModeType"
   }
   data {
-    id			    31
+    id			    52
     ssIdNumber		    71
     name		    "wall_rot"
-    linkNode		    [2 30 32]
+    linkNode		    [2 51 53]
     scope		    LOCAL_DATA
     machine		    1
     props {
@@ -2285,10 +2766,10 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   data {
-    id			    32
+    id			    53
     ssIdNumber		    72
     name		    "wall_p"
-    linkNode		    [2 31 0]
+    linkNode		    [2 52 0]
     scope		    LOCAL_DATA
     machine		    1
     props {
@@ -2310,496 +2791,96 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   transition {
-    id			    33
+    id			    54
     labelString		    ""
-    labelPosition	    [245.235 86.546 0 0]
+    labelPosition	    [78.919 35.724 0 0]
     fontSize		    12
     src {
-      intersection	      [0 0 1 0 245.2351 20.1432 0 0]
+      intersection	      [0 -0 1 0 78.9187 20.7241 0 0]
     }
     dst {
-      id		      4
-      intersection	      [1 0 -1 0.1545 245.2351 160.9486 0 0]
+      id		      15
+      intersection	      [1 0 -1 0.3887 78.9187 50.7241 0 0]
     }
-    midPoint		    [245.2351 86.5459]
+    midPoint		    [78.9187 35.7241]
     chart		    2
-    linkNode		    [2 0 34]
-    dataLimits		    [242.835 247.635 20.143 160.949]
+    linkNode		    [2 0 55]
+    dataLimits		    [76.519 81.319 20.724 50.724]
     subviewer		    2
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
     executionOrder	    1
-    ssIdNumber		    2
+    ssIdNumber		    75
   }
   transition {
-    id			    34
-    labelString		    "[wall_p == 0]"
-    labelPosition	    [455.338 139.359 70.023 16]
+    id			    55
+    labelString		    "[run_rhr == 1]"
+    labelPosition	    [230.768 85.923 74.691 16]
     fontSize		    12
     src {
-      id		      4
-      intersection	      [1 0 -1 0.7404 538.9017 160.9486 0 0]
+      id		      15
+      intersection	      [2 1 0 0.4236 170.617 103.9232 0 0]
     }
     dst {
-      id		      3
-      intersection	      [3 0 1 0.7822 538.9017 125.832 0 0]
+      id		      16
+      intersection	      [4 -1 -0 0.9597 372.9187 103.9232 0 0]
     }
-    midPoint		    [538.9017 147.3903]
+    midPoint		    [267.7679 103.9232]
     chart		    2
-    linkNode		    [2 33 35]
-    dataLimits		    [536.502 541.302 125.832 160.949]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    4
-    ssIdNumber		    62
-  }
-  transition {
-    id			    35
-    labelString		    "[s_m45 <= sens_tol || s_m20 <= sens_tol || s_p45 <= sens_tol || s_p20 <= sens_tol]"
-    labelPosition	    [589.593 134.571 446.211 16]
-    fontSize		    12
-    src {
-      id		      3
-      intersection	      [3 0 1 0.5208 578.9017 125.832 0 0]
-    }
-    dst {
-      id		      4
-      intersection	      [1 0 -1 0.8202 578.9017 160.9486 0 0]
-    }
-    midPoint		    [578.9017 139.3903]
-    chart		    2
-    linkNode		    [2 34 36]
-    dataLimits		    [576.502 581.302 125.832 160.949]
+    linkNode		    [2 54 56]
+    dataLimits		    [170.617 372.919 101.523 106.323]
     subviewer		    2
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
     executionOrder	    1
-    ssIdNumber		    61
+    ssIdNumber		    77
   }
   transition {
-    id			    36
-    labelString		    "[wall_p == 1 && wall_rot == 0]"
-    labelPosition	    [165.138 285.69 161.383 16]
+    id			    56
+    labelString		    "[run_rhr ~= 1]"
+    labelPosition	    [235.768 123.923 74.691 16]
     fontSize		    12
     src {
-      id		      4
-      intersection	      [3 0 1 0.6607 337.8437 273.6004 0 0]
+      id		      16
+      intersection	      [4 -1 0 0.9476 372.9187 119.9232 0 0]
     }
     dst {
-      id		      8
-      intersection	      [1 0 -1 0.5495 337.8437 431.8884 0 0]
+      id		      15
+      intersection	      [2 1 -0 0.5509 170.617 119.9232 0 0]
     }
-    midPoint		    [337.8437 348.7444]
+    midPoint		    [275.7679 119.9232]
     chart		    2
-    linkNode		    [2 35 37]
-    dataLimits		    [335.444 340.244 273.6 431.888]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    3
-    ssIdNumber		    53
-  }
-  transition {
-    id			    37
-    labelString		    "[wall_p == 1 && wall_rot > 0]{rot_l = 1;}"
-    labelPosition	    [360.663 276.332 209.402 16]
-    fontSize		    12
-    src {
-      id		      4
-      intersection	      [3 0 1 0.1888 574.4017 273.6004 0 0]
-    }
-    dst {
-      id		      5
-      intersection	      [1 -0 -1 0.4934 574.4017 302.8932 0 0]
-    }
-    midPoint		    [574.4017 284.2468]
-    chart		    2
-    linkNode		    [2 36 38]
-    dataLimits		    [572.002 576.802 273.6 302.893]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    2
-    ssIdNumber		    66
-  }
-  transition {
-    id			    38
-    labelString		    "[wall_p == 1 && wall_rot <= 0]{rot_r = 1; wall_rot = -wall_rot;}"
-    labelPosition	    [613.622 277.669 324.746 16]
-    fontSize		    12
-    src {
-      id		      4
-      intersection	      [3 0 1 0.1464 595.6517 273.6004 0 0]
-    }
-    dst {
-      id		      5
-      intersection	      [1 -0 -1 0.7295 595.6517 302.8932 0 0]
-    }
-    midPoint		    [595.6517 284.2468]
-    chart		    2
-    linkNode		    [2 37 39]
-    dataLimits		    [593.252 598.052 273.6 302.893]
+    linkNode		    [2 55 0]
+    dataLimits		    [170.617 372.919 117.523 122.323]
     subviewer		    2
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
     }
     executionOrder	    1
-    ssIdNumber		    65
-  }
-  transition {
-    id			    39
-    labelString		    "[after(wall_rot*(pi/180)/rot_per_sec, sec)]"
-    labelPosition	    [412.16 379.352 219.363 16]
-    fontSize		    12
-    src {
-      id		      5
-      intersection	      [4 -1 0 0.5 529.9964 332.8932 0 0]
-    }
-    dst {
-      id		      8
-      intersection	      [1 0 -1 0.7619 373.4017 431.8884 0 0]
-    }
-    midPoint		    [429.0599 355.7516]
-    chart		    2
-    linkNode		    [2 38 40]
-    dataLimits		    [371.002 529.996 332.893 431.888]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    70
-  }
-  transition {
-    id			    40
-    labelString		    "[s_m20 > sens_tol && after(5*(pi/180)/rot_per_sec,sec)]"
-    labelPosition	    [900.847 375.309 298.219 14]
-    fontSize		    12
-    src {
-      id		      6
-      intersection	      [1 0 -1 0.8023 1000.1257 428.4724 0 0]
-    }
-    dst {
-      id		      9
-      intersection	      [2 1 0 0.2096 1092.6438 626.4827 0 0]
-    }
-    midPoint		    [1018.1762 397.1341]
-    chart		    2
-    linkNode		    [2 39 41]
-    dataLimits		    [1000.126 1118.777 390.066 628.883]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    28
-  }
-  transition {
-    id			    41
-    labelString		    "[s_m45 <= sens_tol]"
-    labelPosition	    [455.185 443.748 109.984 14]
-    fontSize		    12
-    src {
-      id		      8
-      intersection	      [2 1 0 0.3146 413.2589 465.7591 0 0]
-    }
-    dst {
-      id		      7
-      intersection	      [4 -1 0 0.6039 594.3417 465.7591 0 0]
-    }
-    midPoint		    [499.8003 465.7591]
-    chart		    2
-    linkNode		    [2 40 42]
-    dataLimits		    [413.259 594.342 463.359 468.159]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    22
-  }
-  transition {
-    id			    42
-    labelString		    "[s_m90 <= sens_tol]"
-    labelPosition	    [741.683 446.248 109.984 14]
-    fontSize		    12
-    src {
-      id		      7
-      intersection	      [2 1 0 0.5088 734.1061 475.7996 0 0]
-    }
-    dst {
-      id		      6
-      intersection	      [4 -1 0 0.5 860.0942 475.7996 0 0]
-    }
-    midPoint		    [793.1002 475.7996]
-    chart		    2
-    linkNode		    [2 41 43]
-    dataLimits		    [734.106 860.094 473.4 478.2]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    2
-    ssIdNumber		    27
-  }
-  transition {
-    id			    43
-    labelString		    "[s_m45 > sens_tol && after(5*(pi/180)/rot_per_sec, sec)]"
-    labelPosition	    [415.154 529.354 301.738 16]
-    fontSize		    12
-    src {
-      id		      7
-      intersection	      [4 -1 0 0.4568 594.3417 478.8537 0 0]
-    }
-    dst {
-      id		      8
-      intersection	      [2 1 -0 0.4362 413.2589 478.8537 0 0]
-    }
-    midPoint		    [507.8003 478.8537]
-    chart		    2
-    linkNode		    [2 42 44]
-    dataLimits		    [413.259 594.342 476.454 481.254]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    25
-  }
-  transition {
-    id			    44
-    labelString		    "[s_m20 <= sens_tol]"
-    labelPosition	    [775.374 586.592 110.039 16]
-    fontSize		    12
-    src {
-      id		      13
-      intersection	      [1 0 -1 0.049 942.8418 765.1056 0 0]
-    }
-    dst {
-      id		      6
-      intersection	      [3 0 1 0.8973 878.0188 523.1268 0 0]
-    }
-    midPoint		    [910.4303 648.1162]
-    chart		    2
-    linkNode		    [2 43 45]
-    dataLimits		    [875.619 942.842 523.127 765.106]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    2
-    ssIdNumber		    47
-  }
-  transition {
-    id			    45
-    labelString		    "[s_m20 <= sens_tol]"
-    labelPosition	    [973.5 582.187 109.984 14]
-    fontSize		    12
-    src {
-      id		      9
-      intersection	      [1 0 -1 0.1579 967.7794 605.3265 0 0]
-    }
-    dst {
-      id		      6
-      intersection	      [3 -0 1 0.383 967.7794 523.1268 0 0]
-    }
-    midPoint		    [967.7794 568.2267]
-    chart		    2
-    linkNode		    [2 44 46]
-    dataLimits		    [965.379 970.179 523.127 605.327]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    29
-  }
-  transition {
-    id			    46
-    labelString		    "[s_m20 <= sens_tol]"
-    labelPosition	    [210.976 621.156 109.984 14]
-    fontSize		    12
-    src {
-      id		      10
-      intersection	      [1 0 -1 0.6123 327.4323 646.9817 0 0]
-    }
-    dst {
-      id		      8
-      intersection	      [3 -0 1 0.5127 327.4323 539.5588 0 0]
-    }
-    midPoint		    [327.4323 597.2702]
-    chart		    2
-    linkNode		    [2 45 47]
-    dataLimits		    [325.032 329.832 539.559 646.982]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    37
-  }
-  transition {
-    id			    47
-    labelString		    "[s_m45 <= sens_tol]"
-    labelPosition	    [1112.217 746.957 110.039 16]
-    fontSize		    12
-    src {
-      id		      13
-      intersection	      [2 1 0 0.4415 1074.6515 780.0054 0 0]
-    }
-    dst {
-      id		      9
-      intersection	      [2 1 0 0.6185 1092.6438 667.7693 0 0]
-    }
-    midPoint		    [1116.4493 723.8874]
-    chart		    2
-    linkNode		    [2 46 48]
-    dataLimits		    [1074.651 1118.715 665.369 780.005]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    3
-    ssIdNumber		    50
-  }
-  transition {
-    id			    48
-    labelString		    "[s_m45 > sens_tol && after(10/mv_per_sec, sec)]"
-    labelPosition	    [445.735 648.429 265.062 16]
-    fontSize		    12
-    src {
-      id		      10
-      intersection	      [2 1 0 0.2761 403.3747 673.2019 0 0]
-    }
-    dst {
-      id		      12
-      intersection	      [1 0 -1 0.1357 470.2879 733.066 0 0]
-    }
-    midPoint		    [447.4137 688.5515]
-    chart		    2
-    linkNode		    [2 47 49]
-    dataLimits		    [403.375 472.688 673.202 733.066]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    2
-    ssIdNumber		    46
-  }
-  transition {
-    id			    49
-    labelString		    "[s_m45 > sens_tol]"
-    labelPosition	    [984.919 711.235 102.984 14]
-    fontSize		    12
-    src {
-      id		      9
-      intersection	      [3 0 1 0.7774 977.3621 706.2817 0 0]
-    }
-    dst {
-      id		      13
-      intersection	      [1 0 -1 0.298 977.3621 765.1056 0 0]
-    }
-    midPoint		    [977.3621 731.6937]
-    chart		    2
-    linkNode		    [2 48 50]
-    dataLimits		    [974.962 979.762 706.282 765.106]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    2
-    ssIdNumber		    31
-  }
-  transition {
-    id			    50
-    labelString		    "[after(70*(pi/180)/rot_per_sec, sec)]"
-    labelPosition	    [234.568 787.042 191.371 16]
-    fontSize		    12
-    src {
-      id		      12
-      intersection	      [4 -1 0 0.4786 442.7464 781.5994 0 0]
-    }
-    dst {
-      id		      10
-      intersection	      [3 0 1 0.2024 363.7272 741.9519 0 0]
-    }
-    midPoint		    [392.5967 776.4158]
-    chart		    2
-    linkNode		    [2 49 51]
-    dataLimits		    [361.327 442.746 741.952 781.599]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    32
-  }
-  transition {
-    id			    51
-    labelString		    "[after(10/mv_per_sec, sec)]"
-    labelPosition	    [777.128 785.766 148.023 16]
-    fontSize		    12
-    src {
-      id		      13
-      intersection	      [4 -1 0 0.5663 936.056 779.7404 0 0]
-    }
-    dst {
-      id		      12
-      intersection	      [2 1 0 0.5014 645.6357 779.7404 0 0]
-    }
-    midPoint		    [794.8458 779.7404]
-    chart		    2
-    linkNode		    [2 50 0]
-    dataLimits		    [645.636 936.056 777.34 782.14]
-    subviewer		    2
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    41
+    ssIdNumber		    78
   }
   instance {
-    id			    52
+    id			    57
     name		    "Chart"
     machine		    1
     chart		    2
   }
   target {
-    id			    53
+    id			    58
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
-    linkNode		    [1 0 54]
+    linkNode		    [1 0 59]
   }
   target {
-    id			    54
+    id			    59
     name		    "rtw"
     machine		    1
-    linkNode		    [1 53 0]
+    linkNode		    [1 58 0]
   }
 }
