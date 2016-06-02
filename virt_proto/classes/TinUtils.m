@@ -9,6 +9,11 @@ classdef TinUtils < handle
         % The proximity sensor blocks substract 2.5, for whatever reason.
         % This counters that effect.
         rogue_bias = -2.5;
+        % A better value can be obtained at:
+        % http://www.e-puck.org/index.php?option=com_content&view=article&id=22&Itemid=13
+        max_distance = 12.8;
+        max_steps = 2 + (TinUtils.max_distance - TinUtils.rogue_bias ...
+            + TinUtils.radius + TinUtils.error_range(1)) / TinUtils.step_size;
     end
     
     methods (Static)
@@ -80,8 +85,9 @@ classdef TinUtils < handle
                 % [j, j+1)$$, with precisely these parens (half-open).
                 distance = intersectQuarterSquare(pos(1)+0.5, pos(2)+0.5, phi, to + QP_vd, QP_q);
                 distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
-                if distance >= Inf
+                if distance + TinUtils.rogue_bias >= TinUtils.max_distance
                     object = 0;
+                    distance = Inf;
                 end
             end
         end
@@ -93,6 +99,7 @@ classdef TinUtils < handle
             cur_delta = [0.5 0.5];
             QP_q = sign(step) + (step == 0);
             QP_vd = -QP_q/2 + 0.5;
+            done_steps = 0;
 
             % Step until we hit something
             while 1
@@ -100,6 +107,14 @@ classdef TinUtils < handle
                 assert(all(cur_delta < 1) && all(cur_delta >= 0));
                 while all(cur_delta < 1) && all(cur_delta >= 0)
                     cur_delta = cur_delta + step;
+                    done_steps = done_steps + 1;
+                end
+
+                % Are we too far away anyway?
+                if done_steps > TinUtils.max_steps
+                    distance = inf;
+                    object = 0;
+                    break;
                 end
 
                 % Determine what changed

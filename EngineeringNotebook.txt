@@ -435,15 +435,9 @@ todo:
     -> See README.md, it contains a list of which are slow
     -> Start recording those that are slow first!
 - add some documentation about the various components either as text field or in the readme (03:08 AM "midnight thought")
-- path_finder_test: test internal map generation and escape path calculation
-  BROKEN!  Inverted y (see Slack, pf_broken_proof.png)
-  consider switching to inverted axis representation because matlab's path finder does not support "our" representation
-  and maintaining an inverted matrix inside our path finder may be confusing (different representations in different parts
-  seems like a bad idea)
 - controller_test: test the complete control software
   BROKEN!  Map triggers unhandled corner-case ("stroke" mode)
 - add control software for the status leds
-- limit the range of the proximity sensors to match the real world situation
 
 taken:
 - approximator_test: test approximation of current position and orientation
@@ -457,7 +451,8 @@ taken:
 Piratepad-Dump: https://piratenpad.de/p/ZuCsUfLZOdj0ua
 ##############################################################################
 Long-term TODO:
-- Docking code (was ist docking code?)
+- Docking mode
+    * Also, das "andocken" an den Teddy; ist im Moment nur no-op für Simulation.
     * which modules will be needed?
     * how does that integrate into traffic cop?
 - T2T data
@@ -482,11 +477,17 @@ wie "Theory Of Distributed Systems", da gibt's ein paar kranke Unmöglichkeitsre
       (also nicht die Historie, sondern dass, was path_finder momentan "glaubt, gemessen zu haben")
     - eigene Position
     - Winkel- und Positions-Daten über Victim (uff, das wird unschön, das sauber einzubinden!)
-    - eigene Start-Position (immer, selbst wenn OFFLINE) 
+    - eigene Start-Position (immer, selbst wenn OFFLINE)
+    - Zustand: "zum" victim, "andocken", oder "raus"
 
 Comment by Maxi:
  - this might be problematic because we would need a variable size containter structure to hold all the messages
    in order to be able to "chain" them => check how "variable size" size signals in simulink work and whether this
    could be archived by appending the messages to the chain inupt vector
+Ben's Response:
+   Der Sinn und Zweck von TT (siehe Vorlesung) ist es gerade, dass es "fixed size" ist, und zwar in der Anzahl
+   der Tin Bots.  Da wir die eh schon beschränkt haben (weil Bluetooth API), ist das fixed size.
+   => "variable size signals" are NOT necessary for this simulation
+   (but it still might be nice to know)
 ##############################################################################
 
