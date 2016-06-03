@@ -39,7 +39,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.6"
+    ComputedModelVersion    "1.7"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -97,11 +97,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1246.0, 779.0]
-	ZoomFactor		[1.75]
-	Offset			[186.6194203259177, 102.76955097678116]
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"20"
+	Extents			[1246.0, 785.0]
+	ZoomFactor		[1.4998125234345707]
+	Offset			[-116.42200000000003, 92.25200000000001]
       }
     }
   }
@@ -111,9 +111,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jun 03 17:33:58 2016"
-  RTWModifiedTimeStamp	  386876036
-  ModelVersionFormat	  "1.%<AutoIncrement:6>"
+  LastModifiedDate	  "Fri Jun 03 19:24:33 2016"
+  RTWModifiedTimeStamp	  386882660
+  ModelVersionFormat	  "1.%<AutoIncrement:7>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -977,7 +977,7 @@ Model {
   System {
     Name		    "traffic_cop_eyes"
     Location		    [0, 31, 1280, 983]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1278,7 +1278,7 @@ Model {
       System {
 	Name			"traffic_cop_eyes1"
 	Location		[0, 31, 1280, 983]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1718,7 +1718,7 @@ Stateflow {
     id			    2
     name		    "traffic_cop_eyes1"
     windowPosition	    [1280 31 1280 983]
-    viewLimits		    [-116.422 714.348 92.252 615.651]
+    viewLimits		    [-116.422 714.348 92.252 612.317]
     zoomFactor		    0.889
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1728,7 +1728,10 @@ Stateflow {
     treeNode		    [0 3 0 0]
     firstTransition	    31
     viewObj		    2
+    visible		    1
     machine		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    123
     decomposition	    CLUSTER_CHART
     firstData		    19
@@ -1758,8 +1761,6 @@ Stateflow {
     ssIdNumber		    109
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1773,8 +1774,6 @@ Stateflow {
     ssIdNumber		    101
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    5
@@ -1788,8 +1787,6 @@ Stateflow {
     ssIdNumber		    97
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -1824,8 +1821,6 @@ Stateflow {
     ssIdNumber		    107
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
@@ -1839,8 +1834,6 @@ Stateflow {
     ssIdNumber		    103
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    9
@@ -1854,8 +1847,6 @@ Stateflow {
     ssIdNumber		    110
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   transition {
     id			    10
@@ -1908,8 +1899,8 @@ Stateflow {
   }
   transition {
     id			    12
-    labelString		    "[ir_stable == 1 && ...\n ray_dist(c_x-last_x, c_y-last_y, last_phi) >=min_dist^2]"
-    labelPosition	    [62.555 403.585 294.77 30]
+    labelString		    "[ir_stable == 1 && ...\n ray_dist(c_x-last_x, c_y-last_y, last_phi) >= min_dist]"
+    labelPosition	    [62.555 403.585 285.801 30]
     fontSize		    12
     src {
       id		      8
@@ -2443,7 +2434,6 @@ Stateflow {
     treeNode		    [0 35 0 0]
     firstTransition	    40
     viewObj		    34
-    visible		    1
     machine		    1
     ssIdHighWaterMark	    10
     decomposition	    CLUSTER_CHART
@@ -2466,8 +2456,6 @@ Stateflow {
     ssIdNumber		    1
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    36
@@ -2481,8 +2469,6 @@ Stateflow {
     ssIdNumber		    4
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    37
@@ -2496,8 +2482,6 @@ Stateflow {
     ssIdNumber		    3
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   data {
     id			    38
