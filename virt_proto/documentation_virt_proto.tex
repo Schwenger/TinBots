@@ -1,0 +1,100 @@
+\documentclass[a4paper,parskip,headheight=38pt]{scrartcl} % article or scrartcl
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[%
+  automark,
+  headsepline                %% Separation line below the header
+]{scrlayer-scrpage}
+\usepackage[english]{babel}
+\usepackage{hyphenat}
+\usepackage[hidelinks]{hyperref}
+\usepackage[top=1.4in, bottom=1.5in, left=1in, right=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{datetime}
+
+\usepackage[normalem]{ulem}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\usepackage{microtype}
+
+\usepackage[hang]{footmisc}
+\setlength{\footnotemargin}{3mm}
+
+\usepackage{enumitem}
+
+\usepackage[export]{adjustbox}
+
+% \usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{graphics}
+% \usepackage{float}
+% \usepackage{caption}
+
+\parindent 0pt
+\parskip 6pt
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\renewcommand\thesubsection{\Alph{subsection}}
+
+\setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
+\addtolength{\headheight}{+13pt}
+\lohead{Marlene Böhmer, s9meboeh@stud.uni-saarland.de, 2547718 \\
+	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
+	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
+	Ben Wiederhake, s9bewied@stud.uni-saarland.de, 2541266}
+\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Specification, Group 6, Page {\thepage}/{\pageref*{LastPage}}}
+
+\newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
+\settimeformat{mytime}
+\newdateformat{mydate}{\twodigit{\THEYEAR}\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+\cfoot{\tiny\texttt{ID \mydate\today\currenttime}}
+\chead{} % Needed because now the \subsections get displayed
+\pagestyle{scrheadings}
+
+% \renewcommand{\headrulewidth}{0pt}
+% \addtolength{\textheight}{+30mm}
+% \addtolength{\textwidth}{+50mm}
+% \addtolength{\hoffset}{-7mm}
+
+% \newcommand{\Omicron}{\ensuremath{\mathcal{O}}}
+% \newcommand{\omicron}{\ensuremath{o}}
+% \newcommand{\set}[1]{\{#1\}}
+% \newcommand{\abs}[1]{\lvert #1 \rvert}
+
+\DeclareMathOperator{\sinc}{sinc}
+
+\begin{document}
+
+\section{environment}
+
+We describe a map and all entities in it in a text file which is loaded into MatLab and transformed into a matrix. 
+This matrix represents the entire environment and is used in raycast computations to determine the epuck's sensor data, proximity as well as IR signals, at a given point in time and space.
+
+The motor is represented by a custom differential drive block implementing the real world physics. 
+The block assures that the Tin Bot cannot drive through objects but stops in time by looking up the occupation status in the matrix and disabling the motion if necessary.
+
+Tin Bot (physical) is a block feeding the differential drive data (position, orientation) in the sensors blocks such that the raycast can be computed appropriately.
+
+Depending on the Tin Bot's position we update the map.
+In this process we use the Tin Bot Introducer block to insert the Tin Bot's current position into the matrix such that we cannot run into a wall. 
+The information is chained so that a statically unknown number of TinBots is possible, so one Tin Bot after the other is update. 
+In terms of simulation time, however, this process happens parallel as it would in real life.
+
+The Tin Bot elimination uses the fully update map containing all Tin Bots' position and deleted the information about the respective Tin Bot's position such that the sensors cannot detect themselves.
+
+The LPS takes the environments data and feeds them into the Tin Bots every two seconds. 
+The Tin Bots use them to update their position to be more resistant against inaccuracies in movement data. 
+In case the LPS is disabled, the simulation delivers a dedicated error value.
+
+\section{Components}
+
+
+
+\end{document}

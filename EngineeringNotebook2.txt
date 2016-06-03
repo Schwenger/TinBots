@@ -1,0 +1,20 @@
+scribe: Maximilian Schwenger 03.06.2016 12-14
+
+Risk analysis:
+- BW and MK divide communication to prepare conquering.
+- Each communication channel is independent of the others, thus we work independently.
+- Discussions about the difference between 3 and 4.
+- MB and MS are sceptical about the outcome of the discussion.
+
+Partition:
+P = [{SOS, WAU},{T2T, LPP},{Pi/Camera, CBP},{internal HW-SW stuffy in Tin Bot}]
+Marlene.accept(P[0])
+Ben.accept(P[2])
+Max.accept(P[3])
+Maxi.accept(P[4])
+
+Now:
+M\epsilon{K, S}: Documentation
+BW + MB: Physically detecting bugs using Raid 6 with striping *Ben laughs out moderately loud*.
+
+TODO Ben: Traffic cop's eyes: Don't square minimal distance. (Don't try to makes sense off this sentence...)
