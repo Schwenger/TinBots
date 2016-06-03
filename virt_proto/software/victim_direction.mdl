@@ -53,7 +53,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.43"
+    ComputedModelVersion    "1.44"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -125,9 +125,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jun 03 00:16:50 2016"
-  RTWModifiedTimeStamp	  386813793
-  ModelVersionFormat	  "1.%<AutoIncrement:43>"
+  LastModifiedDate	  "Fri Jun 03 19:12:32 2016"
+  RTWModifiedTimeStamp	  386881949
+  ModelVersionFormat	  "1.%<AutoIncrement:44>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -978,6 +978,7 @@ Model {
       Position		      [225, 83, 255, 97]
       ZOrder		      40
       IconDisplay	      "Port number"
+      OutDataTypeStr	      "boolean"
       PortDimensions	      "[6]"
     }
     Block {
@@ -1377,8 +1378,6 @@ Stateflow {
     firstTransition	    24
     viewObj		    2
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    31
     decomposition	    CLUSTER_CHART
     firstData		    13
