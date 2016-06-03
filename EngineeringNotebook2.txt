@@ -21,3 +21,20 @@ TODO Ben: Traffic cop's eyes: Don't square minimal distance. (Don't try to makes
     -> It does make sense!
     Old buggy formula for transition: current_distance >= min_distance^2
     Correct new formula (not pushed): current_distance >= min_distance
+        -> It doesn't if you are unfamiliar with the concept of the traffic cop's eyes. ;)
+
+$$$$$$$$$$$$$$
+$ HAL:       $
+$ $$$$       $
+$            $
+$ $$$$$$$$$$ $              $$
+$ $ MatLab $ $               $$  $$$$$$
+$ $$$$$$$$$$ $ $$$$$$$$$$$$$$$$$ $    $
+$            $                   $ SW $
+$ $$$$$$$$$$ $ $$$$$$$$$$$$$$$$$ $    $
+$ $ E-Puck $ $  $$               $$$$$$
+$ $$$$$$$$$$ $   $$
+$            $
+$$$$$$$$$$$$$$
+
+You're welcome, Maxi.
