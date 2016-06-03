@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.112"
+    ComputedModelVersion    "1.113"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -133,8 +133,8 @@ Model {
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"1"
 	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.2496094970321774]
-	Offset			[302.69551972718079, 145.36496054563824]
+	ZoomFactor		[1.0]
+	Offset			[49.719177080784291, 725.639564060015]
       }
     }
   }
@@ -144,9 +144,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 02 16:21:16 2016"
-  RTWModifiedTimeStamp	  386785265
-  ModelVersionFormat	  "1.%<AutoIncrement:112>"
+  LastModifiedDate	  "Fri Jun 03 18:39:10 2016"
+  RTWModifiedTimeStamp	  386878629
+  ModelVersionFormat	  "1.%<AutoIncrement:113>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1793,28 +1793,26 @@ Stateflow {
     name		    "path_finder"
     created		    "30-May-2016 23:07:56"
     isLibrary		    0
-    firstTarget		    48
+    firstTarget		    49
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [302.696 1299.807 145.365 798.369]
-    zoomFactor		    1.067
+    viewLimits		    [49.719 1295.719 725.64 1541.64]
+    zoomFactor		    1.333
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
     treeNode		    [0 6 0 0]
-    firstTransition	    46
+    firstTransition	    47
     viewObj		    2
     visible		    1
     machine		    1
-    subviewS {
-    }
-    ssIdHighWaterMark	    90
+    ssIdHighWaterMark	    91
     decomposition	    CLUSTER_CHART
     firstData		    22
     chartFileNumber	    3
@@ -1843,8 +1841,6 @@ Stateflow {
     ssIdNumber		    29
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1870,14 +1866,13 @@ Stateflow {
   }
   state {
     id			    5
-    labelString		    "Running\nduring:\n	coder.extrinsic('TinUtils.get_path_point');\n	if point_num <= points\n	    if"
-    "  floor(current_x) == TinUtils.convert_path_point(TinUtils.get_path_point(path, point_num, 2)) ...\n	            &"
-    "& floor(current_y) == TinUtils.convert_path_point(TinUtils.get_path_point(path, point_num, 1))\n	        point_num"
-    " = point_num + 1\n	        drive = 0;\n	    else\n	        next_x = TinUtils.convert_path_point(TinUtils.get_path_"
-    "point(path, point_num, 2));\n	        next_y = TinUtils.convert_path_point(TinUtils.get_path_point(path, point_num"
-    ", 1));\n	        step_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	end\ne"
-    "x:\n	drive = 0;"
-    position		    [283.5333 1016.681 594.5238 268.5596]
+    labelString		    "Running\nentry:\n	next_x = -1;\n	next_y = -1;\nduring:\n	coder.extrinsic('TinUtils.get_path_poin"
+    "t');\n	if point_num <= points\n	    if  norm([current_x-next_x current_y-next_y]) <= drive_tolerance\n	        poi"
+    "nt_num = point_num + 1\n	        drive = 0;\n	    else\n	        next_x = TinUtils.convert_path_point(TinUtils.get"
+    "_path_point(path, point_num, 2));\n	        next_y = TinUtils.convert_path_point(TinUtils.get_path_point(path, poi"
+    "nt_num, 1));\n	        step_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	"
+    "end\nex:\n	drive = 0;"
+    position		    [283.5333 1016.681 589.5238 328.5596]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 9 0]
@@ -1886,8 +1881,6 @@ Stateflow {
     ssIdNumber		    50
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -1903,8 +1896,6 @@ Stateflow {
     ssIdNumber		    76
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    7
@@ -1918,8 +1909,6 @@ Stateflow {
     ssIdNumber		    78
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
@@ -1938,10 +1927,10 @@ Stateflow {
     eml {
       isEML		      1
       script		      "function is_blocked = path_blocked()\n\n% Can't easily use IR sensors here, since path_executor r"
-      "otates around a\n% lot.\n\nr = floor(current_y);\nc = floor(current_x);\n[distance, ~] = TinUtils.raycast_polymo"
-      "rphic(map, rows + 1 - r, c, step_phi, false);\ndistance = distance - TinUtils.rogue_bias + TinUtils.radius;\nexp"
-      "ect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blocked = expect_distance > distance + 1e-4;"
-      "\n\nend\n"
+      "otates around a\n% lot.\n\nr = floor(current_y);\nc = floor(current_x);\n[drivable_distance, ~] = TinUtils.rayca"
+      "st_polymorphic(map, rows + 1 - r, c, step_phi, false);\ndrivable_distance = drivable_distance + TinUtils.radius;"
+      "\nexpect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blocked = expect_distance > drivable_di"
+      "stance + drive_tolerance;\n\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -1959,8 +1948,6 @@ Stateflow {
     ssIdNumber		    85
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   data {
     id			    10
@@ -2140,17 +2127,17 @@ Stateflow {
   transition {
     id			    17
     labelString		    "[point_num > points]{path_completed = 1;}"
-    labelPosition	    [367.873 992.459 227.434 16]
+    labelPosition	    [367.873 992.546 227.434 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [1 0 -1 0.1306 361.1811 1016.681 0 0]
+      intersection	      [1 0 -1 0.1317 361.1811 1016.681 0 0]
     }
     dst {
       id		      7
       intersection	      [3 0 1 0.4387 361.1811 655.6027 0 0]
     }
-    midPoint		    [361.1811 840.1418]
+    midPoint		    [361.1811 840.1419]
     chart		    2
     linkNode		    [6 16 18]
     dataLimits		    [358.781 363.581 655.603 1016.681]
@@ -2190,7 +2177,7 @@ Stateflow {
   transition {
     id			    19
     labelString		    "[no_path == 0]"
-    labelPosition	    [671.609 906.324 79.379 16]
+    labelPosition	    [671.609 905.707 79.379 16]
     fontSize		    12
     src {
       id		      9
@@ -2198,9 +2185,9 @@ Stateflow {
     }
     dst {
       id		      5
-      intersection	      [1 -0 -1 0.8019 760.2863 1016.681 0 0]
+      intersection	      [1 -0 -1 0.8087 760.2863 1016.681 0 0]
     }
-    midPoint		    [760.2863 954.0474]
+    midPoint		    [760.2863 954.0475]
     chart		    2
     linkNode		    [6 18 20]
     dataLimits		    [757.886 762.686 899.414 1016.681]
@@ -2215,17 +2202,17 @@ Stateflow {
   transition {
     id			    20
     labelString		    "[drive ~= 0 && path_blocked() ~= 0]"
-    labelPosition	    [784.437 994.288 191.406 16]
+    labelPosition	    [784.437 994.905 191.406 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [1 0 -1 0.8345 779.6863 1016.681 0 0]
+      intersection	      [1 0 -1 0.8416 779.6863 1016.681 0 0]
     }
     dst {
       id		      9
       intersection	      [3 0 1 0.3028 779.6863 899.4139 0 0]
     }
-    midPoint		    [779.6863 962.0474]
+    midPoint		    [779.6863 962.0475]
     chart		    2
     linkNode		    [6 19 0]
     dataLimits		    [777.286 782.086 899.414 1016.681]
@@ -2796,7 +2783,7 @@ Stateflow {
     id			    45
     ssIdNumber		    90
     name		    "point_num"
-    linkNode		    [2 44 0]
+    linkNode		    [2 44 46]
     scope		    LOCAL_DATA
     machine		    1
     props {
@@ -2817,8 +2804,30 @@ Stateflow {
     }
     dataType		    "Inherit: From definition in chart"
   }
-  transition {
+  data {
     id			    46
+    ssIdNumber		    91
+    name		    "drive_tolerance"
+    linkNode		    [2 45 0]
+    scope		    CONSTANT_DATA
+    machine		    1
+    props {
+      initialValue	      "0.7"
+      type {
+	method			SF_DOUBLE_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "double"
+  }
+  transition {
+    id			    47
     labelString		    "{\n	% write initial variables\n	drive = 0;\n	next_x = 0;\n	next_y = 0;\n	no_path = 0;\n	% sensor"
     " view directions from:\n	% https:%www.cyberbotics.com/guide/using-the-e-puck-robot.php\n	VIEW_DIRECTIONS = [mod(1."
     "27 - pi/2, 2 * pi)     mod(0.77 - pi/2, 2 * pi)     mod(0.00 - pi/2, 2 * pi)    mod(5.21 - pi/2, 2 * pi) ...\n    "
@@ -2847,13 +2856,13 @@ Stateflow {
     ssIdNumber		    30
   }
   instance {
-    id			    47
+    id			    48
     name		    "Path Finder"
     machine		    1
     chart		    2
   }
   target {
-    id			    48
+    id			    49
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1

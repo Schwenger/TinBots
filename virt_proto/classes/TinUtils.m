@@ -1,14 +1,7 @@
 classdef TinUtils < handle
     properties (Constant)
         step_size = 0.9;
-        % The assumption of centrality (see raycast_to) introduces some
-        % error, so the bounds are:
-        % [-1/sqrt(2) 1/sqrt(2)]
-        error_range = [-1 +1]/sqrt(2);
         radius = 5.3/2;
-        % The proximity sensor blocks substract 2.5, for whatever reason.
-        % This counters that effect.
-        rogue_bias = -2.5;
     end
     
     methods (Static)
@@ -74,13 +67,9 @@ classdef TinUtils < handle
             if object == 0
                 distance = inf;
             else
-                % Assume the square of the bot is exactly in the middle of the
-                % box.  Maximum error: sqrt(2)*0.5 \approx 0.707 (unbiased)
-                % A square (i, j) represents the 2D interval $$[i, i+1) \times
-                % [j, j+1)$$, with precisely these parens (half-open).
-                distance = intersectQuarterSquare(pos(1)+0.5, pos(2)+0.5, phi, to + QP_vd, QP_q);
-                distance = max(0, distance - TinUtils.radius) - TinUtils.rogue_bias;
-                if distance + TinUtils.rogue_bias >= limit_distance
+                distance = intersectQuarterSquare(pos(1), pos(2), phi, to + QP_vd, QP_q);
+                distance = max(0, distance - TinUtils.radius);
+                if distance >= limit_distance
                     object = 0;
                     distance = Inf;
                 end
@@ -88,15 +77,14 @@ classdef TinUtils < handle
         end
 
         function limit_steps = max_steps(limit_distance)
-            limit_steps = 2 + (limit_distance - TinUtils.rogue_bias ...
-                + TinUtils.radius + TinUtils.error_range(1)) / TinUtils.step_size;
+            limit_steps = 2 + (limit_distance + TinUtils.radius) / TinUtils.step_size;
         end
 
         function [distance, object] = raycast_polymorphic(matrix, row, col, phi, limit_distance)
             step = [cos(phi) sin(phi)] .* TinUtils.step_size;
             [rows, cols] = size(matrix);
-            cur_pos = [col row];
-            cur_delta = [0.5 0.5];
+            cur_pos = floor([col row]);
+            cur_delta = [col row] - cur_pos;
             QP_q = sign(step) + (step == 0);
             QP_vd = -QP_q/2 + 0.5;
             done_steps = 0;
@@ -156,14 +144,6 @@ classdef TinUtils < handle
                 cur_pos = next_pos;
                 cur_delta = cur_delta - change;
             end
-        end
-
-        % Proximity sensors
-        function [distance, object] = raycast(matrix, row, col, phi)
-            % A better value can be obtained at:
-            % http://www.e-puck.org/index.php?option=com_content&view=article&id=22&Itemid=13
-            max_distance = 12.8;
-            [distance, object] = TinUtils.raycast_polymorphic(matrix, row, col, phi, max_distance);
         end
     end
 end
