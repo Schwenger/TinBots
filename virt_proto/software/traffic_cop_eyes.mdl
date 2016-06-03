@@ -39,7 +39,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.2"
+    ComputedModelVersion    "1.5"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -81,16 +81,28 @@ Model {
 	$ClassName		"Simulink.ExplorerBarInfo"
 	Visible			[1]
       }
-      Object {
-	$PropName		"EditorsInfo"
-	$ObjectID		5
-	$ClassName		"Simulink.EditorInfo"
-	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1246.0, 785.0]
-	ZoomFactor		[1.0938443890169334]
-	Offset			[43.697198275861979, -10.82617668565274]
+      Array {
+	Type			"Simulink.EditorInfo"
+	Dimension		2
+	Object {
+	  $ObjectID		  5
+	  IsActive		  [0]
+	  ViewObjType		  "StateflowChart"
+	  LoadSaveID		  "18"
+	  Extents		  [1246.0, 779.0]
+	  ZoomFactor		  [3.3258360836715175]
+	  Offset		  [373.03088471767592, 199.38456264065053]
+	}
+	Object {
+	  $ObjectID		  6
+	  IsActive		  [1]
+	  ViewObjType		  "SimulinkTopLevel"
+	  LoadSaveID		  "0"
+	  Extents		  [1246.0, 779.0]
+	  ZoomFactor		  [1.75]
+	  Offset		  [186.6194203259177, 102.76955097678116]
+	}
+	PropName		"EditorsInfo"
       }
     }
   }
@@ -100,9 +112,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jun 03 16:22:06 2016"
-  RTWModifiedTimeStamp	  386871707
-  ModelVersionFormat	  "1.%<AutoIncrement:2>"
+  LastModifiedDate	  "Fri Jun 03 17:10:08 2016"
+  RTWModifiedTimeStamp	  386874595
+  ModelVersionFormat	  "1.%<AutoIncrement:5>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -150,10 +162,10 @@ Model {
   TryForcingSFcnDF	  off
   Object {
     $PropName		    "DataLoggingOverride"
-    $ObjectID		    6
+    $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "traffic_cop_eyes"
-    overrideMode_	    [0U]
+    overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
       Dimension		      1
@@ -194,13 +206,13 @@ Model {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      7
+      $ObjectID		      8
       Version		      "1.16.2"
       Array {
 	Type			"Handle"
 	Dimension		10
 	Simulink.SolverCC {
-	  $ObjectID		  8
+	  $ObjectID		  9
 	  Version		  "1.16.2"
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
@@ -237,7 +249,7 @@ Model {
 	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  9
+	  $ObjectID		  10
 	  Version		  "1.16.2"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
@@ -275,7 +287,7 @@ Model {
 	  LoggingIntervals	  "[-inf, inf]"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  10
+	  $ObjectID		  11
 	  Version		  "1.16.2"
 	  Array {
 	    Type		    "Cell"
@@ -332,7 +344,7 @@ Model {
 	  AccelVerboseBuild	  off
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  11
+	  $ObjectID		  12
 	  Version		  "1.16.2"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
@@ -427,7 +439,7 @@ Model {
 	  AllowAutomaticUnitConversions	on
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  12
+	  $ObjectID		  13
 	  Version		  "1.16.2"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
@@ -469,7 +481,7 @@ Model {
 	  UseSimulinkCoderFeatures on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  13
+	  $ObjectID		  14
 	  Version		  "1.16.2"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  EnableRefExpFcnMdlSchedulingChecks on
@@ -485,7 +497,7 @@ Model {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  14
+	  $ObjectID		  15
 	  Version		  "1.16.2"
 	  SFSimEcho		  on
 	  SimCtrlC		  on
@@ -497,7 +509,7 @@ Model {
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  15
+	  $ObjectID		  16
 	  Version		  "1.16.2"
 	  Array {
 	    Type		    "Cell"
@@ -569,7 +581,7 @@ Model {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      16
+	      $ObjectID		      17
 	      Version		      "1.16.2"
 	      Array {
 		Type			"Cell"
@@ -640,7 +652,7 @@ Model {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      17
+	      $ObjectID		      18
 	      Version		      "1.16.2"
 	      Array {
 		Type			"Cell"
@@ -725,7 +737,7 @@ Model {
 	  }
 	}
 	SlCovCC.ConfigComp {
-	  $ObjectID		  18
+	  $ObjectID		  19
 	  Version		  "1.16.2"
 	  Description		  "Simulink Coverage Configuration Component"
 	  Name			  "Simulink Coverage"
@@ -758,7 +770,7 @@ Model {
 	  CovStopTime		  0
 	}
 	hdlcoderui.hdlcc {
-	  $ObjectID		  19
+	  $ObjectID		  20
 	  Version		  "1.16.2"
 	  Description		  "HDL Coder custom configuration component"
 	  Name			  "HDL Coder"
@@ -780,11 +792,11 @@ Model {
   }
   Simulink.ConfigSet {
     $PropName		    "ActiveConfigurationSet"
-    $ObjectID		    7
+    $ObjectID		    8
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    20
+    $ObjectID		    21
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -844,6 +856,17 @@ Model {
     ToolTip		    "on"
   }
   BlockParameterDefaults {
+    Block {
+      BlockType		      DataTypeConversion
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via back propagation"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
     Block {
       BlockType		      Demux
       Outputs		      "4"
@@ -966,9 +989,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "109"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "20"
+    SIDHighWatermark	    "21"
     Block {
       BlockType		      Inport
       Name		      "cur_x_y_phi"
@@ -996,7 +1019,7 @@ Model {
       BlockType		      Inport
       Name		      "found_victim_phi"
       SID		      "3"
-      Position		      [80, 493, 110, 507]
+      Position		      [80, 453, 110, 467]
       ZOrder		      352
       Port		      "3"
       IconDisplay	      "Port number"
@@ -1005,10 +1028,20 @@ Model {
       BlockType		      Inport
       Name		      "found_victim_xy"
       SID		      "4"
-      Position		      [80, 533, 110, 547]
+      Position		      [80, 493, 110, 507]
       ZOrder		      353
       Port		      "4"
       IconDisplay	      "Port number"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion"
+      SID		      "21"
+      Position		      [420, 158, 495, 192]
+      ZOrder		      359
+      OutDataTypeStr	      "double"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      Demux
@@ -1109,7 +1142,7 @@ Model {
       Name		      "stabilize_ir1"
       SID		      "18"
       Ports		      [1, 1]
-      Position		      [420, 441, 525, 479]
+      Position		      [405, 401, 510, 439]
       ZOrder		      357
       LibraryVersion	      "1.267"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -1120,8 +1153,8 @@ Model {
       Variant		      off
       System {
 	Name			"stabilize_ir1"
-	Location		[1280, 0, 2560, 983]
-	Open			off
+	Location		[0, 31, 1280, 983]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1162,7 +1195,7 @@ Model {
 	  FunctionName		  "sf_sfun"
 	  PortCounts		  "[1 2]"
 	  SFunctionDeploymentMode off
-	  EnableBusSupport	  off
+	  EnableBusSupport	  on
 	  Port {
 	    PortNumber		    2
 	    Name		    "ir_stable"
@@ -1221,8 +1254,8 @@ Model {
       BlockType		      SubSystem
       Name		      "traffic_cop_eyes1"
       SID		      "20"
-      Ports		      [7, 2]
-      Position		      [665, 287, 890, 553]
+      Ports		      [6, 2]
+      Position		      [665, 276, 895, 524]
       ZOrder		      358
       LibraryVersion	      "1.267"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -1245,7 +1278,7 @@ Model {
       }
       System {
 	Name			"traffic_cop_eyes1"
-	Location		[1280, 31, 2560, 1014]
+	Location		[0, 31, 1280, 983]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1287,38 +1320,29 @@ Model {
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "ir_signal"
-	  SID			  "20::111"
-	  Position		  [20, 206, 40, 224]
-	  ZOrder		  91
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
 	  Name			  "ir_stable"
 	  SID			  "20::117"
-	  Position		  [20, 246, 40, 264]
+	  Position		  [20, 206, 40, 224]
 	  ZOrder		  97
-	  Port			  "5"
+	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "found_victim_phi"
 	  SID			  "20::92"
-	  Position		  [20, 281, 40, 299]
+	  Position		  [20, 246, 40, 264]
 	  ZOrder		  72
-	  Port			  "6"
+	  Port			  "5"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "found_victim_xy"
 	  SID			  "20::93"
-	  Position		  [20, 316, 40, 334]
+	  Position		  [20, 281, 40, 299]
 	  ZOrder		  73
-	  Port			  "7"
+	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -1335,11 +1359,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "20::77"
 	  Tag			  "Stateflow S-Function traffic_cop_eyes 8"
-	  Ports			  [7, 3]
-	  Position		  [180, 120, 230, 280]
+	  Ports			  [6, 3]
+	  Position		  [180, 122, 230, 263]
 	  ZOrder		  57
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[7 3]"
+	  PortCounts		  "[6 3]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  Port {
@@ -1380,57 +1404,51 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  1
+	  ZOrder		  12
 	  SrcBlock		  "c_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  2
+	  ZOrder		  13
 	  SrcBlock		  "c_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  3
+	  ZOrder		  14
 	  SrcBlock		  "c_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  4
-	  SrcBlock		  "ir_signal"
+	  ZOrder		  15
+	  SrcBlock		  "ir_stable"
 	  SrcPort		  1
+	  Points		  [120, 0]
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  ZOrder		  5
-	  SrcBlock		  "ir_stable"
+	  ZOrder		  16
+	  SrcBlock		  "found_victim_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  5
 	}
 	Line {
-	  ZOrder		  6
-	  SrcBlock		  "found_victim_phi"
+	  ZOrder		  17
+	  SrcBlock		  "found_victim_xy"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  6
 	}
 	Line {
-	  ZOrder		  7
-	  SrcBlock		  "found_victim_xy"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  7
-	}
-	Line {
 	  Name			  "traffic_cop_eyes"
-	  ZOrder		  8
+	  ZOrder		  18
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1439,7 +1457,7 @@ Model {
 	}
 	Line {
 	  Name			  "need_angle"
-	  ZOrder		  9
+	  ZOrder		  19
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -1447,14 +1465,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  10
+	  ZOrder		  20
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  11
+	  ZOrder		  21
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1466,7 +1484,7 @@ Model {
       BlockType		      Outport
       Name		      "need_angle"
       SID		      "13"
-      Position		      [1105, 483, 1135, 497]
+      Position		      [1105, 458, 1135, 472]
       ZOrder		      354
       IconDisplay	      "Port number"
     }
@@ -1478,11 +1496,11 @@ Model {
       Branch {
 	ZOrder			40
 	DstBlock		"traffic_cop_eyes1"
-	DstPort			7
+	DstPort			6
       }
       Branch {
 	ZOrder			2
-	Points			[0, -305]
+	Points			[0, -265]
 	DstBlock		"Mux1"
 	DstPort			2
       }
@@ -1495,23 +1513,13 @@ Model {
       Branch {
 	ZOrder			7
 	Points			[0, -245]
-	DstBlock		"Mux"
+	DstBlock		"Data Type Conversion"
 	DstPort			1
       }
       Branch {
 	ZOrder			6
-	Points			[41, 0]
-	Branch {
-	  ZOrder		  44
-	  Points		  [0, 40]
-	  DstBlock		  "stabilize_ir1"
-	  DstPort		  1
-	}
-	Branch {
-	  ZOrder		  43
-	  DstBlock		  "traffic_cop_eyes1"
-	  DstPort		  4
-	}
+	DstBlock		"stabilize_ir1"
+	DstPort			1
       }
     }
     Line {
@@ -1533,16 +1541,16 @@ Model {
       ZOrder		      41
       SrcBlock		      "traffic_cop_eyes1"
       SrcPort		      2
-      Points		      [107, 0]
+      Points		      [102, 0]
       Branch {
-	ZOrder			12
+	ZOrder			74
 	DstBlock		"need_angle"
 	DstPort			1
       }
       Branch {
 	ZOrder			11
 	Labels			[-1, 1]
-	Points			[0, -185]
+	Points			[0, -160]
 	DstBlock		"Scope"
 	DstPort			5
       }
@@ -1551,15 +1559,15 @@ Model {
       ZOrder		      45
       SrcBlock		      "stabilize_ir1"
       SrcPort		      1
-      Points		      [36, 0]
+      Points		      [51, 0]
       Branch {
-	ZOrder			36
+	ZOrder			76
 	DstBlock		"traffic_cop_eyes1"
-	DstPort			5
+	DstPort			4
       }
       Branch {
 	ZOrder			15
-	Points			[0, -265]
+	Points			[0, -225]
 	DstBlock		"Mux"
 	DstPort			2
       }
@@ -1570,13 +1578,13 @@ Model {
       SrcPort		      1
       Points		      [474, 0]
       Branch {
-	ZOrder			42
+	ZOrder			78
 	DstBlock		"traffic_cop_eyes1"
-	DstPort			6
+	DstPort			5
       }
       Branch {
 	ZOrder			18
-	Points			[0, -285]
+	Points			[0, -245]
 	DstBlock		"Mux1"
 	DstPort			1
       }
@@ -1655,7 +1663,7 @@ Model {
       Labels		      [-1, 1]
       SrcBlock		      "traffic_cop_eyes1"
       SrcPort		      1
-      Points		      [73, 0; 0, -90]
+      Points		      [68, 0; 0, -75]
       DstBlock		      "Scope"
       DstPort		      4
     }
@@ -1684,6 +1692,13 @@ Model {
       DstBlock		      "Scope"
       DstPort		      3
     }
+    Line {
+      ZOrder		      96
+      SrcBlock		      "Data Type Conversion"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
   }
 }
 #Finite State Machines
@@ -1697,14 +1712,14 @@ Stateflow {
     name		    "traffic_cop_eyes"
     created		    "03-Jun-2016 16:17:41"
     isLibrary		    0
-    firstTarget		    47
+    firstTarget		    46
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "traffic_cop_eyes1"
     windowPosition	    [1280 31 1280 983]
-    viewLimits		    [-116.422 714.244 92.252 615.586]
+    viewLimits		    [-116.422 714.348 92.252 615.651]
     zoomFactor		    0.889
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -1712,12 +1727,9 @@ Stateflow {
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
     treeNode		    [0 3 0 0]
-    firstTransition	    32
+    firstTransition	    31
     viewObj		    2
     machine		    1
-    toolbarMode		    LIBRARY_TOOLBAR
-    subviewS {
-    }
     ssIdHighWaterMark	    123
     decomposition	    CLUSTER_CHART
     firstData		    19
@@ -1747,6 +1759,8 @@ Stateflow {
     ssIdNumber		    109
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
@@ -1760,6 +1774,8 @@ Stateflow {
     ssIdNumber		    101
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    5
@@ -1773,6 +1789,8 @@ Stateflow {
     ssIdNumber		    97
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
@@ -1807,6 +1825,8 @@ Stateflow {
     ssIdNumber		    107
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    8
@@ -1820,6 +1840,8 @@ Stateflow {
     ssIdNumber		    103
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    9
@@ -1833,6 +1855,8 @@ Stateflow {
     ssIdNumber		    110
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   transition {
     id			    10
@@ -2158,8 +2182,8 @@ Stateflow {
   }
   data {
     id			    23
-    ssIdNumber		    83
-    name		    "ir_signal"
+    ssIdNumber		    116
+    name		    "ir_stable"
     linkNode		    [2 22 24]
     scope		    INPUT_DATA
     machine		    1
@@ -2183,8 +2207,8 @@ Stateflow {
   }
   data {
     id			    24
-    ssIdNumber		    116
-    name		    "ir_stable"
+    ssIdNumber		    17
+    name		    "found_victim_phi"
     linkNode		    [2 23 25]
     scope		    INPUT_DATA
     machine		    1
@@ -2208,8 +2232,8 @@ Stateflow {
   }
   data {
     id			    25
-    ssIdNumber		    17
-    name		    "found_victim_phi"
+    ssIdNumber		    18
+    name		    "found_victim_xy"
     linkNode		    [2 24 26]
     scope		    INPUT_DATA
     machine		    1
@@ -2233,10 +2257,10 @@ Stateflow {
   }
   data {
     id			    26
-    ssIdNumber		    18
-    name		    "found_victim_xy"
+    ssIdNumber		    91
+    name		    "last_x"
     linkNode		    [2 25 27]
-    scope		    INPUT_DATA
+    scope		    LOCAL_DATA
     machine		    1
     props {
       array {
@@ -2254,12 +2278,12 @@ Stateflow {
 	name			"inherit"
       }
     }
-    dataType		    "Inherit: Same as Simulink"
+    dataType		    "Inherit: From definition in chart"
   }
   data {
     id			    27
-    ssIdNumber		    91
-    name		    "last_x"
+    ssIdNumber		    92
+    name		    "last_y"
     linkNode		    [2 26 28]
     scope		    LOCAL_DATA
     machine		    1
@@ -2283,34 +2307,9 @@ Stateflow {
   }
   data {
     id			    28
-    ssIdNumber		    92
-    name		    "last_y"
-    linkNode		    [2 27 29]
-    scope		    LOCAL_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: From definition in chart"
-  }
-  data {
-    id			    29
     ssIdNumber		    112
     name		    "min_dist"
-    linkNode		    [2 28 30]
+    linkNode		    [2 27 29]
     scope		    CONSTANT_DATA
     machine		    1
     props {
@@ -2327,10 +2326,10 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    30
+    id			    29
     ssIdNumber		    113
     name		    "need_angle"
-    linkNode		    [2 29 31]
+    linkNode		    [2 28 30]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2352,10 +2351,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    31
+    id			    30
     ssIdNumber		    118
     name		    "last_phi"
-    linkNode		    [2 30 0]
+    linkNode		    [2 29 0]
     scope		    LOCAL_DATA
     machine		    1
     props {
@@ -2377,7 +2376,7 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   transition {
-    id			    32
+    id			    31
     labelString		    ""
     labelPosition	    [177.329 35.916 0 0]
     fontSize		    12
@@ -2390,7 +2389,7 @@ Stateflow {
     }
     midPoint		    [177.3291 35.9163]
     chart		    2
-    linkNode		    [2 0 33]
+    linkNode		    [2 0 32]
     dataLimits		    [174.929 179.729 20.916 50.916]
     subviewer		    2
     drawStyle		    SMART
@@ -2401,7 +2400,7 @@ Stateflow {
     ssIdNumber		    111
   }
   transition {
-    id			    33
+    id			    32
     labelString		    "[found_victim_xy == 1]"
     labelPosition	    [274.068 527.188 121.969 14]
     fontSize		    12
@@ -2415,7 +2414,7 @@ Stateflow {
     }
     midPoint		    [268.2013 532.3203]
     chart		    2
-    linkNode		    [2 32 0]
+    linkNode		    [2 31 0]
     dataLimits		    [265.801 270.601 492.466 580.174]
     subviewer		    2
     drawStyle		    SMART
@@ -2426,31 +2425,30 @@ Stateflow {
     ssIdNumber		    45
   }
   instance {
-    id			    34
+    id			    33
     name		    "traffic_cop_eyes1"
     machine		    1
     chart		    2
   }
   chart {
-    id			    35
+    id			    34
     name		    "stabilize_ir1"
     windowPosition	    [199.5 216.75 417 348.75]
-    viewLimits		    [290.9 913.9 86.751 499.251]
-    zoomFactor		    0.667
+    viewLimits		    [373.031 747.674 199.385 454.959]
+    zoomFactor		    0.401
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
-    treeNode		    [0 36 0 0]
-    firstTransition	    41
-    viewObj		    35
+    treeNode		    [0 35 0 0]
+    firstTransition	    40
+    viewObj		    34
+    visible		    1
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    10
     decomposition	    CLUSTER_CHART
-    firstData		    39
+    firstData		    38
     chartFileNumber	    9
     saturateOnIntegerOverflow 1
     userSpecifiedStateTransitionExecutionOrder 1
@@ -2458,49 +2456,55 @@ Stateflow {
     actionLanguage	    2
   }
   state {
-    id			    36
+    id			    35
     labelString		    "Nothing"
     position		    [445 262 56 30]
     fontSize		    12
-    chart		    35
-    treeNode		    [35 0 0 37]
+    chart		    34
+    treeNode		    [34 0 0 36]
     visible		    0
-    subviewer		    35
+    subviewer		    34
     ssIdNumber		    1
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
-    id			    37
+    id			    36
     labelString		    "Teddy\nen:\nir_stable = 1;\nex:\nir_stable = 0;"
     position		    [655.2 315.2 88.8 89.6]
     fontSize		    12
-    chart		    35
-    treeNode		    [35 0 36 38]
+    chart		    34
+    treeNode		    [34 0 35 37]
     visible		    0
-    subviewer		    35
+    subviewer		    34
     ssIdNumber		    4
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
-    id			    38
+    id			    37
     labelString		    "Something"
     position		    [436.4 345 73.2 30]
     fontSize		    12
-    chart		    35
-    treeNode		    [35 0 37 0]
+    chart		    34
+    treeNode		    [34 0 36 0]
     visible		    0
-    subviewer		    35
+    subviewer		    34
     ssIdNumber		    3
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   data {
-    id			    39
+    id			    38
     ssIdNumber		    9
     name		    "ir_signal"
-    linkNode		    [35 0 40]
+    linkNode		    [34 0 39]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2522,10 +2526,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    40
+    id			    39
     ssIdNumber		    10
     name		    "ir_stable"
-    linkNode		    [35 39 0]
+    linkNode		    [34 38 0]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2547,7 +2551,7 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   transition {
-    id			    41
+    id			    40
     labelString		    ""
     labelPosition	    [457.787 247 0 0]
     fontSize		    12
@@ -2555,14 +2559,14 @@ Stateflow {
       intersection	      [0 0 1 0 457.7867 232 0 0]
     }
     dst {
-      id		      36
+      id		      35
       intersection	      [1 0 -1 0.2283 457.7867 262 0 0]
     }
     midPoint		    [457.7867 247]
-    chart		    35
-    linkNode		    [35 0 42]
+    chart		    34
+    linkNode		    [34 0 41]
     dataLimits		    [455.387 460.187 232 262]
-    subviewer		    35
+    subviewer		    34
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -2571,23 +2575,23 @@ Stateflow {
     ssIdNumber		    2
   }
   transition {
-    id			    42
+    id			    41
     labelString		    "[ir_signal == 0]"
     labelPosition	    [663.374 256.826 80.691 16]
     fontSize		    12
     src {
-      id		      37
+      id		      36
       intersection	      [1 0 -1 0.5473 703.8 315.2 0 0]
     }
     dst {
-      id		      36
+      id		      35
       intersection	      [2 1 0 0.2934 501 270.8015 0 0]
     }
     midPoint		    [631.3744 268.0263]
-    chart		    35
-    linkNode		    [35 41 43]
+    chart		    34
+    linkNode		    [34 40 42]
     dataLimits		    [501 703.8 264.138 315.2]
-    subviewer		    35
+    subviewer		    34
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -2596,23 +2600,23 @@ Stateflow {
     ssIdNumber		    8
   }
   transition {
-    id			    43
+    id			    42
     labelString		    "[ir_signal == 0]"
     labelPosition	    [376.639 317.691 80.691 16]
     fontSize		    12
     src {
-      id		      38
+      id		      37
       intersection	      [1 0 -1 0.3689 463.4 345 0 0]
     }
     dst {
-      id		      36
+      id		      35
       intersection	      [3 -0 1 0.6714 463.4 292 0 0]
     }
     midPoint		    [463.4 322.5]
-    chart		    35
-    linkNode		    [35 42 44]
+    chart		    34
+    linkNode		    [34 41 43]
     dataLimits		    [461 465.8 292 345]
-    subviewer		    35
+    subviewer		    34
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -2621,23 +2625,23 @@ Stateflow {
     ssIdNumber		    6
   }
   transition {
-    id			    44
+    id			    43
     labelString		    "[ir_signal == 1]"
     labelPosition	    [474.489 314.422 80.691 16]
     fontSize		    12
     src {
-      id		      36
+      id		      35
       intersection	      [3 0 1 0.4714 474.6 292 0 0]
     }
     dst {
-      id		      38
+      id		      37
       intersection	      [1 -0 -1 0.5219 474.6 345 0 0]
     }
     midPoint		    [474.6 314.5]
-    chart		    35
-    linkNode		    [35 43 45]
+    chart		    34
+    linkNode		    [34 42 44]
     dataLimits		    [472.2 477 292 345]
-    subviewer		    35
+    subviewer		    34
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -2646,23 +2650,23 @@ Stateflow {
     ssIdNumber		    5
   }
   transition {
-    id			    45
-    labelString		    "[after(0.2,sec)]"
+    id			    44
+    labelString		    "[after(0.4,sec)]"
     labelPosition	    [544.8 341.2 79.34 16]
     fontSize		    12
     src {
-      id		      38
+      id		      37
       intersection	      [2 1 0 0.5 509.6 360 0 0]
     }
     dst {
-      id		      37
+      id		      36
       intersection	      [4 -1 0 0.5 655.2 360 0 0]
     }
     midPoint		    [578.4 360]
-    chart		    35
-    linkNode		    [35 44 0]
+    chart		    34
+    linkNode		    [34 43 0]
     dataLimits		    [509.6 655.2 357.6 362.4]
-    subviewer		    35
+    subviewer		    34
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -2671,13 +2675,13 @@ Stateflow {
     ssIdNumber		    7
   }
   instance {
-    id			    46
+    id			    45
     name		    "stabilize_ir1"
     machine		    1
-    chart		    35
+    chart		    34
   }
   target {
-    id			    47
+    id			    46
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
