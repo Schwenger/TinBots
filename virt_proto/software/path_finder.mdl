@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.113"
+    ComputedModelVersion    "1.117"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -134,7 +134,7 @@ Model {
 	LoadSaveID		"1"
 	Extents			[1246.0, 816.0]
 	ZoomFactor		[1.0]
-	Offset			[49.719177080784291, 725.639564060015]
+	Offset			[31.362147797179578, 579.36652453571969]
       }
     }
   }
@@ -144,9 +144,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jun 03 18:39:10 2016"
-  RTWModifiedTimeStamp	  386878629
-  ModelVersionFormat	  "1.%<AutoIncrement:113>"
+  LastModifiedDate	  "Sat Jun 04 14:57:44 2016"
+  RTWModifiedTimeStamp	  386953063
+  ModelVersionFormat	  "1.%<AutoIncrement:117>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1559,21 +1559,21 @@ Model {
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
-      "nYLimReal','2.73151','MaxYLimReal','13.9164','YLabelReal','','MinYLimMag','2.73151','MaxYLimMag','13.9164','Lege"
-      "ndVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274"
-      "509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.6235294"
-      "11764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.7176470"
-      "58823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLab"
-      "el>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',8,'LineNames',{{'proximity:1','proximi"
-      "ty:2','proximity:3','proximity:4','proximity:5','proximity:6','proximity:7','proximity:8'}},'ShowContent',true,'"
-      "Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','2.73151','MaxYLimReal','13.9164','YLabelReal','',"
-      "'MinYLimMag','2.73151','MaxYLimMag','13.9164','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',"
-      "false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',["
-      "0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.71764705882"
-      "3529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.07450"
-      "98039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAutoscale','XY'),e"
-      "xtmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[341 181 598 43"
-      "3])"
+      "nYLimReal','-0.20432','MaxYLimReal','1.83892','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.83892','Leg"
+      "endVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627"
+      "4509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529"
+      "411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647"
+      "058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLa"
+      "bel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',8,'LineNames',{{'proximity:1','proxim"
+      "ity:2','proximity:3','proximity:4','proximity:5','proximity:6','proximity:7','proximity:8'}},'ShowContent',true,"
+      "'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-0.20432','MaxYLimReal','1.83892','YLabelReal','"
+      "','MinYLimMag','0.00000','MaxYLimMag','1.83892','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase"
+      "',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder'"
+      ",[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647058"
+      "823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.074"
+      "5098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAutoscale','XY')"
+      ",extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1 42 1280 87"
+      "5])"
     }
     Block {
       BlockType		      Scope
@@ -1590,22 +1590,21 @@ Model {
       " 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666666666666"
       "67;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313725490196"
       "08 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980"
-      "392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'Line"
-      "Names',{{[]}},'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.625','MaxYLimReal','5.625','YLabelReal'"
-      ",'','MinYLimMag','0.625','MaxYLimMag','4.375','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',"
-      "false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',["
-      "1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.39215686274"
-      "5098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.07450"
-      "98039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}"
-      "},'NumLines',0,'LineNames',{{[]}},'ShowContent',true,'Placement',2)},'DisplayPropertyDefaults',struct('YLabelRea"
-      "l','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',["
-      "0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.71764705882"
-      "3529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.07450"
-      "98039215686 0.650980392156863]),'DisplayLayoutDimensions',[2 1],'DisplayContentCache',{struct('Title','%<SignalL"
-      "abel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'PlotMagPhase',false),struct('Title','%<SignalL"
-      "abel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'PlotMagPhase',false)}),extmgr.Configuration('T"
-      "ools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode','ZoomX'),extmgr.Configuration('Tools','Measur"
-      "ements',true,'Version','2016a')),'Version','2016a','Position',[1 42 1280 875])"
+      "392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'Line"
+      "Names',{{'Path Finder/Path_FinderMode'}},'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.625','MaxYLi"
+      "mReal','5.625','YLabelReal','','MinYLimMag','0.625','MaxYLimMag','4.375','LegendVisibility','Off','XGrid',true,'"
+      "YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.6862"
+      "74509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.1"
+      "6078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.058"
+      "8235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'U"
+      "serDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'Path Finder/points'}},'ShowContent',true,'Placement',2)"
+      "},'DisplayPropertyDefaults',struct('YLabelReal','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.6862"
+      "74509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.160784"
+      "31372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745"
+      "098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[2 1],'Di"
+      "splayContentCache',[]),extmgr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode'"
+      ",'ZoomX'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1 4"
+      "2 1280 875])"
       NumInputPorts	      "2"
     }
     Block {
@@ -1793,46 +1792,48 @@ Stateflow {
     name		    "path_finder"
     created		    "30-May-2016 23:07:56"
     isLibrary		    0
-    firstTarget		    49
+    firstTarget		    50
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [49.719 1295.719 725.64 1541.64]
+    viewLimits		    [31.362 1277.362 579.367 1395.367]
     zoomFactor		    1.333
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
-    treeNode		    [0 6 0 0]
-    firstTransition	    47
+    treeNode		    [0 10 0 0]
+    firstTransition	    48
     viewObj		    2
     visible		    1
     machine		    1
-    ssIdHighWaterMark	    91
+    subviewS {
+    }
+    ssIdHighWaterMark	    92
     decomposition	    CLUSTER_CHART
-    firstData		    22
+    firstData		    23
     chartFileNumber	    3
     saturateOnIntegerOverflow 1
     userSpecifiedStateTransitionExecutionOrder 1
     disableImplicitCasting  1
     actionLanguage	    2
-    outputData		    42
+    outputData		    43
     activeStateOutput {
       activityMode	      LEAF_STATE_ACTIVITY
       useCustomName	      1
       customName	      "Path_FinderMode"
       useCustomEnumTypeName   1
-      enumTypeName	      "Path_FinderModeType"
+      enumTypeName	      "Path_FinderModeType1"
     }
   }
   state {
     id			    3
     labelString		    "Inactive"
-    position		    [591.4857 588.0857 63.9523 30]
+    position		    [591.4857 685.0857 63.9523 30]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 7 9]
@@ -1841,11 +1842,13 @@ Stateflow {
     ssIdNumber		    29
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    4
     labelString		    "[row, col] = calculate_cell(distance, direction)"
-    position		    [666.9381 359.1976 375.4 54.2]
+    position		    [666.9381 456.1976 375.4 54.2]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 0 8]
@@ -1855,7 +1858,7 @@ Stateflow {
     ssIdNumber		    33
     type		    FUNC_STATE
     decomposition	    CLUSTER_STATE
-    firstData		    10
+    firstData		    11
     eml {
       isEML		      1
       script		      "function [row, col] = calculate_cell(distance, direction)\n    row = floor(current_y + distance *"
@@ -1869,10 +1872,10 @@ Stateflow {
     labelString		    "Running\nentry:\n	next_x = -1;\n	next_y = -1;\nduring:\n	coder.extrinsic('TinUtils.get_path_poin"
     "t');\n	if point_num <= points\n	    if  norm([current_x-next_x current_y-next_y]) <= drive_tolerance\n	        poi"
     "nt_num = point_num + 1\n	        drive = 0;\n	    else\n	        next_x = TinUtils.convert_path_point(TinUtils.get"
-    "_path_point(path, point_num, 2));\n	        next_y = TinUtils.convert_path_point(TinUtils.get_path_point(path, poi"
-    "nt_num, 1));\n	        step_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	"
+    "_path_point(path, point_num, 1));\n	        next_y = TinUtils.convert_path_point(TinUtils.get_path_point(path, poi"
+    "nt_num, 2));\n	        step_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	"
     "end\nex:\n	drive = 0;"
-    position		    [283.5333 1016.681 589.5238 328.5596]
+    position		    [283.5333 1113.681 584.5238 293.5596]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 9 0]
@@ -1881,26 +1884,30 @@ Stateflow {
     ssIdNumber		    50
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    6
     labelString		    "Collecting\n\nduring:\n	for i = 1:8\n	    [r, c] = calculate_cell(proximity(i) + 2.5, current_ph"
     "i + VIEW_DIRECTIONS(i));\n	    if (r ~= -1)\n	        map(rows + 1 - r, c) = 1;\n	    end\n	end"
-    position		    [161.3489 303.704 992.3333 1112.6667]
+    position		    [161.3489 400.704 992.3333 1112.6667]
     fontSize		    12
     chart		    2
-    treeNode		    [2 4 0 0]
-    firstTransition	    14
+    treeNode		    [2 4 10 0]
+    firstTransition	    15
     visible		    0
     subviewer		    2
     ssIdNumber		    76
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    7
     labelString		    "WaitZero\nex:\npath_completed = 0;\nno_path = 0;"
-    position		    [293.0714 585.6027 121.3333 70]
+    position		    [293.0714 682.6027 121.3333 70]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 8 3]
@@ -1909,11 +1916,13 @@ Stateflow {
     ssIdNumber		    78
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
+    eml {
+    }
   }
   state {
     id			    8
     labelString		    "is_blocked = path_blocked"
-    position		    [722.8714 452.5309 263.5333 54.2]
+    position		    [722.8714 549.5309 263.5333 54.2]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 4 7]
@@ -1923,14 +1932,15 @@ Stateflow {
     ssIdNumber		    83
     type		    FUNC_STATE
     decomposition	    CLUSTER_STATE
-    firstData		    21
+    firstData		    22
     eml {
       isEML		      1
       script		      "function is_blocked = path_blocked()\n\n% Can't easily use IR sensors here, since path_executor r"
-      "otates around a\n% lot.\n\nr = floor(current_y);\nc = floor(current_x);\n[drivable_distance, ~] = TinUtils.rayca"
-      "st_polymorphic(map, rows + 1 - r, c, step_phi, false);\ndrivable_distance = drivable_distance + TinUtils.radius;"
-      "\nexpect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blocked = expect_distance > drivable_di"
-      "stance + drive_tolerance;\n\nend\n"
+      "otates around a\n% lot.\n\nr = floor(current_y);\nc = floor(current_x);\n% Must \"forwards-mirror\" the input (r"
+      ",c,phi), which is \"unmirrored\" data\n[drivable_distance, ~] = TinUtils.raycast_polymorphic(map, rows + 1 - r, "
+      "c, -step_phi, false);\n% \"Unmirroring\" the distance is no-op\ndrivable_distance = drivable_distance + TinUtils"
+      ".radius;\nexpect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blocked = expect_distance > dri"
+      "vable_distance + drive_tolerance;\n\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -1939,7 +1949,7 @@ Stateflow {
     labelString		    "ComputePath\nen:\n	coder.extrinsic('TinUtils.calculate_path');\n	path = TinUtils.calculate_path("
     "map, dst_x, dst_y, current_x, current_y);\n	points = TinUtils.get_path_length(path);\n	if isempty(path)\n	    no_p"
     "ath = 1;\n	end\n	point_num = 1;"
-    position		    [488.5452 754.6972 417.6 144.7167]
+    position		    [488.5452 851.6972 417.6 144.7167]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 3 5]
@@ -1948,37 +1958,39 @@ Stateflow {
     ssIdNumber		    85
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-  }
-  data {
-    id			    10
-    ssIdNumber		    34
-    name		    "distance"
-    linkNode		    [4 0 11]
-    scope		    FUNCTION_INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
+    eml {
     }
-    dataType		    "Inherit: From definition in chart"
+  }
+  state {
+    id			    10
+    labelString		    "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\""
+    ">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; "
+    "}\n</style></head><body style=\" font-family:'Arial'; font-size:12px; font-weight:400; font-style:normal;\">\n<p s"
+    "tyle=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+    "\"><span style=\" font-size:18px; color:#c00000;\">Precisely the following variables contain</span></p>\n<p style="
+    "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><s"
+    "pan style=\" font-size:18px; color:#c00000;\">coordinates which is &quot;mirrored&quot;:</span></p>\n<p style=\" m"
+    "argin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+    "style=\" font-size:18px; color:#c00000;\">- map</span></p></body></html>"
+    position		    [484.8339 20.7019 319.8281 65]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 0 6]
+    isNoteBox		    1
+    noteBox {
+      interpretMode	      RICH_NOTE
+    }
+    visible		    0
+    subviewer		    2
+    ssIdNumber		    92
+    type		    GROUP_STATE
+    decomposition	    CLUSTER_STATE
   }
   data {
     id			    11
-    ssIdNumber		    35
-    name		    "direction"
-    linkNode		    [4 10 12]
+    ssIdNumber		    34
+    name		    "distance"
+    linkNode		    [4 0 12]
     scope		    FUNCTION_INPUT_DATA
     machine		    1
     props {
@@ -2001,10 +2013,10 @@ Stateflow {
   }
   data {
     id			    12
-    ssIdNumber		    38
-    name		    "row"
+    ssIdNumber		    35
+    name		    "direction"
     linkNode		    [4 11 13]
-    scope		    FUNCTION_OUTPUT_DATA
+    scope		    FUNCTION_INPUT_DATA
     machine		    1
     props {
       array {
@@ -2026,9 +2038,34 @@ Stateflow {
   }
   data {
     id			    13
+    ssIdNumber		    38
+    name		    "row"
+    linkNode		    [4 12 14]
+    scope		    FUNCTION_OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    14
     ssIdNumber		    39
     name		    "col"
-    linkNode		    [4 12 0]
+    linkNode		    [4 13 0]
     scope		    FUNCTION_OUTPUT_DATA
     machine		    1
     props {
@@ -2050,21 +2087,21 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   transition {
-    id			    14
+    id			    15
     labelString		    ""
-    labelPosition	    [618.901 573.086 0 0]
+    labelPosition	    [618.901 670.086 0 0]
     fontSize		    12
     src {
-      intersection	      [0 -0 1 0 618.901 558.0857 0 0]
+      intersection	      [0 -0 1 0 618.901 655.0857 0 0]
     }
     dst {
       id		      3
-      intersection	      [1 0 -1 0.4287 618.901 588.0857 0 0]
+      intersection	      [1 0 -1 0.4287 618.901 685.0857 0 0]
     }
-    midPoint		    [618.901 573.0857]
+    midPoint		    [618.901 670.0857]
     chart		    2
-    linkNode		    [6 0 15]
-    dataLimits		    [616.501 621.301 558.086 588.086]
+    linkNode		    [6 0 16]
+    dataLimits		    [616.501 621.301 655.086 685.086]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2074,22 +2111,22 @@ Stateflow {
     ssIdNumber		    77
   }
   transition {
-    id			    15
+    id			    16
     labelString		    "[compute == 0]"
-    labelPosition	    [454.32 584.31 82.031 16]
+    labelPosition	    [454.32 681.31 82.031 16]
     fontSize		    12
     src {
       id		      7
-      intersection	      [2 1 0 0.2721 414.4048 604.6525 0 0]
+      intersection	      [2 1 0 0.2721 414.4048 701.6525 0 0]
     }
     dst {
       id		      3
-      intersection	      [4 -1 0 0.4478 591.4857 604.6525 0 0]
+      intersection	      [4 -1 0 0.4478 591.4857 701.6525 0 0]
     }
-    midPoint		    [498.9452 604.6525]
+    midPoint		    [498.9452 701.6525]
     chart		    2
-    linkNode		    [6 14 16]
-    dataLimits		    [414.405 591.486 602.253 607.053]
+    linkNode		    [6 15 17]
+    dataLimits		    [414.405 591.486 699.253 704.053]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2099,23 +2136,23 @@ Stateflow {
     ssIdNumber		    79
   }
   transition {
-    id			    16
+    id			    17
     labelString		    "[compute == 1] {\n	coder.extrinsic('TinUtils.calculate_path');\n	path = TinUtils.calculate_path("
     "map, dst_x, dst_y, current_x, current_y);\n	points = TinUtils.get_path_length(path);\n}"
-    labelPosition	    [639.805 649.231 396.652 72]
+    labelPosition	    [639.805 746.231 396.652 72]
     fontSize		    12
     src {
       id		      3
-      intersection	      [3 0 1 0.4639 625.7687 618.0857 0 0]
+      intersection	      [3 0 1 0.4639 625.7687 715.0857 0 0]
     }
     dst {
       id		      9
-      intersection	      [1 -0 -1 0.3286 625.7687 754.6972 0 0]
+      intersection	      [1 -0 -1 0.3286 625.7687 851.6972 0 0]
     }
-    midPoint		    [625.7687 682.3914]
+    midPoint		    [625.7687 779.3914]
     chart		    2
-    linkNode		    [6 15 17]
-    dataLimits		    [623.369 628.169 618.086 754.697]
+    linkNode		    [6 16 18]
+    dataLimits		    [623.369 628.169 715.086 851.697]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2125,22 +2162,22 @@ Stateflow {
     ssIdNumber		    53
   }
   transition {
-    id			    17
+    id			    18
     labelString		    "[point_num > points]{path_completed = 1;}"
-    labelPosition	    [367.873 992.546 227.434 16]
+    labelPosition	    [367.873 1089.633 227.434 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [1 0 -1 0.1317 361.1811 1016.681 0 0]
+      intersection	      [1 0 -1 0.1328 361.1811 1113.681 0 0]
     }
     dst {
       id		      7
-      intersection	      [3 0 1 0.4387 361.1811 655.6027 0 0]
+      intersection	      [3 0 1 0.4387 361.1811 752.6027 0 0]
     }
-    midPoint		    [361.1811 840.1419]
+    midPoint		    [361.1811 937.1419]
     chart		    2
-    linkNode		    [6 16 18]
-    dataLimits		    [358.781 363.581 655.603 1016.681]
+    linkNode		    [6 17 19]
+    dataLimits		    [358.781 363.581 752.603 1113.681]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2150,22 +2187,22 @@ Stateflow {
     ssIdNumber		    70
   }
   transition {
-    id			    18
+    id			    19
     labelString		    "[no_path ~= 0]"
-    labelPosition	    [407.279 712.228 79.379 16]
+    labelPosition	    [407.279 809.228 79.379 16]
     fontSize		    12
     src {
       id		      9
-      intersection	      [4 -1 0 0.5353 488.5452 821.9443 0 0]
+      intersection	      [4 -1 0 0.5353 488.5452 918.9443 0 0]
     }
     dst {
       id		      7
-      intersection	      [3 0 1 0.2085 389.11 655.6027 0 0]
+      intersection	      [3 0 1 0.2085 389.11 752.6027 0 0]
     }
-    midPoint		    [415.4558 766.1453]
+    midPoint		    [415.4558 863.1453]
     chart		    2
-    linkNode		    [6 17 19]
-    dataLimits		    [386.71 488.545 655.603 821.944]
+    linkNode		    [6 18 20]
+    dataLimits		    [386.71 488.545 752.603 918.944]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2175,22 +2212,22 @@ Stateflow {
     ssIdNumber		    86
   }
   transition {
-    id			    19
+    id			    20
     labelString		    "[no_path == 0]"
-    labelPosition	    [671.609 905.707 79.379 16]
+    labelPosition	    [671.609 1002.09 79.379 16]
     fontSize		    12
     src {
       id		      9
-      intersection	      [3 0 1 0.3493 760.2863 899.4139 0 0]
+      intersection	      [3 0 1 0.3493 760.2863 996.4139 0 0]
     }
     dst {
       id		      5
-      intersection	      [1 -0 -1 0.8087 760.2863 1016.681 0 0]
+      intersection	      [1 -0 -1 0.8156 760.2863 1113.681 0 0]
     }
-    midPoint		    [760.2863 954.0475]
+    midPoint		    [760.2863 1051.0475]
     chart		    2
-    linkNode		    [6 18 20]
-    dataLimits		    [757.886 762.686 899.414 1016.681]
+    linkNode		    [6 19 21]
+    dataLimits		    [757.886 762.686 996.414 1113.681]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2200,22 +2237,22 @@ Stateflow {
     ssIdNumber		    87
   }
   transition {
-    id			    20
-    labelString		    "[drive ~= 0 && path_blocked() ~= 0]"
-    labelPosition	    [784.437 994.905 191.406 16]
+    id			    21
+    labelString		    "[drive == 1 && path_blocked() == 1]"
+    labelPosition	    [784.437 1092.522 191.406 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [1 0 -1 0.8416 779.6863 1016.681 0 0]
+      intersection	      [1 0 -1 0.8488 779.6863 1113.681 0 0]
     }
     dst {
       id		      9
-      intersection	      [3 0 1 0.3028 779.6863 899.4139 0 0]
+      intersection	      [3 0 1 0.3028 779.6863 996.4139 0 0]
     }
-    midPoint		    [779.6863 962.0475]
+    midPoint		    [779.6863 1059.0475]
     chart		    2
-    linkNode		    [6 19 0]
-    dataLimits		    [777.286 782.086 899.414 1016.681]
+    linkNode		    [6 20 0]
+    dataLimits		    [777.286 782.086 996.414 1113.681]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2225,7 +2262,7 @@ Stateflow {
     ssIdNumber		    82
   }
   data {
-    id			    21
+    id			    22
     ssIdNumber		    84
     name		    "is_blocked"
     linkNode		    [8 0 0]
@@ -2250,10 +2287,10 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   data {
-    id			    22
+    id			    23
     ssIdNumber		    27
     name		    "drive"
-    linkNode		    [2 0 23]
+    linkNode		    [2 0 24]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2270,10 +2307,10 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    23
+    id			    24
     ssIdNumber		    25
     name		    "proximity"
-    linkNode		    [2 22 24]
+    linkNode		    [2 23 25]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2292,29 +2329,9 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    24
+    id			    25
     ssIdNumber		    16
     name		    "dst_x"
-    linkNode		    [2 23 25]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      type {
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "double"
-  }
-  data {
-    id			    25
-    ssIdNumber		    17
-    name		    "dst_y"
     linkNode		    [2 24 26]
     scope		    INPUT_DATA
     machine		    1
@@ -2333,10 +2350,10 @@ Stateflow {
   }
   data {
     id			    26
-    ssIdNumber		    21
-    name		    "next_x"
+    ssIdNumber		    17
+    name		    "dst_y"
     linkNode		    [2 25 27]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       type {
@@ -2353,8 +2370,8 @@ Stateflow {
   }
   data {
     id			    27
-    ssIdNumber		    22
-    name		    "next_y"
+    ssIdNumber		    21
+    name		    "next_x"
     linkNode		    [2 26 28]
     scope		    OUTPUT_DATA
     machine		    1
@@ -2373,10 +2390,10 @@ Stateflow {
   }
   data {
     id			    28
-    ssIdNumber		    26
-    name		    "compute"
+    ssIdNumber		    22
+    name		    "next_y"
     linkNode		    [2 27 29]
-    scope		    INPUT_DATA
+    scope		    OUTPUT_DATA
     machine		    1
     props {
       type {
@@ -2384,6 +2401,7 @@ Stateflow {
 	isSigned		1
 	wordLength		"16"
       }
+      frame		      SF_FRAME_NO
       unit {
 	name			"inherit"
       }
@@ -2392,9 +2410,28 @@ Stateflow {
   }
   data {
     id			    29
+    ssIdNumber		    26
+    name		    "compute"
+    linkNode		    [2 28 30]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      type {
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    30
     ssIdNumber		    28
     name		    "no_path"
-    linkNode		    [2 28 30]
+    linkNode		    [2 29 31]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2411,10 +2448,10 @@ Stateflow {
     dataType		    "double"
   }
   data {
-    id			    30
+    id			    31
     ssIdNumber		    31
     name		    "map"
-    linkNode		    [2 29 31]
+    linkNode		    [2 30 32]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2436,34 +2473,9 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    31
+    id			    32
     ssIdNumber		    40
     name		    "current_x"
-    linkNode		    [2 30 32]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    32
-    ssIdNumber		    41
-    name		    "current_y"
     linkNode		    [2 31 33]
     scope		    INPUT_DATA
     machine		    1
@@ -2487,10 +2499,10 @@ Stateflow {
   }
   data {
     id			    33
-    ssIdNumber		    42
-    name		    "r"
+    ssIdNumber		    41
+    name		    "current_y"
     linkNode		    [2 32 34]
-    scope		    LOCAL_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -2508,12 +2520,12 @@ Stateflow {
 	name			"inherit"
       }
     }
-    dataType		    "Inherit: From definition in chart"
+    dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    34
-    ssIdNumber		    43
-    name		    "c"
+    ssIdNumber		    42
+    name		    "r"
     linkNode		    [2 33 35]
     scope		    LOCAL_DATA
     machine		    1
@@ -2537,8 +2549,8 @@ Stateflow {
   }
   data {
     id			    35
-    ssIdNumber		    44
-    name		    "VIEW_DIRECTIONS"
+    ssIdNumber		    43
+    name		    "c"
     linkNode		    [2 34 36]
     scope		    LOCAL_DATA
     machine		    1
@@ -2562,9 +2574,34 @@ Stateflow {
   }
   data {
     id			    36
+    ssIdNumber		    44
+    name		    "VIEW_DIRECTIONS"
+    linkNode		    [2 35 37]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    37
     ssIdNumber		    46
     name		    "current_phi"
-    linkNode		    [2 35 37]
+    linkNode		    [2 36 38]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2586,10 +2623,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    37
+    id			    38
     ssIdNumber		    59
     name		    "path"
-    linkNode		    [2 36 38]
+    linkNode		    [2 37 39]
     scope		    LOCAL_DATA
     machine		    1
     props {
@@ -2611,10 +2648,10 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   data {
-    id			    38
+    id			    39
     ssIdNumber		    71
     name		    "path_completed"
-    linkNode		    [2 37 39]
+    linkNode		    [2 38 40]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2636,31 +2673,9 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    39
+    id			    40
     ssIdNumber		    74
     name		    "cols"
-    linkNode		    [2 38 40]
-    scope		    CONSTANT_DATA
-    machine		    1
-    props {
-      initialValue	      "200"
-      type {
-	method			SF_DOUBLE_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      frame		      SF_FRAME_INHERITED
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "double"
-  }
-  data {
-    id			    40
-    ssIdNumber		    75
-    name		    "rows"
     linkNode		    [2 39 41]
     scope		    CONSTANT_DATA
     machine		    1
@@ -2681,9 +2696,31 @@ Stateflow {
   }
   data {
     id			    41
+    ssIdNumber		    75
+    name		    "rows"
+    linkNode		    [2 40 42]
+    scope		    CONSTANT_DATA
+    machine		    1
+    props {
+      initialValue	      "200"
+      type {
+	method			SF_DOUBLE_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "double"
+  }
+  data {
+    id			    42
     ssIdNumber		    88
     name		    "step_phi"
-    linkNode		    [2 40 42]
+    linkNode		    [2 41 43]
     scope		    LOCAL_DATA
     machine		    1
     props {
@@ -2705,10 +2742,10 @@ Stateflow {
     dataType		    "Inherit: From definition in chart"
   }
   data {
-    id			    42
+    id			    43
     ssIdNumber		    89
     name		    "Path_FinderMode"
-    linkNode		    [2 41 43]
+    linkNode		    [2 42 44]
     scope		    OUTPUT_DATA
     outputState		    2
     machine		    1
@@ -2716,7 +2753,7 @@ Stateflow {
       type {
 	method			SF_ENUM_TYPE
 	primitive		SF_ENUM_TYPE
-	enumType		"Path_FinderModeType"
+	enumType		"Path_FinderModeType1"
 	isSigned		1
 	wordLength		"16"
       }
@@ -2725,13 +2762,13 @@ Stateflow {
 	name			"inherit"
       }
     }
-    dataType		    "Enum: Path_FinderModeType"
+    dataType		    "Enum: Path_FinderModeType1"
   }
   data {
-    id			    43
+    id			    44
     ssIdNumber		    65
     name		    "points"
-    linkNode		    [2 42 44]
+    linkNode		    [2 43 45]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2755,34 +2792,9 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    44
+    id			    45
     ssIdNumber		    45
     name		    "i"
-    linkNode		    [2 43 45]
-    scope		    LOCAL_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: From definition in chart"
-  }
-  data {
-    id			    45
-    ssIdNumber		    90
-    name		    "point_num"
     linkNode		    [2 44 46]
     scope		    LOCAL_DATA
     machine		    1
@@ -2806,9 +2818,34 @@ Stateflow {
   }
   data {
     id			    46
+    ssIdNumber		    90
+    name		    "point_num"
+    linkNode		    [2 45 47]
+    scope		    LOCAL_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: From definition in chart"
+  }
+  data {
+    id			    47
     ssIdNumber		    91
     name		    "drive_tolerance"
-    linkNode		    [2 45 0]
+    linkNode		    [2 46 0]
     scope		    CONSTANT_DATA
     machine		    1
     props {
@@ -2827,26 +2864,26 @@ Stateflow {
     dataType		    "double"
   }
   transition {
-    id			    47
+    id			    48
     labelString		    "{\n	% write initial variables\n	drive = 0;\n	next_x = 0;\n	next_y = 0;\n	no_path = 0;\n	% sensor"
     " view directions from:\n	% https:%www.cyberbotics.com/guide/using-the-e-puck-robot.php\n	VIEW_DIRECTIONS = [mod(1."
     "27 - pi/2, 2 * pi)     mod(0.77 - pi/2, 2 * pi)     mod(0.00 - pi/2, 2 * pi)    mod(5.21 - pi/2, 2 * pi) ...\n    "
     "                                        mod(4.21 - pi/2, 2 * pi)     mod(pi - pi/2, 2 * pi)          mod(2.37 - pi"
     "/2, 2 * pi)    mod(1.87 - pi/2, 2 * pi)];\n	% create 200x200 matrix filled with zeros\n	map = zeros(rows, cols);\n"
     "}"
-    labelPosition	    [231.415 44.348 685.039 184]
+    labelPosition	    [231.415 141.348 685.039 184]
     fontSize		    12
     src {
-      intersection	      [0 0 1 0 216.4819 20.6812 0 0]
+      intersection	      [0 0 1 0 216.4819 117.6812 0 0]
     }
     dst {
       id		      6
-      intersection	      [1 0 -1 0.0556 216.4819 303.704 0 0]
+      intersection	      [1 0 -1 0.0556 216.4819 400.704 0 0]
     }
-    midPoint		    [216.4819 158.1926]
+    midPoint		    [216.4819 255.1926]
     chart		    2
     linkNode		    [2 0 0]
-    dataLimits		    [214.082 218.882 20.681 303.704]
+    dataLimits		    [214.082 218.882 117.681 400.704]
     subviewer		    2
     drawStyle		    SMART
     slide {
@@ -2856,13 +2893,13 @@ Stateflow {
     ssIdNumber		    30
   }
   instance {
-    id			    48
+    id			    49
     name		    "Path Finder"
     machine		    1
     chart		    2
   }
   target {
-    id			    49
+    id			    50
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
