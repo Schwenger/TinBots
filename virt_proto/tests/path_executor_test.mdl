@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.5"
+    ComputedModelVersion    "1.6"
     NumModelReferences	    1
     ModelReference {
       ModelRefBlockPath	      "path_executor_test/path_executor|Path"
@@ -46,7 +46,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1280.0, 0.0, 1280.0, 983.0]
+      Location		      [0.0, 0.0, 1920.0, 1052.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -55,7 +55,7 @@ Model {
 	DockPosition		"Left"
 	Width			[50]
 	Height			[50]
-	Filter			[9]
+	Filter			[59]
       }
       Object {
 	$PropName		"ExplorerBarInfo"
@@ -63,16 +63,28 @@ Model {
 	$ClassName		"Simulink.ExplorerBarInfo"
 	Visible			[1]
       }
-      Object {
-	$PropName		"EditorsInfo"
-	$ObjectID		6
-	$ClassName		"Simulink.EditorInfo"
-	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.25]
-	Offset			[111.64523382842192, 187.74143149171522]
+      Array {
+	Type			"Simulink.EditorInfo"
+	Dimension		2
+	Object {
+	  $ObjectID		  6
+	  IsActive		  [1]
+	  ViewObjType		  "SimulinkTopLevel"
+	  LoadSaveID		  "0"
+	  Extents		  [1886.0, 877.0]
+	  ZoomFactor		  [0.6]
+	  Offset		  [-665.478884249925, -173.33543136120454]
+	}
+	Object {
+	  $ObjectID		  7
+	  IsActive		  [0]
+	  ViewObjType		  "SimulinkSubsys"
+	  LoadSaveID		  "19"
+	  Extents		  [1886.0, 877.0]
+	  ZoomFactor		  [1.0]
+	  Offset		  [0.0, 0.0]
+	}
+	PropName		"EditorsInfo"
       }
     }
   }
@@ -80,11 +92,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "marlene"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jun 04 15:19:01 2016"
-  RTWModifiedTimeStamp	  386954242
-  ModelVersionFormat	  "1.%<AutoIncrement:5>"
+  LastModifiedDate	  "Sat Jun 04 21:15:18 2016"
+  RTWModifiedTimeStamp	  386975664
+  ModelVersionFormat	  "1.%<AutoIncrement:6>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -114,9 +126,9 @@ Model {
   BlockDescriptionStringDataTip	off
   ToolBar		  on
   StatusBar		  on
-  BrowserShowLibraryLinks off
+  BrowserShowLibraryLinks on
   FunctionConnectors	  off
-  BrowserLookUnderMasks	  off
+  BrowserLookUnderMasks	  on
   SimulationMode	  "normal"
   PauseTimes		  "5"
   NumberOfSteps		  1
@@ -132,10 +144,10 @@ Model {
   TryForcingSFcnDF	  off
   Object {
     $PropName		    "DataLoggingOverride"
-    $ObjectID		    7
+    $ObjectID		    8
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "path_executor_test"
-    overrideMode_	    [0U]
+    overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
       Dimension		      1
@@ -176,13 +188,13 @@ Model {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      8
+      $ObjectID		      9
       Version		      "1.16.2"
       Array {
 	Type			"Handle"
 	Dimension		10
 	Simulink.SolverCC {
-	  $ObjectID		  9
+	  $ObjectID		  10
 	  Version		  "1.16.2"
 	  StartTime		  "0.0"
 	  StopTime		  "35"
@@ -219,7 +231,7 @@ Model {
 	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  10
+	  $ObjectID		  11
 	  Version		  "1.16.2"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
@@ -257,7 +269,7 @@ Model {
 	  LoggingIntervals	  "[-inf, inf]"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  11
+	  $ObjectID		  12
 	  Version		  "1.16.2"
 	  Array {
 	    Type		    "Cell"
@@ -314,7 +326,7 @@ Model {
 	  AccelVerboseBuild	  off
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  12
+	  $ObjectID		  13
 	  Version		  "1.16.2"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
@@ -409,7 +421,7 @@ Model {
 	  AllowAutomaticUnitConversions	on
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  13
+	  $ObjectID		  14
 	  Version		  "1.16.2"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
@@ -451,7 +463,7 @@ Model {
 	  UseSimulinkCoderFeatures on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  14
+	  $ObjectID		  15
 	  Version		  "1.16.2"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  EnableRefExpFcnMdlSchedulingChecks on
@@ -467,7 +479,7 @@ Model {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  15
+	  $ObjectID		  16
 	  Version		  "1.16.2"
 	  SFSimEcho		  on
 	  SimCtrlC		  on
@@ -479,7 +491,7 @@ Model {
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  16
+	  $ObjectID		  17
 	  Version		  "1.16.2"
 	  Array {
 	    Type		    "Cell"
@@ -551,7 +563,7 @@ Model {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      17
+	      $ObjectID		      18
 	      Version		      "1.16.2"
 	      Array {
 		Type			"Cell"
@@ -622,7 +634,7 @@ Model {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      18
+	      $ObjectID		      19
 	      Version		      "1.16.2"
 	      Array {
 		Type			"Cell"
@@ -707,7 +719,7 @@ Model {
 	  }
 	}
 	SlCovCC.ConfigComp {
-	  $ObjectID		  19
+	  $ObjectID		  20
 	  Version		  "1.16.2"
 	  Description		  "Simulink Coverage Configuration Component"
 	  Name			  "Simulink Coverage"
@@ -740,7 +752,7 @@ Model {
 	  CovStopTime		  0
 	}
 	hdlcoderui.hdlcc {
-	  $ObjectID		  20
+	  $ObjectID		  21
 	  Version		  "1.16.2"
 	  Description		  "HDL Coder custom configuration component"
 	  Name			  "HDL Coder"
@@ -762,11 +774,11 @@ Model {
   }
   Simulink.ConfigSet {
     $PropName		    "ActiveConfigurationSet"
-    $ObjectID		    8
+    $ObjectID		    9
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    21
+    $ObjectID		    22
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -827,6 +839,11 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      Clock
+      DisplayTime	      off
+      Decimation	      "10"
+    }
+    Block {
       BlockType		      Constant
       Value		      "1"
       VectorParams1D	      on
@@ -872,15 +889,38 @@ Model {
       CopyOfModelProtected    off
     }
     Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
       BlockType		      Scope
       DefaultConfigurationName "Simulink.scopes.TimeScopeBlockCfg"
       NumInputPorts	      "1"
       Floating		      off
     }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      AllowDiffInputSizes     off
+    }
   }
   System {
     Name		    "path_executor_test"
-    Location		    [1280, 0, 2560, 983]
+    Location		    [0, 0, 1920, 1052]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -892,9 +932,38 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "125"
+    ZoomFactor		    "60"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "14"
+    SIDHighWatermark	    "28"
+    Block {
+      BlockType		      Clock
+      Name		      "Clock"
+      SID		      "24"
+      Position		      [-345, 460, -325, 480]
+      ZOrder		      380
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      SID		      "25"
+      Position		      [-480, 415, -450, 445]
+      ZOrder		      381
+      Value		      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      SID		      "26"
+      Position		      [-480, 425, -450, 455]
+      ZOrder		      382
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      SID		      "28"
+      Position		      [-480, 435, -450, 465]
+      ZOrder		      384
+    }
     Block {
       BlockType		      Demux
       Name		      "Demux"
@@ -922,6 +991,17 @@ Model {
       FunctionWithSeparateData off
       GeneratePreprocessorConditionals off
       ContentPreviewEnabled   off
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      SID		      "27"
+      Ports		      [3, 1]
+      Position		      [-305, 421, -300, 459]
+      ZOrder		      383
+      ShowName		      off
+      Inputs		      "3"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Scope
@@ -976,9 +1056,35 @@ Model {
       "0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.83137254901960"
       "8 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',["
       "3 2]),extmgr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode','ZoomY'),extmgr."
-      "Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1 42 1280 875],'Visi"
-      "bleAtModelOpen','on')"
+      "Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1 42 1280 875])"
       NumInputPorts	      "5"
+    }
+    Block {
+      BlockType		      Switch
+      Name		      "Switch"
+      SID		      "23"
+      Position		      [-205, 422, -130, 518]
+      ZOrder		      379
+      Criteria		      "u2 > Threshold"
+      Threshold		      "0.01"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Tin Bot Approximator"
+      SID		      "19"
+      Ports		      [3, 1]
+      Position		      [-25, 391, 210, 489]
+      ZOrder		      375
+      LibraryVersion	      "1.204"
+      SourceBlock	      "tinbot/Tin Bot Approximator"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      GeneratePreprocessorConditionals off
+      ContentPreviewEnabled   off
     }
     Block {
       BlockType		      Constant
@@ -997,7 +1103,7 @@ Model {
       ModelNameDialog	      "Path.slx"
       SimulationMode	      "Normal"
       Variant		      off
-      ModelReferenceVersion   "1.30"
+      ModelReferenceVersion   "1.35"
       List {
 	ListType		InputPortNames
 	port0			"drive"
@@ -1083,7 +1189,7 @@ Model {
       BlockType		      Constant
       Name		      "x_0, y_0, phi_0"
       SID		      "5"
-      Position		      [160, 423, 280, 457]
+      Position		      [-395, 483, -275, 517]
       ZOrder		      363
       Value		      "[30; 0; 0]"
     }
@@ -1140,18 +1246,18 @@ Model {
       DstPort		      3
     }
     Line {
-      ZOrder		      4
-      SrcBlock		      "x_0, y_0, phi_0"
+      ZOrder		      77
+      SrcBlock		      "Tin Bot Approximator"
       SrcPort		      1
-      Points		      [100, 0]
+      Points		      [170, 0]
       Branch {
-	ZOrder			56
+	ZOrder			78
 	Points			[0, 523; 875, 0]
 	DstBlock		"Demux"
 	DstPort			1
       }
       Branch {
-	ZOrder			11
+	ZOrder			76
 	DstBlock		"path_executor"
 	DstPort			4
       }
@@ -1165,8 +1271,17 @@ Model {
       Branch {
 	ZOrder			60
 	Points			[0, 180]
-	DstBlock		"E-Puck Differential Drive"
-	DstPort			1
+	Branch {
+	  ZOrder		  89
+	  Points		  [-819, 0; 0, -95]
+	  DstBlock		  "Tin Bot Approximator"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  88
+	  DstBlock		  "E-Puck Differential Drive"
+	  DstPort		  1
+	}
       }
       Branch {
 	ZOrder			39
@@ -1184,8 +1299,17 @@ Model {
       Branch {
 	ZOrder			61
 	Points			[0, 140]
-	DstBlock		"E-Puck Differential Drive"
-	DstPort			2
+	Branch {
+	  ZOrder		  91
+	  Points		  [-789, 0; 0, -120]
+	  DstBlock		  "Tin Bot Approximator"
+	  DstPort		  2
+	}
+	Branch {
+	  ZOrder		  90
+	  DstBlock		  "E-Puck Differential Drive"
+	  DstPort		  2
+	}
       }
       Branch {
 	ZOrder			38
@@ -1278,5 +1402,76 @@ Model {
 	DstPort			5
       }
     }
+    Line {
+      ZOrder		      81
+      SrcBlock		      "x_0, y_0, phi_0"
+      SrcPort		      1
+      DstBlock		      "Switch"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      80
+      SrcBlock		      "Clock"
+      SrcPort		      1
+      DstBlock		      "Switch"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      83
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      DstBlock		      "Switch"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      84
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      85
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      86
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      87
+      SrcBlock		      "Switch"
+      SrcPort		      1
+      DstBlock		      "Tin Bot Approximator"
+      DstPort		      3
+    }
+  }
+}
+#Finite State Machines
+#
+#   Stateflow 80000009
+#
+#
+Stateflow {
+  machine {
+    id			    1
+    name		    "path_executor_test"
+    created		    "04-Jun-2016 21:00:24"
+    isLibrary		    0
+    firstTarget		    2
+    sfVersion		    80000009
+  }
+  target {
+    id			    2
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
   }
 }
