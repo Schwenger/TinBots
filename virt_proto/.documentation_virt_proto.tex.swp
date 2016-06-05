@@ -1,0 +1,122 @@
+\documentclass[a4paper,parskip,headheight=38pt]{scrartcl} % article or scrartcl
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[%
+  automark,
+  headsepline                %% Separation line below the header
+]{scrlayer-scrpage}
+\usepackage[english]{babel}
+\usepackage{hyphenat}
+\usepackage[hidelinks]{hyperref}
+\usepackage[top=1.4in, bottom=1.5in, left=1in, right=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{datetime}
+
+\usepackage[normalem]{ulem}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\usepackage{microtype}
+
+\usepackage[hang]{footmisc}
+\setlength{\footnotemargin}{3mm}
+
+\usepackage{enumitem}
+
+\usepackage[export]{adjustbox}
+
+% \usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{graphics}
+% \usepackage{float}
+% \usepackage{caption}
+
+\parindent 0pt
+\parskip 6pt
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\renewcommand\thesubsection{\Alph{subsection}}
+
+\setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
+\addtolength{\headheight}{+13pt}
+\lohead{Marlene Böhmer, s9meboeh@stud.uni-saarland.de, 2547718 \\
+	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
+	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
+	Ben Wiederhake, s9bewied@stud.uni-saarland.de, 2541266}
+\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Specification, Group 6, Page {\thepage}/{\pageref*{LastPage}}}
+
+\newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
+\settimeformat{mytime}
+\newdateformat{mydate}{\twodigit{\THEYEAR}\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+\cfoot{\tiny\texttt{ID \mydate\today\currenttime}}
+\chead{} % Needed because now the \subsections get displayed
+\pagestyle{scrheadings}
+
+% \renewcommand{\headrulewidth}{0pt}
+% \addtolength{\textheight}{+30mm}
+% \addtolength{\textwidth}{+50mm}
+% \addtolength{\hoffset}{-7mm}
+
+% \newcommand{\Omicron}{\ensuremath{\mathcal{O}}}
+% \newcommand{\omicron}{\ensuremath{o}}
+% \newcommand{\set}[1]{\{#1\}}
+% \newcommand{\abs}[1]{\lvert #1 \rvert}
+
+\DeclareMathOperator{\sinc}{sinc}
+
+\begin{document}
+We wrote our own library which contains custom blocks that allow us to build simulations. Because of the complexity of the whole system we decided to use a unit-test-like approach to test specific components.
+
+You will find an overview over all customs blocks in the library file itself.
+
+% <FIXME: insert screenshot>
+
+\section{Environment}
+Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into MatLab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
+
+E-Puck's motor is realized by a custom differential drive block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
+
+The complete physical Tin Bot is represented by the block \enquote{Tin Bot Physical}. This block feeds the differential drive's data (position and orientation) in the appropriate sensor blocks — taking the orientation offset of the sensors into account — such that their values can be computed appropriately using raycasting.
+
+According to the Tin Bot's current position given by the differential drive the matrix is updated such that Tin Bots cannot drive through each other. Therefore, a Tin Bot Introducer block has to be connected to the block representing the physical Tin Bot. This block writes an appropriate value in the matrix at the Tin Bot's current position. To use multiple Tin Bots within the simulation, the Introducer blocks are chained such that at the end there is a matrix containing all the Tin Bots.
+
+The map used by the Tin Bot's sensors, however, must not contain its own Tin Bot. Therefore, the Tin Bot Eliminator block deletes the respective entry from the environment. This prevents the sensors from detecting themselves.
+
+The LPS block takes the environment's data and feeds it into the Tin Bots every two seconds. This data is then used within the software blocks. The LPS block allows for two states, enabled and disabled as described in our specification document.
+
+The output of the control software is fed back to the environment, which allows us to model real world physics.
+
+\section{Components}
+Besides the model of the environment, there are various other components mainly modeling the software running on the Tin Bot as Stateflow charts.
+
+<FIXME insert description of the software components>
+
+\section{Test Cases}
+As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
+
+\begin{description}
+\item[drive\_test] tests the physical model of differential drive isolated from any logic.
+\item[proximity\_test] tests the physical model of the proximity sensors separately. % note that there is no adverb for isolated, thus separately
+\item[ir\_test] tests the physical model of the isolated IR sensor.
+\item[traffic\_blind\_test] tests the \enquote{blind} part of the traffic cop, i.e.\ without any IR-sensor input.
+\item[victim\_direction\_test] tests victim direction calculation, i.e.\ the logic used to approximate the angle from the Tin Bot to the victim based on IR-sensor input.
+\item[path\_finder\_test] tests internal map generation and escape path calculation, i.e.\ in essence also a test for \textbf{UC-D}, since one can see that the logic is able to deal with formerly unknown obstacles and behave reasonably.
+\item[approximator\_test] tests approximation of current position and orientation based on the motors data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
+\item[follow\_right\_hand\_test] tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
+\item[controller\_test] tests the complete control software, and use cases \textbf{UC-E} and \textbf{UC-F}
+\end{description}
+
+% <TODO: add a manual switch to change the map (use case D)>
+
+% <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
+
+Use cases \textbf{UC-A} and \textbf{UC-B} are modeled implicitly, because startup corresponds to starting the simulation, and shutdown corresponds to stopping the simulation.
+Use case \textbf{UC-C} corresponds to a nice to have feature and is not model. We did, however, not model more than one Tin Bot at a time, so the failure of one has no impact anyways.
+
+\end{document}
