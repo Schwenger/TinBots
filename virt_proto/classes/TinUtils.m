@@ -22,7 +22,7 @@ classdef TinUtils < handle
             grid = robotics.BinaryOccupancyGrid(matrix, 1);
             
             % inflate walls with robot radius
-            inflate(grid, 2);
+            %inflate(grid, 1);
             
             
             start_location = [floor(current_x) floor(current_y)];
