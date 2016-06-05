@@ -39,7 +39,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.9"
+    ComputedModelVersion    "1.10"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -97,11 +97,11 @@ Model {
 	$ObjectID		6
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
+	ViewObjType		"StateflowChart"
+	LoadSaveID		"20"
 	Extents			[1246.0, 785.0]
-	ZoomFactor		[1.75]
-	Offset			[263.5615716401656, 184.26813589805229]
+	ZoomFactor		[1.2298828896138894]
+	Offset			[-203.72809474375828, 9.1592734559789051]
       }
     }
   }
@@ -111,9 +111,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jun 04 13:26:25 2016"
-  RTWModifiedTimeStamp	  386946514
-  ModelVersionFormat	  "1.%<AutoIncrement:9>"
+  LastModifiedDate	  "Sun Jun 05 20:10:24 2016"
+  RTWModifiedTimeStamp	  387058221
+  ModelVersionFormat	  "1.%<AutoIncrement:10>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -977,7 +977,7 @@ Model {
   System {
     Name		    "traffic_cop_eyes"
     Location		    [0, 31, 1280, 983]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -988,7 +988,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "175"
+    ZoomFactor		    "109"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "21"
     Block {
@@ -1153,7 +1153,7 @@ Model {
       "47058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 "
       "0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[3 2]),extmgr.Configuration('Tools','Plot Navig"
       "ation',true,'OnceAtStop',false,'PreviousZoomMode','ZoomX','PreviousAutoscale','X'),extmgr.Configuration('Tools',"
-      "'Measurements',true,'Version','2016a')),'Version','2016a','Position',[1 42 1280 875],'VisibleAtModelOpen','on')"
+      "'Measurements',true,'Version','2016a')),'Version','2016a','Position',[2 40 1278 877],'VisibleAtModelOpen','on')"
       NumInputPorts	      "5"
     }
     Block {
@@ -1310,7 +1310,7 @@ Model {
       System {
 	Name			"traffic_cop_eyes1"
 	Location		[0, 31, 1280, 983]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1750,8 +1750,8 @@ Stateflow {
     id			    2
     name		    "traffic_cop_eyes1"
     windowPosition	    [1280 31 1280 983]
-    viewLimits		    [-135.758 695.013 59.581 582.98]
-    zoomFactor		    0.889
+    viewLimits		    [-203.728 809.376 9.159 647.431]
+    zoomFactor		    1.084
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -1793,8 +1793,6 @@ Stateflow {
     ssIdNumber		    109
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -1808,8 +1806,6 @@ Stateflow {
     ssIdNumber		    101
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    5
@@ -1823,8 +1819,6 @@ Stateflow {
     ssIdNumber		    97
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -1859,8 +1853,6 @@ Stateflow {
     ssIdNumber		    107
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
@@ -1874,8 +1866,6 @@ Stateflow {
     ssIdNumber		    103
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    9
@@ -1889,8 +1879,6 @@ Stateflow {
     ssIdNumber		    110
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   transition {
     id			    10
@@ -2347,7 +2335,7 @@ Stateflow {
     scope		    CONSTANT_DATA
     machine		    1
     props {
-      initialValue	      "5"
+      initialValue	      "13"
       type {
 	primitive		SF_DOUBLE_TYPE
 	isSigned		1
@@ -2479,8 +2467,6 @@ Stateflow {
     firstTransition	    40
     viewObj		    34
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    10
     decomposition	    CLUSTER_CHART
     firstData		    38
@@ -2502,8 +2488,6 @@ Stateflow {
     ssIdNumber		    1
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    36
@@ -2517,8 +2501,6 @@ Stateflow {
     ssIdNumber		    4
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    37
@@ -2532,8 +2514,6 @@ Stateflow {
     ssIdNumber		    3
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   data {
     id			    38
