@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.117"
+    ComputedModelVersion    "1.127"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -133,8 +133,8 @@ Model {
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"1"
 	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.0]
-	Offset			[31.362147797179578, 579.36652453571969]
+	ZoomFactor		[1.75]
+	Offset			[262.93805714285747, 941.032228571429]
       }
     }
   }
@@ -144,9 +144,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jun 04 14:57:44 2016"
-  RTWModifiedTimeStamp	  386953063
-  ModelVersionFormat	  "1.%<AutoIncrement:117>"
+  LastModifiedDate	  "Sun Jun 05 18:14:41 2016"
+  RTWModifiedTimeStamp	  387051024
+  ModelVersionFormat	  "1.%<AutoIncrement:127>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1006,6 +1006,14 @@ Model {
       Interpolate	      on
     }
     Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
       BlockType		      Outport
       Port		      "1"
       OutMin		      "[]"
@@ -1085,14 +1093,14 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "175"
+    ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "20"
+    SIDHighWatermark	    "24"
     Block {
       BlockType		      Inport
       Name		      "proximity"
       SID		      "2"
-      Position		      [250, 268, 280, 282]
+      Position		      [250, 263, 280, 277]
       ZOrder		      357
       IconDisplay	      "Port number"
       PortDimensions	      "[8]"
@@ -1101,7 +1109,7 @@ Model {
       BlockType		      Inport
       Name		      "current_x_y_phi"
       SID		      "3"
-      Position		      [250, 493, 280, 507]
+      Position		      [250, 538, 280, 552]
       ZOrder		      358
       Port		      "2"
       IconDisplay	      "Port number"
@@ -1111,7 +1119,7 @@ Model {
       BlockType		      Inport
       Name		      "dst_x"
       SID		      "4"
-      Position		      [250, 313, 280, 327]
+      Position		      [250, 318, 280, 332]
       ZOrder		      359
       Port		      "3"
       IconDisplay	      "Port number"
@@ -1120,7 +1128,7 @@ Model {
       BlockType		      Inport
       Name		      "dst_y"
       SID		      "5"
-      Position		      [250, 358, 280, 372]
+      Position		      [250, 373, 280, 387]
       ZOrder		      360
       Port		      "4"
       IconDisplay	      "Port number"
@@ -1129,7 +1137,7 @@ Model {
       BlockType		      Inport
       Name		      "compute"
       SID		      "8"
-      Position		      [250, 403, 280, 417]
+      Position		      [250, 428, 280, 442]
       ZOrder		      363
       Port		      "5"
       IconDisplay	      "Port number"
@@ -1139,7 +1147,7 @@ Model {
       Name		      "Demux"
       SID		      "15"
       Ports		      [1, 3]
-      Position		      [325, 435, 335, 565]
+      Position		      [325, 462, 335, 628]
       ZOrder		      370
       ShowName		      off
       Outputs		      "3"
@@ -1150,7 +1158,7 @@ Model {
       Name		      "Internal Map"
       SID		      "14"
       Ports		      [1]
-      Position		      [975, 410, 1020, 460]
+      Position		      [870, 395, 915, 445]
       ZOrder		      369
       LibraryVersion	      "1.537"
       SourceBlock	      "dspsnks4/Matrix\nViewer"
@@ -1173,11 +1181,56 @@ Model {
       AxisZoom		      off
     }
     Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      SID		      "21"
+      Ports		      [2, 1]
+      Position		      [900, 498, 905, 567]
+      ZOrder		      375
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      SID		      "22"
+      Ports		      [2, 1]
+      Position		      [900, 651, 905, 689]
+      ZOrder		      376
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+      Port {
+	PortNumber		1
+	Name			"cur/next Y"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux2"
+      SID		      "23"
+      Ports		      [2, 1]
+      Position		      [900, 606, 905, 644]
+      ZOrder		      377
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+      Port {
+	PortNumber		1
+	Name			"cur/next X"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
       BlockType		      SubSystem
       Name		      "Path Finder"
       SID		      "1"
-      Ports		      [7, 8]
-      Position		      [385, 247, 615, 583]
+      Ports		      [7, 11]
+      Position		      [385, 253, 640, 627]
       ZOrder		      356
       LibraryVersion	      "1.267"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -1201,7 +1254,7 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"121"
+	SIDHighWatermark	"124"
 	Block {
 	  BlockType		  Inport
 	  Name			  "proximity"
@@ -1269,7 +1322,7 @@ Model {
 	  Name			  " Demux "
 	  SID			  "1::78"
 	  Ports			  [1, 1]
-	  Position		  [270, 425, 320, 465]
+	  Position		  [270, 530, 320, 570]
 	  ZOrder		  58
 	  Outputs		  "1"
 	}
@@ -1278,11 +1331,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "1::77"
 	  Tag			  "Stateflow S-Function path_finder 3"
-	  Ports			  [7, 9]
-	  Position		  [180, 155, 230, 355]
+	  Ports			  [7, 12]
+	  Position		  [180, 155, 230, 415]
 	  ZOrder		  57
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[7 9]"
+	  PortCounts		  "[7 12]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  Port {
@@ -1329,7 +1382,25 @@ Model {
 	  }
 	  Port {
 	    PortNumber		    9
+	    Name		    "point_num"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    10
 	    Name		    "points"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    11
+	    Name		    "pt_dist"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    12
+	    Name		    "output_version"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
 	  }
@@ -1338,7 +1409,7 @@ Model {
 	  BlockType		  Terminator
 	  Name			  " Terminator "
 	  SID			  "1::110"
-	  Position		  [460, 436, 480, 454]
+	  Position		  [460, 541, 480, 559]
 	  ZOrder		  89
 	}
 	Block {
@@ -1405,57 +1476,84 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "points"
-	  SID			  "1::119"
+	  Name			  "point_num"
+	  SID			  "1::122"
 	  Position		  [460, 351, 480, 369]
-	  ZOrder		  97
+	  ZOrder		  98
 	  Port			  "8"
 	  IconDisplay		  "Port number"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "points"
+	  SID			  "1::119"
+	  Position		  [460, 386, 480, 404]
+	  ZOrder		  97
+	  Port			  "9"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pt_dist"
+	  SID			  "1::123"
+	  Position		  [460, 426, 480, 444]
+	  ZOrder		  99
+	  Port			  "10"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "output_version"
+	  SID			  "1::124"
+	  Position		  [460, 461, 480, 479]
+	  ZOrder		  100
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	}
 	Line {
-	  ZOrder		  241
+	  ZOrder		  313
 	  SrcBlock		  "proximity"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  242
+	  ZOrder		  314
 	  SrcBlock		  "dst_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  243
+	  ZOrder		  315
 	  SrcBlock		  "dst_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  244
+	  ZOrder		  316
 	  SrcBlock		  "compute"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  ZOrder		  245
+	  ZOrder		  317
 	  SrcBlock		  "current_x"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  5
 	}
 	Line {
-	  ZOrder		  246
+	  ZOrder		  318
 	  SrcBlock		  "current_y"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  6
 	}
 	Line {
-	  ZOrder		  247
+	  ZOrder		  319
 	  SrcBlock		  "current_phi"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
@@ -1463,7 +1561,7 @@ Model {
 	}
 	Line {
 	  Name			  "drive"
-	  ZOrder		  248
+	  ZOrder		  320
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1472,7 +1570,7 @@ Model {
 	}
 	Line {
 	  Name			  "next_x"
-	  ZOrder		  249
+	  ZOrder		  321
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -1481,7 +1579,7 @@ Model {
 	}
 	Line {
 	  Name			  "next_y"
-	  ZOrder		  250
+	  ZOrder		  322
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  4
@@ -1490,7 +1588,7 @@ Model {
 	}
 	Line {
 	  Name			  "no_path"
-	  ZOrder		  251
+	  ZOrder		  323
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  5
@@ -1499,7 +1597,7 @@ Model {
 	}
 	Line {
 	  Name			  "map"
-	  ZOrder		  252
+	  ZOrder		  324
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  6
@@ -1508,7 +1606,7 @@ Model {
 	}
 	Line {
 	  Name			  "path_completed"
-	  ZOrder		  253
+	  ZOrder		  325
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  7
@@ -1517,7 +1615,7 @@ Model {
 	}
 	Line {
 	  Name			  "Path_FinderMode"
-	  ZOrder		  254
+	  ZOrder		  326
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  8
@@ -1525,23 +1623,50 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "points"
-	  ZOrder		  255
+	  Name			  "point_num"
+	  ZOrder		  327
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  9
+	  DstBlock		  "point_num"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "points"
+	  ZOrder		  328
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  10
 	  DstBlock		  "points"
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  256
+	  Name			  "pt_dist"
+	  ZOrder		  329
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  11
+	  DstBlock		  "pt_dist"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "output_version"
+	  ZOrder		  330
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  12
+	  DstBlock		  "output_version"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  331
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  257
+	  ZOrder		  332
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1579,8 +1704,8 @@ Model {
       BlockType		      Scope
       Name		      "path_finder status"
       SID		      "20"
-      Ports		      [2]
-      Position		      [975, 495, 1025, 575]
+      Ports		      [6]
+      Position		      [970, 453, 1075, 722]
       ZOrder		      374
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
@@ -1591,27 +1716,53 @@ Model {
       "67;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313725490196"
       "08 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980"
       "392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'Line"
-      "Names',{{'Path Finder/Path_FinderMode'}},'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.625','MaxYLi"
-      "mReal','5.625','YLabelReal','','MinYLimMag','0.625','MaxYLimMag','4.375','LegendVisibility','Off','XGrid',true,'"
-      "YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.6862"
-      "74509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.1"
-      "6078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.058"
-      "8235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'U"
-      "serDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'Path Finder/points'}},'ShowContent',true,'Placement',2)"
-      "},'DisplayPropertyDefaults',struct('YLabelReal','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.6862"
-      "74509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.160784"
-      "31372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745"
-      "098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[2 1],'Di"
-      "splayContentCache',[]),extmgr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode'"
-      ",'ZoomX'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1 4"
-      "2 1280 875])"
-      NumInputPorts	      "2"
+      "Names',{{'Path Finder/Path_FinderMode'}},'ShowContent',true,'Placement',1),struct('MinYLimReal','-0.5','MaxYLimR"
+      "eal','4.5','YLabelReal','','MinYLimMag','0.625','MaxYLimMag','4.375','LegendVisibility','Off','XGrid',true,'YGri"
+      "d',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.68627450"
+      "9803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078"
+      "431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235"
+      "294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserD"
+      "efinedChannelNames',{{}},'NumLines',2,'LineNames',{{'Path Finder/point_num','Path Finder/points'}},'ShowContent'"
+      ",true,'Placement',2),struct('MinYLimReal','-11.64327','MaxYLimReal','104.78947','YLabelReal','','MinYLimMag','0."
+      "625','MaxYLimMag','4.375','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0"
+      " 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666666666666"
+      "67;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313725490196"
+      "08 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980"
+      "392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'Line"
+      "Names',{{'Path Finder/pt_dist'}},'ShowContent',true,'Placement',3),struct('MinYLimReal','-16.63788','MaxYLimReal"
+      "','149.74092','YLabelReal','','MinYLimMag','0.625','MaxYLimMag','4.375','LegendVisibility','Off','XGrid',true,'Y"
+      "Grid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.68627"
+      "4509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16"
+      "078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588"
+      "235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'Us"
+      "erDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'cur/next X:1','cur/next X:2'}},'ShowContent',true,'Place"
+      "ment',4),struct('MinYLimReal','-18.51601','MaxYLimReal','166.64405','YLabelReal','','MinYLimMag','0.625','MaxYLi"
+      "mMag','4.375','LegendVisibility','Off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesT"
+      "ickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098"
+      "039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098"
+      "039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'"
+      "Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'cu"
+      "r/next Y:1','cur/next Y:2'}},'ShowContent',true,'Placement',5),struct('MinYLimReal','-0.25','MaxYLimReal','2.25'"
+      ",'YLabelReal','','MinYLimMag','0','MaxYLimMag','10','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagP"
+      "hase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOr"
+      "der',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.39215"
+      "6862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0"
+      ".0745098039215686 0.650980392156863],'Title','','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLi"
+      "nes',1,'LineNames',{{'Path Finder/output_version'}},'ShowContent',true,'Placement',6)},'DisplayPropertyDefaults'"
+      ",struct('YLabelReal','','AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.6862745098039"
+      "22],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.066666666666"
+      "6667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.058823529411"
+      "7647 1 1;1 0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[3 2],'DisplayContentCache',[]),extm"
+      "gr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode','ZoomX','PreviousAutoscale"
+      "','XY'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1281 "
+      "42 1280 906],'VisibleAtModelOpen','on')"
+      NumInputPorts	      "6"
     }
     Block {
       BlockType		      Outport
       Name		      "drive"
       SID		      "10"
-      Position		      [800, 268, 830, 282]
+      Position		      [800, 273, 830, 287]
       ZOrder		      365
       IconDisplay	      "Port number"
     }
@@ -1628,7 +1779,7 @@ Model {
       BlockType		      Outport
       Name		      "next_y"
       SID		      "12"
-      Position		      [800, 348, 830, 362]
+      Position		      [800, 343, 830, 357]
       ZOrder		      367
       Port		      "3"
       IconDisplay	      "Port number"
@@ -1637,7 +1788,7 @@ Model {
       BlockType		      Outport
       Name		      "no_path"
       SID		      "13"
-      Position		      [800, 388, 830, 402]
+      Position		      [805, 378, 835, 392]
       ZOrder		      368
       Port		      "4"
       IconDisplay	      "Port number"
@@ -1646,7 +1797,7 @@ Model {
       BlockType		      Outport
       Name		      "path_completed"
       SID		      "18"
-      Position		      [800, 468, 830, 482]
+      Position		      [800, 448, 830, 462]
       ZOrder		      373
       Port		      "5"
       IconDisplay	      "Port number"
@@ -1658,7 +1809,7 @@ Model {
       Points		      [22, 0]
       Branch {
 	ZOrder			16
-	Points			[0, -120]
+	Points			[0, -115]
 	DstBlock		"Scope"
 	DstPort			1
       }
@@ -1681,6 +1832,7 @@ Model {
       ZOrder		      4
       SrcBlock		      "dst_y"
       SrcPort		      1
+      Points		      [85, 0]
       DstBlock		      "Path Finder"
       DstPort		      3
     }
@@ -1696,6 +1848,7 @@ Model {
       ZOrder		      6
       SrcBlock		      "Path Finder"
       SrcPort		      1
+      Points		      [0, 15]
       DstBlock		      "drive"
       DstPort		      1
     }
@@ -1703,20 +1856,41 @@ Model {
       ZOrder		      7
       SrcBlock		      "Path Finder"
       SrcPort		      2
-      DstBlock		      "next_x"
-      DstPort		      1
+      Points		      [0, 15; 93, 0]
+      Branch {
+	ZOrder			50
+	Points			[0, 320]
+	DstBlock		"Mux2"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			49
+	DstBlock		"next_x"
+	DstPort			1
+      }
     }
     Line {
       ZOrder		      8
       SrcBlock		      "Path Finder"
       SrcPort		      3
-      DstBlock		      "next_y"
-      DstPort		      1
+      Points		      [0, 15; 55, 0]
+      Branch {
+	ZOrder			54
+	Points			[0, 330]
+	DstBlock		"Mux1"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			53
+	DstBlock		"next_y"
+	DstPort			1
+      }
     }
     Line {
       ZOrder		      9
       SrcBlock		      "Path Finder"
       SrcPort		      4
+      Points		      [0, 15]
       DstBlock		      "no_path"
       DstPort		      1
     }
@@ -1724,6 +1898,7 @@ Model {
       ZOrder		      10
       SrcBlock		      "Path Finder"
       SrcPort		      5
+      Points		      [0, 15]
       DstBlock		      "Internal Map"
       DstPort		      1
     }
@@ -1738,17 +1913,37 @@ Model {
       ZOrder		      12
       SrcBlock		      "Demux"
       SrcPort		      1
-      Points		      [30, 0]
-      DstBlock		      "Path Finder"
-      DstPort		      5
+      Points		      [17, 0]
+      Branch {
+	ZOrder			48
+	Points			[0, 163; 523, 0; 0, -38]
+	DstBlock		"Mux2"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			47
+	Points			[13, 0]
+	DstBlock		"Path Finder"
+	DstPort			5
+      }
     }
     Line {
       ZOrder		      13
       SrcBlock		      "Demux"
       SrcPort		      2
-      Points		      [30, 0]
-      DstBlock		      "Path Finder"
-      DstPort		      6
+      Points		      [7, 0]
+      Branch {
+	ZOrder			52
+	Points			[0, 115]
+	DstBlock		"Mux1"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			51
+	Points			[23, 0]
+	DstBlock		"Path Finder"
+	DstPort			6
+      }
     }
     Line {
       ZOrder		      14
@@ -1762,6 +1957,7 @@ Model {
       ZOrder		      31
       SrcBlock		      "Path Finder"
       SrcPort		      6
+      Points		      [0, 15]
       DstBlock		      "path_completed"
       DstPort		      1
     }
@@ -1769,15 +1965,69 @@ Model {
       ZOrder		      32
       SrcBlock		      "Path Finder"
       SrcPort		      7
+      Points		      [129, 0; 0, 13; 116, 0; 0, -13]
       DstBlock		      "path_finder status"
       DstPort		      1
     }
     Line {
-      ZOrder		      33
+      ZOrder		      41
       SrcBlock		      "Path Finder"
       SrcPort		      8
+      Points		      [120, 0; 0, 5]
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      42
+      SrcBlock		      "Path Finder"
+      SrcPort		      9
+      Points		      [174, 0; 0, 5]
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      43
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      Points		      [28, 0; 0, -15]
       DstBlock		      "path_finder status"
       DstPort		      2
+    }
+    Line {
+      ZOrder		      44
+      SrcBlock		      "Path Finder"
+      SrcPort		      10
+      Points		      [293, 0; 0, -15]
+      DstBlock		      "path_finder status"
+      DstPort		      3
+    }
+    Line {
+      Name		      "cur/next X"
+      ZOrder		      45
+      Labels		      [-1, 1]
+      SrcBlock		      "Mux2"
+      SrcPort		      1
+      Points		      [28, 0; 0, -15]
+      DstBlock		      "path_finder status"
+      DstPort		      4
+    }
+    Line {
+      Name		      "cur/next Y"
+      ZOrder		      46
+      Labels		      [2, 0]
+      SrcBlock		      "Mux1"
+      SrcPort		      1
+      Points		      [28, 0; 0, -15]
+      DstBlock		      "path_finder status"
+      DstPort		      5
+    }
+    Line {
+      ZOrder		      55
+      SrcBlock		      "Path Finder"
+      SrcPort		      11
+      Points		      [25, 0; 0, 85]
+      DstBlock		      "path_finder status"
+      DstPort		      6
     }
   }
 }
@@ -1792,28 +2042,28 @@ Stateflow {
     name		    "path_finder"
     created		    "30-May-2016 23:07:56"
     isLibrary		    0
-    firstTarget		    50
+    firstTarget		    52
     sfVersion		    80000009
   }
   chart {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [31.362 1277.362 579.367 1395.367]
-    zoomFactor		    1.333
+    viewLimits		    [262.938 974.938 941.032 1407.318]
+    zoomFactor		    0.762
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
     chartColor		    [1 0.9882352941176471 0.9254901960784314]
     screen		    [1 1 3200 1200 1.25]
     treeNode		    [0 10 0 0]
-    firstTransition	    48
+    firstTransition	    50
     viewObj		    2
     visible		    1
     machine		    1
     subviewS {
     }
-    ssIdHighWaterMark	    92
+    ssIdHighWaterMark	    94
     decomposition	    CLUSTER_CHART
     firstData		    23
     chartFileNumber	    3
@@ -1869,13 +2119,13 @@ Stateflow {
   }
   state {
     id			    5
-    labelString		    "Running\nentry:\n	next_x = -1;\n	next_y = -1;\nduring:\n	coder.extrinsic('TinUtils.get_path_poin"
-    "t');\n	if point_num <= points\n	    if  norm([current_x-next_x current_y-next_y]) <= drive_tolerance\n	        poi"
-    "nt_num = point_num + 1\n	        drive = 0;\n	    else\n	        next_x = TinUtils.convert_path_point(TinUtils.get"
-    "_path_point(path, point_num, 1));\n	        next_y = TinUtils.convert_path_point(TinUtils.get_path_point(path, poi"
-    "nt_num, 2));\n	        step_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	"
-    "end\nex:\n	drive = 0;"
-    position		    [283.5333 1113.681 584.5238 293.5596]
+    labelString		    "Running\nentry:\n	next_x = current_x;\n	next_y = current_y;\nduring:\n	coder.extrinsic('TinUtils"
+    ".get_path_point');\n	if point_num <= points\n	    pt_dist = norm([current_x-next_x; current_y-next_y]);\n	    if  "
+    "pt_dist <= drive_tolerance\n	        point_num = point_num + 1\n	        drive = 0;\n	        next_x = TinUtils.co"
+    "nvert_path_point(TinUtils.get_path_point(path, point_num, 1));\n	        next_y = TinUtils.convert_path_point(TinU"
+    "tils.get_path_point(path, point_num, 2));\n	        output_version = output_version + 1;\n	    else\n	        step"
+    "_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	end\nex:\n	drive = 0;"
+    position		    [283.5333 1113.681 591.5238 337.5596]
     fontSize		    12
     chart		    2
     treeNode		    [6 0 9 0]
@@ -1976,6 +2226,7 @@ Stateflow {
     fontSize		    12
     chart		    2
     treeNode		    [2 0 0 6]
+    superState		    GROUPED
     isNoteBox		    1
     noteBox {
       interpretMode	      RICH_NOTE
@@ -2164,11 +2415,11 @@ Stateflow {
   transition {
     id			    18
     labelString		    "[point_num > points]{path_completed = 1;}"
-    labelPosition	    [367.873 1089.633 227.434 16]
+    labelPosition	    [367.873 1089.72 227.434 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [1 0 -1 0.1328 361.1811 1113.681 0 0]
+      intersection	      [1 0 -1 0.1313 361.1811 1113.681 0 0]
     }
     dst {
       id		      7
@@ -2214,7 +2465,7 @@ Stateflow {
   transition {
     id			    20
     labelString		    "[no_path == 0]"
-    labelPosition	    [671.609 1002.09 79.379 16]
+    labelPosition	    [671.609 1001.473 79.379 16]
     fontSize		    12
     src {
       id		      9
@@ -2222,7 +2473,7 @@ Stateflow {
     }
     dst {
       id		      5
-      intersection	      [1 -0 -1 0.8156 760.2863 1113.681 0 0]
+      intersection	      [1 -0 -1 0.806 760.2863 1113.681 0 0]
     }
     midPoint		    [760.2863 1051.0475]
     chart		    2
@@ -2239,11 +2490,11 @@ Stateflow {
   transition {
     id			    21
     labelString		    "[drive == 1 && path_blocked() == 1]"
-    labelPosition	    [784.437 1092.522 191.406 16]
+    labelPosition	    [784.437 1093.139 191.406 16]
     fontSize		    12
     src {
       id		      5
-      intersection	      [1 0 -1 0.8488 779.6863 1113.681 0 0]
+      intersection	      [1 0 -1 0.8388 779.6863 1113.681 0 0]
     }
     dst {
       id		      9
@@ -2766,9 +3017,34 @@ Stateflow {
   }
   data {
     id			    44
+    ssIdNumber		    90
+    name		    "point_num"
+    linkNode		    [2 43 45]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    45
     ssIdNumber		    65
     name		    "points"
-    linkNode		    [2 43 45]
+    linkNode		    [2 44 46]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2792,34 +3068,9 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    45
+    id			    46
     ssIdNumber		    45
     name		    "i"
-    linkNode		    [2 44 46]
-    scope		    LOCAL_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-      unit {
-	name			"inherit"
-      }
-    }
-    dataType		    "Inherit: From definition in chart"
-  }
-  data {
-    id			    46
-    ssIdNumber		    90
-    name		    "point_num"
     linkNode		    [2 45 47]
     scope		    LOCAL_DATA
     machine		    1
@@ -2845,7 +3096,7 @@ Stateflow {
     id			    47
     ssIdNumber		    91
     name		    "drive_tolerance"
-    linkNode		    [2 46 0]
+    linkNode		    [2 46 48]
     scope		    CONSTANT_DATA
     machine		    1
     props {
@@ -2863,8 +3114,59 @@ Stateflow {
     }
     dataType		    "double"
   }
-  transition {
+  data {
     id			    48
+    ssIdNumber		    93
+    name		    "pt_dist"
+    linkNode		    [2 47 49]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    49
+    ssIdNumber		    94
+    name		    "output_version"
+    linkNode		    [2 48 0]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      initialValue	      "0"
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  transition {
+    id			    50
     labelString		    "{\n	% write initial variables\n	drive = 0;\n	next_x = 0;\n	next_y = 0;\n	no_path = 0;\n	% sensor"
     " view directions from:\n	% https:%www.cyberbotics.com/guide/using-the-e-puck-robot.php\n	VIEW_DIRECTIONS = [mod(1."
     "27 - pi/2, 2 * pi)     mod(0.77 - pi/2, 2 * pi)     mod(0.00 - pi/2, 2 * pi)    mod(5.21 - pi/2, 2 * pi) ...\n    "
@@ -2893,13 +3195,13 @@ Stateflow {
     ssIdNumber		    30
   }
   instance {
-    id			    49
+    id			    51
     name		    "Path Finder"
     machine		    1
     chart		    2
   }
   target {
-    id			    50
+    id			    52
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
