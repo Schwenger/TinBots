@@ -15,13 +15,14 @@ classdef TinUtils < handle
             % inspired by:
             % http://de.mathworks.com/help/robotics/examples/path-planning-in-environments-of-different-complexity.html
             
+            matrix(floor(current_y), floor(current_x)) = 0;
+            matrix(floor(dst_y), floor(dst_x)) = 0;
+            
+            
             grid = robotics.BinaryOccupancyGrid(matrix, 1);
             
             % inflate walls with robot radius
             inflate(grid, 2);
-            % Clear own position
-            % grid(floor(current_y), floor(current_x)) = 0;
-              % FIXME: Doesn't work, says "not enough input arguments"
             
             start_location = [floor(current_x) floor(current_y)];
             end_location = [floor(dst_x) floor(dst_y)];
