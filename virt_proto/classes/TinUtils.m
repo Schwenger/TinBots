@@ -15,8 +15,8 @@ classdef TinUtils < handle
             % inspired by:
             % http://de.mathworks.com/help/robotics/examples/path-planning-in-environments-of-different-complexity.html
             
-            matrix(floor(current_y), floor(current_x)) = 0;
-            matrix(floor(dst_y), floor(dst_x)) = 0;
+            %matrix(floor(current_y), floor(current_x)) = 0;
+            %matrix(floor(dst_y), floor(dst_x)) = 0;
             
             
             grid = robotics.BinaryOccupancyGrid(matrix, 1);
@@ -24,8 +24,6 @@ classdef TinUtils < handle
             % inflate walls with robot radius
             inflate(grid, 2);
             
-            matrix(floor(current_y), floor(current_x)) = 0;
-            matrix(floor(dst_y), floor(dst_x)) = 0;
             
             start_location = [floor(current_x) floor(current_y)];
             end_location = [floor(dst_x) floor(dst_y)];
