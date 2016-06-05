@@ -18,7 +18,7 @@ classdef TinUtils < handle
             grid = robotics.BinaryOccupancyGrid(matrix, 1);
             
             % inflate walls with robot radius
-            inflate(grid, 3);
+            inflate(grid, 2);
             % Clear own position
             % grid(floor(current_y), floor(current_x)) = 0;
               % FIXME: Doesn't work, says "not enough input arguments"

@@ -78,7 +78,7 @@ You will find an overview over all customs blocks in the library file itself.
 % <FIXME: insert screenshot>
 
 \section{Environment}
-Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into MatLab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
+Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into Matlab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
 
 E-Puck's motor is realized by a custom differential drive block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
 
@@ -95,7 +95,15 @@ The output of the control software is fed back to the environment, which allows 
 \section{Components}
 Besides the model of the environment, there are various other components mainly modeling the software running on the Tin Bot as Stateflow charts.
 
-<FIXME insert description of the software components>
+As default model of operation, there's the Right Hand Follower, which does not keep track of previous locations, and just applies the right-hand rule until another component has a better idea what to do.
+
+Next, there's the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements should give a reasonably good result.  This functionality is spread across Traffic Cop Eyes, Victim Finder, Victim Detector; each of which are simple state machines.
+
+As soon as the Tin Bot knows the location of the victim, it's only maze solving with a known maze.  Path Finder takes care to compute the waypoints and (if necessary) trigger recomputation or fall-back to right-hand-rule.  Path Executor (which drives towards the next waypoint) is a real state machine, but both are implemented as a Stateflow chart.
+
+Finally, there's the (Blind) Traffic Cop, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
+
+All these modules (together called \enquote{Controller}) need the concept of \enquote{current location and direction}, which is given by the Approximator.  This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it.  This module applies the same differential equations as the Differential Drive.
 
 \section{Test Cases}
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
@@ -111,8 +119,6 @@ As already mentioned we mostly used a unit-test-like approach to test all aspect
 \item[follow\_right\_hand\_test] tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
 \item[controller\_test] tests the complete control software, and use cases \textbf{UC-E} and \textbf{UC-F}
 \end{description}
-
-% <TODO: add a manual switch to change the map (use case D)>
 
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
 
