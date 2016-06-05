@@ -2,6 +2,7 @@ classdef TinUtils < handle
     properties (Constant)
         step_size = 0.9;
         radius = 5.3/2;
+        pickup_distance = 5.3/2 + 2;
     end
     
     methods (Static)
