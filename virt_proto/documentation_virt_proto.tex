@@ -99,7 +99,7 @@ As default model of operation, there's the Right Hand Follower, which does not k
 
 Next, there's the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements should give a reasonably good result.  This functionality is spread across Traffic Cop Eyes, Victim Finder, Victim Detector; each of which are simple state machines.
 
-As soon as the Tin Bot knows the location of the victim, it's only maze solving with a known maze.  Path Finder takes care to compute the waypoints and (if necessary) trigger recomputation or fall-back to right-hand-rule.  Path Executor (which drives towards the next waypoint) is a real state machine, but both are implemented as a Stateflow chart.
+As soon as the Tin Bot knows the location of the victim, it's only maze solving with a (partailly) known maze.  Path Finder takes care to compute the waypoints and (if necessary) trigger recomputation or fall-back to right-hand-rule.  Path Executor (which drives towards the next waypoint) is a real state machine, but both are implemented as a Stateflow chart.
 
 Finally, there's the (Blind) Traffic Cop, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
 
