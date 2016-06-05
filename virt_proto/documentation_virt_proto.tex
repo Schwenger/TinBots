@@ -78,7 +78,7 @@ You will find an overview over all customs blocks in the library file itself.
 % <FIXME: insert screenshot>
 
 \section{Environment}
-Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into MatLab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
+Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into Matlab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
 
 E-Puck's motor is realized by a custom differential drive block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
 
@@ -103,7 +103,7 @@ As soon as the Tin Bot knows the location of the victim, it's only maze solving 
 
 Finally, there's the (Blind) Traffic Cop, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
 
-All these modules (together called \enquote{Controller}) need the concept of \enquote{curren location and direction}, which is given by the Approximator.  This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it.  This module applies the same differential equations as the Differential Drive.
+All these modules (together called \enquote{Controller}) need the concept of \enquote{current location and direction}, which is given by the Approximator.  This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it.  This module applies the same differential equations as the Differential Drive.
 
 \section{Test Cases}
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
