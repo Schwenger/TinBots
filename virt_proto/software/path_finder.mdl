@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.127"
+    ComputedModelVersion    "1.129"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -133,8 +133,8 @@ Model {
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"1"
 	Extents			[1246.0, 816.0]
-	ZoomFactor		[1.75]
-	Offset			[262.93805714285747, 941.032228571429]
+	ZoomFactor		[1.5]
+	Offset			[357.71250153741533, 484.13467101944332]
       }
     }
   }
@@ -144,9 +144,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "eispin"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jun 05 18:14:41 2016"
-  RTWModifiedTimeStamp	  387051024
-  ModelVersionFormat	  "1.%<AutoIncrement:127>"
+  LastModifiedDate	  "Sun Jun 05 19:49:24 2016"
+  RTWModifiedTimeStamp	  387056918
+  ModelVersionFormat	  "1.%<AutoIncrement:129>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -2049,8 +2049,8 @@ Stateflow {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [262.938 974.938 941.032 1407.318]
-    zoomFactor		    0.762
+    viewLimits		    [357.713 1188.379 484.135 1028.135]
+    zoomFactor		    0.889
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     junctionColor	    [0.7764705882352941 0.4980392156862745 0]
@@ -2188,9 +2188,10 @@ Stateflow {
       script		      "function is_blocked = path_blocked()\n\n% Can't easily use IR sensors here, since path_executor r"
       "otates around a\n% lot.\n\nr = floor(current_y);\nc = floor(current_x);\n% Must \"forwards-mirror\" the input (r"
       ",c,phi), which is \"unmirrored\" data\n[drivable_distance, ~] = TinUtils.raycast_polymorphic(map, rows + 1 - r, "
-      "c, -step_phi, false);\n% \"Unmirroring\" the distance is no-op\ndrivable_distance = drivable_distance + TinUtils"
-      ".radius;\nexpect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blocked = expect_distance > dri"
-      "vable_distance + drive_tolerance;\n\nend\n"
+      "c, -step_phi, 5);\n    % Choosing '50' has the side-effect that we first run up to the wall\n    % before notici"
+      "ng that there *is* one.\n    % and only then try \n% \"Unmirroring\" the distance is no-op\ndrivable_distance = "
+      "drivable_distance + TinUtils.radius;\nexpect_distance = norm([next_x next_y] - [current_x current_y]);\n\nis_blo"
+      "cked = expect_distance > drivable_distance + drive_tolerance;\n\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
