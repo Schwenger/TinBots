@@ -72,7 +72,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.129"
+    ComputedModelVersion    "1.130"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -108,7 +108,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [1920.0, 31.0, 1280.0, 983.0]
+      Location		      [649.0, 31.0, 1280.0, 983.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -123,7 +123,7 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		5
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
       Object {
 	$PropName		"EditorsInfo"
@@ -132,9 +132,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"StateflowChart"
 	LoadSaveID		"1"
-	Extents			[1246.0, 816.0]
+	Extents			[1224.0, 834.0]
 	ZoomFactor		[1.5]
-	Offset			[357.71250153741533, 484.13467101944332]
+	Offset			[199.75926279706931, 1036.8886598037595]
       }
     }
   }
@@ -142,11 +142,11 @@ Model {
   Creator		  "eispin"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "eispin"
+  LastModifiedBy	  "maximilian"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jun 05 19:49:24 2016"
-  RTWModifiedTimeStamp	  387056918
-  ModelVersionFormat	  "1.%<AutoIncrement:129>"
+  LastModifiedDate	  "Sun Jun 05 21:24:22 2016"
+  RTWModifiedTimeStamp	  387062661
+  ModelVersionFormat	  "1.%<AutoIncrement:130>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1241,7 +1241,7 @@ Model {
       Variant		      off
       System {
 	Name			"Path Finder"
-	Location		[1920, 31, 3200, 1014]
+	Location		[649, 31, 1929, 1014]
 	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1754,8 +1754,8 @@ Model {
       "6667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.058823529411"
       "7647 1 1;1 0.0745098039215686 0.650980392156863]),'DisplayLayoutDimensions',[3 2],'DisplayContentCache',[]),extm"
       "gr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousZoomMode','ZoomX','PreviousAutoscale"
-      "','XY'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[1281 "
-      "42 1280 906],'VisibleAtModelOpen','on')"
+      "','XY'),extmgr.Configuration('Tools','Measurements',true,'Version','2016a')),'Version','2016a','Position',[632 3"
+      "8 1288 910],'VisibleAtModelOpen','on')"
       NumInputPorts	      "6"
     }
     Block {
@@ -2049,7 +2049,7 @@ Stateflow {
     id			    2
     name		    "Path Finder"
     windowPosition	    [1920 0 1920 1174]
-    viewLimits		    [357.713 1188.379 484.135 1028.135]
+    viewLimits		    [199.759 1015.759 1036.889 1592.889]
     zoomFactor		    0.889
     transitionColor	    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
     transitionLabelColor    [0.3215686274509804 0.5450980392156862 0.7725490196078432]
@@ -2061,8 +2061,6 @@ Stateflow {
     viewObj		    2
     visible		    1
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    94
     decomposition	    CLUSTER_CHART
     firstData		    23
@@ -2092,8 +2090,6 @@ Stateflow {
     ssIdNumber		    29
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    4
@@ -2121,10 +2117,11 @@ Stateflow {
     id			    5
     labelString		    "Running\nentry:\n	next_x = current_x;\n	next_y = current_y;\nduring:\n	coder.extrinsic('TinUtils"
     ".get_path_point');\n	if point_num <= points\n	    pt_dist = norm([current_x-next_x; current_y-next_y]);\n	    if  "
-    "pt_dist <= drive_tolerance\n	        point_num = point_num + 1\n	        drive = 0;\n	        next_x = TinUtils.co"
-    "nvert_path_point(TinUtils.get_path_point(path, point_num, 1));\n	        next_y = TinUtils.convert_path_point(TinU"
-    "tils.get_path_point(path, point_num, 2));\n	        output_version = output_version + 1;\n	    else\n	        step"
-    "_phi = atan2(next_y - current_y, next_x - current_x);\n	        drive = 1;\n	    end\n	end\nex:\n	drive = 0;"
+    "pt_dist <= drive_tolerance\n	        point_num = point_num + 1\n	        drive = 0;\n	        if point_num <= poin"
+    "ts\n	            next_x = TinUtils.convert_path_point(TinUtils.get_path_point(path, point_num, 1));\n	            "
+    "next_y = TinUtils.convert_path_point(TinUtils.get_path_point(path, point_num, 2));\n	            output_version = "
+    "output_version + 1;\n	        end\n	    else\n	        step_phi = atan2(next_y - current_y, next_x - current_x);\n"
+    "	        drive = 1;\n	    end\n	end\nex:\n	drive = 0;"
     position		    [283.5333 1113.681 591.5238 337.5596]
     fontSize		    12
     chart		    2
@@ -2134,8 +2131,6 @@ Stateflow {
     ssIdNumber		    50
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    6
@@ -2151,8 +2146,6 @@ Stateflow {
     ssIdNumber		    76
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    7
@@ -2166,8 +2159,6 @@ Stateflow {
     ssIdNumber		    78
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    8
@@ -2209,8 +2200,6 @@ Stateflow {
     ssIdNumber		    85
     type		    OR_STATE
     decomposition	    CLUSTER_STATE
-    eml {
-    }
   }
   state {
     id			    10
