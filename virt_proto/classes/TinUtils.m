@@ -19,6 +19,8 @@ classdef TinUtils < handle
             
             % inflate walls with robot radius
             inflate(grid, 3);
+            % Clear own position
+            grid(current_y, current_x) = 0;
             
             start_location = [floor(current_x) floor(current_y)];
             end_location = [floor(dst_x) floor(dst_y)];
