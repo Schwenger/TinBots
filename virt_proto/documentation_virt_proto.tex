@@ -71,30 +71,56 @@
 \DeclareMathOperator{\sinc}{sinc}
 
 \begin{document}
+We wrote our own library which contains custom blocks that allow us to build simulations. Because of the complexity of the whole system we decided to use a unit test like approach to test specific components.
 
-\section{environment}
+You will find an overview over all customs blocks in the library file itself:
 
-We describe a map and all entities in it in a text file which is loaded into MatLab and transformed into a matrix. 
-This matrix represents the entire environment and is used in raycast computations to determine the epuck's sensor data, proximity as well as IR signals, at a given point in time and space.
+<FIXME: insert screenshot>
 
-The motor is represented by a custom differential drive block implementing the real world physics. 
-The block assures that the Tin Bot cannot drive through objects but stops in time by looking up the occupation status in the matrix and disabling the motion if necessary.
+\section{Environment}
+Because there is no prebuilt block in Simulink which would be useful for the Environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into MatLab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
 
-Tin Bot (physical) is a block feeding the differential drive data (position, orientation) in the sensors blocks such that the raycast can be computed appropriately.
+The motor of the E-Puck is realized by a custom differential drive block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion if necessary.
 
-Depending on the Tin Bot's position we update the map.
-In this process we use the Tin Bot Introducer block to insert the Tin Bot's current position into the matrix such that we cannot run into a wall. 
-The information is chained so that a statically unknown number of TinBots is possible, so one Tin Bot after the other is update. 
-In terms of simulation time, however, this process happens parallel as it would in real life.
+The complete physical Tin Bot is represented by the block \enquote{Tin Bot Physical}. This block feeds the differential drive's data (position and orientation) in the appropriate sensor blocks — taking the orientation offset of the sensors into account — such that their values can be computed appropriately using racasting.
 
-The Tin Bot elimination uses the fully update map containing all Tin Bots' position and deleted the information about the respective Tin Bot's position such that the sensors cannot detect themselves.
+Depending on the Tin Bot's current position — as given by the differential drive — the matrix is updated such that Tin Bots cannot drive through each other. Therefore a Tin Bot Introducer block has to be connected to the block representing the physical Tin Bot. This block writes an appropriate value in the matrix at the Tin Bot's current position. To use multiple Tin Bots within the simulation, the Introducer blocks are chained such that at the end there is a matrix containing all the Tin Bots.
 
-The LPS takes the environments data and feeds them into the Tin Bots every two seconds. 
-The Tin Bots use them to update their position to be more resistant against inaccuracies in movement data. 
-In case the LPS is disabled, the simulation delivers a dedicated error value.
+The map used by the Tin Bot's sensors however must not contain the particular Tin Bot. Therefore the Tin Bot Eliminator block deletes the particular Tin Bot again from the environment. This prevents the sensors from detecting themselves.
+
+The LPS block takes the environment's data and feeds it into the Tin Bots every two seconds. This data is then used within the software blocks. The LPS block allows the LPS to be in two states, enabled and disabled as described in our specification document.
+
+The output of the control software is feed back to the environment, which allows us to model real world physics.
 
 \section{Components}
+Besides the model of the environment, there are various other components mainly modelling the software running on the Tin Bot as Stateflow charts.
 
+<FIXME insert description of the software components>
 
+\section{Test-Cases}
+As already mentioned we used a unit test like approach to test all aspects of the system.
+
+\begin{description}
+\item[drive\_test] tests the physical model of differential drive (quick, atomic)
+\item[proximity\_test] tests the physical model of the proximity sensors (quick, atomic)
+\item[ir\_test] tests the physical model of IR sensor (quick, atomic)
+\item[traffic\_blind\_test] tests the \enquote{blind} part of the traffic cop (quick, atomic)
+\item[victim\_direction\_test] test victim direction calculation
+    Medium time, tests environment and bare-bone software component
+\item[path\_finder\_test] test internal map generation and escape path calculation
+    Medium time, awesome visualization
+\item[approximator\_test] test approximation of current position and orientation
+    Slow, complete test of internal position and orientation approximation based on the
+    motor speeds and reset of wrong data according to the LPS (crash into wall)
+\item[follow\_right\_hand\_test] test right hand rule
+    Very slow, nearly holistic
+\item[controller\_test] tests the complete control software, and use cases \textbf{UC-E} and \textbf{UC-F} (very slow, nearly holistic)
+\end{description}
+
+<TODO: add a manual switch to change the map (use case D)>
+
+<TODO: implement use case C by bypassing the map chain>
+
+Because of the complexity of the system we did not implement use cases \textbf{UC-A} and \textbf{UC-B} explicitly. However you may think of them as starting and stopping the simulation.
 
 \end{document}
