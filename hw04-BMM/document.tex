@@ -79,11 +79,11 @@ With dynamic hardware redundancy you may have cold spares which means they do no
 \section*{Problem 2: Static Redundancy}
 \begin{enumerate}
 \item \begin{align*}
-R_{TMR}(t) = 1 - \overbrace{\left( \underbrace{3 \cdot (1 - R^2(t)) \cdot R(t)}_{\text{(a)}} + \underbrace{(1 - R^3(t))}_{\text{(b)}} \right)}^{\text{failure probability}}
+R_{TMR}(t) = 1 - \overbrace{\left( \underbrace{3 \cdot (1 - R(t))^2 \cdot R(t)}_{\text{(a)}} + \underbrace{(1 - R(t))^2}_{\text{(b)}} \right)}^{\text{failure probability}}
 \end{align*}
 The system fails if (a) two components fail and one remains functional. There are three combinations that result in such a scenario. Or (b) all three components fail.
 \begin{align*}
-R_{TMR}(t) &= 1 - (1 - 3R^2(t) + 2R^3(t)) \\
+R_{TMR}(t) &= 1 - (3R(t) - 6R(t)^2 + 3R(t)^3 + 1 - 3R(t) + 3R(t)^2 - R(t)^3) \\
 &= 3 R^2(t) - 2 R^3(t)
 \end{align*}
 \item
