@@ -105,7 +105,7 @@ As soon as the Tin Bot knows the location of the victim, the reminder of the pro
 \emph{The Path Executor} tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
 While doing so we might gather new information about obstacles rendering the waypoint not directly reachable, so we trigger a re-computation of the path finding component. 
 This component might report that there is no path at all due to incorrect sensor data at some point during the search\footnote{by assumption the maze is solvable} resulting in the detection of non-existing walls. 
-In this case, we fall back to using the right hand rule while updating our knowledge about the world. Path Executor is a real state machine, but it is implemented as a Stateflow chart, as well as the Path Finder.
+In this case, we fall back to using the right hand rule while updating our knowledge about the world. Path Executor is a real state machine, and both Path modules are implemented as a Stateflow chart; although Path Finder is not a state machine in the strict sense.
 
 Finally, there is the \emph{(Blind) Traffic Cop}, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
 
@@ -115,7 +115,7 @@ All these modules, who in composition are called \emph{Controller}, need the con
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
 
 \begin{description}
-\item[dgpve\_test] tests the physical model of differential drive isolated from any logic.
+\item[drive\_test] tests the physical model of differential drive isolated from any logic.
 \item[proximity\_test] tests the physical model of the proximity sensors separately. % note that there is no adverb for isolated, thus separately
 \item[ir\_test] tests the physical model of the isolated IR sensor.
 \item[traffic\_blind\_test] tests the \enquote{blind} part of the traffic cop, i.e.\ without any IR-sensor input.
@@ -129,6 +129,6 @@ As already mentioned we mostly used a unit-test-like approach to test all aspect
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
 
 Use cases \textbf{UC-A} and \textbf{UC-B} are modeled implicitly, because startup corresponds to starting the simulation, and shutdown corresponds to stopping the simulation.
-Use case \textbf{UC-C} corresponds to a nice-to-have feature and is not modeled. We did, however, not model more than one Tin Bot at a time, so the failure of one has no impact anyways.
+Use case \textbf{UC-C} corresponds to a nice-to-have feature and is not modeled. We did, however, not yet model tests with more than one Tin Bot at a time, so the failure of one has no impact anyways.
 
 \end{document}
