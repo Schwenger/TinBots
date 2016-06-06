@@ -80,36 +80,42 @@ You will find an overview over all customs blocks in the library file itself.
 \section{Environment}
 Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into Matlab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
 
-E-Puck's motor is realized by a custom differential drive block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
+E-Puck's motor is realized by a custom \emph{Differential Drive} Block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
 
-The complete physical Tin Bot is represented by the block \enquote{Tin Bot Physical}. This block feeds the differential drive's data (position and orientation) in the appropriate sensor blocks — taking the orientation offset of the sensors into account — such that their values can be computed appropriately using raycasting.
+The complete physical Tin Bot is represented by the block \emph{Tin Bot Physical}. This block feeds the differential drive's data (position and orientation) in the appropriate sensor blocks — taking the orientation offset of the sensors into account — such that their values can be computed appropriately using raycasting.
 
-According to the Tin Bot's current position given by the differential drive the matrix is updated such that Tin Bots cannot drive through each other. Therefore, a Tin Bot Introducer block has to be connected to the block representing the physical Tin Bot. This block writes an appropriate value in the matrix at the Tin Bot's current position. To use multiple Tin Bots within the simulation, the Introducer blocks are chained such that at the end there is a matrix containing all the Tin Bots.
+According to the Tin Bot's current position given by the differential drive, the matrix is updated such that Tin Bots cannot drive through each other. Therefore, a \emph{Tin Bot Introducer} block has to be connected to the block representing the physical Tin Bot. This block writes an appropriate value in the matrix at the Tin Bot's current position. To use multiple Tin Bots within the simulation, the Introducer blocks are chained such that at the end there is a matrix containing all the Tin Bots.
 
-The map used by the Tin Bot's sensors, however, must not contain its own Tin Bot. Therefore, the Tin Bot Eliminator block deletes the respective entry from the environment. This prevents the sensors from detecting themselves.
+The map used by the Tin Bot's sensors, however, must not contain its own Tin Bot. Therefore, the \emph{Tin Bot Eliminator} block deletes the respective entry from the environment. This prevents the sensors from detecting themselves.
 
-The LPS block takes the environment's data and feeds it into the Tin Bots every two seconds. This data is then used within the software blocks. The LPS block allows for two states, enabled and disabled as described in our specification document.
+The \emph{LPS} block takes the environment's data and feeds it into the Tin Bots every two seconds. This data is then used within the software blocks. The LPS block allows for two states, enabled and disabled, as described in our specification document.
 
 The output of the control software is fed back to the environment, which allows us to model real world physics.
 
 \section{Components}
 Besides the model of the environment, there are various other components mainly modeling the software running on the Tin Bot as Stateflow charts.
 
-As default model of operation, there's the Right Hand Follower, which does not keep track of previous locations, and just applies the right-hand rule until another component has a better idea what to do.
+As default model of operation, there's the \emph{Right Hand Follower}, which does not keep track of previous locations, but just applies the right hand rule until another component has a better idea what to do.
 
-Next, there's the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements should give a reasonably good result.  This functionality is spread across Traffic Cop Eyes, Victim Finder, Victim Detector; each of which are simple state machines.
+Next, there is the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements provides a reasonably good result.  This functionality is spread across \emph{Traffic Cop Eyes, Victim Finder, Victim Detector}; each of which are state machines.
 
-As soon as the Tin Bot knows the location of the victim, it's only maze solving with a (partailly) known maze.  Path Finder takes care to compute the waypoints and (if necessary) trigger recomputation or fall-back to right-hand-rule.  Path Executor (which drives towards the next waypoint) is a real state machine, but both are implemented as a Stateflow chart.
+As soon as the Tin Bot knows the location of the victim, the reminder of the problem is basically a maze solving task under a partially known maze. 
+\emph{Path Finder} takes care of computing the waypoints leading to the victim at first, and out of the maze when the victim has been picked up. 
 
-Finally, there's the (Blind) Traffic Cop, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
+\emph{The Path Executor} tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
+While doing so we might gather new information about obstacles rendering the waypoint not directly reachable, so we trigger a re-computation of the path finding component. 
+This component might report that there is no path at all due to incorrect sensor data at some point during the search\footnote{by assumption the maze is solvable} resulting in the detection of non-existing walls. 
+In this case, we fall back to using the right hand rule while updating our knowledge about the world. Path Executor is a real state machine, but it is implemented as a Stateflow chart, as well as the Path Finder.
 
-All these modules (together called \enquote{Controller}) need the concept of \enquote{current location and direction}, which is given by the Approximator.  This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it.  This module applies the same differential equations as the Differential Drive.
+Finally, there is the \emph{(Blind) Traffic Cop}, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
+
+All these modules, who in composition are called \emph{Controller}, need the concept of \enquote{current location and direction}, which is given by the \emph{Approximator}. This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it. This module applies the same differential equations as the Differential Drive.
 
 \section{Test Cases}
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
 
 \begin{description}
-\item[drive\_test] tests the physical model of differential drive isolated from any logic.
+\item[dgpve\_test] tests the physical model of differential drive isolated from any logic.
 \item[proximity\_test] tests the physical model of the proximity sensors separately. % note that there is no adverb for isolated, thus separately
 \item[ir\_test] tests the physical model of the isolated IR sensor.
 \item[traffic\_blind\_test] tests the \enquote{blind} part of the traffic cop, i.e.\ without any IR-sensor input.
@@ -123,6 +129,6 @@ As already mentioned we mostly used a unit-test-like approach to test all aspect
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
 
 Use cases \textbf{UC-A} and \textbf{UC-B} are modeled implicitly, because startup corresponds to starting the simulation, and shutdown corresponds to stopping the simulation.
-Use case \textbf{UC-C} corresponds to a nice to have feature and is not model. We did, however, not model more than one Tin Bot at a time, so the failure of one has no impact anyways.
+Use case \textbf{UC-C} corresponds to a nice-to-have feature and is not modeled. We did, however, not model more than one Tin Bot at a time, so the failure of one has no impact anyways.
 
 \end{document}
