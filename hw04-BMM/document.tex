@@ -49,6 +49,11 @@
 % \newcommand{\set}[1]{\{#1\}}
 % \newcommand{\abs}[1]{\lvert #1 \rvert}
 
+% Thanks to https://tex.stackexchange.com/questions/4216/how-to-typeset-correctly
+\newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                    \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                    =}
+
 \DeclareMathOperator{\sinc}{sinc}
 
 \begin{document}
@@ -91,11 +96,25 @@ Component S represents the system as a whole, therefore the overall reliability 
 
 \subsection*{Part 2}
 
-FIXME
+By working from right to left:
+ %
+\[\{  \{5,6,7,3,4\}, \{2,3,4\}, \{1,4\}  \}\]
 
 \subsection*{Part 3}
 
-FIXME
+As a shorthand-notation, let $NR_{\alpha}(t) \defeq \prod_{i \in \alpha} (1-R_{i}(t))$
+
+\begin{align*}
+    R(t)
+    &> 1-\left( NR_{5,6,7,3,4}(t) + NR_{2,3,4}(t) + NR_{1,4}(t) \right) \\
+    &= 1-\left( 0.00081 + 0.003 + 0.0075 \right) \\
+    &= 1 - 0.0113 \\
+    &= 0.9887
+\end{align*}
+
+In comparison, it's clear that this is accurate, but not always tight.  Most
+importantly, we don't see any justification to use an exponential-time
+approximation when there's a linear-time exact algorithm.
 
 
 \section*{Problem 4: Communication}
