@@ -65,6 +65,36 @@ FIXME
 
 \section*{Problem 3: Reliability Analysis}
 
+\subsection*{Part 1}
+
+Components 5, 6, and 7 can be treated as a single component \enquote{8} with a reliability of:
+ %
+\[R(8) = 1 - (1 - R(5))(1 - R(6))(1 - R(7)) = 1 - (1-0.7)^3 = 0.973\]
+
+Components 2 and 8 can be treated as a single component \enquote{9} with a reliability of
+ %
+\[R(9) = R(2) \cdot R(8) = 0.9 \cdot 0.973 = 0.8757\]
+
+Components 9 and 3 can be treated as a single component \enquote{10} with a reliability of
+ %
+\[R(10) = 1 - (1 - R(9))(1 - R(3)) = 1 - 0.0294 = 0.9751\]
+
+Components 1 and 10 can be treated as a single component \enquote{11} with a reliability of
+ %
+\[R(11) = 0.95 \cdot 0.9751 = 0.9263\]
+
+Components 11 and 4 can be treated as a single component \enquote{S} with a reliability of
+ %
+\[R(S) = 1 - 0.0737 \cdot 0.15 = 0.989\]
+
+Component S represents the system as a whole, therefore the overall reliability is exactly $0.989$.
+
+\subsection*{Part 2}
+
+FIXME
+
+\subsection*{Part 3}
+
 FIXME
 
 
