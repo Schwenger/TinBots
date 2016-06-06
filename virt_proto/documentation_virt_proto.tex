@@ -34,6 +34,8 @@
 % \usepackage{float}
 % \usepackage{caption}
 
+\usepackage{pdflscape}
+
 \parindent 0pt
 \parskip 6pt
 
@@ -73,14 +75,7 @@
 \begin{document}
 We wrote our own library which contains custom blocks that allow us to build simulations. Because of the complexity of the whole system we decided to use a unit-test-like approach to test specific components.
 
-You will find an overview over all customs blocks in the library file itself.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=\textwidth]{library.pdf}
-\caption{Library}
-\label{}
-\end{figure}
+You will find an overview over all customs blocks in the library file itself which is also attached at the end of this document for convenience.
 
 \section{Environment}
 Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into Matlab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
@@ -130,12 +125,23 @@ As already mentioned we mostly used a unit-test-like approach to test all aspect
 \item[path\_finder\_test] Tests internal map generation and escape path calculation, i.e.\ in essence also a test for \textbf{UC-D}, since one can see that the logic is able to deal with formerly unknown obstacles and behave reasonably.
 \item[approximator\_test] Tests approximation of current position and orientation based on the motors data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
 \item[follow\_right\_hand\_test] Tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
-\item[controller\_test] Tests the complete control software, and use cases \textbf{UC-E}, \textbf{UC-F} and \textbf{UC-D}.
+\item[controller\_test] Tests the complete control software, and use cases \textbf{UC-D}, \textbf{UC-E} and \textbf{UC-F}.
 \end{description}
 
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
 
 Use cases \textbf{UC-A} and \textbf{UC-B} are modeled implicitly, because startup corresponds to starting the simulation, and shutdown corresponds to stopping the simulation.
 Use case \textbf{UC-C} corresponds to a nice-to-have feature and is not modeled. We did, however, not yet model tests with more than one Tin Bot at a time, so the failure of one has no impact anyways.
+
+\newgeometry{top=2cm,bottom=2cm,right=2cm,left=2cm}
+\pagestyle{empty}
+
+\begin{landscape}
+\begin{figure}[h]
+\centering
+\includegraphics[width=26cm]{library.pdf}
+\label{}
+\end{figure}
+\end{landscape}
 
 \end{document}
