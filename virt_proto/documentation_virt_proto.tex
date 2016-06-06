@@ -75,7 +75,12 @@ We wrote our own library which contains custom blocks that allow us to build sim
 
 You will find an overview over all customs blocks in the library file itself.
 
-% <FIXME: insert screenshot>
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{library.pdf}
+\caption{Library}
+\label{}
+\end{figure}
 
 \section{Environment}
 Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into Matlab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
@@ -89,6 +94,8 @@ According to the Tin Bot's current position given by the differential drive, the
 The map used by the Tin Bot's sensors, however, must not contain its own Tin Bot. Therefore, the \emph{Tin Bot Eliminator} block deletes the respective entry from the environment. This prevents the sensors from detecting themselves.
 
 The \emph{LPS} block takes the environment's data and feeds it into the Tin Bots every two seconds. This data is then used within the software blocks. The LPS block allows for two states, enabled and disabled, as described in our specification document.
+
+The \emph{Victim Introducer} block uses a similar mechanism as the Tin Bot Introducer, to place the victim inside the matrix representing the map. The \emph{Victim} block participates in a loop which models the picking up process by a Tin Bot.
 
 The output of the control software is fed back to the environment, which allows us to model real world physics.
 
@@ -115,15 +122,15 @@ All these modules, who in composition are called \emph{Controller}, need the con
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
 
 \begin{description}
-\item[drive\_test] tests the physical model of differential drive isolated from any logic.
-\item[proximity\_test] tests the physical model of the proximity sensors separately. % note that there is no adverb for isolated, thus separately
-\item[ir\_test] tests the physical model of the isolated IR sensor.
-\item[traffic\_blind\_test] tests the \enquote{blind} part of the traffic cop, i.e.\ without any IR-sensor input.
-\item[victim\_direction\_test] tests victim direction calculation, i.e.\ the logic used to approximate the angle from the Tin Bot to the victim based on IR-sensor input.
-\item[path\_finder\_test] tests internal map generation and escape path calculation, i.e.\ in essence also a test for \textbf{UC-D}, since one can see that the logic is able to deal with formerly unknown obstacles and behave reasonably.
-\item[approximator\_test] tests approximation of current position and orientation based on the motors data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
-\item[follow\_right\_hand\_test] tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
-\item[controller\_test] tests the complete control software, and use cases \textbf{UC-E} and \textbf{UC-F}
+\item[drive\_test] Tests the physical model of differential drive isolated from any logic.
+\item[proximity\_test] Tests the physical model of the proximity sensors separately. % note that there is no adverb for isolated, thus separately
+\item[ir\_test] Tests the physical model of the IR sensors of the Tin Bot.
+\item[traffic\_blind\_test] Tests the \enquote{blind} part of the traffic cop, i.e.\ without any IR-sensor input.
+\item[victim\_direction\_test] Tests victim direction calculation, i.e.\ the logic used to approximate the angle from the Tin Bot to the victim based on IR-sensor input.
+\item[path\_finder\_test] Tests internal map generation and escape path calculation, i.e.\ in essence also a test for \textbf{UC-D}, since one can see that the logic is able to deal with formerly unknown obstacles and behave reasonably.
+\item[approximator\_test] Tests approximation of current position and orientation based on the motors data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
+\item[follow\_right\_hand\_test] Tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
+\item[controller\_test] Tests the complete control software, and use cases \textbf{UC-E}, \textbf{UC-F} and \textbf{UC-D}.
 \end{description}
 
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
