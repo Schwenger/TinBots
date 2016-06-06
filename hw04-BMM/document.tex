@@ -64,16 +64,15 @@
 
 The basic idea of dynamic hardware redundancy is to have multiple copies of the same component in place, they may or may not do the same calculation in parallel. Whether a value, computed by the default component is \enquote{right} is decided by some other component which switches to one of the other standby components when it detects a fault.
 
-\item Static: Random faults if the reliability of the components is high enough. Dynamic: All faults that are detectable by the system (under the assumption that at least one of the standby units gives correct results).
-% <FIXME>
+\item Static: Random faults if the reliability of the components is high enough. Dynamic: Only faults that are detectable by the system (under the assumption that at least one of the standby units gives correct results).
 
-\item Static: The reliability and amount of the components and the voter.
+\item Static: The reliability and amount of the components, and the reliability of the voter.
 
-Dynamic: The reliability of the components and the fault detector.
+Dynamic: The reliability of the components, and the ability (set of faults that can be detected) and reliability fault detector.
 
-\item To apply static hardware redundancy one does not need a sophisticated fault detection algorithm/component. Therefore they are easier to implement. The reliability of a voter is in general higher, than the reliability of a fault detector. However the cost might be higher.
+\item To apply static hardware redundancy one does not need a sophisticated fault detection algorithm/component. Therefore they are easier to implement. The reliability of a voter is in general higher than the reliability of a fault detector. However, the cost might be higher, due to the sheer amount of the main component.
 
-With dynamic hardware redundancy you may have cold spares which means they do not wear out as fast as the default component. With static hardware redundancy all components are exposed to the same stress level leading to similar ware-out rates.
+With dynamic hardware redundancy you may have cold spares which means they do not wear out as fast as the default component. With static hardware redundancy all components are exposed to the same stress level leading to similar wear-out rates.
 \end{enumerate}
 
 
@@ -155,8 +154,8 @@ approximation when there's a linear-time exact algorithm.
 
 
 \section*{Problem 4: Communication}
-The static segment implements time-triggered behavior and by that guarantees a specific latency for time critical events. The dynamic segment improves the overall bandwidth by not wasting time slots compared to the static segment.
+The static segment implements time-triggered behavior and by that guarantees a specific latency for time critical events. The dynamic segment improves the overall bandwidth by not wasting time slots compared to the static segment. They are combined in order to enjoy the benefits of both approaches.
 
-Jitter means a variation in latency. Glitches are bit-flips, which means that some bits have the wrong value. If there are bit-flips and the systemdetects and corrects them, this might result in a variation of latency.
+Jitter means a variation in latency. Glitches are bit-flips, which means that some bits have the wrong value. If there are bit-flips and the system detects and corrects them, this might result in a variation of latency.
 
 \end{document}
