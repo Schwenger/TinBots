@@ -49,6 +49,11 @@
 % \newcommand{\set}[1]{\{#1\}}
 % \newcommand{\abs}[1]{\lvert #1 \rvert}
 
+% Thanks to https://tex.stackexchange.com/questions/4216/how-to-typeset-correctly
+\newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                    \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                    =}
+
 \DeclareMathOperator{\sinc}{sinc}
 
 \begin{document}
@@ -65,7 +70,51 @@ FIXME
 
 \section*{Problem 3: Reliability Analysis}
 
-FIXME
+\subsection*{Part 1}
+
+Components 5, 6, and 7 can be treated as a single component \enquote{8} with a reliability of:
+ %
+\[R(8) = 1 - (1 - R(5))(1 - R(6))(1 - R(7)) = 1 - (1-0.7)^3 = 0.973\]
+
+Components 2 and 8 can be treated as a single component \enquote{9} with a reliability of
+ %
+\[R(9) = R(2) \cdot R(8) = 0.9 \cdot 0.973 = 0.8757\]
+
+Components 9 and 3 can be treated as a single component \enquote{10} with a reliability of
+ %
+\[R(10) = 1 - (1 - R(9))(1 - R(3)) = 1 - 0.0294 = 0.9751\]
+
+Components 1 and 10 can be treated as a single component \enquote{11} with a reliability of
+ %
+\[R(11) = 0.95 \cdot 0.9751 = 0.9263\]
+
+Components 11 and 4 can be treated as a single component \enquote{S} with a reliability of
+ %
+\[R(S) = 1 - 0.0737 \cdot 0.15 = 0.989\]
+
+Component S represents the system as a whole, therefore the overall reliability is exactly $0.989$.
+
+\subsection*{Part 2}
+
+By working from right to left:
+ %
+\[\{  \{5,6,7,3,4\}, \{2,3,4\}, \{1,4\}  \}\]
+
+\subsection*{Part 3}
+
+As a shorthand-notation, let $NR_{\alpha}(t) \defeq \prod_{i \in \alpha} (1-R_{i}(t))$
+
+\begin{align*}
+    R(t)
+    &> 1-\left( NR_{5,6,7,3,4}(t) + NR_{2,3,4}(t) + NR_{1,4}(t) \right) \\
+    &= 1-\left( 0.00081 + 0.003 + 0.0075 \right) \\
+    &= 1 - 0.0113 \\
+    &= 0.9887
+\end{align*}
+
+In comparison, it's clear that this is accurate, but not always tight.  Most
+importantly, we don't see any justification to use an exponential-time
+approximation when there's a linear-time exact algorithm.
 
 
 \section*{Problem 4: Communication}
