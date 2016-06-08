@@ -31,3 +31,6 @@ slprj/
 
 # IDEA-IDE
 .idea
+
+# Evil intermediate files
+__pycache__/
