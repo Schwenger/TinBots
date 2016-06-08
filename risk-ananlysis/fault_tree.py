@@ -108,7 +108,7 @@ with T(r'standing still') as standing_still:
 with T(r'uncooperative behavior (T2T)') as uncooperative:
     with F('communication failure') as communication:
         bluetooth = P('bluetooth sender/receiver failure')
-        medium = P('medium failure (noise, inference, ...)')
+        medium = P('medium failure (noise, interference, ...)')
 
         communication << (bluetooth | medium)
 
@@ -153,14 +153,17 @@ with T(r'victim\'s LED does not\nsend valid signal') as victim_silent:
 
 class IR_perception:
     ir_recv_defect = F(r'primary IR receiver fault')
-    no_ir_signal = F(r'E-Puck does not\nreceive IR data');
-    
+
+    # Other reasons go here
+
     failure = F(r"Can't percieve victim")
-    failure << (victim_silent | ir_recv_defect)
+    failure << (ir_recv_defect | F(r'FIXME: WAU/SOS, interference'))
 
 
 with T(r'clear line of sight,\nbut no LED') as see_no_led:
-    see_no_led << (victim_silent | IR_perception.failure)
+    ir_recv_led_defect = F(r'primary failure\nof the display-LED')
+
+    see_no_led << (victim_silent | ir_recv_led_defect | IR_perception.failure)
 
 
 victim404 = T(r'victim cannot be found')
