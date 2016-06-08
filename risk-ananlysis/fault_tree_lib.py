@@ -26,7 +26,7 @@ class Node:
         self.label = label or self.label
         self.shape = shape or self.shape
         self.parent = parent
-        self.children = list(children)
+        self.children = set(children)
         self.name = 'node{}'.format(id(self))
         self.parameters = parameters or dict(self.parameters)
 
@@ -51,20 +51,26 @@ class Failure(Node):
 
     def __lshift__(self, other):
         other.parent = self
-        self.children.append(other)
+        self.children.add(other)
 
     def __rshift__(self, other):
         return other << self
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        return False
+
     def __or__(self, other):
         if isinstance(other, OR):
-            other.children.append(self)
+            other.children.add(self)
             return other
         return OR(None, self, other)
 
     def __and__(self, other):
         if isinstance(other, AND):
-            other.children.append(self)
+            other.children.add(self)
             return other
         return AND(None, self, other)
 
@@ -91,13 +97,13 @@ class Gate(Node):
 
     def __or__(self, other):
         if isinstance(other, Failure):
-            self.children.append(other)
+            self.children.add(other)
             return self
         return OR(self, other)
 
     def __and__(self, other):
         if isinstance(other, Failure):
-            self.children.append(other)
+            self.children.add(other)
             return self
         return AND(self, other)
 
