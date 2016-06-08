@@ -95,27 +95,112 @@ The \emph{Victim Introducer} block uses a similar mechanism as the Tin Bot Intro
 The output of the control software is fed back to the environment, which allows us to model real world physics.
 
 \section{Components}
+In the following description of our components we define the term \enquote{\emph{introduce}} as recording the position of an object in the matrix representing the environment by setting a certain value in the particular cell(s) the object is located in.
+
+\subsection{Physical Environment}
+\subsubsection{Tin Bot Introducer}
+Records the position of the Tin Bot inside the matrix representing the environment. Because the matrix is used as input for the drives again the Block delays the position by one sample to prevent algebraic loops using \emph{x0} respectively \emph{y0} as starting position.
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[row\_in] Current row the Tin Bot should be placed in.
+	\item[col\_in] Current column the Tin Bot should be placed in.
+	\item[reset] (Not used in our simulation, resets the internal state.)
+	\item[x0] Starting position of the Tin Bot.
+	\item[y0] Starting position of the Tin Bot.
+	\item[map\_in] Matrix representing the environment without the corresponding Tin Bot.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[map\_out] Matrix representing the environment with the corresponding Tin Bot.
+	\item[row\_out] Row where the Tin Bot has been introduced (delayed).
+	\item[col\_out] Column where the Tin Bot has been introduced (delayed).
+	\end{description}
+\end{description}
+
+\subsubsection{Tin Bot Eliminator}
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[map\_in] Matrix representing the environment (all objects have to be introduced).
+	\item[row] Row where the corresponding Tin Bot has been introduced.
+	\item[col] Column where the corresponding Tin Bot has been introduced.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[map\_out] Matrix representing the environment without the corresponding Tin Bot.
+	\end{description}
+\end{description}
+
+\subsubsection{Victim Introducer}
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[map\_in] Matrix representing the environment without the victim.
+	\item[victim] Current position of the Victim as 2 dimensional vector ($[x\,\, y]$). 
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[map\_out] Matrix representing the environment with the victim.
+	\end{description}
+\end{description}
+
+\subsubsection{IR Sensor}
+Implementing an IR sensor using raycasting.
+
+
+\subsubsection{Proximity Sensor}
+\subsubsection{Differential Drive}
+\subsubsection{Differential Drive Restricted}
+
+\subsection{Software}
 Besides the model of the environment, there are various other components mainly modeling the software running on the Tin Bot as Stateflow charts.
 
+\subsubsection{Tin Bot Approximator}
+\subsubsection{Tin Bot Software}
+\subsubsection{Victim Detector}
+\subsubsection{Follow Right Hand}
 As default model of operation, there's the \emph{Right Hand Follower}, which does not keep track of previous locations, but just applies the right hand rule until another component has a better idea what to do.
 
-Next, there is the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements provides a reasonably good result.  This functionality is spread across \emph{Traffic Cop Eyes, Victim Finder, Victim Detector}; each of which are state machines.
-
+\subsubsection{Victim Direction}
+\subsubsection{Path Finder}
 As soon as the Tin Bot knows the location of the victim, the reminder of the problem is basically a maze solving task under a partially known maze. 
 \emph{Path Finder} takes care of computing the waypoints leading to the victim at first, and out of the maze when the victim has been picked up. 
 
+\subsubsection{Tin Bot Controller}
+\subsubsection{Traffic Cop Eyes}
+\subsubsection{Sensor Filter}
+
+\subsubsection{Path Executor}
 \emph{The Path Executor} tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
 While doing so we might gather new information about obstacles rendering the waypoint not directly reachable, so we trigger a re-computation of the path finding component. 
 This component might report that there is no path at all due to incorrect sensor data at some point during the search\footnote{by assumption the maze is solvable} resulting in the detection of non-existing walls. 
 In this case, we fall back to using the right hand rule while updating our knowledge about the world. Path Executor is a real state machine, and both Path modules are implemented as a Stateflow chart; although Path Finder is not a state machine in the strict sense.
 
-Finally, there is the \emph{(Blind) Traffic Cop}, which orchestrates the previous modules, and decides \enquote{who is allowed to drive}, by means of a state machine.
+\subsubsection{Blind Traffic Cop}
+\subsubsection{Traffic Cop}
+
+\subsection{Communications}
+\subsubsection{LPS}
+
+\subsection{Abstractions and Compositions}
+\subsubsection{Tin Bot Abstraction}
+\subsubsection{Tin Bot}
+\subsubsection{Victim}
+
+
+% ------
+
+
+Next, there is the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements provides a reasonably good result.  This functionality is spread across \emph{Traffic Cop Eyes, Victim Finder, Victim Detector}; each of which are state machines.
+
 
 All these modules, who in composition are called \emph{Controller}, need the concept of \enquote{current location and direction}, which is given by the \emph{Approximator}. This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it. This module applies the same differential equations as the Differential Drive.
 
 \section{Test Cases}
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
 
+\subsection{Unit-Tests}
 \begin{description}
 \item[drive\_test] Tests the physical model of differential drive isolated from any logic.
 \item[proximity\_test] Tests the physical model of the proximity sensors separately. % note that there is no adverb for isolated, thus separately
@@ -125,8 +210,10 @@ As already mentioned we mostly used a unit-test-like approach to test all aspect
 \item[path\_finder\_test] Tests internal map generation and escape path calculation, i.e.\ in essence also a test for \textbf{UC-D}, since one can see that the logic is able to deal with formerly unknown obstacles and behave reasonably.
 \item[approximator\_test] Tests approximation of current position and orientation based on the motors data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
 \item[follow\_right\_hand\_test] Tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
-\item[controller\_test] Tests the complete control software, and use cases \textbf{UC-D}, \textbf{UC-E} and \textbf{UC-F}.
 \end{description}
+
+\subsection{System-Test}
+The test \textbf{controller\_test} implements the concrete virtual prototype. It tests the complete control software within the simulated environment and use cases \textbf{UC-D}, \textbf{UC-E} and \textbf{UC-F} as well as requirements \textbf{MR2}, \textbf{MR4}, \textbf{MR5}, \textbf{MR6}, \textbf{MR8}, \textbf{MR10}, \textbf{NR1}, \textbf{NR4}, \textbf{MR14}, \textbf{MR15}, \textbf{MR16}, \textbf{MR17}, \textbf{NR7}. 
 
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
 
