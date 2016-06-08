@@ -1,3 +1,5 @@
+NOTE: We started a new engineering notebook because the old one became too long. The last entry in the old notebook is from 03.06.2016 09-18 "session".
+
 scribe: Maximilian Schwenger 03.06.2016 12-14
 
 Risk analysis:

@@ -80,24 +80,35 @@ goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim
 
 powerNoLed[label="no power LED"];
   powerNoLedOr[label="OR", shape=box];
-  powerNoLed -> powerNoLedOr
-    powerLedDefunc[label="primary power LED failure"];
-    powerNoLedOr -> powerLedDefunc;
-
+  powerNoLedOr -> powerNoLed;
+    powerLedDefunct[label="primary power LED failure"];
+    powerLedDefunct -> powerNoLedOr;
+    
     userDidNotTurnOn[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
-    powerNoLedOr -> userDidNotTurnOn;
+    userDidNotTurnOn -> powerNoLedOr;
+    
+    batteryDefect[label="primary battery failure; \nbattery defect or \nbattery not connected"];
+    batteryDefect -> powerNoLedOr;
 
-    batteryDefect[label="primary battery failure; \nbattery defect"];
-    powerNoLedOr -> batteryDefect;
-
-    batteryNotCharged[label="primary battery failure; \nbattery not charged"];
-    powerNoLedOr -> batteryNotCharged;
+    batteryNotCharged[label="primary battery failure; \nbattery not charged", shape=diamond];
+    batteryNotCharged -> powerNoLedOr;
 
     wiringDefect[label="failure in \nwiring or fuse"];
-    powerNoLedOr -> wiringDefect
+    wiringDefect -> powerNoLedOr;
 
 
 victimSilent[label="victim's LED is off"];
+  victimSilentOr[label="OR", shape=box];
+  victimSilentOr -> victimSilent;
+    wiringDefect -> victimSilentOr;
+    batteryDefect -> victimSilentOr;
+    batteryNotCharged -> victimSilentOr;
+
+    userDidNotTurnOnVictim[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
+    userDidNotTurnOnVictim -> victimSilentOr;
+
+    irLedDefect[label="primary IR LED failure"];
+    irLedDefect -> victimSilentOr;
 
 
 victim404[label="victim cannot be found"];
