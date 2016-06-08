@@ -1,10 +1,7 @@
 all: compile
 
-fault-tree.eps: fault-tree.dot
-	dot -Tps -ofault-tree.eps fault-tree.dot
-
-fault-tree.dot: fault_tree.py
-	python3 fault_tree.py > fault-tree.dot
+fault-tree.eps: fault_tree.py
+	python3 fault_tree.py
 
 .PHONY: compile view
 

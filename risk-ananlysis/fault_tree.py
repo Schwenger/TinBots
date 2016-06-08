@@ -22,6 +22,13 @@ Kanten zwischen den Blöcken werden mit "<<" und ">>" erzeugt.
 Mit `with` können Einrückungen realisiert werden.
 
 Ansonsten geht alles, was mit Python auch geht. ;)
+
+
+Generate EPS file containing all nodes:
+    python3 fault_tree.py
+
+Generate EPS file containing specific nodes:
+    python3 fault_tree.py node_name1 node_name2 …
 """
 
 from fault_tree_lib import Failure, Toplevel, Primary, Secondary, graphviz
@@ -141,5 +148,16 @@ victim404 = T(r'victim cannot be found')
 no_escort = T(r'not moving the victim out;\nat least not on shortest path')
 
 
-print(graphviz(escort_no_led, see_no_led, victim_lost, standing_still, uncooperative, ignore_victim, spin,
-               jerk, bump, go_wrong, no_power_led, victim_silent, victim404, no_escort))
+import subprocess
+import sys
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        nodes = (eval(node_name) for node_name in sys.argv[1:])
+    else:
+        nodes = (escort_no_led, see_no_led, victim_lost, standing_still, uncooperative, ignore_victim, spin,
+                 jerk, bump, go_wrong, no_power_led, victim_silent, victim404, no_escort)
+
+    dot = subprocess.Popen(['dot', '-Tps', '-ofault-tree.eps'], stdin=subprocess.PIPE)
+    dot.communicate(graphviz(*nodes).encode('utf-8'))
+    dot.wait()
