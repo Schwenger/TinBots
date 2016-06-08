@@ -83,9 +83,6 @@ with T(r'escorting,\nbut no led') as escort_no_led:
     escort_no_led << not_escorting
 
 
-see_no_led = T(r'clear line of sight,\nbut no LED')
-
-
 victim_lost = T(r'victim lost while escorting')
 
 
@@ -152,6 +149,18 @@ with T(r'victim\'s LED does not\nsend valid signal') as victim_silent:
     software = F(r'victim software failure')
 
     victim_silent << (not_turned_on | ir_led_defect | software | Power.failure)
+
+
+class IR_perception:
+    ir_recv_defect = F(r'primary IR receiver fault')
+    no_ir_signal = F(r'E-Puck does not\nreceive IR data');
+    
+    failure = F(r"Can't percieve victim")
+    failure << (victim_silent | ir_recv_defect)
+
+
+with T(r'clear line of sight,\nbut no LED') as see_no_led:
+    see_no_led << (victim_silent | IR_perception.failure)
 
 
 victim404 = T(r'victim cannot be found')
