@@ -2,12 +2,45 @@ digraph somegraph {
 rankdir=BT;
 
 escortNoLed[label="escorting,\nbut no LED", style="bold"];
+escortNoLedOr[label="OR", shape=box];
+escortNoLedOr -> escortNoLed;
+    escortLedFailure[label="primary indicator LED failure"];
+    escortLedFailure -> escortNoLedOr;
+    //
+    escortLedForgotten[label="not implemented\n(forgotten)"];
+    escortLedForgotten -> escortNoLedOr;
+    //
+    notEscorting[label="Tin Bot is not\naware of escorting"];
+    notEscorting -> escortNoLedOr;
+    notEscortingOr[label="OR", shape=box];
+    notEscortingOr -> notEscorting;
+        memoryFault[label="forgot what happened\n(primary memory fault)"];
+        memoryFault -> notEscortingOr;
+        //
+        unintentionalEscort[label="picking up the victim\was accidental"];
+        unintentionalEscort -> notEscortingOr;
+        unintentionalEscortAnd[label="AND", shape=box];
+        unintentionalEscortAnd -> unintentionalEscort;
+            runVictimOver[label="run into \"victim-obstacle\""];
+            runVictimOver -> unintentionalEscortAnd;
+            bump -> runVictimOver; // Single reason means: no boolean operator!
+            //
+            escortingRecognition -> unintentionalEscortAnd;
+            //
+            magnetsTriggerAcc[label="magnets accidentally trigger"];
+            magnetsTriggerAcc -> unintentionalEscortAnd;
 
 
 seeNoLed[label="clear line of sight,\nbut no LED", style="bold"];
 
 
 victimLost[label="victim lost while escorting", style="bold"];
+// see and use below: 'escortingRecognition'
+
+
+// Not stand-alone, but used multiple times
+escortingRecognition[label="escort recognition fails"];
+// FIXME
 
 
 standingStill[label="standing still", style="bold"];
