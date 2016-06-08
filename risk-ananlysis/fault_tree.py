@@ -1,6 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
+"""
+Usage
+=====
+
+Failure Blöcke lassen sich mit Failure, Toplevel, Primary und Secondary erzeugen.
+
+Syntax:
+    Failure(description, [probability])
+
+Mit "|" erzeugt man eine OR-Verzweigung, mit "&" eine AND-Verzweigung. Beide Operatoren
+Klammern links und erlauben beliebig viele Blöcke aneinander zu hängen.
+
+Syntax:
+    a | b | c | … (erzeugt eine OR-Verzweigung)
+    a & b & c & … (erzeugt eine AND-Verzweigung)
+
+Kanten zwischen den Blöcken werden mit "<<" und ">>" erzeugt.
+
+Mit `with` können Einrückungen realisiert werden.
+
+Ansonsten geht alles, was mit Python auch geht. ;)
+"""
+
 from fault_tree_lib import Failure, Toplevel, Primary, Secondary, graphviz
 
 
