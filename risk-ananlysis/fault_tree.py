@@ -67,7 +67,36 @@ class Power:
     failure << (battery_defect | battery_not_charged | wiring)
 
 
-bump = T('run into walls')
+class Proximity:
+    failure = F(r'primary proximity\nsensor fault')
+
+    sparse_walls = F(r'walls are\nextremely sparse')
+
+    software = F(r'software failure\n(overzealos escort-ignoring)')
+
+    false_negative = F(r'obstacle\nnot detected')
+    false_negative << (failure | sparse_walls | software)
+
+    avoid_sys = F(r'avoidance watchdog fails')
+
+    rhr_collide = F(r'right-hand-rule\ncan collide')
+    path_collide = F(r'path finder/executor\ncan collide')
+    any_collide = F(r'some driver does\nnot prevent collision')
+    any_collide << (rhr_collide | path_collide)
+
+    coll_sw = F(r'software failure')
+    coll_sw << (avoid_sys & any_collide)
+
+    collision = F(r'collision with obstacle')
+    collision << (coll_sw | Proximity.false_negative)
+
+
+bad_firmware = S(r'bad firmware\nor wrong program uploaded')
+
+
+bump = T(r'run into walls')
+bump << (Proximity.collision | bad_firmware)
+
 
 escorting_recognition = F('escort recognition fails')
 escorting_rec_sw = F('recognition method fails')
@@ -82,12 +111,9 @@ with T(r'escorting,\nbut no led') as escort_no_led:
         memory_fault = F(r'forgot what happened\n(primary memory fault)')
 
         with Failure(r'picking up the victim\nwas accidental') as unintentional_escort:
-            run_victim_over = F(r'run into \"victim-obstacle\"')
-            run_victim_over << bump
-
             magnet_trigger_acc = Failure(r'magnets unintentionally trigger')
 
-            unintentional_escort << (run_victim_over & escorting_recognition & magnet_trigger_acc)
+            unintentional_escort << (Proximity.false_negative & escorting_recognition & magnet_trigger_acc)
 
         not_escorting << (memory_fault | unintentional_escort)
 
@@ -123,9 +149,9 @@ with T(r'uncooperative behavior (T2T)') as uncooperative:
 
         communication << (bluetooth | medium)
 
-    software = F('software failure')
+    software = F('software failure\n(algorithmic)')
 
-    uncooperative << (communication | software)
+    uncooperative << (communication | software | bad_firmware)
 
 
 ignore_victim = T(r'not using information\nabout victim')
