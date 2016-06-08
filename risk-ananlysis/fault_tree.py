@@ -88,7 +88,7 @@ class Proximity:
     coll_sw << (avoid_sys & any_collide)
 
     collision = F(r'collision with obstacle')
-    collision << (coll_sw | Proximity.false_negative)
+    collision << (coll_sw | false_negative)
 
 
 bad_firmware = S(r'bad firmware\nor wrong program uploaded')
@@ -104,8 +104,8 @@ escorting_recognition << (escorting_rec_sw | IR_perception.failure)
 
 
 with T(r'escorting,\nbut no led') as escort_no_led:
-    escort_no_led << P(r'primary indicator LED failure')
-    escort_no_led << F(r'not implemented\n(forgotten)')
+    escort_led_failure = P(r'primary indicator LED failure')
+    forgot_escort_led = F(r'not implemented\n(forgotten)')
 
     with F(r'Tin Bot is not\naware of escorting') as not_escorting:
         memory_fault = F(r'forgot what happened\n(primary memory fault)')
@@ -117,7 +117,7 @@ with T(r'escorting,\nbut no led') as escort_no_led:
 
         not_escorting << (memory_fault | unintentional_escort)
 
-    escort_no_led << not_escorting
+    escort_no_led << (escort_led_failure | not_escorting | forgot_escort_led)
 
 
 victim_lost = T(r'victim lost while escorting')
@@ -175,9 +175,10 @@ with T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"') a
 
 with T(r'no power LED') as no_power_led:
     primary = P(r'primary power LED failure')
+    forgot_power_led = F(r'not implemented\n(forgotten)')
     not_turned_on = S(r'secondary failure\nuser did not turn\non the E-Puck')
 
-    no_power_led << (primary | not_turned_on | Power.failure)
+    no_power_led << (primary | not_turned_on | Power.failure | forgot_power_led)
 
 
 with T(r'victim\'s LED does not\nsend valid signal') as victim_silent:
@@ -189,9 +190,10 @@ with T(r'victim\'s LED does not\nsend valid signal') as victim_silent:
 
 
 with T(r'clear line of sight,\nbut no LED') as see_no_led:
+    forgot_ir_recv_led = F(r'not implemented\n(forgotten)')
     ir_recv_led_defect = F(r'primary failure\nof the display-LED')
 
-    see_no_led << (victim_silent | ir_recv_led_defect | IR_perception.failure)
+    see_no_led << (victim_silent | ir_recv_led_defect | IR_perception.failure | forgot_ir_recv_led)
 
 
 victim404 = T(r'victim cannot be found')
