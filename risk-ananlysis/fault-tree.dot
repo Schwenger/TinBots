@@ -1,4 +1,6 @@
 digraph somegraph {
+rankdir=BT;
+
 escortNoLed[label="escorting,\nbut no LED"];
 
 
@@ -9,12 +11,33 @@ victimLost[label="victim lost while escorting"];
 
 
 standingStill[label="standing still"];
-standingStill -> standingStillOr [dir=back];
 standingStillOr[label="OR", shape=box];
-noInitialLps[label="no initial position from LPS"];
-standingStillOr -> noInitialLps [dir=back];
-tinBotsHeld[label="manually held in place", shape=diamond];
-standingStillOr -> tinBotsHeld [dir=back];
+standingStillOr -> standingStill;
+    noInitialLps[label="no initial position from LPS"];
+    noInitialLps -> standingStillOr;
+        // FIXME
+    //
+    softwareInit[label="software initialization failure"];
+    softwareInit -> standingStillOr;
+    softwareInitOr[label="OR", shape=box];
+    softwareInitOr -> softwareInit;
+        softwareInitSoftware[label="software fault (bug)"];
+        softwareInitSoftware -> softwareInitOr;
+        //
+        badFirmware[label="bad setup\n(wrong setup)", shape=diamond];
+        badFirmware -> softwareInitOr;
+    //
+    motorFault[label="wheels unable to turn"];
+    motorFault -> standingStillOr;
+    motorFaultOr[label="OR", shape=box];
+    motorFaultOr -> motorFault;
+        // FIXME: battery empty
+        //
+        primaryMotorFault[label="primary motor fault"];
+        primaryMotorFault -> motorFaultOr;
+        //
+        wheelsBlocked[label="wheels blocked\n(secondary)", shape=diamond];
+        wheelsBlocked -> motorFaultOr;
 
 
 incoorperative[label="uncoorperative behavior (T2T)"];
