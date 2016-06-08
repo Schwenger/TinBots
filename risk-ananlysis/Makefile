@@ -1,6 +1,6 @@
 all: compile
 
-fault-tree.eps: fault_tree.py
+fault-tree.eps: fault_tree.py fault_tree_lib.py
 	python3 fault_tree.py
 
 .PHONY: compile view

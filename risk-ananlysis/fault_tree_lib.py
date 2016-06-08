@@ -18,7 +18,7 @@ import collections
 
 
 class Node:
-    shape = 'box'
+    shape = None
     label = 'None'
     parameters = {}
 
@@ -32,7 +32,8 @@ class Node:
 
     def graphviz_node(self):
         self.parameters['label'] = '"{}"'.format(self.label)
-        self.parameters['shape'] = self.shape
+        if self.shape is not None:
+            self.parameters['shape'] = self.shape
         params = ('{}={}'.format(name, value) for name, value in self.parameters.items())
         return '{}[{}];'.format(self.name, ','.join(params))
 
@@ -42,8 +43,6 @@ class Node:
 
 
 class Failure(Node):
-    shape = 'box'
-
     def __init__(self, description=None, probability=None, **parameters):
         super().__init__(label=description, **parameters)
         self.description = description
@@ -85,7 +84,7 @@ class Toplevel(Failure):
 
 
 class Primary(Failure):
-    shape = 'circle'
+    pass
 
 
 class Secondary(Failure):
