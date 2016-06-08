@@ -36,6 +36,22 @@ goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim
 
 
 powerNoLed[label="no power LED"];
+  powerNoLedOr[label="OR", shape=box];
+  powerNoLed -> powerNoLedOr
+    powerLedDefunc[label="primary power LED failure"];
+    powerNoLedOr -> powerLedDefunc;
+    
+    userDidNotTurnOn[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
+    powerNoLedOr -> userDidNotTurnOn;
+    
+    batteryDefect[label="primary battery failure; \nbattery defect"];
+    powerNoLedOr -> batteryDefect;
+
+    batteryNotCharged[label="primary battery failure; \nbattery not charged"];
+    powerNoLedOr -> batteryNotCharged;
+
+    wiringDefect[label="failure in \nwiring or fuse"];
+    powerNoLedOr -> wiringDefect
 
 
 victimSilent[label="victim's LED is off"];
