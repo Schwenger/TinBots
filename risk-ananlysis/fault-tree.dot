@@ -23,7 +23,7 @@ spin[label="turning around forever"];
 jerk[label="spurious/unreasonable movements (LPS)"];
 
 
-bump[label"run into walls"];
+bump[label="run into walls"];
 
 
 goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim\""];
