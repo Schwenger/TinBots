@@ -38,3 +38,61 @@ $            $
 $$$$$$$$$$$$$$
 
 You're welcome, Maxi.
+
+
+==============================
+
+Scribe: Ben Wiederhake, 8.6.2016, 10-12 session
+
+Feedback zur Dokumentation:
+- Env ist okay, aber "Components" ist was anderes:
+  "Was sind Inputs, was sind Outputs, was passiert" sollte es sein
+- Test-cases: zu wenig Korrelation mit Requirements
+- "Falls es irgendwann noch mal eine Nachreichung gibt, einfach hochladen"
+	=> Marlene und Maxi scheinen zu wissen, was damit gemeint ist
+- Artikel verwenden ;)
+
+Feedback zum Prototype:
+- Sollte Verbindung testen
+	-> Tut es aber!
+
+Wahrscheinlichkeiten:
+- Experimente sind nicht Zwang!
+- Software sollte irgendwie Wahrscheinlichkeiten haben, "10 mal laufen lassen ist okay"
+
+RHR alternative:
+Breitenberg matrix
+
+TODO:
+- Adapt specification document, because we don't have ground sensors anymore!
+- s/non physical/non-physical
+- shortest known path to exit -> must have!
+
+Anordnung vom fault tree:
+- GraphViz!
+- Latex-Paket ist buggy (sagt Hazem)
+- Matlab-Modul ist buggy (sagt Hazem)
+
+Aufbauen der Trees, top-down, und Aufteilen:
+- escorting but no LED
+- clear line of sight, no LED
+- victim lost while escorting
+- standing still
+- incoorperative behavior (LPS)
+- not using information about victim
+- turning around forever
+- spurious/unreasonable movements (LPS)
+- run into walls
+- moving to the "gathered position" instead "towards the victim"
+- no power LED
+- victim's LED is off
+- victim cannot be found
+- not moving the victim out; at least not on shortest path
+
+Coorperation mode:
+- locking via piratenpad
+- working via git+graphviz
+
+Failure mode Sackgasse:
+- Es (kann) keine zweite Messung geben!
+- sollte dem "Ray entlang fahren in Schlangenlinien"
