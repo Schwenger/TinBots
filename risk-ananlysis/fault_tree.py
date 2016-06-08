@@ -45,7 +45,10 @@ escorting_recognition = F('escort recognition fails')
 
 class LPS:
     link_down = F('LPS link down')
+    link_down << F('FIXME: LPS, LPP')
+
     no_data = F('LPS sends no data')
+    no_data << F('FIXME: LPS, CBP')
 
     failure = F('LPS failure')
     failure << (link_down | no_data)
@@ -71,7 +74,7 @@ with T(r'escorting,\nbut no led') as escort_no_led:
             run_victim_over = F(r'run into \"victim-obstacle\"')
             run_victim_over << bump
 
-            magnet_trigger_acc = Failure(r'magnets accidentally trigger')
+            magnet_trigger_acc = Failure(r'magnets unintentionally trigger')
 
             unintentional_escort << (run_victim_over & escorting_recognition & magnet_trigger_acc)
 
