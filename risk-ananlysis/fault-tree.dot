@@ -66,7 +66,7 @@ uncoorperative[label="uncoorperative behavior (T2T)", style="bold"];
 ignoreVictim[label="not using information about victim", style="bold"];
 
 
-spin[label="turning around forever"];
+spin[label="turning around forever", style="bold"];
 
 
 jerk[label="spurious/unreasonable movements (LPS)", style="bold"];
@@ -76,6 +76,23 @@ bump[label="run into walls", style="bold"];
 
 
 goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim\"", style="bold"];
+goWrongOr[label="OR", shape=box];
+goWrongOr -> goWrong;
+    ignoreVictim -> goWrongOr;
+    //
+    jerk -> goWrongOr;
+    //
+    goWrongSoft[label="design error"];
+    goWrongSoft -> goWrongOr;
+    goWrongSoftAnd[label="AND", shape="box"];
+    goWrongSoftAnd -> goWrongSoft;
+        specIgnored[label="misunderstanding about MR14"];
+        specIgnored -> goWrongSoftAnd;
+        //
+        noDoubleCheck[label="no double checking"];
+        noDoubleCheck -> goWrongSoftAnd;
+    //
+    uncoorperative -> goWrongOr;
 
 
 powerNoLed[label="no power LED", style="bold"];
