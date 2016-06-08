@@ -20,16 +20,21 @@ import collections
 class Node:
     shape = 'box'
     label = 'None'
+    parameters = {}
 
-    def __init__(self, parent=None, *children, label=None, shape=None):
+    def __init__(self, parent=None, *children, label=None, shape=None, **parameters):
         self.label = label or self.label
         self.shape = shape or self.shape
         self.parent = parent
         self.children = list(children)
         self.name = 'node{}'.format(id(self))
+        self.parameters = parameters or dict(self.parameters)
 
     def graphviz_node(self):
-        return '{}[label="{}", shape={}];'.format(self.name, self.label, self.shape)
+        self.parameters['label'] = '"{}"'.format(self.label)
+        self.parameters['shape'] = self.shape
+        params = ('{}={}'.format(name, value) for name, value in self.parameters.items())
+        return '{}[{}];'.format(self.name, ','.join(params))
 
     def graphviz_edges(self):
         return '\n'.join('{} -> {};'.format(child.name, self.name)
@@ -39,8 +44,8 @@ class Node:
 class Failure(Node):
     shape = 'box'
 
-    def __init__(self, description=None, probability=None):
-        super().__init__(label=description)
+    def __init__(self, description=None, probability=None, **parameters):
+        super().__init__(label=description, **parameters)
         self.description = description
         self.probability = probability
 
@@ -65,6 +70,12 @@ class Failure(Node):
 
     __ror__ = __or__
     __rand__ = __and__
+
+
+class Toplevel(Failure):
+    parameters = {
+        'style': 'bold'
+    }
 
 
 class Primary(Failure):
