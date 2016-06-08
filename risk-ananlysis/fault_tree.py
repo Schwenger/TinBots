@@ -105,7 +105,16 @@ with T(r'standing still') as standing_still:
     standing_still << (no_initial_lps | software_init | wheel_fault | Power.failure)
 
 
-uncooperative = T(r'uncooperative behavior (T2T)')
+with T(r'uncooperative behavior (T2T)') as uncooperative:
+    with F('communication failure') as communication:
+        bluetooth = P('bluetooth sender/receiver failure')
+        medium = P('medium failure (noise, inference, ...)')
+
+        communication << (bluetooth | medium)
+
+    software = F('software failure')
+
+    uncooperative << (communication | software)
 
 
 ignore_victim = T(r'not using information\nabout victim')
