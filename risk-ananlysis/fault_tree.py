@@ -38,9 +38,13 @@ P = Primary
 S = Secondary
 T = Toplevel
 
-bump = T('run into walls')
+class IR_perception:
+    ir_recv_defect = F(r'primary IR receiver fault')
 
-escorting_recognition = F('escort recognition fails')
+    # Other reasons go here
+
+    failure = F(r"Can't percieve victim")
+    failure << (ir_recv_defect | F(r'FIXME: WAU/SOS, interference'))
 
 
 class LPS:
@@ -61,6 +65,13 @@ class Power:
 
     failure = F('power failure')
     failure << (battery_defect | battery_not_charged | wiring)
+
+
+bump = T('run into walls')
+
+escorting_recognition = F('escort recognition fails')
+escorting_rec_sw = F('recognition method fails')
+escorting_recognition << (escorting_rec_sw | IR_perception.failure)
 
 
 with T(r'escorting,\nbut no led') as escort_no_led:
@@ -149,15 +160,6 @@ with T(r'victim\'s LED does not\nsend valid signal') as victim_silent:
     software = F(r'victim software failure')
 
     victim_silent << (not_turned_on | ir_led_defect | software | Power.failure)
-
-
-class IR_perception:
-    ir_recv_defect = F(r'primary IR receiver fault')
-
-    # Other reasons go here
-
-    failure = F(r"Can't percieve victim")
-    failure << (ir_recv_defect | F(r'FIXME: WAU/SOS, interference'))
 
 
 with T(r'clear line of sight,\nbut no LED') as see_no_led:
