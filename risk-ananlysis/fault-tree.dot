@@ -15,7 +15,11 @@ standingStillOr[label="OR", shape=box];
 standingStillOr -> standingStill;
     noInitialLps[label="no initial position from LPS"];
     noInitialLps -> standingStillOr;
-        // FIXME
+    noInitialLpsOr[label="OR", shape=box];
+    noInitialLpsOr -> noInitialLps;
+        lpsCommunication -> noInitialLpsOr;
+        //
+        lpsSystemFailure -> noInitialLpsOr;
     //
     softwareInit[label="software initialization failure"];
     softwareInit -> standingStillOr;
@@ -24,20 +28,36 @@ standingStillOr -> standingStill;
         softwareInitSoftware[label="software fault (bug)"];
         softwareInitSoftware -> softwareInitOr;
         //
-        badFirmware[label="bad setup\n(wrong setup)", shape=diamond];
+        badFirmware[label="bad setup\n(secondary failure)", shape=diamond];
         badFirmware -> softwareInitOr;
     //
-    motorFault[label="wheels unable to turn"];
-    motorFault -> standingStillOr;
-    motorFaultOr[label="OR", shape=box];
-    motorFaultOr -> motorFault;
-        // FIXME: battery empty
-        //
+    wheelFault[label="wheels unable to turn"];
+    wheelFault -> standingStillOr;
+    wheelFaultOr[label="OR", shape=box];
+    wheelFaultOr -> wheelFault;
         primaryMotorFault[label="primary motor fault"];
-        primaryMotorFault -> motorFaultOr;
+        primaryMotorFault -> wheelFaultOr;
         //
-        wheelsBlocked[label="wheels blocked\n(secondary)", shape=diamond];
-        wheelsBlocked -> motorFaultOr;
+        wheelsBlocked[label="wheels blocked\n(secondary failure)", shape=diamond];
+        wheelsBlocked -> wheelFaultOr;
+    //
+    batteryDefect -> standingStillOr;
+    //
+    wiringDefect -> standingStillOr;
+
+
+// Not stand-alone, but used multiple times
+lpsCommunication[label="LPS link down"];
+lpsCommunicationOr[label="OR", shape=box];
+lpsCommunicationOr -> lpsCommunication;
+    // FIXME
+
+
+// Not stand-alone, but used multiple times
+lpsSystemFailure[label="LPS sends no data"];
+lpsSystemFailureOr[label="OR", shape=box];
+lpsSystemFailureOr -> lpsSystemFailure;
+    // FIXME
 
 
 incoorperative[label="uncoorperative behavior (T2T)"];
@@ -63,10 +83,10 @@ powerNoLed[label="no power LED"];
   powerNoLed -> powerNoLedOr
     powerLedDefunc[label="primary power LED failure"];
     powerNoLedOr -> powerLedDefunc;
-    
+
     userDidNotTurnOn[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
     powerNoLedOr -> userDidNotTurnOn;
-    
+
     batteryDefect[label="primary battery failure; \nbattery defect"];
     powerNoLedOr -> batteryDefect;
 
