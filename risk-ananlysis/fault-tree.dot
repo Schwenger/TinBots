@@ -1,0 +1,44 @@
+digraph somegraph {
+escortNoLed[label="escorting,\nbut no LED"];
+
+
+seeNoLed[label="clear line of sight,\nbut no LED"];
+
+
+victimLost[label="victim lost while escorting"];
+
+
+stindingStill[label="standing still"];
+
+
+incoorperative[label="incoorperative behavior (LPS)"];
+
+
+ignoreVictim[label="not using information about victim"];
+
+
+spin[label="turning around forever"];
+
+
+jerk[label="spurious/unreasonable movements (LPS)"];
+
+
+bump[label"run into walls"];
+
+
+goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim\""];
+
+
+powerNoLed[label="no power LED"];
+
+
+victimSilent[label="victim's LED is off"];
+
+
+victim404[label="victim cannot be found"];
+
+
+noEscort[label="not moving the victim out;\nat least not on shortest path"];
+noEscort -> notEnoughMoney; // Dies ist ein Beispiel
+
+}
