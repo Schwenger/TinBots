@@ -152,7 +152,7 @@ powerFailureOr -> powerFailure;
     wiringDefect -> powerFailureOr;
 
 
-victimSilent[label="victim's LED is off", style="bold"];
+victimSilent[label="victim's LED does not\nsend valid signal", style="bold"];
   victimSilentOr[label="OR", shape=box];
   victimSilentOr -> victimSilent;
     powerFailure -> victimSilentOr;
@@ -162,6 +162,9 @@ victimSilent[label="victim's LED is off", style="bold"];
     //
     irLedDefect[label="primary IR LED failure"];
     irLedDefect -> victimSilentOr;
+    //
+    victimSoftware[label="victim software failure"];
+    victimSoftware -> victimSilentOr;
 
 
 victim404[label="victim cannot be found", style="bold"];
