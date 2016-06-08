@@ -17,7 +17,7 @@ escortNoLedOr -> escortNoLed;
         memoryFault[label="forgot what happened\n(primary memory fault)"];
         memoryFault -> notEscortingOr;
         //
-        unintentionalEscort[label="picking up the victim\was accidental"];
+        unintentionalEscort[label="picking up the victim\nwas accidental"];
         unintentionalEscort -> notEscortingOr;
         unintentionalEscortAnd[label="AND", shape=box];
         unintentionalEscortAnd -> unintentionalEscort;
@@ -46,7 +46,7 @@ escortingRecognition[label="escort recognition fails"];
 standingStill[label="standing still", style="bold"];
 standingStillOr[label="OR", shape=box];
 standingStillOr -> standingStill;
-    noInitialLps[label="no initial position from LPS"];
+    noInitialLps[label="no initial position\nfrom LPS"];
     noInitialLps -> standingStillOr;
     noInitialLpsOr[label="OR", shape=box];
     noInitialLpsOr -> noInitialLps;
@@ -94,13 +94,13 @@ lpsSystemFailureOr -> lpsSystemFailure;
 uncoorperative[label="uncoorperative behavior (T2T)", style="bold"];
 
 
-ignoreVictim[label="not using information about victim", style="bold"];
+ignoreVictim[label="not using information\nabout victim", style="bold"];
 
 
 spin[label="turning around forever", style="bold"];
 
 
-jerk[label="spurious/unreasonable movements (LPS)", style="bold"];
+jerk[label="spurious/unreasonable\nmovements (LPS)", style="bold"];
 
 
 bump[label="run into walls", style="bold"];
@@ -117,7 +117,7 @@ goWrongOr -> goWrong;
     goWrongSoft -> goWrongOr;
     goWrongSoftAnd[label="AND", shape="box"];
     goWrongSoftAnd -> goWrongSoft;
-        specIgnored[label="misunderstanding about MR14"];
+        specIgnored[label="misunderstanding\nabout MR14"];
         specIgnored -> goWrongSoftAnd;
         //
         noDoubleCheck[label="no double checking"];
@@ -152,7 +152,7 @@ powerFailureOr -> powerFailure;
     wiringDefect -> powerFailureOr;
 
 
-victimSilent[label="victim's LED is off", style="bold"];
+victimSilent[label="victim's LED does not\nsend valid signal", style="bold"];
   victimSilentOr[label="OR", shape=box];
   victimSilentOr -> victimSilent;
     powerFailure -> victimSilentOr;
@@ -162,6 +162,9 @@ victimSilent[label="victim's LED is off", style="bold"];
     //
     irLedDefect[label="primary IR LED failure"];
     irLedDefect -> victimSilentOr;
+    //
+    victimSoftware[label="victim software failure"];
+    victimSoftware -> victimSilentOr;
 
 
 victim404[label="victim cannot be found", style="bold"];
