@@ -1,16 +1,16 @@
 digraph somegraph {
 rankdir=BT;
 
-escortNoLed[label="escorting,\nbut no LED"];
+escortNoLed[label="escorting,\nbut no LED", style="bold"];
 
 
-seeNoLed[label="clear line of sight,\nbut no LED"];
+seeNoLed[label="clear line of sight,\nbut no LED", style="bold"];
 
 
-victimLost[label="victim lost while escorting"];
+victimLost[label="victim lost while escorting", style="bold"];
 
 
-standingStill[label="standing still"];
+standingStill[label="standing still", style="bold"];
 standingStillOr[label="OR", shape=box];
 standingStillOr -> standingStill;
     noInitialLps[label="no initial position from LPS"];
@@ -60,25 +60,25 @@ lpsSystemFailureOr -> lpsSystemFailure;
     // FIXME
 
 
-incoorperative[label="uncoorperative behavior (T2T)"];
+uncoorperative[label="uncoorperative behavior (T2T)", style="bold"];
 
 
-ignoreVictim[label="not using information about victim"];
+ignoreVictim[label="not using information about victim", style="bold"];
 
 
 spin[label="turning around forever"];
 
 
-jerk[label="spurious/unreasonable movements (LPS)"];
+jerk[label="spurious/unreasonable movements (LPS)", style="bold"];
 
 
-bump[label="run into walls"];
+bump[label="run into walls", style="bold"];
 
 
-goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim\""];
+goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim\"", style="bold"];
 
 
-powerNoLed[label="no power LED"];
+powerNoLed[label="no power LED", style="bold"];
   powerNoLedOr[label="OR", shape=box];
   powerNoLedOr -> powerNoLed;
     powerLedDefunct[label="primary power LED failure"];
@@ -97,7 +97,7 @@ powerNoLed[label="no power LED"];
     wiringDefect -> powerNoLedOr;
 
 
-victimSilent[label="victim's LED is off"];
+victimSilent[label="victim's LED is off", style="bold"];
   victimSilentOr[label="OR", shape=box];
   victimSilentOr -> victimSilent;
     wiringDefect -> victimSilentOr;
@@ -111,10 +111,10 @@ victimSilent[label="victim's LED is off"];
     irLedDefect -> victimSilentOr;
 
 
-victim404[label="victim cannot be found"];
+victim404[label="victim cannot be found", style="bold"];
 
 
-noEscort[label="not moving the victim out;\nat least not on shortest path"];
+noEscort[label="not moving the victim out;\nat least not on shortest path", style="bold"];
 noEscort -> notEnoughMoney; // Dies ist ein Beispiel
 
 }
