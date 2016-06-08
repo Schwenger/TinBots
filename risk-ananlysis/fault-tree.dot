@@ -8,10 +8,16 @@ seeNoLed[label="clear line of sight,\nbut no LED"];
 victimLost[label="victim lost while escorting"];
 
 
-stindingStill[label="standing still"];
+standingStill[label="standing still"];
+standingStill -> standingStillOr [dir=back];
+standingStillOr[label="OR", shape=box];
+noInitialLps[label="no initial position from LPS"];
+standingStillOr -> noInitialLps [dir=back];
+tinBotsHeld[label="manually held in place", shape=diamond];
+standingStillOr -> tinBotsHeld [dir=back];
 
 
-incoorperative[label="incoorperative behavior (LPS)"];
+incoorperative[label="uncoorperative behavior (T2T)"];
 
 
 ignoreVictim[label="not using information about victim"];
