@@ -41,9 +41,7 @@ standingStillOr -> standingStill;
         wheelsBlocked[label="wheels blocked\n(secondary failure)", shape=diamond];
         wheelsBlocked -> wheelFaultOr;
     //
-    batteryDefect -> standingStillOr;
-    //
-    wiringDefect -> standingStillOr;
+    powerFailure -> standingStillOr;
 
 
 // Not stand-alone, but used multiple times
@@ -66,7 +64,7 @@ uncoorperative[label="uncoorperative behavior (T2T)", style="bold"];
 ignoreVictim[label="not using information about victim", style="bold"];
 
 
-spin[label="turning around forever"];
+spin[label="turning around forever", style="bold"];
 
 
 jerk[label="spurious/unreasonable movements (LPS)", style="bold"];
@@ -76,6 +74,23 @@ bump[label="run into walls", style="bold"];
 
 
 goWrong[label="moving to the \"gathered position\"\ninstead \"towards the victim\"", style="bold"];
+goWrongOr[label="OR", shape=box];
+goWrongOr -> goWrong;
+    ignoreVictim -> goWrongOr;
+    //
+    jerk -> goWrongOr;
+    //
+    goWrongSoft[label="design error"];
+    goWrongSoft -> goWrongOr;
+    goWrongSoftAnd[label="AND", shape="box"];
+    goWrongSoftAnd -> goWrongSoft;
+        specIgnored[label="misunderstanding about MR14"];
+        specIgnored -> goWrongSoftAnd;
+        //
+        noDoubleCheck[label="no double checking"];
+        noDoubleCheck -> goWrongSoftAnd;
+    //
+    uncoorperative -> goWrongOr;
 
 
 powerNoLed[label="no power LED", style="bold"];
@@ -83,30 +98,35 @@ powerNoLed[label="no power LED", style="bold"];
   powerNoLedOr -> powerNoLed;
     powerLedDefunct[label="primary power LED failure"];
     powerLedDefunct -> powerNoLedOr;
-    
-    userDidNotTurnOn[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
+    //
+    userDidNotTurnOn[label="secondary failure\nuser did not turn\non the E-Puck", shape=diamond];
     userDidNotTurnOn -> powerNoLedOr;
-    
-    batteryDefect[label="primary battery failure; \nbattery defect or \nbattery not connected"];
-    batteryDefect -> powerNoLedOr;
+    //
+    powerFailure -> powerNoLedOr;
 
-    batteryNotCharged[label="primary battery failure; \nbattery not charged", shape=diamond];
-    batteryNotCharged -> powerNoLedOr;
 
-    wiringDefect[label="failure in \nwiring or fuse"];
-    wiringDefect -> powerNoLedOr;
+// Not stand-alone, but used multiple times
+powerFailure[label="power failure"];
+powerFailureOr[label="OR", shape=box];
+powerFailureOr -> powerFailure;
+    batteryDefect[label="primary battery failure\nbattery defect"];
+    batteryDefect -> powerFailureOr;
+    //
+    batteryNotCharged[label="secondary battery failure\nbattery not charged or\nbattery not connected", shape=diamond];
+    batteryNotCharged -> powerFailureOr;
+    //
+    wiringDefect[label="failure in\nwiring or fuse"];
+    wiringDefect -> powerFailureOr;
 
 
 victimSilent[label="victim's LED is off", style="bold"];
   victimSilentOr[label="OR", shape=box];
   victimSilentOr -> victimSilent;
-    wiringDefect -> victimSilentOr;
-    batteryDefect -> victimSilentOr;
-    batteryNotCharged -> victimSilentOr;
-
-    userDidNotTurnOnVictim[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
+    powerFailure -> victimSilentOr;
+    //
+    userDidNotTurnOnVictim[label="secondary failure,\nuser did not turn\non the E-Puck", shape=diamond];
     userDidNotTurnOnVictim -> victimSilentOr;
-
+    //
     irLedDefect[label="primary IR LED failure"];
     irLedDefect -> victimSilentOr;
 
