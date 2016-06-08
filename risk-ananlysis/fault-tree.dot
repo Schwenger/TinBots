@@ -101,16 +101,16 @@ powerNoLed[label="no power LED", style="bold"];
     powerLedDefunct[label="primary power LED failure"];
     powerLedDefunct -> powerNoLedOr;
     
-    userDidNotTurnOn[label="secondary failure, \nuser did not turn \non the E-Puck", shape=diamond];
+    userDidNotTurnOn[label="secondary failure\nuser did not turn \non the E-Puck", shape=diamond];
     userDidNotTurnOn -> powerNoLedOr;
     
-    batteryDefect[label="primary battery failure; \nbattery defect or \nbattery not connected"];
+    batteryDefect[label="primary battery failure\nbattery defect or \nbattery not connected"];
     batteryDefect -> powerNoLedOr;
 
-    batteryNotCharged[label="primary battery failure; \nbattery not charged", shape=diamond];
+    batteryNotCharged[label="secondary battery failure\nbattery not charged", shape=diamond];
     batteryNotCharged -> powerNoLedOr;
 
-    wiringDefect[label="failure in \nwiring or fuse"];
+    wiringDefect[label="failure in\nwiring or fuse"];
     wiringDefect -> powerNoLedOr;
 
 
