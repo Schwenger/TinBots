@@ -1,4 +1,4 @@
-all: compile view
+all: compile
 
 fault-tree.eps: fault-tree.dot
 	dot -Tps -ofault-tree.eps fault-tree.dot
@@ -7,5 +7,5 @@ fault-tree.eps: fault-tree.dot
 
 compile: fault-tree.eps
 
-view: compile
-	evince fault-tree.eps &
+# Try evince, open, xdg-open, xpdf, or whatever your
+# favourite PDF viewer is, to view the .eps file
