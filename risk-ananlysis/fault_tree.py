@@ -91,16 +91,23 @@ class Proximity:
     collision << (coll_sw | false_negative)
 
 
-bad_firmware = S(r'bad firmware\nor wrong program uploaded')
+class Escort:
+    rec_sw = F('recognition method fails')
+
+    recognition = F('escort recognition fails')
+    recognition << (rec_sw | IR_perception.failure)
+
+    magnet_trigger_acc = F(r'magnets unintentionally trigger')
+
+    unintentional = F(r'picking up the victim\nwas accidental')
+    unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
+
+
+bad_firmware = S(r'bad firmware or\nwrong program uploaded')
 
 
 bump = T(r'run into walls')
 bump << (Proximity.collision | bad_firmware)
-
-
-escorting_recognition = F('escort recognition fails')
-escorting_rec_sw = F('recognition method fails')
-escorting_recognition << (escorting_rec_sw | IR_perception.failure)
 
 
 with T(r'escorting,\nbut no led') as escort_no_led:
@@ -109,18 +116,9 @@ with T(r'escorting,\nbut no led') as escort_no_led:
 
     with F(r'Tin Bot is not\naware of escorting') as not_escorting:
         memory_fault = F(r'forgot what happened\n(primary memory fault)')
-
-        with Failure(r'picking up the victim\nwas accidental') as unintentional_escort:
-            magnet_trigger_acc = Failure(r'magnets unintentionally trigger')
-
-            unintentional_escort << (Proximity.false_negative & escorting_recognition & magnet_trigger_acc)
-
-        not_escorting << (memory_fault | unintentional_escort)
+        not_escorting << (memory_fault | Escort.unintentional)
 
     escort_no_led << (escort_led_failure | not_escorting | forgot_escort_led)
-
-
-victim_lost = T(r'victim lost while escorting')
 
 
 with T(r'standing still') as standing_still:
@@ -152,6 +150,19 @@ with T(r'uncooperative behavior (T2T)') as uncooperative:
     software = F('software failure\n(algorithmic)')
 
     uncooperative << (communication | software | bad_firmware)
+
+
+with T(r'victim lost while escorting') as victim_lost:
+    magnet_weak = F(r'primary magnet failure\n(e.g., too weak)')
+    belt_weak = F(r'primary belt fauilure\n(magnet slips from victim)')
+        # Your magnet is weak, your belt is weak, your bloodline is
+        # weak, and you will *not* survive winter!
+    victim_dropped = F(r'victim dropped')
+    victim_dropped << (belt_weak | magnet_weak)
+
+    pulled_away = F(r'pulled away by\nother Tin Bot')
+    pulled_away << (Escort.unintentional & uncooperative)
+    victim_lost << (pulled_away | victim_dropped)
 
 
 ignore_victim = T(r'not using information\nabout victim')
