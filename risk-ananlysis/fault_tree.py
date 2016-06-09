@@ -114,7 +114,7 @@ bump = T(r'run into walls')
 bump << (Proximity.collision | bad_firmware)
 
 
-with T(r'escorting,\nbut no led') as escort_no_led:
+with T(r'escorting,\nbut no LED') as escort_no_led:
     escort_led_failure = P(r'primary indicator LED failure')
     forgot_escort_led = F(r'not implemented\n(forgotten)')
 
