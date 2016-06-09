@@ -103,6 +103,10 @@ class Escort:
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
 
 
+class Motor:
+    failure = F(r'primary motor fault')
+
+
 bad_firmware = S(r'bad firmware or\nwrong program uploaded')
 
 
@@ -132,10 +136,9 @@ with T(r'standing still') as standing_still:
         software_init << (bug | setup)
 
     with Failure(r'wheels unable to turn') as wheel_fault:
-        motor = P(r'primary motor fault')
         blocked = S(r'wheels blocked\n(secondary failure)')
 
-        wheel_fault << (motor | blocked)
+        wheel_fault << (Motor.failure | blocked)
 
     standing_still << (no_initial_lps | software_init | wheel_fault | Power.failure)
 
@@ -168,7 +171,13 @@ with T(r'victim lost while escorting') as victim_lost:
 ignore_victim = T(r'not using information\nabout victim')
 
 
-spin = T(r'turning around forever')
+with T(r'turning around forever') as spin:
+    spin_design = F(r'design error\n(i.e., unhandled edge case)')
+
+    spin_sw = F(r'confused software')
+    spin_sw << (uncooperative | P(r'primary sensor fault'))
+
+    spin << (Motor.failure | spin_design | spin_sw)
 
 
 jerk = T(r'spurious/unreasonable\nmovements (LPS)')
