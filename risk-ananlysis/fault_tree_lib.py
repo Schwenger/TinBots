@@ -15,6 +15,26 @@
 # program. If not, see <http://www.gnu.org/licenses/>.
 
 import collections
+import subprocess
+
+
+components = set()
+
+
+class ComponentMeta(type):
+    def __new__(mcs, name, bases, attributes):
+        cls = super().__new__(mcs, name, bases, attributes)
+        if cls.failure is not None:
+            components.add(cls)
+        return cls
+
+
+class Component(metaclass=ComponentMeta):
+    failure = None
+
+
+def get_components():
+    return components
 
 
 class Node:
@@ -87,7 +107,7 @@ class Toplevel(Failure):
 
 
 class Primary(Failure):
-    pass
+    shape = 'ellipse'
 
 
 class Secondary(Failure):
@@ -138,3 +158,9 @@ def graphviz(*nodes):
         code.append(node.graphviz_edges())
     code.append('}')
     return '\n'.join(code)
+
+
+def generate(*nodes, filename='fault-tree.eps'):
+    dot = subprocess.Popen(['dot', '-Tps', '-o' + filename], stdin=subprocess.PIPE)
+    dot.communicate(graphviz(*nodes).encode('utf-8'))
+    dot.wait()
