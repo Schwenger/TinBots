@@ -78,7 +78,7 @@ class Escort:
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
 
 
-# FIXME: this is a OR-case of nearly everything (not only of bump)
+# FIXME: this is in the OR-case of nearly everything (not only of bump)
 bad_firmware = S('bad firmware or\nwrong program uploaded')
 
 bump = T('run into walls')
