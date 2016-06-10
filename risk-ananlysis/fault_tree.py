@@ -81,13 +81,17 @@ class Escort:
 # FIXME: this is in the OR-case of nearly everything (not only of bump)
 bad_firmware = S('bad firmware or\nwrong program uploaded')
 
-bump = T('run into walls')
-bump << (Proximity.collision | bad_firmware)
-
-ignore_victim = T('not using information\nabout victim')
-
 
 # Fault-Trees
+
+class RunIntoWall(Tree):
+    failure = T('run into walls')
+    failure << (Proximity.collision | bad_firmware)
+
+
+class IgnoreVictim(Tree):
+    failure = T('not using information\nabout victim')
+
 
 class EscortNoLED(Tree):
     led = P('primary indicator LED failure (MR9)')
@@ -151,12 +155,17 @@ class SpuriousMovements(Tree):
     failure << (proto.LPS.failure | software_bug() | Proximity.failure | Uncooperative.failure)
 
 
-# FIXME: merge this with SpuriousMovements?
-class GOWrong(Tree):
+# Q: merge this with SpuriousMovements?
+# A: No, because this actually does something different.
+#    This tree is absolutely necessary because of MR14:
+#        """
+#        if there is information do not just run to the position where the information was
+#        gathered but instead try to actually localize and find the victim efficiently
+#        """
+class GoWrong(Tree):
     with F('design error') as soft:
         spec = F('misunderstanding\nabout MR14')
-        # TODO: what does that mean? no code review by others?
-        check = F('no double checking')
+        check = F('not discovered during\npeer review')
 
         soft << (spec & check)
 
@@ -200,7 +209,7 @@ no_escort = T('not moving the victim out;\nat least not on shortest path')
 class SystemFailure(Tree):
     tin_bot_failure = F('Tin Bot failure\n')
     tin_bot_failure << (VictimLost.failure | StandingStill.failure | ignore_victim | SpuriousMovements.failure |
-                        GOWrong.failure | no_escort)
+                        GoWrong.failure | no_escort)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
     failure = T('system failure\n(victim remains in maze)')
