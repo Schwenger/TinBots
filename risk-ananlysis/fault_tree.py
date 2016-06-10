@@ -38,6 +38,17 @@ P = Primary
 S = Secondary
 T = Toplevel
 
+
+class Bluetooth:
+    sender = P('bluetooth sender failure')
+    receiver = P('bluetooth receiver failure')
+
+    medium = P('medium failure (noise, interference, ...)')
+
+    failure = F('bluetooth communication failure')
+    failure << (sender | receiver | medium)
+
+
 class IR_perception:
     ir_recv_defect = F(r'primary IR receiver fault')
 
@@ -48,8 +59,10 @@ class IR_perception:
 
 
 class LPS:
-    link_down = F('LPS link down')
-    link_down << F('FIXME: LPS, LPP')
+    with F('LPS link down') as link_down:
+        service_outage = P('primary LPS service outage (NR1)')
+
+        link_down << (service_outage | Bluetooth.failure)
 
     no_data = F('LPS sends no data')
     no_data << F('FIXME: LPS, CBP')
@@ -140,7 +153,9 @@ with T(r'standing still') as standing_still:
 
         wheel_fault << (Motor.failure | blocked)
 
-    standing_still << (no_initial_lps | software_init | wheel_fault | Power.failure)
+    software = P('primary software failure') # bug
+
+    standing_still << (no_initial_lps | software_init | software | wheel_fault | Power.failure)
 
 
 with T(r'uncooperative behavior (T2T)') as uncooperative:
@@ -150,6 +165,7 @@ with T(r'uncooperative behavior (T2T)') as uncooperative:
 
         communication << (bluetooth | medium)
 
+    # FIXME: algorithmic?
     software = F('software failure\n(algorithmic)')
 
     uncooperative << (communication | software | bad_firmware)
@@ -157,7 +173,7 @@ with T(r'uncooperative behavior (T2T)') as uncooperative:
 
 with T(r'victim lost while escorting') as victim_lost:
     magnet_weak = F(r'primary magnet failure\n(e.g., too weak)')
-    belt_weak = F(r'primary belt fauilure\n(magnet slips from victim)')
+    belt_weak = F(r'primary belt failure\n(magnet slips from victim)')
         # Your magnet is weak, your belt is weak, your bloodline is
         # weak, and you will *not* survive winter!
     victim_dropped = F(r'victim dropped')
@@ -180,7 +196,8 @@ with T(r'turning around forever') as spin:
     spin << (Motor.failure | spin_design | spin_sw)
 
 
-jerk = T(r'spurious/unreasonable\nmovements (LPS)')
+with T(r'spurious/unreasonable\nmovements (LPS)') as jerk:
+    jerk << LPS.failure
 
 
 with T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"') as go_wrong:
@@ -222,6 +239,15 @@ victim404 = T(r'victim cannot be found')
 no_escort = T(r'not moving the victim out;\nat least not on shortest path')
 
 
+# TODO: whole system outage <= all Tin Bots became defunct or victim failure
+with T('system failure') as system_failure:
+    tin_bot_failure = F(r'Tin Bot failure\n')
+    tin_bot_failure << (victim_lost | standing_still | ignore_victim | spin | jerk | go_wrong | no_escort)
+
+    # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
+    system_failure << ((tin_bot_failure & tin_bot_failure) | victim_silent)
+
+
 import subprocess
 import sys
 
@@ -230,7 +256,7 @@ if __name__ == '__main__':
         nodes = (eval(node_name) for node_name in sys.argv[1:])
     else:
         nodes = (escort_no_led, see_no_led, victim_lost, standing_still, uncooperative, ignore_victim, spin,
-                 jerk, bump, go_wrong, no_power_led, victim_silent, victim404, no_escort)
+                 jerk, bump, go_wrong, no_power_led, victim_silent, victim404, no_escort, system_failure)
 
     dot = subprocess.Popen(['dot', '-Tps', '-ofault-tree.eps'], stdin=subprocess.PIPE)
     dot.communicate(graphviz(*nodes).encode('utf-8'))
