@@ -191,8 +191,10 @@ class SeeNoLed(Tree):
     primary = F('primary failure\nof the display-LED')
     software = software_bug()
 
+    not_turned_on = hw.EPuck.not_turned_on()
+
     failure = T('clear line of sight,\nbut no LED indication')
-    failure << (VictimSilent.failure | proto.SOS.receiver | primary | software)
+    failure << (VictimSilent.failure | proto.SOS.receiver | primary | software | not_turned_on)
 
 
 class Victim404(Tree):
