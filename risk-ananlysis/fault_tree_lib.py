@@ -43,6 +43,8 @@ class Node:
 
 
 class Failure(Node):
+    shape = 'box'
+
     def __init__(self, description=None, probability=None, **parameters):
         super().__init__(label=description, **parameters)
         self.description = description
