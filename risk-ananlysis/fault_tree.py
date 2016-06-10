@@ -173,7 +173,7 @@ class VictimSilent(Tree):
     software = software_bug()
 
     failure = T('victim\'s LED does not\nsend valid signal')
-    failure << (not_turned_on | software | proto.SOS.sender)
+    failure << (software | proto.SOS.sender)
 
 
 class SeeNoLed(Tree):
