@@ -33,50 +33,10 @@ Generate EPS file containing specific nodes:
 
 from fault_tree_lib import Tree, Failure as F, Toplevel as T, Primary as P, Secondary as S
 
+from common import software_bug
+
 import hw
-
-
-def software_bug():
-    return P('software failure (bug)')
-
-
-# Communication
-class CBP(Tree):
-    medium = P('primary environment failure\n(not enough light, no clear line of sight, ...)')
-    sender = S('missing color blob')
-    receiver = hw.Camera.failure
-
-    failure = F('color blob protocol failure')
-    failure << (medium | sender | receiver)
-
-
-class LPS(Tree):
-    medium = hw.Bluetooth.medium
-    sender = hw.Raspberry.failure
-    receiver = hw.Bluetooth.receiver
-
-    with F('LPS link down') as link_down:
-        service_outage = P('primary LPS service outage (NR1)')
-
-        # Raspberry board failure includes Bluetooth sender failure
-        link_down << (service_outage | medium | sender | receiver)
-
-    with F('LPS sends no data') as no_data:
-        no_data << (CBP.failure | software_bug())
-
-    failure = F('LPS failure')
-    failure << (link_down | no_data)
-
-
-class SOS(Tree):
-    medium = P('primary medium failure\n(interference, ...)')
-
-    sender = hw.Victim.failure
-    receiver = hw.ExtBoard.failure
-
-    failure = F('SOS failure')
-    failure << (medium | sender | receiver)  # includes WAU
-
+import proto
 
 
 class Proximity:
@@ -108,7 +68,7 @@ class Escort:
     rec_sw = F('recognition method fails')
 
     recognition = F('escort recognition fails')
-    recognition << (rec_sw | SOS.failure)
+    recognition << (rec_sw | proto.SOS.failure)
 
     magnet_trigger_acc = F('magnets unintentionally trigger')
 
@@ -140,7 +100,7 @@ class EscortNoLED(Tree):
 
 class StandingStill(Tree):
     with F('no initial position from LPS') as no_initial_lps:
-        no_initial_lps << LPS.failure
+        no_initial_lps << proto.LPS.failure
 
     with F('software initialization failure') as software_init:
         bug = F('software fault (bug)')
@@ -200,7 +160,7 @@ class Spin(Tree):
 
 class Jerk(Tree):
     failure = T('spurious/unreasonable\nmovements (LPS)')
-    failure << LPS.failure
+    failure << proto.LPS.failure
 
 
 class GOWrong(Tree):
@@ -237,7 +197,7 @@ class SeeNoLed(Tree):
     ir_recv_led_defect = F('primary failure\nof the display-LED')
 
     failure = T('clear line of sight,\nbut no LED')
-    failure << (VictimSilent.failure | ir_recv_led_defect | SOS.failure | forgot_ir_recv_led)
+    failure << (VictimSilent.failure | ir_recv_led_defect | proto.SOS.failure | forgot_ir_recv_led)
 
 
 victim404 = T('victim cannot be found')
