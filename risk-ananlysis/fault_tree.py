@@ -44,7 +44,7 @@ import proto
 class Proximity:
     failure = P('primary proximity\nsensor fault')
 
-    sparse_walls = S('walls are\nextremely sparse')
+    sparse_walls = S('walls are\noutside specification')
 
     software = F('software failure\n(overzealous escort-ignoring)')
 
@@ -73,11 +73,17 @@ class Escort:
 
     magnet_trigger_acc = P('magnets unintentionally trigger')
 
+    hang = F('picked up victim\nthrough the wall')
+    hang << (magnet_trigger_acc & Proximity.sparse_walls)
+
+    open_space = F('picked up victim\ndirectly')
+    open_space << (Proximity.false_negative & recognition & magnet_trigger_acc)
+
     unintentional = F('picking up the victim\nwas accidental')
-    unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
+    unintentional << (hang | open_space)
 
 
-# FIXME: this is in the OR-case of nearly everything (not only of bump)
+# FIXME: this is in the OR-case of nearly everything (not only of RunIntoWall)
 bad_firmware = S('bad firmware or\nwrong program uploaded')
 
 
@@ -115,7 +121,8 @@ class StandingStill(Tree):
     software = software_bug()
 
     failure = T('standing still')
-    failure << (no_initial_lps | bad_setup | software | wheel_fault | hw.EPuck.failure)
+    failure << (no_initial_lps | bad_setup | software | wheel_fault
+                | hw.EPuck.failure | RunIntoWall.failure | Escort.hang)
 
 
 class Uncooperative(Tree):
