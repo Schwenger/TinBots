@@ -98,3 +98,28 @@ Coorperation mode:
 Failure mode Sackgasse:
 - Es (kann) keine zweite Messung geben!
 - sollte dem "Ray entlang fahren in Schlangenlinien"
+
+
+==============================
+
+scribe: Ben Wiederhake 10.06.2016 14-16 session
+
+- writing on the fault trees
+- discussion about coordination
+- make sure to ask Hazem this time whether we're even remotely on
+  the right track (prevent "Themaverfehlung")
+- hard requirement on the victim's name:
+  VICTOR CAPSLOCK  (... so he's the VICTIM VICTOR CAPSLOCK)
+- new failure mode (ugh):
+  When loading VICTOR while being next to a wall (and looking along
+  it), we can't avoid smashing VICTOR into the wall.
+
+Proposed specification amendments:
+- victim needs to be >= 1cm away from the wall (so we don't accidentally
+  pick VICTOR up while driving around on the other side)
+- "wall" genauer spezifizieren:
+      solvable maze (including table and walls; walls need to be of
+      sufficient height to prevent signals radiating over the walls)
+  zu:
+      solvable maze (including table and walls; walls need to be of
+      sufficient height *and thickness* to prevent signals radiating *through a wall*)
