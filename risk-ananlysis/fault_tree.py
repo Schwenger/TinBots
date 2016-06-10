@@ -42,27 +42,26 @@ import proto
 
 
 class Proximity:
-    failure = F('primary proximity\nsensor fault')
+    failure = P('primary proximity\nsensor fault')
 
-    sparse_walls = F('walls are\nextremely sparse')
+    sparse_walls = S('walls are\nextremely sparse')
 
     software = F('software failure\n(overzealous escort-ignoring)')
 
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    avoid_sys = F('avoidance watchdog fails')
+    avoid_sys = P('avoidance watchdog fails')
 
-    # FIXME: use driver independent collision avoidance => "standing still" if all drivers continue failing
-    rhr_collide = F('right-hand-rule\ncan collide')
-    path_collide = F('path finder/executor\ncan collide')
+    rhr_collide = P('right-hand-rule\ncan collide')
+    path_collide = P('path finder/executor\ncan collide')
     any_collide = F('some driver does\nnot prevent collision')
     any_collide << (rhr_collide | path_collide)
 
     coll_sw = F('software failure')
     coll_sw << (avoid_sys & any_collide)
 
-    collision = F('collision with obstacle')
+    collision = P('collision with obstacle')
     collision << (coll_sw | false_negative)
 
 
