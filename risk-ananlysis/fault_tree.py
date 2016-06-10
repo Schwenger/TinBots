@@ -170,7 +170,7 @@ class GoWrong(Tree):
         soft << (spec & check)
 
     failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
-    failure << (ignore_victim | SpuriousMovements.failure | soft)
+    failure << (IgnoreVictim.failure | SpuriousMovements.failure | soft)
 
 
 class NoPowerLED(Tree):
@@ -203,13 +203,14 @@ class Victim404(Tree):
     failure << (VictimSilent.failure | proto.SOS.receiver)
 
 
-no_escort = T('not moving the victim out;\nat least not on shortest path')
+class NoEscort(Tree):
+    failure = T('not moving the victim out;\nat least not on shortest path')
 
 
 class SystemFailure(Tree):
     tin_bot_failure = F('Tin Bot failure\n')
-    tin_bot_failure << (VictimLost.failure | StandingStill.failure | ignore_victim | SpuriousMovements.failure |
-                        GoWrong.failure | no_escort)
+    tin_bot_failure << (VictimLost.failure | StandingStill.failure | IgnoreVictim.failure | SpuriousMovements.failure |
+                        GoWrong.failure | NoEscort.failure)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
     failure = T('system failure\n(victim remains in maze)')
