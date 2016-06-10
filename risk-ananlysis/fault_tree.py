@@ -157,12 +157,12 @@ class VictimSilent(Tree):
 
 
 class SpuriousMovements(Tree):
-    
+
     turn = F('does not\nstop turning\nwhile sensing\nangle to victim')
     turn << (VictimSilent.failure | hw.ExtBoard.failure)
-    
+
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
-    failure << (proto.LPS.failure | software_bug() | Proximity.failure | 
+    failure << (proto.LPS.failure | software_bug() | Proximity.failure |
                 Uncooperative.failure | turn)
 
 
@@ -205,8 +205,16 @@ class Victim404(Tree):
     not_placed_in = S('user did not place\nthe victim in the maze')
     unsolvable = S('unsolvable maze')
 
+    rhr_hangs = F('right-hand-rule\ndrives in circles')
+    rhr_hangs << (P('right-hand-rule\ncan drive in circles')
+                  & P('path-pruning fails') & S('maze is not\n1-outerplanar'))
+
+    drift = F('lost orientation')
+    drift << (proto.LPS.failure & P('approximation algorithm\nis way off')
+              & P('drift from real orientation\ndoes not stabilize'))
+
     failure = T('victim cannot be found')
-    failure << (VictimSilent.failure | proto.SOS.receiver)
+    failure << (VictimSilent.failure | proto.SOS.receiver | rhr_hangs | drift)
 
 
 class NoEscort(Tree):
