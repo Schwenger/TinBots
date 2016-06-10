@@ -150,9 +150,21 @@ class VictimLost(Tree):
     failure << (pulled_away | dropped)
 
 
+class VictimSilent(Tree):
+    software = software_bug()
+
+    failure = T('victim\'s LED does not\nsend valid signal')
+    failure << (software | proto.SOS.sender)
+
+
 class SpuriousMovements(Tree):
+    
+    turn = F('does not\nstop turning\nwhile sensing\nangle to victim')
+    turn << (VictimSilent.failure | hw.ExtBoard.failure)
+    
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
-    failure << (proto.LPS.failure | software_bug() | Proximity.failure | Uncooperative.failure)
+    failure << (proto.LPS.failure | software_bug() | Proximity.failure | 
+                Uncooperative.failure | turn)
 
 
 # Q: merge this with SpuriousMovements?
@@ -178,13 +190,6 @@ class NoPowerLED(Tree):
 
     failure = T('power LED is off')
     failure << (primary | hw.EPuck.failure)
-
-
-class VictimSilent(Tree):
-    software = software_bug()
-
-    failure = T('victim\'s LED does not\nsend valid signal')
-    failure << (software | proto.SOS.sender)
 
 
 class SeeNoLed(Tree):
