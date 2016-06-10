@@ -38,6 +38,8 @@ from common import software_bug
 import hw
 import proto
 
+# TODO: add references to specification document
+
 
 class Proximity:
     failure = F('primary proximity\nsensor fault')
@@ -162,14 +164,12 @@ class GOWrong(Tree):
 
 class NoPowerLED(Tree):
     primary = P('primary power LED failure')
-    not_turned_on = S('user did not turn\non the E-Puck')
 
     failure = T('power LED is off')
-    failure << (primary | not_turned_on | hw.EPuck.failure)
+    failure << (primary | hw.EPuck.failure)
 
 
 class VictimSilent(Tree):
-    not_turned_on = S('user did not turn\non the victim')
     software = software_bug()
 
     failure = T('victim\'s LED does not\nsend valid signal')

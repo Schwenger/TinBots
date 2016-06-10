@@ -52,8 +52,10 @@ class Camera(Tree):
 class EPuck(Tree):
     board = P('primary board failure')
 
+    not_turned_on = S('user did not turn\non the E-Puck')
+
     failure = F('E-Puck failure')
-    failure << (board | Battery.failure)
+    failure << (board | Battery.failure | not_turned_on)
 
 
 class Motor(Tree):
@@ -75,6 +77,7 @@ class ExtBoard(Tree):
 class Victim(Tree):
     ir_led = P('primary IR LED failure')
     controller = P('primary mikrocontroller defect')
+    not_turned_on = S('user did not turn\non the victim')
 
     with F('circuit failure') as circuit:
         transistor = P('primary transistor defect')
@@ -83,7 +86,7 @@ class Victim(Tree):
         circuit << (transistor | resistor)
 
     failure = F('victim failure')
-    failure << (ir_led | controller | Battery.failure)
+    failure << (ir_led | controller | not_turned_on | Battery.failure)
 
 
 if __name__ == '__main__':
