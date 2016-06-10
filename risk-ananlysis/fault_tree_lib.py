@@ -15,6 +15,7 @@
 # program. If not, see <http://www.gnu.org/licenses/>.
 
 import collections
+import copy
 import subprocess
 
 
@@ -27,6 +28,9 @@ class TreeMeta(type):
         if cls.failure is not None:
             trees.add(cls)
         return cls
+
+    def __call__(cls):
+        return copy.deepcopy(cls)
 
 
 class Tree(metaclass=TreeMeta):
@@ -49,6 +53,9 @@ class Node:
         self.children = list(children)
         self.name = 'node{}'.format(id(self))
         self.parameters = parameters or dict(self.parameters)
+
+    def __call__(self):
+        return copy.deepcopy(self)
 
     def graphviz_node(self):
         label = r'\n'.join(line.strip() for line in self.label.splitlines())
