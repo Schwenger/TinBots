@@ -67,12 +67,12 @@ class Proximity:
 
 
 class Escort:
-    rec_sw = F('recognition method fails')
+    rec_sw = P('recognition method fails')
 
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
 
-    magnet_trigger_acc = F('magnets unintentionally trigger')
+    magnet_trigger_acc = P('magnets unintentionally trigger')
 
     unintentional = F('picking up the victim\nwas accidental')
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
@@ -136,7 +136,7 @@ class VictimLost(Tree):
     with F('victim dropped / unable to grab') as dropped:
         magnet_weak = P('primary magnet failure\n(e.g., too weak)')
 
-        belt_weak = P('primary belt failure\n(magnet slips from victim)')
+        belt_weak = P('primary belt failure\n(magnet slips out of the belt)')
         # Your magnet is weak, your belt is weak, your bloodline is
         # weak, and you will *not* survive winter!
 
