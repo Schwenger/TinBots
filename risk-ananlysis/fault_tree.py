@@ -31,22 +31,32 @@ Generate EPS file containing specific nodes:
     python3 fault_tree.py node_name1 node_name2 …
 """
 
-from fault_tree_lib import Failure, Toplevel, Primary, Secondary, graphviz
+from fault_tree_lib import Failure as F, Toplevel as T, Primary as P, Secondary as S, graphviz
 
-F = Failure
-P = Primary
-S = Secondary
-T = Toplevel
+import hw
 
 
-class Bluetooth:
-    sender = P('bluetooth sender failure')
-    receiver = P('bluetooth receiver failure')
+# Protocols
+class CBP:
+    environment = P('primary environment failure\n(not enough light, no clear line of sight, ...)')
 
-    medium = P('medium failure (noise, interference, ...)')
+    failure = F('color blob protocol failure')
+    failure << (environment | hw.Camera.failure)
 
-    failure = F('bluetooth communication failure')
-    failure << (sender | receiver | medium)
+
+class LPS:
+    with F('LPS link down') as link_down:
+        service_outage = P('primary LPS service outage (NR1)')
+
+        link_down << (service_outage | hw.Raspberry.failure | hw.Bluetooth.failure)
+
+    with F('LPS sends no data') as no_data:
+        software = P('software failure')
+
+        no_data << (CBP.failure | software)
+
+    failure = F('LPS failure')
+    failure << (link_down | no_data)
 
 
 class IR_perception:
@@ -56,30 +66,6 @@ class IR_perception:
 
     failure = F(r"Can't perceive victim")
     failure << (ir_recv_defect | F('FIXME: WAU/SOS, interference'))
-
-
-class LPS:
-    with F('LPS link down') as link_down:
-        service_outage = P('primary LPS service outage (NR1)')
-
-        link_down << (service_outage | Bluetooth.failure)
-
-    no_data = F('LPS sends no data')
-    no_data << F('FIXME: LPS, CBP')
-
-    failure = F('LPS failure')
-    failure << (link_down | no_data)
-
-
-class Power:
-    battery_defect = P('primary battery failure\nbattery defect')
-    battery_not_charged = S('secondary battery failure\nbattery not charged or\nbattery not connected')
-
-    # FIXME: do we have a fuse? (at least there is no fuse planned for the victim)
-    wiring = F('failure in\nwiring or fuse')
-
-    failure = F('power failure')
-    failure << (battery_defect | battery_not_charged | wiring)
 
 
 class Proximity:
@@ -144,20 +130,20 @@ with T('standing still') as standing_still:
     with F('no initial position from LPS') as no_initial_lps:
         no_initial_lps << LPS.failure
 
-    with Failure('software initialization failure') as software_init:
+    with F('software initialization failure') as software_init:
         bug = F('software fault (bug)')
         setup = S('bad setup\n(secondary failure)')
 
         software_init << (bug | setup)
 
-    with Failure('wheels unable to turn') as wheel_fault:
+    with F('wheels unable to turn') as wheel_fault:
         blocked = S('wheels blocked\n(secondary failure)')
 
         wheel_fault << (Motor.failure | blocked)
 
     software = P('primary software failure') # bug
 
-    standing_still << (no_initial_lps | software_init | software | wheel_fault | Power.failure)
+    standing_still << (no_initial_lps | software_init | software | wheel_fault | hw.Battery.failure)
 
 
 with T('uncooperative behavior (T2T)') as uncooperative:
@@ -217,7 +203,7 @@ with T('no power LED') as no_power_led:
     forgot_power_led = F('not implemented\n(forgotten)')
     not_turned_on = S('secondary failure\nuser did not turn\non the E-Puck')
 
-    no_power_led << (primary | not_turned_on | Power.failure | forgot_power_led)
+    no_power_led << (primary | not_turned_on | hw.Battery.failure | forgot_power_led)
 
 
 with T('victim\'s LED does not\nsend valid signal') as victim_silent:
@@ -225,7 +211,7 @@ with T('victim\'s LED does not\nsend valid signal') as victim_silent:
     ir_led_defect = P('primary IR LED failure')
     software = F('victim software failure')
 
-    victim_silent << (not_turned_on | ir_led_defect | software | Power.failure)
+    victim_silent << (not_turned_on | ir_led_defect | software | hw.Victim.failure)
 
 
 with T('clear line of sight,\nbut no LED') as see_no_led:
@@ -250,7 +236,6 @@ with T('system failure\n(victim remains in maze)') as system_failure:
     system_failure << ((tin_bot_failure & tin_bot_failure) | victim_silent)
 
 
-import subprocess
 import sys
 
 if __name__ == '__main__':
@@ -260,6 +245,5 @@ if __name__ == '__main__':
         nodes = (escort_no_led, see_no_led, victim_lost, standing_still, uncooperative, ignore_victim, spin,
                  jerk, bump, go_wrong, no_power_led, victim_silent, victim404, no_escort, system_failure)
 
-    dot = subprocess.Popen(['dot', '-Tps', '-ofault-tree.eps'], stdin=subprocess.PIPE)
-    dot.communicate(graphviz(*nodes).encode('utf-8'))
-    dot.wait()
+    from fault_tree_lib import generate
+    generate(*nodes)
