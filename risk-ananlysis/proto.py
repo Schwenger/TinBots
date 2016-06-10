@@ -31,10 +31,10 @@ class LPS(Tree):
         service_outage = P('primary LPS service outage (NR1)')
 
         # Raspberry board failure includes Bluetooth sender failure
-        link_down << (service_outage | medium | sender | receiver)
+        link_down << (service_outage | medium | receiver)
 
     with F('LPS sends no data') as no_data:
-        no_data << (CBP.failure | software_bug())
+        no_data << (CBP.failure | sender)
 
     failure = F('LPS failure')
     failure << (link_down | no_data)

@@ -40,9 +40,16 @@ class Battery(Tree):
 
 class Raspberry(Tree):
     board = P('primary hardware failure')
+    os = P('operating system failure')
 
-    failure = F('raspberry failure')
-    failure << (board | Power.failure)
+    external_module_bug = P('bug in external module')
+    internal_module_bug = P('bug in LPS software \n(blob recognition, ...)')
+
+    software_failure = F('software failure')
+    software_failure << (os | external_module_bug | internal_module_bug)
+
+    failure = F('raspberry pi failure')
+    failure << (board | Power.failure | software_failure)
 
 
 class Camera(Tree):
