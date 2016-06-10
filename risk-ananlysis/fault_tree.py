@@ -51,7 +51,7 @@ class Proximity:
 
     avoid_sys = F('avoidance watchdog fails')
 
-    # FIXME: use driver independent collision avoidance
+    # FIXME: use driver independent collision avoidance => "standing still" if all drivers continue failing
     rhr_collide = F('right-hand-rule\ncan collide')
     path_collide = F('path finder/executor\ncan collide')
     any_collide = F('some driver does\nnot prevent collision')
@@ -76,47 +76,42 @@ class Escort:
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
 
 
-
-
-
+# FIXME: this is a OR-case of nearly everything (not only of bump)
 bad_firmware = S('bad firmware or\nwrong program uploaded')
-
 
 bump = T('run into walls')
 bump << (Proximity.collision | bad_firmware)
 
+ignore_victim = T('not using information\nabout victim')
+
+
+# Fault-Trees
 
 class EscortNoLED(Tree):
-    escort_led_failure = P('primary indicator LED failure')
-    forgot_escort_led = F('not implemented\n(forgotten)')
+    led = P('primary indicator LED failure (MR9)')
 
-    with F('Tin Bot is not\naware of escorting') as not_escorting:
-        memory_fault = F('forgot what happened\n(primary memory fault)')
-        not_escorting << (memory_fault | Escort.unintentional)
+    with F('not aware of escorting') as not_aware:
+        memory_fault = P('memory fault\n(forgot what happened)')
+        not_aware << (memory_fault | Escort.unintentional)
 
     failure = T('escorting,\nbut no LED')
-    failure << (escort_led_failure | not_escorting | forgot_escort_led)
+    failure << (led | not_aware | software_bug())
 
 
 class StandingStill(Tree):
     with F('no initial position from LPS') as no_initial_lps:
-        no_initial_lps << proto.LPS.failure
+        user = S('user forgot to\nenable LPS')
+        no_initial_lps << (proto.LPS.failure | user)
 
-    with F('software initialization failure') as software_init:
-        bug = F('software fault (bug)')
-        setup = S('bad setup\n(secondary failure)')
-
-        software_init << (bug | setup)
-
-    with F('wheels unable to turn') as wheel_fault:
-        blocked = S('wheels blocked\n(secondary failure)')
-
+    with F('wheels do not turn') as wheel_fault:
+        blocked = S('wheels blocked')
         wheel_fault << (hw.Motor.failure | blocked)
 
-    software = P('primary software failure') # bug
+    bad_setup = S('bad setup')
+    software = software_bug()
 
     failure = T('standing still')
-    failure << (no_initial_lps | software_init | software | wheel_fault | hw.EPuck.failure)
+    failure << (no_initial_lps | bad_setup | software | wheel_fault | hw.EPuck.failure)
 
 
 class Uncooperative(Tree):
@@ -131,89 +126,83 @@ class Uncooperative(Tree):
 
 
 class VictimLost(Tree):
-    magnet_weak = F('primary magnet failure\n(e.g., too weak)')
-    belt_weak = F('primary belt failure\n(magnet slips from victim)')
+    with F('victim dropped / unable to grab') as dropped:
+        magnet_weak = P('primary magnet failure\n(e.g., too weak)')
+
+        belt_weak = P('primary belt failure\n(magnet slips from victim)')
         # Your magnet is weak, your belt is weak, your bloodline is
         # weak, and you will *not* survive winter!
-    victim_dropped = F('victim dropped')
-    victim_dropped << (belt_weak | magnet_weak)
 
-    pulled_away = F('pulled away by\nother Tin Bot')
-    pulled_away << (Escort.unintentional & Uncooperative.failure)
+        dropped << (belt_weak | magnet_weak)
+
+    pulled_away = F('pulled away by\nanother Tin Bot')
+    pulled_away << (Escort.unintentional | Uncooperative.failure)
 
     failure = T('victim lost while escorting')
-    failure << (pulled_away | victim_dropped)
+    failure << (pulled_away | dropped)
 
 
-ignore_victim = T('not using information\nabout victim')
+class SpuriousMovements(Tree):
+    failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
+    failure << (proto.LPS.failure | software_bug() | Proximity.failure | Uncooperative.failure)
 
 
-class Spin(Tree):
-    spin_design = F('design error\n(i.e., unhandled edge case)')
-
-    spin_sw = F('confused software')
-    spin_sw << (Uncooperative.failure | P('primary sensor fault'))
-
-    failure = T('turning around forever')
-    failure << (hw.Motor.failure | spin_design | spin_sw)
-
-
-class Jerk(Tree):
-    failure = T('spurious/unreasonable\nmovements (LPS)')
-    failure << proto.LPS.failure
-
-
+# FIXME: merge this with SpuriousMovements?
 class GOWrong(Tree):
     with F('design error') as soft:
         spec = F('misunderstanding\nabout MR14')
+        # TODO: what does that mean? no code review by others?
         check = F('no double checking')
 
         soft << (spec & check)
 
     failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
-    failure << (ignore_victim | Jerk.failure | soft | Uncooperative.failure)
+    failure << (ignore_victim | SpuriousMovements.failure | soft)
 
 
 class NoPowerLED(Tree):
     primary = P('primary power LED failure')
-    forgot_power_led = F('not implemented\n(forgotten)')
-    not_turned_on = S('secondary failure\nuser did not turn\non the E-Puck')
+    not_turned_on = S('user did not turn\non the E-Puck')
 
-    failure = T('no power LED')
-    failure << (primary | not_turned_on | hw.Battery.failure | forgot_power_led)
+    failure = T('power LED is off')
+    failure << (primary | not_turned_on | hw.EPuck.failure)
 
 
 class VictimSilent(Tree):
-    not_turned_on = S('secondary failure,\nuser did not turn\non the E-Puck')
-    ir_led_defect = P('primary IR LED failure')
-    software = F('victim software failure')
+    not_turned_on = S('user did not turn\non the victim')
+    software = software_bug()
 
     failure = T('victim\'s LED does not\nsend valid signal')
-    failure << (not_turned_on | ir_led_defect | software | hw.Victim.failure)
+    failure << (not_turned_on | software | proto.SOS.sender)
 
 
 class SeeNoLed(Tree):
-    forgot_ir_recv_led = F('not implemented\n(forgotten)')
-    ir_recv_led_defect = F('primary failure\nof the display-LED')
+    primary = F('primary failure\nof the display-LED')
+    software = software_bug()
 
-    failure = T('clear line of sight,\nbut no LED')
-    failure << (VictimSilent.failure | ir_recv_led_defect | proto.SOS.failure | forgot_ir_recv_led)
+    failure = T('clear line of sight,\nbut no LED indication')
+    failure << (VictimSilent.failure | proto.SOS.receiver | primary | software)
 
 
-victim404 = T('victim cannot be found')
+class Victim404(Tree):
+    not_placed_in = S('user did not place\nthe victim in the maze')
+    unsolvable = S('unsolvable maze')
+
+    failure = T('victim cannot be found')
+    failure << (VictimSilent.failure | proto.SOS.receiver)
 
 
 no_escort = T('not moving the victim out;\nat least not on shortest path')
 
-"""
-# TODO: whole system outage <= all Tin Bots became defunct or victim failure
-with T('system failure\n(victim remains in maze)') as system_failure:
+
+class SystemFailure(Tree):
     tin_bot_failure = F('Tin Bot failure\n')
-    tin_bot_failure << (victim_lost | standing_still | ignore_victim | spin | jerk | go_wrong | no_escort)
+    tin_bot_failure << (VictimLost.failure | StandingStill.failure | ignore_victim | SpuriousMovements.failure |
+                        GOWrong.failure | no_escort)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
-    system_failure << ((tin_bot_failure & tin_bot_failure) | victim_silent)
-"""
+    failure = T('system failure\n(victim remains in maze)')
+    failure << ((tin_bot_failure & tin_bot_failure) | VictimSilent.failure)
 
 
 if __name__ == '__main__':
