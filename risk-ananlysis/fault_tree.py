@@ -97,8 +97,7 @@ class EscortNoLED(Tree):
     led = P('primary indicator LED failure (MR9)')
 
     with F('not aware of escorting') as not_aware:
-        memory_fault = P('memory fault\n(forgot what happened)')
-        not_aware << (memory_fault | Escort.unintentional)
+        not_aware << (hw.EPuck.memory_fault() | Escort.unintentional)
 
     failure = T('escorting,\nbut no LED')
     failure << (led | not_aware | software_bug())
@@ -122,15 +121,15 @@ class StandingStill(Tree):
 
 class Uncooperative(Tree):
     with F('sender failure') as sender:
-        sender << (software_bug() | hw.Bluetooth.sender)
+        sender << (software_bug() | hw.Bluetooth.sender())
 
     with F('receiver failure') as receiver:
-        receiver << (software_bug() | hw.Bluetooth.receiver)
+        receiver << (software_bug() | hw.Bluetooth.receiver())
 
     design = P('protocol design failure (T2T)')
 
     failure = T('uncooperative behavior\n(visit cells twice, ...)')
-    failure << (sender | receiver | hw.Bluetooth.medium | design)
+    failure << (sender | receiver | hw.Bluetooth.medium() | design)
 
 
 class VictimLost(Tree):
@@ -211,7 +210,11 @@ class Victim404(Tree):
 
 
 class NoEscort(Tree):
-    failure = T('not moving the victim out;\nat least not on shortest path')
+    indirect = F('taking a detour during escort')
+    indirect << (Uncooperative.failure | hw.Motor.failure() | hw.EPuck.memory_fault())
+
+    failure = T('not moving the victim out;\nat least not on shortest known path')
+    failure << (StandingStill.failure | Escort.unintentional | indirect)
 
 
 class SystemFailure(Tree):

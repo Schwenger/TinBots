@@ -34,7 +34,7 @@ class Battery(Tree):
 
     wiring = F('failure in wiring')
 
-    failure = F('battery failure')
+    failure = F('power failure')
     failure << (defect | not_charged | wiring)
 
 
@@ -53,6 +53,8 @@ class EPuck(Tree):
     board = P('primary board failure')
 
     not_turned_on = S('user did not turn\non the E-Puck')
+
+    memory_fault = P('memory fault')
 
     failure = F('E-Puck failure')
     failure << (board | Battery.failure | not_turned_on)
