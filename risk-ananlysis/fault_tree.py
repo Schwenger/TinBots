@@ -50,12 +50,12 @@ class Bluetooth:
 
 
 class IR_perception:
-    ir_recv_defect = F(r'primary IR receiver fault')
+    ir_recv_defect = F('primary IR receiver fault')
 
     # Other reasons go here
 
-    failure = F(r"Can't percieve victim")
-    failure << (ir_recv_defect | F(r'FIXME: WAU/SOS, interference'))
+    failure = F(r"Can't perceive victim")
+    failure << (ir_recv_defect | F('FIXME: WAU/SOS, interference'))
 
 
 class LPS:
@@ -72,35 +72,37 @@ class LPS:
 
 
 class Power:
-    battery_defect = P(r'primary battery failure\nbattery defect')
-    battery_not_charged = S(r'secondary battery failure\nbattery not charged or\nbattery not connected')
-    wiring = F(r'failure in\nwiring or fuse')
+    battery_defect = P('primary battery failure\nbattery defect')
+    battery_not_charged = S('secondary battery failure\nbattery not charged or\nbattery not connected')
+
+    # FIXME: do we have a fuse? (at least there is no fuse planned for the victim)
+    wiring = F('failure in\nwiring or fuse')
 
     failure = F('power failure')
     failure << (battery_defect | battery_not_charged | wiring)
 
 
 class Proximity:
-    failure = F(r'primary proximity\nsensor fault')
+    failure = F('primary proximity\nsensor fault')
 
-    sparse_walls = F(r'walls are\nextremely sparse')
+    sparse_walls = F('walls are\nextremely sparse')
 
-    software = F(r'software failure\n(overzealos escort-ignoring)')
+    software = F('software failure\n(overzealous escort-ignoring)')
 
-    false_negative = F(r'obstacle\nnot detected')
+    false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    avoid_sys = F(r'avoidance watchdog fails')
+    avoid_sys = F('avoidance watchdog fails')
 
-    rhr_collide = F(r'right-hand-rule\ncan collide')
-    path_collide = F(r'path finder/executor\ncan collide')
-    any_collide = F(r'some driver does\nnot prevent collision')
+    rhr_collide = F('right-hand-rule\ncan collide')
+    path_collide = F('path finder/executor\ncan collide')
+    any_collide = F('some driver does\nnot prevent collision')
     any_collide << (rhr_collide | path_collide)
 
-    coll_sw = F(r'software failure')
+    coll_sw = F('software failure')
     coll_sw << (avoid_sys & any_collide)
 
-    collision = F(r'collision with obstacle')
+    collision = F('collision with obstacle')
     collision << (coll_sw | false_negative)
 
 
@@ -110,46 +112,46 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | IR_perception.failure)
 
-    magnet_trigger_acc = F(r'magnets unintentionally trigger')
+    magnet_trigger_acc = F('magnets unintentionally trigge')
 
-    unintentional = F(r'picking up the victim\nwas accidental')
+    unintentional = F('picking up the victim\nwas accidental')
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
 
 
 class Motor:
-    failure = F(r'primary motor fault')
+    failure = F('primary motor fault')
 
 
-bad_firmware = S(r'bad firmware or\nwrong program uploaded')
+bad_firmware = S('bad firmware or\nwrong program uploaded')
 
 
-bump = T(r'run into walls')
+bump = T('run into walls')
 bump << (Proximity.collision | bad_firmware)
 
 
-with T(r'escorting,\nbut no LED') as escort_no_led:
-    escort_led_failure = P(r'primary indicator LED failure')
-    forgot_escort_led = F(r'not implemented\n(forgotten)')
+with T('escorting,\nbut no LED') as escort_no_led:
+    escort_led_failure = P('primary indicator LED failure')
+    forgot_escort_led = F('not implemented\n(forgotten)')
 
-    with F(r'Tin Bot is not\naware of escorting') as not_escorting:
-        memory_fault = F(r'forgot what happened\n(primary memory fault)')
+    with F('Tin Bot is not\naware of escorting') as not_escorting:
+        memory_fault = F('forgot what happened\n(primary memory fault)')
         not_escorting << (memory_fault | Escort.unintentional)
 
     escort_no_led << (escort_led_failure | not_escorting | forgot_escort_led)
 
 
-with T(r'standing still') as standing_still:
-    with F(r'no initial position from LPS') as no_initial_lps:
+with T('standing still') as standing_still:
+    with F('no initial position from LPS') as no_initial_lps:
         no_initial_lps << LPS.failure
 
-    with Failure(r'software initialization failure') as software_init:
-        bug = F(r'software fault (bug)')
-        setup = S(r'bad setup\n(secondary failure)')
+    with Failure('software initialization failure') as software_init:
+        bug = F('software fault (bug)')
+        setup = S('bad setup\n(secondary failure)')
 
         software_init << (bug | setup)
 
-    with Failure(r'wheels unable to turn') as wheel_fault:
-        blocked = S(r'wheels blocked\n(secondary failure)')
+    with Failure('wheels unable to turn') as wheel_fault:
+        blocked = S('wheels blocked\n(secondary failure)')
 
         wheel_fault << (Motor.failure | blocked)
 
@@ -158,7 +160,7 @@ with T(r'standing still') as standing_still:
     standing_still << (no_initial_lps | software_init | software | wheel_fault | Power.failure)
 
 
-with T(r'uncooperative behavior (T2T)') as uncooperative:
+with T('uncooperative behavior (T2T)') as uncooperative:
     with F('communication failure') as communication:
         bluetooth = P('bluetooth sender/receiver failure')
         medium = P('medium failure (noise, interference, ...)')
@@ -171,77 +173,77 @@ with T(r'uncooperative behavior (T2T)') as uncooperative:
     uncooperative << (communication | software | bad_firmware)
 
 
-with T(r'victim lost while escorting') as victim_lost:
-    magnet_weak = F(r'primary magnet failure\n(e.g., too weak)')
-    belt_weak = F(r'primary belt failure\n(magnet slips from victim)')
+with T('victim lost while escorting') as victim_lost:
+    magnet_weak = F('primary magnet failure\n(e.g., too weak)')
+    belt_weak = F('primary belt failure\n(magnet slips from victim)')
         # Your magnet is weak, your belt is weak, your bloodline is
         # weak, and you will *not* survive winter!
-    victim_dropped = F(r'victim dropped')
+    victim_dropped = F('victim dropped')
     victim_dropped << (belt_weak | magnet_weak)
 
-    pulled_away = F(r'pulled away by\nother Tin Bot')
+    pulled_away = F('pulled away by\nother Tin Bot')
     pulled_away << (Escort.unintentional & uncooperative)
     victim_lost << (pulled_away | victim_dropped)
 
 
-ignore_victim = T(r'not using information\nabout victim')
+ignore_victim = T('not using information\nabout victim')
 
 
-with T(r'turning around forever') as spin:
-    spin_design = F(r'design error\n(i.e., unhandled edge case)')
+with T('turning around foreve') as spin:
+    spin_design = F('design error\n(i.e., unhandled edge case)')
 
-    spin_sw = F(r'confused software')
-    spin_sw << (uncooperative | P(r'primary sensor fault'))
+    spin_sw = F('confused software')
+    spin_sw << (uncooperative | P('primary sensor fault'))
 
     spin << (Motor.failure | spin_design | spin_sw)
 
 
-with T(r'spurious/unreasonable\nmovements (LPS)') as jerk:
+with T('spurious/unreasonable\nmovements (LPS)') as jerk:
     jerk << LPS.failure
 
 
 with T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"') as go_wrong:
-    with F('design error') as soft:
-        spec = F(r'misunderstanding\nabout MR14')
-        check = F(r'no double checking')
+    with F('design erro') as soft:
+        spec = F('misunderstanding\nabout MR14')
+        check = F('no double checking')
 
         soft << (spec & check)
 
     go_wrong << (ignore_victim | jerk | soft | uncooperative)
 
 
-with T(r'no power LED') as no_power_led:
-    primary = P(r'primary power LED failure')
-    forgot_power_led = F(r'not implemented\n(forgotten)')
-    not_turned_on = S(r'secondary failure\nuser did not turn\non the E-Puck')
+with T('no power LED') as no_power_led:
+    primary = P('primary power LED failure')
+    forgot_power_led = F('not implemented\n(forgotten)')
+    not_turned_on = S('secondary failure\nuser did not turn\non the E-Puck')
 
     no_power_led << (primary | not_turned_on | Power.failure | forgot_power_led)
 
 
-with T(r'victim\'s LED does not\nsend valid signal') as victim_silent:
-    not_turned_on = S(r'secondary failure,\nuser did not turn\non the E-Puck')
-    ir_led_defect = P(r'primary IR LED failure')
-    software = F(r'victim software failure')
+with T('victim\'s LED does not\nsend valid signal') as victim_silent:
+    not_turned_on = S('secondary failure,\nuser did not turn\non the E-Puck')
+    ir_led_defect = P('primary IR LED failure')
+    software = F('victim software failure')
 
     victim_silent << (not_turned_on | ir_led_defect | software | Power.failure)
 
 
-with T(r'clear line of sight,\nbut no LED') as see_no_led:
-    forgot_ir_recv_led = F(r'not implemented\n(forgotten)')
-    ir_recv_led_defect = F(r'primary failure\nof the display-LED')
+with T('clear line of sight,\nbut no LED') as see_no_led:
+    forgot_ir_recv_led = F('not implemented\n(forgotten)')
+    ir_recv_led_defect = F('primary failure\nof the display-LED')
 
     see_no_led << (victim_silent | ir_recv_led_defect | IR_perception.failure | forgot_ir_recv_led)
 
 
-victim404 = T(r'victim cannot be found')
+victim404 = T('victim cannot be found')
 
 
-no_escort = T(r'not moving the victim out;\nat least not on shortest path')
+no_escort = T('not moving the victim out;\nat least not on shortest path')
 
 
 # TODO: whole system outage <= all Tin Bots became defunct or victim failure
-with T('system failure') as system_failure:
-    tin_bot_failure = F(r'Tin Bot failure\n')
+with T('system failure\n(victim remains in maze)') as system_failure:
+    tin_bot_failure = F('Tin Bot failure\n')
     tin_bot_failure << (victim_lost | standing_still | ignore_victim | spin | jerk | go_wrong | no_escort)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?

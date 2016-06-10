@@ -31,7 +31,8 @@ class Node:
         self.parameters = parameters or dict(self.parameters)
 
     def graphviz_node(self):
-        self.parameters['label'] = '"{}"'.format(self.label)
+        label = r'\n'.join(line.strip() for line in self.label.splitlines())
+        self.parameters['label'] = '"{}"'.format(label)
         if self.shape is not None:
             self.parameters['shape'] = self.shape
         params = ('{}={}'.format(name, value) for name, value in self.parameters.items())
