@@ -124,7 +124,7 @@ class Uncooperative(Tree):
         receiver << (software_bug() | hw.Bluetooth.receiver)
 
     failure = T('uncooperative behavior\n(visit cells twice, ...)')
-    failure << (sender | receiver | hw.Bluetooth.medium)
+    failure << (sender | receiver | hw.Bluetooth.medium | software_bug())
 
 
 class VictimLost(Tree):
