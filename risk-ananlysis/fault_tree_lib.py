@@ -125,16 +125,16 @@ class Gate(Node):
     shape = 'box'
 
     def __or__(self, other):
-        if isinstance(other, Failure):
+        if isinstance(other, Failure) and isinstance(self, OR):
             self.children.append(other)
             return self
-        return OR(self, other)
+        return OR(None, self, other)
 
     def __and__(self, other):
-        if isinstance(other, Failure):
+        if isinstance(other, Failure) and isinstance(self, AND):
             self.children.append(other)
             return self
-        return AND(self, other)
+        return AND(None, self, other)
 
 
 class AND(Gate):
