@@ -6,18 +6,20 @@ Failures in Hardware Components
 
 # TODO: add documentation for components (needed for risk documentation) (use python docstrings)
 
-from fault_tree_lib import Component, Failure as F, Primary as P, Secondary as S
+from fault_tree_lib import Tree, Failure as F, Primary as P, Secondary as S
 
 
-class Bluetooth(Component):
-    module = P('bluetooth module failure')
+class Bluetooth(Tree):
+    sender = P('bluetooth module failure\n(sender)')
+    receiver = P('bluetooth module failure\n(receiver)')
+
     medium = P('medium failure (noise, interference, ...)')
 
     failure = F('bluetooth communication failure')
-    failure << (module | medium)
+    failure << (medium | sender | receiver)
 
 
-class Power(Component):
+class Power(Tree):
     supply = P('faulty power supply')
     grid = P('electricity grid outage')
     wiring = S('wiring failure')
@@ -26,7 +28,7 @@ class Power(Component):
     failure << (supply | grid | wiring)
 
 
-class Battery(Component):
+class Battery(Tree):
     defect = P('primary battery defect')
     not_charged = S('battery not charged')
 
@@ -36,42 +38,41 @@ class Battery(Component):
     failure << (defect | not_charged | wiring)
 
 
-class Raspberry(Component):
+class Raspberry(Tree):
     board = P('primary hardware failure')
 
     failure = F('raspberry failure')
     failure << (board | Power.failure)
 
 
-class Camera(Component):
+class Camera(Tree):
     failure = P('primary camera failure')
 
 
-class EPuck(Component):
+class EPuck(Tree):
     board = P('primary board failure')
 
     failure = F('E-Puck failure')
     failure << (board | Battery.failure)
 
 
-class ExtBoard(Component):
+class Motor(Tree):
+    failure = P('primary motor fault')
+
+
+class ExtBoard(Tree):
     board = P('primary circuit failure')
     controller = P('primary mikrocontroller defect')
 
     ir_sensor = P('primary IR sensor defect')
 
+    i2c = P('primary I2C bus failure')
+
     failure = F('extension board failure')
-    failure << (board | controller | ir_sensor)
+    failure << (i2c | board | controller | ir_sensor)
 
 
-class TinBot(Component):
-    i2c = P('primary bus I2C failure')
-
-    failure = F('complete Tin Bot failure')
-    failure << (EPuck.failure | ExtBoard.failure | i2c)
-
-
-class Victim(Component):
+class Victim(Tree):
     ir_led = P('primary IR LED failure')
     controller = P('primary mikrocontroller defect')
 
@@ -86,7 +87,7 @@ class Victim(Component):
 
 
 if __name__ == '__main__':
-    from fault_tree_lib import get_components, generate
+    from fault_tree_lib import get_trees, generate
 
-    for component in get_components():
+    for component in get_trees():
         generate(component.failure, filename='hw_' + component.__name__.lower() + '.eps')

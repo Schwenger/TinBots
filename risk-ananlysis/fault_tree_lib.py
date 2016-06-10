@@ -18,23 +18,23 @@ import collections
 import subprocess
 
 
-components = set()
+trees = set()
 
 
-class ComponentMeta(type):
+class TreeMeta(type):
     def __new__(mcs, name, bases, attributes):
         cls = super().__new__(mcs, name, bases, attributes)
         if cls.failure is not None:
-            components.add(cls)
+            trees.add(cls)
         return cls
 
 
-class Component(metaclass=ComponentMeta):
+class Tree(metaclass=TreeMeta):
     failure = None
 
 
-def get_components():
-    return components
+def get_trees():
+    return trees
 
 
 class Node:

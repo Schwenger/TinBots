@@ -31,41 +31,52 @@ Generate EPS file containing specific nodes:
     python3 fault_tree.py node_name1 node_name2 …
 """
 
-from fault_tree_lib import Failure as F, Toplevel as T, Primary as P, Secondary as S, graphviz
+from fault_tree_lib import Tree, Failure as F, Toplevel as T, Primary as P, Secondary as S
 
 import hw
 
 
-# Protocols
-class CBP:
-    environment = P('primary environment failure\n(not enough light, no clear line of sight, ...)')
+def software_bug():
+    return P('software failure (bug)')
+
+
+# Communication
+class CBP(Tree):
+    medium = P('primary environment failure\n(not enough light, no clear line of sight, ...)')
+    sender = S('missing color blob')
+    receiver = hw.Camera.failure
 
     failure = F('color blob protocol failure')
-    failure << (environment | hw.Camera.failure)
+    failure << (medium | sender | receiver)
 
 
-class LPS:
+class LPS(Tree):
+    medium = hw.Bluetooth.medium
+    sender = hw.Raspberry.failure
+    receiver = hw.Bluetooth.receiver
+
     with F('LPS link down') as link_down:
         service_outage = P('primary LPS service outage (NR1)')
 
-        link_down << (service_outage | hw.Raspberry.failure | hw.Bluetooth.failure)
+        # Raspberry board failure includes Bluetooth sender failure
+        link_down << (service_outage | medium | sender | receiver)
 
     with F('LPS sends no data') as no_data:
-        software = P('software failure')
-
-        no_data << (CBP.failure | software)
+        no_data << (CBP.failure | software_bug())
 
     failure = F('LPS failure')
     failure << (link_down | no_data)
 
 
-class IR_perception:
-    ir_recv_defect = F('primary IR receiver fault')
+class SOS(Tree):
+    medium = P('primary medium failure\n(interference, ...)')
 
-    # Other reasons go here
+    sender = hw.Victim.failure
+    receiver = hw.ExtBoard.failure
 
-    failure = F(r"Can't perceive victim")
-    failure << (ir_recv_defect | F('FIXME: WAU/SOS, interference'))
+    failure = F('SOS failure')
+    failure << (medium | sender | receiver)  # includes WAU
+
 
 
 class Proximity:
@@ -80,6 +91,7 @@ class Proximity:
 
     avoid_sys = F('avoidance watchdog fails')
 
+    # FIXME: use driver independent collision avoidance
     rhr_collide = F('right-hand-rule\ncan collide')
     path_collide = F('path finder/executor\ncan collide')
     any_collide = F('some driver does\nnot prevent collision')
@@ -96,7 +108,7 @@ class Escort:
     rec_sw = F('recognition method fails')
 
     recognition = F('escort recognition fails')
-    recognition << (rec_sw | IR_perception.failure)
+    recognition << (rec_sw | SOS.failure)
 
     magnet_trigger_acc = F('magnets unintentionally trigger')
 
@@ -104,8 +116,7 @@ class Escort:
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
 
 
-class Motor:
-    failure = F('primary motor fault')
+
 
 
 bad_firmware = S('bad firmware or\nwrong program uploaded')
@@ -115,7 +126,7 @@ bump = T('run into walls')
 bump << (Proximity.collision | bad_firmware)
 
 
-with T('escorting,\nbut no LED') as escort_no_led:
+class EscortNoLED(Tree):
     escort_led_failure = P('primary indicator LED failure')
     forgot_escort_led = F('not implemented\n(forgotten)')
 
@@ -123,10 +134,11 @@ with T('escorting,\nbut no LED') as escort_no_led:
         memory_fault = F('forgot what happened\n(primary memory fault)')
         not_escorting << (memory_fault | Escort.unintentional)
 
-    escort_no_led << (escort_led_failure | not_escorting | forgot_escort_led)
+    failure = T('escorting,\nbut no LED')
+    failure << (escort_led_failure | not_escorting | forgot_escort_led)
 
 
-with T('standing still') as standing_still:
+class StandingStill(Tree):
     with F('no initial position from LPS') as no_initial_lps:
         no_initial_lps << LPS.failure
 
@@ -139,27 +151,26 @@ with T('standing still') as standing_still:
     with F('wheels unable to turn') as wheel_fault:
         blocked = S('wheels blocked\n(secondary failure)')
 
-        wheel_fault << (Motor.failure | blocked)
+        wheel_fault << (hw.Motor.failure | blocked)
 
     software = P('primary software failure') # bug
 
-    standing_still << (no_initial_lps | software_init | software | wheel_fault | hw.Battery.failure)
+    failure = T('standing still')
+    failure << (no_initial_lps | software_init | software | wheel_fault | hw.EPuck.failure)
 
 
-with T('uncooperative behavior (T2T)') as uncooperative:
-    with F('communication failure') as communication:
-        bluetooth = P('bluetooth sender/receiver failure')
-        medium = P('medium failure (noise, interference, ...)')
+class Uncooperative(Tree):
+    with F('sender failure') as sender:
+        sender << (software_bug() | hw.Bluetooth.sender)
 
-        communication << (bluetooth | medium)
+    with F('receiver failure') as receiver:
+        receiver << (software_bug() | hw.Bluetooth.receiver)
 
-    # FIXME: algorithmic?
-    software = F('software failure\n(algorithmic)')
-
-    uncooperative << (communication | software | bad_firmware)
+    failure = T('uncooperative behavior\n(visit cells twice, ...)')
+    failure << (sender | receiver | hw.Bluetooth.medium)
 
 
-with T('victim lost while escorting') as victim_lost:
+class VictimLost(Tree):
     magnet_weak = F('primary magnet failure\n(e.g., too weak)')
     belt_weak = F('primary belt failure\n(magnet slips from victim)')
         # Your magnet is weak, your belt is weak, your bloodline is
@@ -168,57 +179,65 @@ with T('victim lost while escorting') as victim_lost:
     victim_dropped << (belt_weak | magnet_weak)
 
     pulled_away = F('pulled away by\nother Tin Bot')
-    pulled_away << (Escort.unintentional & uncooperative)
-    victim_lost << (pulled_away | victim_dropped)
+    pulled_away << (Escort.unintentional & Uncooperative.failure)
+
+    failure = T('victim lost while escorting')
+    failure << (pulled_away | victim_dropped)
 
 
 ignore_victim = T('not using information\nabout victim')
 
 
-with T('turning around forever') as spin:
+class Spin(Tree):
     spin_design = F('design error\n(i.e., unhandled edge case)')
 
     spin_sw = F('confused software')
-    spin_sw << (uncooperative | P('primary sensor fault'))
+    spin_sw << (Uncooperative.failure | P('primary sensor fault'))
 
-    spin << (Motor.failure | spin_design | spin_sw)
-
-
-with T('spurious/unreasonable\nmovements (LPS)') as jerk:
-    jerk << LPS.failure
+    failure = T('turning around forever')
+    failure << (hw.Motor.failure | spin_design | spin_sw)
 
 
-with T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"') as go_wrong:
-    with F('design erro') as soft:
+class Jerk(Tree):
+    failure = T('spurious/unreasonable\nmovements (LPS)')
+    failure << LPS.failure
+
+
+class GOWrong(Tree):
+    with F('design error') as soft:
         spec = F('misunderstanding\nabout MR14')
         check = F('no double checking')
 
         soft << (spec & check)
 
-    go_wrong << (ignore_victim | jerk | soft | uncooperative)
+    failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
+    failure << (ignore_victim | Jerk.failure | soft | Uncooperative.failure)
 
 
-with T('no power LED') as no_power_led:
+class NoPowerLED(Tree):
     primary = P('primary power LED failure')
     forgot_power_led = F('not implemented\n(forgotten)')
     not_turned_on = S('secondary failure\nuser did not turn\non the E-Puck')
 
-    no_power_led << (primary | not_turned_on | hw.Battery.failure | forgot_power_led)
+    failure = T('no power LED')
+    failure << (primary | not_turned_on | hw.Battery.failure | forgot_power_led)
 
 
-with T('victim\'s LED does not\nsend valid signal') as victim_silent:
+class VictimSilent(Tree):
     not_turned_on = S('secondary failure,\nuser did not turn\non the E-Puck')
     ir_led_defect = P('primary IR LED failure')
     software = F('victim software failure')
 
-    victim_silent << (not_turned_on | ir_led_defect | software | hw.Victim.failure)
+    failure = T('victim\'s LED does not\nsend valid signal')
+    failure << (not_turned_on | ir_led_defect | software | hw.Victim.failure)
 
 
-with T('clear line of sight,\nbut no LED') as see_no_led:
+class SeeNoLed(Tree):
     forgot_ir_recv_led = F('not implemented\n(forgotten)')
     ir_recv_led_defect = F('primary failure\nof the display-LED')
 
-    see_no_led << (victim_silent | ir_recv_led_defect | IR_perception.failure | forgot_ir_recv_led)
+    failure = T('clear line of sight,\nbut no LED')
+    failure << (VictimSilent.failure | ir_recv_led_defect | SOS.failure | forgot_ir_recv_led)
 
 
 victim404 = T('victim cannot be found')
@@ -226,7 +245,7 @@ victim404 = T('victim cannot be found')
 
 no_escort = T('not moving the victim out;\nat least not on shortest path')
 
-
+"""
 # TODO: whole system outage <= all Tin Bots became defunct or victim failure
 with T('system failure\n(victim remains in maze)') as system_failure:
     tin_bot_failure = F('Tin Bot failure\n')
@@ -234,16 +253,12 @@ with T('system failure\n(victim remains in maze)') as system_failure:
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
     system_failure << ((tin_bot_failure & tin_bot_failure) | victim_silent)
+"""
 
-
-import sys
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        nodes = (eval(node_name) for node_name in sys.argv[1:])
-    else:
-        nodes = (escort_no_led, see_no_led, victim_lost, standing_still, uncooperative, ignore_victim, spin,
-                 jerk, bump, go_wrong, no_power_led, victim_silent, victim404, no_escort, system_failure)
+    from fault_tree_lib import get_trees, generate
 
-    from fault_tree_lib import generate
-    generate(*nodes)
+    for tree in get_trees():
+        if isinstance(tree.failure, T):
+            generate(tree.failure, filename=tree.__name__.lower() + '.eps')
