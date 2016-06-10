@@ -112,7 +112,7 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | IR_perception.failure)
 
-    magnet_trigger_acc = F('magnets unintentionally trigge')
+    magnet_trigger_acc = F('magnets unintentionally trigger')
 
     unintentional = F('picking up the victim\nwas accidental')
     unintentional << (Proximity.false_negative & recognition & magnet_trigger_acc)
@@ -189,7 +189,7 @@ with T('victim lost while escorting') as victim_lost:
 ignore_victim = T('not using information\nabout victim')
 
 
-with T('turning around foreve') as spin:
+with T('turning around forever') as spin:
     spin_design = F('design error\n(i.e., unhandled edge case)')
 
     spin_sw = F('confused software')
