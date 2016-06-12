@@ -131,7 +131,7 @@ class Uncooperative(Tree):
 
     design = P('protocol design failure (T2T)')
 
-    failure = T('uncooperative behavior\n(visit cells twice, ...)')
+    failure = T('uncooperative behavior\n(visit cells twice, ...)\nduring blind search') # when Victor is found or being escorted, we do not care about cooperative behavior.
     failure << (sender | receiver | hw.Bluetooth.medium() | design)
 
 
