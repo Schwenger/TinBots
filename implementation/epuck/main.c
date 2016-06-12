@@ -26,7 +26,9 @@ int main() {
 
     e_init_ad_scan(ALL_ADC);
 
-    setup();
+    TinBot tinbot;
+
+    setup(&tinbot);
 
     char reg;
     unsigned int number;
@@ -37,14 +39,14 @@ int main() {
         for (number = 0; number < 8; number++) {
             proximity[number] = e_get_prox(number);
         }
-        update_proximity(proximity);
+        update_proximity(&tinbot, proximity);
 
         reg = e_i2cp_read(EXT_I2C_ADDR, EXT_I2C_REG);
         for (number = 0; number < 6; number++) {
             ir[number] = (reg >> number) & 1;
         }
-        update_ir(ir);
+        update_ir(&tinbot, ir);
 
-        loop();
+        loop(&tinbot);
     }
 }

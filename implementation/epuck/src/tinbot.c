@@ -4,20 +4,22 @@
 
 #include "hal.h"
 
-void setup() {
+#include "tinbot.h"
+
+void setup(TinBot* tinbot) {
     print("Tin Bot Setup");
 }
 
-void loop() {
-    set_speed_left(20);
-    set_speed_right(20);
+void loop(TinBot* tinbot) {
+    set_speed_left(2);
+    set_speed_right(2);
 }
 
-void update_proximity(int proximity[8]) {
+void update_proximity(TinBot* tinbot, int proximity[8]) {
 
 }
 
-void update_ir(int ir[6]) {
+void update_ir(TinBot* tinbot, int ir[6]) {
 
 }
 

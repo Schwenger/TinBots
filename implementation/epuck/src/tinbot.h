@@ -1,10 +1,14 @@
 #ifndef TINBOT_H
 #define TINBOT_H
 
-void setup();
-void loop();
+typedef struct TinBot {
 
-void update_proximity(int proximity[8]);
-void update_ir(int ir[6]);
+} TinBot;
+
+void setup(TinBot* tinbot);
+void loop(TinBot* tinbot);
+
+void update_proximity(TinBot* tinbot, int proximity[8]);
+void update_ir(TinBot* tinbot, int ir[6]);
 
 #endif
