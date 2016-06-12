@@ -31,11 +31,12 @@ class Power(Tree):
 class Battery(Tree):
     defect = P('primary battery defect')
     not_charged = S('battery not charged')
+    switch = P('primary power switch failure')
 
     wiring = P('failure in wiring')
 
     failure = F('power failure')
-    failure << (defect | not_charged | wiring)
+    failure << (defect | not_charged | wiring | switch)
 
 
 class Raspberry(Tree):
