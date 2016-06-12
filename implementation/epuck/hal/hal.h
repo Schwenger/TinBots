@@ -12,4 +12,6 @@ void set_speed_right(int speed);
 
 // TODO: abstraction of Bluetooth communication
 
+void print(const char *message);
+
 #endif

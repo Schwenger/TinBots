@@ -5,7 +5,7 @@
 #include "hal.h"
 
 void setup() {
-
+    print("Tin Bot Setup");
 }
 
 void loop() {

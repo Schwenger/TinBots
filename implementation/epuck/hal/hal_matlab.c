@@ -18,3 +18,7 @@ void set_speed_left(int speed) {
 void set_speed_right(int speed) {
     epuck.motor_right = speed;
 }
+
+void print(const char* message) {
+
+}
