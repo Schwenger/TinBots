@@ -123,4 +123,3 @@ Proposed specification amendments:
   zu:
       solvable maze (including table and walls; walls need to be of
       sufficient height *and thickness* to prevent signals radiating *through a wall*)
-- wir brauchen Wände am Tischrand, da wir ja die "ground sensors" abstöpseln
