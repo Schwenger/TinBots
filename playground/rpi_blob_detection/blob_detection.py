@@ -2,16 +2,17 @@
 # -*- coding:utf-8 -*-
 
 from colorsys import rgb_to_hsv
+from math import pi, sqrt
 from PIL import Image
 
 
-# ===== default stuff.  Delete me! =====
+# ===== Configuration / magic numbers =====
 
-example = Image.open('../../../es_heavy/cbp_tests/gen_300x200/PICT0001.JPG.png')
+bot_hues = [0.55, 0.60, 0.65, 0.85, 0.90, 0.95]  # on the range [0, 1]
 
-initial_hues = [0.90, 0.60]
+max_hue_diff = 64  # on the range [0, 255]
 
-max_hue_diff = 64
+visualize = True
 
 
 # ===== Basic building blocks =====
@@ -39,6 +40,43 @@ def score_lambda(dst_hue):
     return lambda rgb: score(dst_hue, rgb)
 
 
+def resolve(n, w):
+    x = int(n % w)  # This int() is cosmetic
+    y = int(n / w)  # This int() is necessary
+    return (x, y)
+
+
+def find_center(img):
+    x_akku, y_akku, v_akku = 0.0, 0.0, 0.0
+    w, _ = img.size
+    max_v = 0
+    for (n, v) in enumerate(img.getdata()):
+        if v > 0:
+            # FIXME: I'm sure there's a better way.
+            (x, y) = resolve(n, w)
+            x_akku = x_akku + x * v
+            y_akku = y_akku + y * v
+            v_akku = v_akku + v
+            max_v = max(max_v, v)
+    if v_akku < 1:
+        return (0, 0, 0)
+    theoretical_radius = sqrt((v_akku / max_v) / pi)
+    return (x_akku / v_akku, y_akku / v_akku, theoretical_radius)
+
+
+def overlay_center(img_orig, hue, center):
+    from colorsys import hsv_to_rgb
+    from PIL import ImageDraw
+
+    img = img_orig.copy()
+    anti_hue = (hue + 0.5) % 1
+    rgb = tuple([int(255 * c) for c in hsv_to_rgb(anti_hue, 1, 1)])
+    draw = ImageDraw.Draw(img)
+    x, y, r = center
+    draw.ellipse([x - r, y - r, x + r, y + r], fill=None, outline=rgb)
+    return img
+
+
 # ===== Detector class =====
 
 class BlobDetector:
@@ -46,17 +84,37 @@ class BlobDetector:
     # 'result' is tuple of x, y, phi
     # Note that x and y are on the image, so axes are "→x" and "↓y"
 
-    # actual members: hue, scores
-    # debug members: img_hue_diff, img_hue_chosen
+    # actual members: hue, raw_scores, raw_center
+    # 'visualize' members: raw_center_overlay
 
     def __init__(self, hue):
         self.hue = hue
 
     def analyze(self, img_in):
-        self.scores = pixelwise(img_in, score_lambda(self.hue))
+        # First, find out which pixels are relevant
+        self.raw_scores = pixelwise(img_in, score_lambda(self.hue))
+        self.raw_center = find_center(self.raw_scores)
+        if visualize:
+            self.raw_center_overlay = overlay_center(img_in, hue, self.raw_center)
 
 
 # ===== Example call =====
 
 if __name__ == '__main__':
-    print('Hello world')
+    from sys import argv
+
+    if len(argv) > 2:
+        print("Usage: ./blob_detection.py [path/to/input.png]")
+        exit(1)
+    if len(argv) == 2:
+        img = Image.open(argv[1])
+    else:
+        img = Image.open('../../../es_heavy/cbp_tests/gen_320x240/PICT0001.JPG.png')
+    for hue in bot_hues:
+        print("Running with hue {} ...".format(hue))
+        bd = BlobDetector(hue)
+        bd.analyze(img)
+        if visualize:
+            with open('analysis_{}_raw_center.png'.format(hue), 'wb') as out_file:
+                bd.raw_center_overlay.save(out_file, 'png')
+    print("Done!")
