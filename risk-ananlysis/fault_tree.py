@@ -94,10 +94,6 @@ class RunIntoWall(Tree):
     failure << (Proximity.collision | bad_firmware)
 
 
-class IgnoreVictim(Tree):
-    failure = T('not using information\nabout victim')
-
-
 class EscortNoLED(Tree):
     led = P('primary indicator LED failure (MR9)')
 
@@ -136,6 +132,20 @@ class Uncooperative(Tree):
 
     failure = T('uncooperative behavior\n(visit cells twice, ...)')
     failure << (sender | receiver | hw.Bluetooth.medium() | design)
+
+
+class IgnoreVictim(Tree):
+    conflict = F('conflicting data\nabout victim')
+    conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim') | Uncooperative.failure)
+
+    late = P('too high min-distance\nfor sensing again')
+
+    no_triang = F('triangulation fails')
+    no_triang << (late | software_bug())
+
+    failure = T('not using information\nabout victim')
+    failure << (hw.ExtBoard.failure | conflict | no_triang)
+
 
 
 class VictimLost(Tree):
