@@ -1,0 +1,104 @@
+\documentclass[a4paper,parskip,headheight=38pt]{scrartcl} % article or scrartcl
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[%
+  automark,
+  headsepline                %% Separation line below the header
+]{scrlayer-scrpage}
+\usepackage[english]{babel}
+\usepackage{hyphenat}
+\usepackage[hidelinks]{hyperref}
+\usepackage[top=1.4in, bottom=1.5in, left=1in, right=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{datetime}
+
+\usepackage[normalem]{ulem}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\usepackage{microtype}
+
+\usepackage[hang]{footmisc}
+\setlength{\footnotemargin}{3mm}
+
+\usepackage{enumitem}
+
+\usepackage[export]{adjustbox}
+
+% \usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{graphics}
+% \usepackage{float}
+% \usepackage{caption}
+
+\parindent 0pt
+\parskip 6pt
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
+\addtolength{\headheight}{+13pt}
+\lohead{Marlene Böhmer, s9meboeh@stud.uni-saarland.de, 2547718 \\
+	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
+	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
+	Ben Wiederhake, s9bewied@stud.uni-saarland.de, 2541266}
+\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Risk Document, Group 6, Page {\thepage}/{\pageref*{LastPage}}}
+
+\newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
+\settimeformat{mytime}
+\newdateformat{mydate}{\twodigit{\THEYEAR}\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+\cfoot{\tiny\texttt{ID \mydate\today\currenttime}}
+\chead{} % Needed because now the \subsections get displayed
+\pagestyle{scrheadings}
+
+% \renewcommand{\headrulewidth}{0pt}
+% \addtolength{\textheight}{+30mm}
+% \addtolength{\textwidth}{+50mm}
+% \addtolength{\hoffset}{-7mm}
+
+% \newcommand{\Omicron}{\ensuremath{\mathcal{O}}}
+% \newcommand{\omicron}{\ensuremath{o}}
+% \newcommand{\set}[1]{\{#1\}}
+% \newcommand{\abs}[1]{\lvert #1 \rvert}
+
+\DeclareMathOperator{\sinc}{sinc}
+
+\newcommand{\incomplete}[1]{\textless{} #1 \textgreater{}}
+
+\begin{document}
+
+\section{Basic components}
+
+\incomplete{FIXME}
+
+
+\section{Fault Trees and Computed Failure Probabilities}
+
+Please note that due to the complex interactions of the
+four\footnote{LPS, E-Puck, extension board, victim} autonomous systems,
+our fault tree\footnote{technically: fault DAG, as some intermediate
+failures share cause fault/failure} is very large.  Thus, it is not
+meaningful to write a paragraph about each intermediate failure.
+Instead, we chose to leave out \emph{some} of the intermediate
+failures.
+
+Please note that \emph{all} the top-level failures and \emph{all} basic
+components are listed.
+
+% Example doesn't use any numeration, so we don't, either.
+\subsection*{\incomplete{Our favourite top-level failure}}
+
+\incomplete{FIXME}
+
+
+\subsection*{Other top-level failures}
+
+\incomplete{FIXME}
+
+
+\end{document}
