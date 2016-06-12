@@ -13,7 +13,7 @@ class Bluetooth(Tree):
     sender = P('bluetooth module failure\n(sender)')
     receiver = P('bluetooth module failure\n(receiver)')
 
-    medium = P('medium failure (noise, interference, ...)')
+    medium = P('medium failure\n(noise, interference, ...)')
 
     failure = F('bluetooth communication failure')
     failure << (medium | sender | receiver)
@@ -42,8 +42,8 @@ class Raspberry(Tree):
     board = P('primary hardware failure')
     os = P('operating system failure')
 
-    external_module_bug = P('bug in external module')
-    internal_module_bug = P('bug in LPS software \n(blob recognition, ...)')
+    external_module_bug = P('bug in\nexternal module')
+    internal_module_bug = P('bug in LPS software\n(blob recognition, ...)')
 
     software_failure = F('software failure')
     software_failure << (os | external_module_bug | internal_module_bug)
@@ -73,11 +73,11 @@ class Motor(Tree):
 
 class ExtBoard(Tree):
     board = P('primary circuit failure')
-    controller = P('primary mikrocontroller defect')
+    controller = P('primary microcontroller\nfailure')
 
-    ir_sensor = P('primary IR sensor defect')
+    ir_sensor = P('primary IR\nsensor defect')
 
-    i2c = P('primary I2C bus failure')
+    i2c = P('primary I2C\nbus failure')
 
     failure = F('extension board failure')
     failure << (i2c | board | controller | ir_sensor)

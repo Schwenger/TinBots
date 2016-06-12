@@ -18,7 +18,7 @@ class CBP(Tree):
     sender = S('missing color blob')
     receiver = hw.Camera.failure
 
-    failure = F('color blob protocol failure')
+    failure = F('color blob\nprotocol failure')
     failure << (medium | sender | receiver)
 
 
@@ -28,7 +28,7 @@ class LPS(Tree):
     receiver = hw.Bluetooth.receiver
 
     with F('LPS link down') as link_down:
-        service_outage = P('primary LPS service outage (NR1)')
+        service_outage = P('primary LPS\nservice outage (NR1)')
 
         # Raspberry board failure includes Bluetooth sender failure
         link_down << (service_outage | medium | receiver)

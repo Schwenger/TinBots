@@ -46,7 +46,7 @@ class Proximity:
 
     sparse_walls = S('walls are\noutside specification')
 
-    software = F('software failure\n(overzealous escort-ignoring)')
+    software = P('software failure\n(overzealous escort-ignoring)')
 
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
@@ -144,6 +144,8 @@ class IgnoreVictim(Tree):
     no_triang << (late | software_bug())
 
     failure = T('not using information\nabout victim')
+    # Technically, this might also just be "SpuriousMovement.failure",
+    # but that connection would be really ugly
     failure << (hw.ExtBoard.failure | conflict | no_triang)
 
 
@@ -191,8 +193,8 @@ class SpuriousMovements(Tree):
 #        """
 class GoWrong(Tree):
     with F('design error') as soft:
-        spec = F('misunderstanding\nabout MR14')
-        check = F('not discovered during\npeer review')
+        spec = P('misunderstanding\nabout MR14')
+        check = P('not discovered during\npeer review')
 
         soft << (spec & check)
 
