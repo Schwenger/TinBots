@@ -80,7 +80,8 @@ class Escort:
     open_space << (Proximity.false_negative & recognition & magnet_trigger_acc())
 
     unintentional = F('picking up the victim\nwas accidental')
-    unintentional << (hang | open_space)
+    # hang is best instantiated for "standing still"
+    unintentional << (hang.as_leaf() | open_space)
 
 
 # FIXME: this is in the OR-case of nearly everything (not only of RunIntoWall)
@@ -136,7 +137,8 @@ class Uncooperative(Tree):
 
 class IgnoreVictim(Tree):
     conflict = F('conflicting data\nabout victim')
-    conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim') | Uncooperative.failure)
+    conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim')
+                 | Uncooperative.failure.as_leaf())
 
     late = P('too high min-distance\nfor sensing again')
 
@@ -144,7 +146,7 @@ class IgnoreVictim(Tree):
     no_triang << (late | software_bug())
 
     failure = T('not using information\nabout victim')
-    failure << (hw.ExtBoard.failure | conflict | no_triang)
+    failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang)
 
 
 class VictimLost(Tree):
@@ -158,7 +160,7 @@ class VictimLost(Tree):
         dropped << (belt_weak | magnet_weak)
 
     pulled_away = F('pulled away by\nanother Tin Bot')
-    pulled_away << (Escort.unintentional | Uncooperative.failure)
+    pulled_away << (Escort.unintentional | Uncooperative.failure.as_leaf())
 
     failure = T('victim lost while escorting')
     failure << (pulled_away | dropped)
@@ -168,17 +170,16 @@ class VictimSilent(Tree):
     software = software_bug()
 
     failure = T('victim\'s LED does not\nsend valid signal')
-    failure << (software | proto.SOS.sender)
+    failure << (software | hw.Victim.failure)
 
 
 class SpuriousMovements(Tree):
-
     turn = F('does not\nstop turning\nwhile sensing\nangle to victim')
-    turn << (VictimSilent.failure | hw.ExtBoard.failure)
+    turn << (VictimSilent.failure.as_leaf() | hw.ExtBoard.failure)
 
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
-    failure << (proto.LPS.failure | software_bug() | Proximity.failure |
-                Uncooperative.failure | turn)
+    failure << (proto.LPS.failure.as_leaf() | software_bug()
+                | Proximity.failure() | Uncooperative.failure | turn)
 
 
 # Q: merge this with SpuriousMovements?
@@ -231,10 +232,10 @@ class Victim404(Tree):
 
 class NoEscort(Tree):
     indirect = F('taking a detour during escort')
-    indirect << (Uncooperative.failure | hw.Motor.failure() | hw.EPuck.memory_fault())
+    indirect << (Uncooperative.failure.as_leaf() | hw.Motor.failure() | hw.EPuck.memory_fault())
 
     failure = T('not moving the victim out;\nat least not on shortest known path')
-    failure << (StandingStill.failure | Escort.unintentional | indirect)
+    failure << (StandingStill.failure | Escort.unintentional.as_leaf() | indirect)
 
 
 class SystemFailure(Tree):
@@ -243,8 +244,11 @@ class SystemFailure(Tree):
                         GoWrong.failure | NoEscort.failure)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
+    all_bad = F('all Tin Bots fail')
+    all_bad << (tin_bot_failure & tin_bot_failure)
+
     failure = T('system failure\n(victim remains in maze)')
-    failure << ((tin_bot_failure & tin_bot_failure) | VictimSilent.failure)
+    failure << (all_bad | VictimSilent.failure)
 
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@ class Node:
         self.shape = shape or self.shape
         self.parent = parent
         self.children = list(children)
-        self.parameters = parameters or dict(self.parameters)
+        self.parameters = dict(parameters)
 
     def __call__(self):
         return copy.deepcopy(self)
@@ -72,6 +72,12 @@ class Node:
     def graphviz_edges(self):
         return '\n'.join('{} -> {};'.format(child.make_name(), self.make_name())
                          for child in self.children)
+
+    def as_leaf(self):
+        # Or, in case you want to see all the 'diamonds' resolved by this:
+        #return self
+        return Node(label=self.label + '\n(reference)', shape=self.shape,
+                    style='dashed', **self.parameters)
 
 
 class Failure(Node):
@@ -171,7 +177,12 @@ def graphviz(*nodes):
     return '\n'.join(code)
 
 
-def generate(*nodes, filename='fault-tree.eps'):
+def generate(*nodes, filename='fault-tree.eps', create_gv=True):
     dot = subprocess.Popen(['dot', '-Tps', '-o' + filename], stdin=subprocess.PIPE)
-    dot.communicate(graphviz(*nodes).encode('utf-8'))
-    dot.wait()
+    rawstring = graphviz(*nodes)
+    if create_gv:
+        with open(filename + '.dot', 'w') as text_file:
+            text_file.write(rawstring)
+    dot.communicate(rawstring.encode('utf-8'))
+    exitcode = dot.wait()
+    assert exitcode == 0

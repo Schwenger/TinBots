@@ -95,7 +95,8 @@ class Victim(Tree):
         circuit << (transistor | resistor)
 
     failure = F('victim failure')
-    failure << (ir_led | controller | not_turned_on | Battery.failure)
+    # Copy Battery.failure as it's a different battery
+    failure << (ir_led | controller | not_turned_on | Battery.failure())
 
 
 if __name__ == '__main__':

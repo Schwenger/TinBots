@@ -43,10 +43,10 @@ class LPS(Tree):
 class SOS(Tree):
     medium = P('primary medium failure\n(interference, ...)')
 
-    sender = hw.Victim.failure
+    sender = hw.Victim.failure.as_leaf()
 
     # extension board failure includes WAU failure
-    receiver = hw.ExtBoard.failure
+    receiver = hw.ExtBoard.failure.as_leaf()
 
     failure = F('SOS failure')
     failure << (medium | sender | receiver)
