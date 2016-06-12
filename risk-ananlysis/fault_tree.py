@@ -74,10 +74,10 @@ class Escort:
     magnet_trigger_acc = P('magnets unintentionally trigger')
 
     hang = F('picked up victim\nthrough the wall')
-    hang << (magnet_trigger_acc & Proximity.sparse_walls)
+    hang << (magnet_trigger_acc & Proximity.sparse_walls())
 
     open_space = F('picked up victim\ndirectly')
-    open_space << (Proximity.false_negative & recognition & magnet_trigger_acc)
+    open_space << (Proximity.false_negative & recognition & magnet_trigger_acc())
 
     unintentional = F('picking up the victim\nwas accidental')
     unintentional << (hang | open_space)
@@ -144,10 +144,7 @@ class IgnoreVictim(Tree):
     no_triang << (late | software_bug())
 
     failure = T('not using information\nabout victim')
-    # Technically, this might also just be "SpuriousMovement.failure",
-    # but that connection would be really ugly
     failure << (hw.ExtBoard.failure | conflict | no_triang)
-
 
 
 class VictimLost(Tree):
@@ -192,14 +189,11 @@ class SpuriousMovements(Tree):
 #        gathered but instead try to actually localize and find the victim efficiently
 #        """
 class GoWrong(Tree):
-    with F('design error') as soft:
-        spec = P('misunderstanding\nabout MR14')
-        check = P('not discovered during\npeer review')
-
-        soft << (spec & check)
+    spec = P('misunderstanding\nabout MR14')
+    check = P('not discovered during\npeer review')
 
     failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
-    failure << (IgnoreVictim.failure | SpuriousMovements.failure | soft)
+    failure << (spec & check)
 
 
 class NoPowerLED(Tree):
@@ -245,7 +239,7 @@ class NoEscort(Tree):
 
 class SystemFailure(Tree):
     tin_bot_failure = F('Tin Bot failure\n')
-    tin_bot_failure << (VictimLost.failure | StandingStill.failure | IgnoreVictim.failure | SpuriousMovements.failure |
+    tin_bot_failure << (VictimLost.failure | IgnoreVictim.failure | SpuriousMovements.failure |
                         GoWrong.failure | NoEscort.failure)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
