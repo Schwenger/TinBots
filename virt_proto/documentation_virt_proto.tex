@@ -157,37 +157,127 @@ Implementing an IR sensor using raycasting.
 Besides the model of the environment, there are various other components mainly modeling the software running on the Tin Bot as Stateflow charts.
 
 \subsubsection{Tin Bot Approximator}
-\subsubsection{Tin Bot Software}
-\subsubsection{Victim Detector}
-\subsubsection{Follow Right Hand}
-As default model of operation, there's the \emph{Right Hand Follower}, which does not keep track of previous locations, but just applies the right hand rule until another component has a better idea what to do.
+
+This component takes the driving information (which wheels turn how
+quickly), and the occasional update via LPS, and approximates the
+current position and orientation from it.
+
+FIXME
+
+\subsubsection{Traffic Cop Eyes}
+
+Detects good points in time to measure the exact angle to the victim,
+and interrupts \enquote{Traffic Cop} (see below) to start the
+measurement.
+
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot. 
+	\item[ir\_raw] Current IR sensor readings.
+	\item[found\_victim\_phi] Flag to indicate that new angular information is available.
+	\item[found\_victim\_xy] Flag to indicate that new cartesian information is available.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[need\_angle] Whether a new angular measurement should be taken.
+	\end{description}
+\end{description}
 
 \subsubsection{Victim Direction}
+
+This component is responsible for measuring and computing the precise angle to the victim.
+
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[ir] Current IR sensor readings.
+	\item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot. 
+	\item[run\_finder] Flag whether this subsystem shall be active.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[mot\_l, mot\_r] Motor instructions.
+	\item[found\_victim] Flag to indicate that \emph{v\_phi} can be read.
+	\item[v\_phi] If flag is set, this is the absolute angle to the victim, as per the most recent measurement.  Otherwise, garbage.
+	\end{description}
+\end{description}
+
+\subsubsection{Victim Detector}
+
+This component is responsible for taking angular measurements, and
+triangulating them to a concrete coordinates of the victim.
+
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[found\_victim\_phi] Flag to indicate that \emph{victim\_angle} can be read.
+	\item[victim\_angle] If flag is set, this is the absolute angle to the victim, as per the most recent measurement.  Otherwise, garbage.
+	\item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot. 
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[found\_victim\_xy] Flag to indicate that \emph{victim\_x, victim\_y} can be read.
+	\item[victim\_x, victim\_y] If flag is set, this are the coordinates of the victim.  Otherwise, garbage.
+	\end{description}
+\end{description}
+
+\subsubsection{Right Hand Follower}
+As default model of operation, there's the Right Hand Follower, which does not keep track of previous locations, but just applies the right hand rule until another component has a better idea what to do.
+
+FIXME
+
+\subsubsection{Sensor Filter}
+This component \enquote{filters}
+
+FIXME
+
 \subsubsection{Path Finder}
 As soon as the Tin Bot knows the location of the victim, the reminder of the problem is basically a maze solving task under a partially known maze. 
-\emph{Path Finder} takes care of computing the waypoints leading to the victim at first, and out of the maze when the victim has been picked up. 
+Path Finder takes care of computing the waypoints leading to the victim at first, and out of the maze when the victim has been picked up. 
 
-\subsubsection{Tin Bot Controller}
-\subsubsection{Traffic Cop Eyes}
-\subsubsection{Sensor Filter}
+FIXME
 
 \subsubsection{Path Executor}
-\emph{The Path Executor} tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
+The Path Executor tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
 While doing so we might gather new information about obstacles rendering the waypoint not directly reachable, so we trigger a re-computation of the path finding component. 
 This component might report that there is no path at all due to incorrect sensor data at some point during the search\footnote{by assumption the maze is solvable} resulting in the detection of non-existing walls. 
 In this case, we fall back to using the right hand rule while updating our knowledge about the world. Path Executor is a real state machine, and both Path modules are implemented as a Stateflow chart; although Path Finder is not a state machine in the strict sense.
 
+FIXME
+
 \subsubsection{Blind Traffic Cop}
+
+FIXME
+
+FIXME
+
 \subsubsection{Traffic Cop}
 
+Wrapper for Blind Traffic Cop and Traffic Cop Eyes.
+
 \subsection{Communications}
+
 \subsubsection{LPS}
 
+FIXME
+
+FIXME
+
 \subsection{Abstractions and Compositions}
+\subsubsection{Tin Bot Controller}
+
+Wrapper for the following components: \\
+Victim Direction, Victim Detector, Follow Right Hand, Sensor Filter, Path Finder, Path Executor, Traffic Cop
+
+\subsubsection{Tin Bot Software}
+
+Wrapper for the following components: \\
+Tin Bot Controller, Tin Bot Approximator
+
 \subsubsection{Tin Bot Abstraction}
 \subsubsection{Tin Bot}
 \subsubsection{Victim}
-
 
 % ------
 
