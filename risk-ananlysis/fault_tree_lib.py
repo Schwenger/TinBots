@@ -16,10 +16,12 @@
 
 import collections
 import copy
+import inspect
 import subprocess
 
 
 trees = set()
+nodes = {}
 
 
 class TreeMeta(type):
@@ -47,6 +49,13 @@ class Node:
     parameters = {}
 
     def __init__(self, parent=None, *children, label=None, shape=None, **parameters):
+        frame = inspect.currentframe()
+        while frame:
+            code = frame.f_code
+            if code.co_filename != __file__:
+                nodes[self] = (code.co_filename, frame.f_lineno)
+                break
+            frame = frame.f_back
         self.label = label or self.label
         self.shape = shape or self.shape
         self.parent = parent

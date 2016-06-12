@@ -252,8 +252,18 @@ class SystemFailure(Tree):
 
 
 if __name__ == '__main__':
-    from fault_tree_lib import get_trees, generate
+    import os.path
+
+    from fault_tree_lib import get_trees, traverse, generate, nodes
+
+    used_nodes = set()
 
     for tree in get_trees():
+        for node in traverse(tree.failure):
+            used_nodes.add(node)
         if isinstance(tree.failure, T):
             generate(tree.failure, filename=tree.__name__.lower() + '.eps')
+
+    for node in set(nodes.keys()).difference(used_nodes):
+        filename, line = nodes[node]
+        print('not used:', repr(node.label), os.path.basename(filename), line)
