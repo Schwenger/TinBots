@@ -23,9 +23,14 @@ set(CMAKE_EXE_LINKER_FLAGS "-Wl,--heap=128,--stack=512,--report-mem,-Map=${CMAKE
 set(LIB_PATH "../../libraries/e-puck/library")
 
 include_directories(${LIB_PATH} ${LIB_PATH}/motor_led)
+include_directories(hal src)
 
 set(SOURCE_FILES
         main.c
+
+        src/tinbot.c
+
+        hal/hal_epuck.c
 
         ${LIB_PATH}/acc_gyro/e_lsm330.c
 
