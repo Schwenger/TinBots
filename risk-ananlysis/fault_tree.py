@@ -131,7 +131,7 @@ class Uncooperative(Tree):
 
     design = P('protocol design failure (T2T)')
 
-    failure = T('uncooperative behavior\n(visit cells twice, ...)')
+    failure = T('uncooperative behavior\n(explores cells twice, ...)')
     failure << (sender | receiver | hw.Bluetooth.medium() | design)
 
 
@@ -179,7 +179,7 @@ class SpuriousMovements(Tree):
 
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
     failure << (proto.LPS.failure.as_leaf() | software_bug()
-                | Proximity.failure() | Uncooperative.failure | turn)
+                | Proximity.failure() | Uncooperative.failure.as_leaf() | turn)
 
 
 # Q: merge this with SpuriousMovements?
