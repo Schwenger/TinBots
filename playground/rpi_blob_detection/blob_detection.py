@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from colorsys import rgb_to_hsv
-from math import pi, sqrt
+from math import atan2, pi, sqrt
 from PIL import Image
 
 
@@ -40,11 +40,19 @@ def score_lambda(dst_hue):
     return lambda rgb: score(dst_hue, rgb)
 
 
+def whiteish(rgb):
+    _, s, v = rgb_to_hsv(*[x / 255.0 for x in rgb])
+    # These threshold don't need any modification:
+    return 255 if s < 0.3 and v > 0.8 else 0
+
+
 def resolve(n, w):
     x = int(n % w)  # This int() is cosmetic
     y = int(n / w)  # This int() is necessary
     return (x, y)
 
+
+# ===== High-level-ish computer-vision ... ish =====
 
 def find_center(img):
     x_akku, y_akku, v_akku = 0.0, 0.0, 0.0
@@ -59,7 +67,7 @@ def find_center(img):
             v_akku = v_akku + v
             max_v = max(max_v, v)
     if v_akku < 1:
-        return (0, 0, 0)
+        return None
     theoretical_radius = sqrt((v_akku / max_v) / pi)
     return (x_akku / v_akku, y_akku / v_akku, theoretical_radius)
 
@@ -77,15 +85,53 @@ def overlay_center(img_orig, hue, center):
     return img
 
 
+def find_dot(whiteish, center):
+    center_x, center_y, r = center
+    x_akku, y_akku, v_akku = 0.0, 0.0, 0
+    r = int(r * 0.8)
+    if r < 3:
+        return None
+    w, h = whiteish.size
+    for y in range(-r, r + 1):
+        for x in range(-r, r + 1):
+            if x * x + y * y > r * r:
+                continue
+            px, py = x + center_x, y + center_y
+            if px < 0 or px >= w or py < 0 or py >= h:
+                continue
+            if whiteish.getpixel((px, py)) == 0:
+                continue
+            x_akku = x_akku + x
+            y_akku = y_akku + y
+            v_akku = v_akku + 1
+    if v_akku < 1:
+        return None
+    return (x_akku / v_akku, y_akku / v_akku)
+
+
+def overlay_dir(img_orig, hue, center):
+    from colorsys import hsv_to_rgb
+    from PIL import ImageDraw
+    from math import cos, sin
+
+    img = img_orig.copy()
+    anti_hue = (hue + 0.5) % 1
+    rgb = tuple([int(255 * c) for c in hsv_to_rgb(anti_hue, 1, 1)])
+    draw = ImageDraw.Draw(img)
+    x, y, phi = center
+    dx, dy = cos(phi), sin(phi)
+    draw.line([x, y, x + dx * 50, y + dy * 50], fill=rgb)
+    return img
+
+
 # ===== Detector class =====
 
 class BlobDetector:
-    # ideal members: dst_hue, cur_hue, raw_result, dir_compensated_result
-    # 'result' is tuple of x, y, phi
-    # Note that x and y are on the image, so axes are "→x" and "↓y"
+    # Note that x and y are on the image, so axes are "→x" and "↓y",
+    # so angles start as → and go towards ↓
 
-    # actual members: hue, raw_scores, raw_center
-    # 'visualize' members: raw_center_overlay
+    # 'output' members: hue, raw_center, raw_angle
+    # 'visualize' members: raw_center_overlay, raw_dot_overlay, raw_dir_overlay
 
     def __init__(self, hue):
         self.hue = hue
@@ -94,8 +140,21 @@ class BlobDetector:
         # First, find out which pixels are relevant
         self.raw_scores = pixelwise(img_in, score_lambda(self.hue))
         self.raw_center = find_center(self.raw_scores)
+        if self.raw_center is None:
+            return
         if visualize:
             self.raw_center_overlay = overlay_center(img_in, hue, self.raw_center)
+        self.whiteish = pixelwise(img_in, whiteish)
+        self.raw_dot = find_dot(self.whiteish, self.raw_center)
+        if self.raw_dot is None:
+            return
+        dx, dy = self.raw_dot
+        self.raw_angle = atan2(dy, dx)
+        if visualize:
+            px, py, _ = self.raw_center
+            self.raw_dir_overlay = overlay_dir(self.raw_center_overlay, hue, [px, py, self.raw_angle])
+            px, py = px + dx, py + dy
+            self.raw_dot_overlay = overlay_center(img_in, hue, [px, py, 5])
 
 
 # ===== Example call =====
@@ -114,7 +173,10 @@ if __name__ == '__main__':
         print("Running with hue {} ...".format(hue))
         bd = BlobDetector(hue)
         bd.analyze(img)
-        if visualize:
-            with open('analysis_{}_raw_center.png'.format(hue), 'wb') as out_file:
-                bd.raw_center_overlay.save(out_file, 'png')
+        for attr in ['raw_scores', 'raw_center_overlay', 'whiteish', 'raw_dir_overlay', 'raw_dot_overlay']:
+            it = bd.__getattribute__(attr)
+            if it is None:
+                continue
+            with open('analysis_{}_{}.png'.format(hue, attr), 'wb') as out_file:
+                it.save(out_file, 'png')
     print("Done!")
