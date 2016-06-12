@@ -258,7 +258,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 
 \subsection{Plant}
 \begin{enumerate}[label=\plant]
-\item victim placed in maze
+\item victim placed in maze, at least 1cm from the wall (so magnets don't accidentally trigger through the wall)
 \item victim sending signals (using IR emitters)
 \item victim wears magnetic belt
 \item solvable maze (including table and walls; walls need to be of sufficient height to prevent signals radiating over the walls)
@@ -309,5 +309,13 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item OpenCV or similar (for image analysis)
 \item base libraries for ATmega328p and ATtiny2313
 \end{enumerate}
+
+
+\section{Amendments}
+
+\begin{itemize}
+    \item Remove MR11 (don't fall off the table)
+    \item Include distance in E1 (magnets vs. walls)
+\end{itemize}
 
 \end{document}
