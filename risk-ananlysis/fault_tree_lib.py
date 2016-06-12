@@ -51,11 +51,15 @@ class Node:
         self.shape = shape or self.shape
         self.parent = parent
         self.children = list(children)
-        self.name = 'node{}'.format(id(self))
         self.parameters = parameters or dict(self.parameters)
 
     def __call__(self):
         return copy.deepcopy(self)
+
+    def make_name(self):
+        # Can't statically compute the name, because it wouldn't be
+        # re-computed for a deep-copied node.
+        return 'node{}'.format(id(self))
 
     def graphviz_node(self):
         label = r'\n'.join(line.strip() for line in self.label.splitlines())
@@ -63,10 +67,10 @@ class Node:
         if self.shape is not None:
             self.parameters['shape'] = self.shape
         params = ('{}={}'.format(name, value) for name, value in self.parameters.items())
-        return '{}[{}];'.format(self.name, ','.join(params))
+        return '{}[{}];'.format(self.make_name(), ','.join(params))
 
     def graphviz_edges(self):
-        return '\n'.join('{} -> {};'.format(child.name, self.name)
+        return '\n'.join('{} -> {};'.format(child.make_name(), self.make_name())
                          for child in self.children)
 
 
