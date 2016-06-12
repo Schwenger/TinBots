@@ -10,7 +10,9 @@ from PIL import Image
 
 bot_hues = [0.55, 0.60, 0.65, 0.85, 0.90, 0.95]  # on the range [0, 1]
 
-max_hue_diff = 64  # on the range [0, 255]
+hue_tolerance_raw = 64  # on the range [0, 255]
+
+hue_tolerance_cc = 20  # on the range [0, 255]
 
 visualize = True
 
@@ -23,7 +25,7 @@ def pixelwise(img_in, fn):
     return img_out
 
 
-def score(dst_hue, rgb):
+def score(dst_hue, rgb, tolerance):
     h, s, v = rgb_to_hsv(*[x / 255.0 for x in rgb])
     diff = abs(dst_hue - h) % 1.0
     diff = min(diff, 1 - diff)
@@ -31,13 +33,13 @@ def score(dst_hue, rgb):
     # These threshold don't need any modification:
     if s < 0.3 or v < 0.1:
         diff = 255
-    if diff > max_hue_diff:
+    if diff > tolerance:
         diff = 255
     return 255 - diff
 
 
-def score_lambda(dst_hue):
-    return lambda rgb: score(dst_hue, rgb)
+def score_lambda(dst_hue, tolerance):
+    return lambda rgb: score(dst_hue, rgb, tolerance)
 
 
 def whiteish(rgb):
@@ -50,6 +52,10 @@ def resolve(n, w):
     x = int(n % w)  # This int() is cosmetic
     y = int(n / w)  # This int() is necessary
     return (x, y)
+
+
+def around(center, radius):
+    return range(int(center - radius), int(center + radius) + 1)
 
 
 # ===== High-level-ish computer-vision ... ish =====
@@ -88,16 +94,17 @@ def overlay_center(img_orig, hue, center):
 def find_dot(whiteish, center):
     center_x, center_y, r = center
     x_akku, y_akku, v_akku = 0.0, 0.0, 0
-    r = int(r * 0.8)
+    r = r * 0.8
     if r < 3:
         return None
     w, h = whiteish.size
-    for y in range(-r, r + 1):
-        for x in range(-r, r + 1):
-            if x * x + y * y > r * r:
-                continue
-            px, py = x + center_x, y + center_y
+    for py in around(center_y, r):
+        for px in around(center_x, r):
             if px < 0 or px >= w or py < 0 or py >= h:
+                # FIXME: Ugh
+                continue
+            x, y = px - center_x, py - center_y
+            if x * x + y * y > r * r:
                 continue
             if whiteish.getpixel((px, py)) == 0:
                 continue
@@ -124,6 +131,38 @@ def overlay_dir(img_orig, hue, center):
     return img
 
 
+def find_avg_hue_diff(img_orig, raw_score, dst_hue, center):
+    center_x, center_y, r = center
+    diff_akku, v_akku = 0.0, 0
+    r = r * 1.5
+    if r < 4:
+        return None
+    assert raw_score.size == img_orig.size
+    w, h = raw_score.size
+    for py in around(center_y, r):
+        for px in around(center_x, r):
+            if px < 0 or px >= w or py < 0 or py >= h:
+                # FIXME: Ugh
+                continue
+            x, y = px - center_x, py - center_y
+            if (x * x + y * y) > (r * r):
+                continue
+            if raw_score.getpixel((px, py)) <= 20:
+                continue
+            rgb = img_orig.getpixel((px, py))
+            is_hue, _, _ = rgb_to_hsv(*[c / 255.0 for c in rgb])
+            diff = (is_hue - dst_hue + 0.5) % 1
+            diff = diff - 0.5
+            assert diff <= hue_tolerance_raw + 1e-3
+            diff_akku = diff_akku + diff
+            v_akku = v_akku + 1
+    if v_akku < 1:
+        # That's most definitely an error, so don't let computation continue
+        print("  Color correction failed!")
+        return None
+    return diff_akku / v_akku
+
+
 # ===== Detector class =====
 
 class BlobDetector:
@@ -138,12 +177,27 @@ class BlobDetector:
 
     def analyze(self, img_in):
         # First, find out which pixels are relevant
-        self.raw_scores = pixelwise(img_in, score_lambda(self.hue))
+        self.raw_scores = pixelwise(img_in, score_lambda(self.hue, hue_tolerance_raw))
         self.raw_center = find_center(self.raw_scores)
         if self.raw_center is None:
             return
         if visualize:
             self.raw_center_overlay = overlay_center(img_in, hue, self.raw_center)
+
+        hue_offset = find_avg_hue_diff(img_in, self.raw_scores, self.hue, self.raw_center)
+        if hue_offset is None:
+            return
+        self.cc_hue = (self.hue + hue_offset + 1) % 1
+
+        # FIXME: Only around center!
+        self.cc_scores = pixelwise(img_in, score_lambda(self.cc_hue, hue_tolerance_cc))
+        self.cc_center = find_center(self.cc_scores)
+        if self.cc_center is None:
+            return
+        if visualize:
+            self.cc_center_overlay = overlay_center(img_in, self.cc_hue, self.cc_center)
+
+        print("  Detected hue {} instead.".format(self.cc_hue))
         self.whiteish = pixelwise(img_in, whiteish)
         self.raw_dot = find_dot(self.whiteish, self.raw_center)
         if self.raw_dot is None:
@@ -173,7 +227,12 @@ if __name__ == '__main__':
         print("Running with hue {} ...".format(hue))
         bd = BlobDetector(hue)
         bd.analyze(img)
-        for attr in ['raw_scores', 'raw_center_overlay', 'whiteish', 'raw_dir_overlay', 'raw_dot_overlay']:
+        # Available:
+        # 'whiteish'
+        # 'raw_scores', 'raw_center_overlay'
+        # 'cc_scores', 'cc_center_overlay'
+        # 'raw_dir_overlay', 'raw_dot_overlay'
+        for attr in ['raw_scores', 'raw_center_overlay', 'cc_scores', 'cc_center_overlay']:
             try:
                 it = bd.__getattribute__(attr)
             except AttributeError:
