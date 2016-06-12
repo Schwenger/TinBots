@@ -85,7 +85,7 @@ class ExtBoard(Tree):
 
 class Victim(Tree):
     ir_led = P('primary IR LED failure')
-    controller = P('primary mikrocontroller defect')
+    controller = P('primary microcontroller\nfailure')
     not_turned_on = S('user did not turn\non the victim')
 
     with F('circuit failure') as circuit:

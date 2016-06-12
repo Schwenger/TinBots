@@ -177,7 +177,7 @@ def graphviz(*nodes):
     return '\n'.join(code)
 
 
-def generate(*nodes, filename='fault-tree.eps', create_gv=True):
+def generate(*nodes, filename='fault-tree.eps', create_gv=False):
     dot = subprocess.Popen(['dot', '-Tps', '-o' + filename], stdin=subprocess.PIPE)
     rawstring = graphviz(*nodes)
     if create_gv:
