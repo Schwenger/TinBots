@@ -223,34 +223,105 @@ triangulating them to a concrete coordinates of the victim.
 \end{description}
 
 \subsubsection{Right Hand Follower}
-As default model of operation, there's the Right Hand Follower, which does not keep track of previous locations, but just applies the right hand rule until another component has a better idea what to do.
 
-FIXME
+This is the default model of operation,  which does not keep track of
+previous locations, but just applies the right hand rule until another
+component has a better idea what to do.
+
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[run\_rhr] Flag whether this subsystem shall be active.
+	\item[proximity] Current proximity sensor readings (8-dimensional vector).
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[motor\_left, motor\_right] Motor instructions.
+	\end{description}
+\end{description}
 
 \subsubsection{Sensor Filter}
-This component \enquote{filters}
 
-FIXME
+This component \enquote{filters} the sensor inputs for Path Finder (see
+below), so that the victim is not recognized as an obstacle.  (Since it
+is \enquote{docked} to the back of the Tin Bot, this can't cause the
+Tin Bot to drive into a wall.)
+
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[ir] Current IR sensor readings (6-dimensional vector).
+	\item[proximity\_in] Current proximity sensor readings (8-dimensional vector).
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[proximity\_out] Filtered proximity sensor readings (8-dimensional vector).
+	\end{description}
+\end{description}
 
 \subsubsection{Path Finder}
 As soon as the Tin Bot knows the location of the victim, the reminder of the problem is basically a maze solving task under a partially known maze. 
 Path Finder takes care of computing the waypoints leading to the victim at first, and out of the maze when the victim has been picked up. 
 
-FIXME
+Note that Path Finder constantly collects information about the environment, even if $compute$ is cleared.
+
+\begin{description}
+\item[Inputs:] \hfill
+    \begin{description}
+    \item[proximity] Filtered proximity sensor readings (8-dimensional vector).
+    \item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot.
+  	\item[dst\_x, dst\_y] Destination location (either victim or nearest exit).
+    \item[compute] Flag whether this subsystem shall be active.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+    \item[drive] Flag whether the Path Executor subsystem shall be active.
+    \item[next\_x, next\_y] Next waypoint.
+    \item[no\_path] Flag whether $A^\ast$ search has failed, and some fallback system needs to run.
+    \item[path\_completed] Flag whether the Path Finder and Path Executor subsystems is done.
+	\end{description}
+\end{description}
 
 \subsubsection{Path Executor}
-The Path Executor tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
-While doing so we might gather new information about obstacles rendering the waypoint not directly reachable, so we trigger a re-computation of the path finding component. 
-This component might report that there is no path at all due to incorrect sensor data at some point during the search\footnote{by assumption the maze is solvable} resulting in the detection of non-existing walls. 
-In this case, we fall back to using the right hand rule while updating our knowledge about the world. Path Executor is a real state machine, and both Path modules are implemented as a Stateflow chart; although Path Finder is not a state machine in the strict sense.
 
-FIXME
+The Path Executor tries to reach each waypoint directly, i.e.\ drives straight to the given point. 
+
+\begin{description}
+\item[Inputs:] \hfill
+    \begin{description}
+    \item[drive] Flag whether this subsystem shall be active.
+    \item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot.
+  	\item[dest\_x, dest\_y] Destination location (next waypoint).
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[wheel\_left, wheel\_right] Motor instructions.
+	\end{description}
+\end{description}
 
 \subsubsection{Blind Traffic Cop}
 
-FIXME
+Decide \enquote{who is allowed to drive}, and keep track of overall Tin Bot state.
 
-FIXME
+\begin{description}
+\item[Inputs:] \hfill
+    \begin{description}
+    \item[need\_angle] Flag whether this subsystem shall be active.
+	\item[found\_victim\_phi] Flag to indicate that new angular information is available.
+    \item[found\_victim\_xy] Flag to indicate that new cartesian information is available.
+    \item[no\_path] Flag whether $A^\ast$ search has failed, and some fallback system needs to run.
+    \item[path\_completed] Flag whether the Path Finder and Path Executor subsystems is done.
+	\item[victim\_x, victim\_y] If corresponding flag is set, this are the coordinates of the victim.  Otherwise, garbage.
+	\item[initial\_x, initial\_y] Start coordinates (needed as exit).
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+  	\item[dst\_x, dst\_y] Destination location (either victim or nearest exit).
+    \item[run\_path\_finder] Flag whether the Path Finder/Executor subsystems shall be active.
+	\item[run\_rhr] Flag whether the right-hand rule subsystem (Right Hand Follower) shall be active.
+	\item[run\_victim\_finder] Flag whether the Victim Direction subsystem shall be active.
+	\end{description}
+\end{description}
 
 \subsubsection{Traffic Cop}
 
