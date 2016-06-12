@@ -174,7 +174,10 @@ if __name__ == '__main__':
         bd = BlobDetector(hue)
         bd.analyze(img)
         for attr in ['raw_scores', 'raw_center_overlay', 'whiteish', 'raw_dir_overlay', 'raw_dot_overlay']:
-            it = bd.__getattribute__(attr)
+            try:
+                it = bd.__getattribute__(attr)
+            except AttributeError:
+                continue
             if it is None:
                 continue
             with open('analysis_{}_{}.png'.format(hue, attr), 'wb') as out_file:
