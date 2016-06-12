@@ -146,23 +146,98 @@ Records the position of the Tin Bot inside the matrix representing the environme
 \end{description}
 
 \subsubsection{IR Sensor}
-Implementing an IR sensor using raycasting.
-
+Implements an IR sensor using raycasting.
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[map] Matrix representing the environment (all objects have been introduced).
+	\item[row] Row where the IR-sensor is located.
+	\item[col] Column where the IR-sensor is located.
+	\item[direction] Direction the IR-sensor is heading toward.
+	\item[victim] Current position of the Victim as 2 dimensional vector ($[x\,\, y]$). 
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[triggered] Whether the IR sensor has been triggered or not.
+	\end{description}
+\end{description}
 
 \subsubsection{Proximity Sensor}
+Implements a proximity sensor using raycasting.
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[map] Matrix representing the environment (all objects have to be introduced).
+	\item[row] Row where the proximity sensor is located.
+	\item[col] Column where the proximity sensor is located.
+	\item[direction] Direction the proximity sensor is heading toward.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[distance] Measured distance to object.
+	\item[object] Object type detected (only for debugging purposes).
+	\end{description}
+\end{description}
+
 \subsubsection{Differential Drive}
+Models a differential drive using appropriate differential equations.
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[motor\_left] Velocity of left wheel.
+	\item[motor\_right] Velocity of right wheel.
+	\item[phi] Direction the E-Puck is heading toward.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[dx/dt] Derivative of the $x$ coordinate.
+	\item[dy/dt] Derivative of the $y$ coordinate.
+	\item[dphi/dt] Derivative of the direction.
+	\end{description}
+\end{description}
+
 \subsubsection{Differential Drive Restricted}
+Restricts the movement of the E-Puck to non occupied areas on the map.
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[reset] Internal reset of the integrator blocks to the starting positions (not used).
+	\item[x0] $x$ coordinate of the starting position.
+	\item[y0] $y$ coordinate of the starting position.
+	\item[phi0] Direction the E-Puck is heading toward at the beginning.
+	\item[motor\_left] Velocity of left wheel.
+	\item[motor\_right] Velocity of right wheel.
+	\item[map] Matrix representing the environment (all objects have to be introduced).
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[x] Current $x$ coordinate.
+	\item[y] Current $y$ coordinate.
+	\item[phi] Current direction.
+	\item[row] Current row.
+	\item[col] Current column.
+	\end{description}
+\end{description}
 
 \subsection{Software}
 Besides the model of the environment, there are various other components mainly modeling the software running on the Tin Bot as Stateflow charts.
 
 \subsubsection{Tin Bot Approximator}
 
-This component takes the driving information (which wheels turn how
-quickly), and the occasional update via LPS, and approximates the
-current position and orientation from it.
+This component takes the driving information (velocity of the wheels) as well as occasional updates via LPS, and approximates the current position and orientation from them.
 
-FIXME
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[motor\_left] Speed of left motor.
+	\item[motor\_right] Speed of right motor.
+	\item[lps] Incoming LPS data (no data: $[-1\,\, -1\,\, -1]$, data point: $[x\,\, y\,\, \varphi]$).
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[current\_x\_y\_phi] Approximated current position and orientation.
+	\end{description}
+\end{description}
 
 \subsubsection{Traffic Cop Eyes}
 
@@ -330,10 +405,21 @@ Wrapper for Blind Traffic Cop and Traffic Cop Eyes.
 \subsection{Communications}
 
 \subsubsection{LPS}
+\begin{description}
+\item[Inputs:] \hfill
+	\begin{description}
+	\item[x] Current $x$ coordinate of the corresponding Tin Bot.
+	\item[y] Current $y$ coordinate of the corresponding Tin Bot.
+	\item[phi] Current direction the corresponding Tin Bot is heading toward.
+	\item[en] Whether the LPS is enabled or not.
+	\end{description}
+\item[Outputs:] \hfill
+	\begin{description}
+	\item[lps] Outgoing LPS data  (no data: $[-1\,\, -1\,\, -1]$, data point: $[x\,\, y\,\, \varphi]$).
+	\end{description}
+\end{description}
 
-FIXME
 
-FIXME
 
 \subsection{Abstractions and Compositions}
 \subsubsection{Tin Bot Controller}
@@ -347,8 +433,13 @@ Wrapper for the following components: \\
 Tin Bot Controller, Tin Bot Approximator
 
 \subsubsection{Tin Bot Abstraction}
+Model of the physical part of the Tin Bot.
+
 \subsubsection{Tin Bot}
+Complete model of the Tin Bot.
+
 \subsubsection{Victim}
+Complete model of the Victim.
 
 % ------
 
