@@ -1,3 +1,6 @@
 [submodule "libraries/IRremote"]
 	path = libraries/IRremote
 	url = git@github.com:z3t0/Arduino-IRremote.git
+[submodule "heavy"]
+	path = heavy
+	url = git@github.com:BenWiederhake/es_heavy.git
