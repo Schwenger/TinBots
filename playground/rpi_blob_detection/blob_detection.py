@@ -12,7 +12,7 @@ bot_hues = [0.55, 0.60, 0.65, 0.85, 0.90, 0.95]  # on the range [0, 1]
 
 hue_tolerance = 64  # on the range [0, 255]
 
-visualize = True
+visualize = False
 
 
 # ===== Basic building blocks =====
