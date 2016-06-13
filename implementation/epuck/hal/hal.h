@@ -8,7 +8,7 @@
 void set_speed_left(int speed);
 void set_speed_right(int speed);
 
-/* TODO: abstraction of LEDs */
+void set_led(unsigned int led, unsigned int value);
 
 /* TODO: abstraction of Bluetooth communication */
 

@@ -2,29 +2,43 @@
  * E-Puck Main Entry Point
  */
 
+
+#include <string.h>
+#include <stdio.h>
+
 #include "p30F6014A.h"
 
 #include "e_init_port.h"
 
 #include "e_uart_char.h"
-#include "e_motors.h"
+
+
+#include <motor_led/advance_one_timer/e_motors.h>
+#include <motor_led/advance_one_timer/e_agenda.h>
 
 #include "a_d/advance_ad_scan/e_ad_conv.h"
 #include "a_d/advance_ad_scan/e_prox.h"
 
 #include "I2C/e_I2C_protocol.h"
 
+#include "utility/utility.h"
+
 #include "src/tinbot.h"
 
 #define EXT_I2C_ADDR 0x42
 #define EXT_I2C_REG 0x00
 
+char buffer[64];
+
 int main() {
     e_init_port();
+    e_start_agendas_processing();
     e_init_motors();
     e_init_uart1();
 
     e_init_ad_scan(ALL_ADC);
+
+    e_calibrate_ir();
 
     TinBot tinbot;
 
@@ -37,8 +51,14 @@ int main() {
 
     while (1) {
         for (number = 0; number < 8; number++) {
-            proximity[number] = e_get_prox(number);
+            proximity[number] = e_get_calibrated_prox(number);
+
         }
+        memset(buffer, 0, 64);
+        sprintf(buffer, "%i : %i\r\n", 0, proximity[0]);
+        e_send_uart1_char(buffer, strlen(buffer));
+        while (e_uart1_sending());
+        wait(800000);
         update_proximity(&tinbot, proximity);
 
         reg = e_i2cp_read(EXT_I2C_ADDR, EXT_I2C_REG);

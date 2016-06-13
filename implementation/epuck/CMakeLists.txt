@@ -58,7 +58,10 @@ set(SOURCE_FILES
         ${LIB_PATH}/bluetooth/e_bluetooth.c
 
         ${LIB_PATH}/motor_led/e_init_port.c
-        ${LIB_PATH}/motor_led/e_motors.c
+
+        ${LIB_PATH}/motor_led/advance_one_timer/e_motors.c
+        ${LIB_PATH}/motor_led/advance_one_timer/e_agenda.c
+        ${LIB_PATH}/motor_led/advance_one_timer/e_led.c
 
         ${LIB_PATH}/utility/utility.c)
 
