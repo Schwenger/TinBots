@@ -24,7 +24,7 @@ class Power(Tree):
     grid = P('electricity grid outage')
     wiring = S('wiring failure')
 
-    failure = P('power supply failure')
+    failure = F('power supply failure')
     failure << (supply | grid | wiring)
 
 
@@ -65,7 +65,7 @@ class EPuck(Tree):
     memory_fault = P('memory fault')
 
     failure = F('E-Puck failure')
-    failure << (board | Battery.failure | not_turned_on)
+    failure << (board | Battery.failure | not_turned_on | memory_fault)
 
 
 class Motor(Tree):
@@ -97,7 +97,8 @@ class Victim(Tree):
 
     failure = F('victim failure')
     # Copy Battery.failure as it's a different battery
-    failure << (ir_led | controller | not_turned_on | Battery.failure())
+    failure << (ir_led | controller | circuit | not_turned_on
+                | Battery.failure())
 
 
 if __name__ == '__main__':

@@ -61,7 +61,7 @@ class Proximity:
     coll_sw = F('software failure')
     coll_sw << (avoid_sys & any_collide)
 
-    collision = P('collision with obstacle')
+    collision = F('collision with obstacle')
     collision << (coll_sw | false_negative)
 
 
@@ -144,11 +144,11 @@ class IgnoreVictim(Tree):
 
     no_triang = F('triangulation fails')
     no_triang << (late | software_bug())
-    
+
     overwrite = S('information gets overwritten\nbefore E-Puck picks it up\n(software bug)')
 
     failure = T('not using information\nabout victim')
-    failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang | 
+    failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang |
                 overwrite)
 
 
@@ -180,8 +180,10 @@ class SpuriousMovements(Tree):
     turn = F('does not\nstop turning\nwhile sensing\nangle to victim')
     turn << (VictimSilent.failure.as_leaf() | hw.ExtBoard.failure)
 
+    badcolor = S("Tin Bot's physical color\nis not hardcoded color")
+
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
-    failure << (proto.LPS.failure.as_leaf() | software_bug()
+    failure << (proto.LPS.failure.as_leaf() | software_bug() | badcolor
                 | Proximity.failure() | Uncooperative.failure.as_leaf() | turn)
 
 
@@ -230,7 +232,8 @@ class Victim404(Tree):
               & P('drift from real orientation\ndoes not stabilize'))
 
     failure = T('victim cannot be found')
-    failure << (VictimSilent.failure | proto.SOS.receiver | rhr_hangs | drift)
+    failure << (VictimSilent.failure | proto.SOS.receiver | rhr_hangs | drift
+                | not_placed_in | unsolvable)
 
 
 class NoEscort(Tree):
