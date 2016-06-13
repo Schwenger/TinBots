@@ -35,7 +35,7 @@ def score(dst_hue, rgb, tolerance):
         diff = 255
     if diff > tolerance:
         diff = 255
-    return 255 - diff
+    return 0 if diff >= 128 else 255
 
 
 def score_lambda(dst_hue, tolerance):
@@ -232,7 +232,7 @@ if __name__ == '__main__':
         # 'raw_scores', 'raw_center_overlay'
         # 'cc_scores', 'cc_center_overlay'
         # 'cc_dir_overlay', 'cc_dot_overlay'
-        for attr in ['cc_dir_overlay']:
+        for attr in ['raw_scores', 'cc_dir_overlay']:
             try:
                 it = bd.__getattribute__(attr)
             except AttributeError:
