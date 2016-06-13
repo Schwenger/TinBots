@@ -80,7 +80,7 @@ You will find an overview over all customs blocks in the library file itself whi
 \section{Environment}
 Because there is no pre-built block in Simulink which would suffice for the environment, we needed to come up with our own approach. The maze and all entities in it are described in a text file which is loaded into Matlab and transformed into a matrix. This matrix represents the entire environment and is used in raycast computations to determine sensor readings of the proximity sensors and IR sensors at a given point in time and space. This happens within our custom sensor blocks.
 
-E-Puck's motor is realized by a custom \emph{Differential Drive} Block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
+The E-Puck's motor is realized by a custom \emph{Differential Drive} Block implementing the real world physics by using adequate differential equations. The block assures that the Tin Bot cannot drive through other objects by looking up the occupation status in the matrix and restricting the motion appropriately.
 
 The complete physical Tin Bot is represented by the block \emph{Tin Bot Physical}. This block feeds the differential drive's data (position and orientation) in the appropriate sensor blocks — taking the orientation offset of the sensors into account — such that their values can be computed appropriately using raycasting.
 
@@ -90,7 +90,7 @@ The map used by the Tin Bot's sensors, however, must not contain its own Tin Bot
 
 The \emph{LPS} block takes the environment's data and feeds it into the Tin Bots every two seconds. This data is then used within the software blocks. The LPS block allows for two states, enabled and disabled, as described in our specification document.
 
-The \emph{Victim Introducer} block uses a similar mechanism as the Tin Bot Introducer, to place the victim inside the matrix representing the map. The \emph{Victim} block participates in a loop which models the picking up process by a Tin Bot.
+The \emph{Victim Introducer} block uses a similar mechanism as the Tin Bot Introducer to place the victim inside the matrix representing the map. The \emph{Victim} block participates in the algebraic loop which models the process of being picked up by a Tin Bot.
 
 The output of the control software is fed back to the environment, which allows us to model real world physics.
 
@@ -99,7 +99,7 @@ In the following description of our components we define the term \enquote{\emph
 
 \subsection{Physical Environment}
 \subsubsection{Tin Bot Introducer}
-Records the position of the Tin Bot inside the matrix representing the environment. Because the matrix is used as input for the drives again the Block delays the position by one sample to prevent algebraic loops using \emph{x0} respectively \emph{y0} as starting position.
+Records the position of the Tin Bot inside the matrix representing the environment. Because the matrix is used as input for the drives, the Block delays the position by one sample to prevent algebraic loops using \emph{x0} respectively \emph{y0} as starting position.
 \begin{description}
 \item[Inputs:] \hfill
 	\begin{description}
@@ -137,7 +137,7 @@ Records the position of the Tin Bot inside the matrix representing the environme
 \item[Inputs:] \hfill
 	\begin{description}
 	\item[map\_in] Matrix representing the environment without the victim.
-	\item[victim] Current position of the Victim as 2 dimensional vector ($[x\,\, y]$). 
+	\item[victim] Current position of the Victim as two dimensional vector ($[x\,\, y]$). 
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
@@ -170,7 +170,7 @@ Implements a proximity sensor using raycasting.
 	\item[map] Matrix representing the environment (all objects have to be introduced).
 	\item[row] Row where the proximity sensor is located.
 	\item[col] Column where the proximity sensor is located.
-	\item[direction] Direction the proximity sensor is heading toward.
+	\item[direction] Direction the proximity sensor is heading towards.
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
@@ -186,7 +186,7 @@ Models a differential drive using appropriate differential equations.
 	\begin{description}
 	\item[motor\_left] Velocity of left wheel.
 	\item[motor\_right] Velocity of right wheel.
-	\item[phi] Direction the E-Puck is heading toward.
+	\item[phi] Direction the E-Puck is heading towards.
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
@@ -197,14 +197,14 @@ Models a differential drive using appropriate differential equations.
 \end{description}
 
 \subsubsection{Differential Drive Restricted}
-Restricts the movement of the E-Puck to non occupied areas on the map.
+Restricts the movement of the E-Puck to non-occupied areas on the map.
 \begin{description}
 \item[Inputs:] \hfill
 	\begin{description}
 	\item[reset] Internal reset of the integrator blocks to the starting positions (not used).
 	\item[x0] $x$ coordinate of the starting position.
 	\item[y0] $y$ coordinate of the starting position.
-	\item[phi0] Direction the E-Puck is heading toward at the beginning.
+	\item[phi0] Direction the E-Puck is heading towards at the beginning.
 	\item[motor\_left] Velocity of left wheel.
 	\item[motor\_right] Velocity of right wheel.
 	\item[map] Matrix representing the environment (all objects have to be introduced).
@@ -224,7 +224,7 @@ Besides the model of the environment, there are various other components mainly 
 
 \subsubsection{Tin Bot Approximator}
 
-This component takes the driving information (velocity of the wheels) as well as occasional updates via LPS, and approximates the current position and orientation from them.
+This component takes the driving information (velocity of the wheels) as well as occasional updates via LPS, and approximates their current position and orientation.
 
 \begin{description}
 \item[Inputs:] \hfill
@@ -251,7 +251,7 @@ measurement.
 	\item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot. 
 	\item[ir\_raw] Current IR sensor readings.
 	\item[found\_victim\_phi] Flag to indicate that new angular information is available.
-	\item[found\_victim\_xy] Flag to indicate that new cartesian information is available.
+	\item[found\_victim\_xy] Flag to indicate that new Cartesian information is available.
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
@@ -274,20 +274,20 @@ This component is responsible for measuring and computing the precise angle to t
 	\begin{description}
 	\item[mot\_l, mot\_r] Motor instructions.
 	\item[found\_victim] Flag to indicate that \emph{v\_phi} can be read.
-	\item[v\_phi] If flag is set, this is the absolute angle to the victim, as per the most recent measurement.  Otherwise, garbage.
+	\item[v\_phi] If flag is set, this is the absolute angle to the victim, as per the most recent measurement.  Otherwise: garbage.
 	\end{description}
 \end{description}
 
 \subsubsection{Victim Detector}
 
 This component is responsible for taking angular measurements, and
-triangulating them to a concrete coordinates of the victim.
+triangulating them to the victim's concrete coordinates.
 
 \begin{description}
 \item[Inputs:] \hfill
 	\begin{description}
 	\item[found\_victim\_phi] Flag to indicate that \emph{victim\_angle} can be read.
-	\item[victim\_angle] If flag is set, this is the absolute angle to the victim, as per the most recent measurement.  Otherwise, garbage.
+	\item[victim\_angle] If flag is set, this is the absolute angle to the victim, as per the most recent measurement.  Otherwise: garbage.
 	\item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot. 
 	\end{description}
 \item[Outputs:] \hfill
@@ -307,7 +307,7 @@ component has a better idea what to do.
 \item[Inputs:] \hfill
 	\begin{description}
 	\item[run\_rhr] Flag whether this subsystem shall be active.
-	\item[proximity] Current proximity sensor readings (8-dimensional vector).
+	\item[proximity] Current proximity sensor readings (eight dimensional vector).
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
@@ -319,18 +319,18 @@ component has a better idea what to do.
 
 This component \enquote{filters} the sensor inputs for Path Finder (see
 below), so that the victim is not recognized as an obstacle.  (Since it
-is \enquote{docked} to the back of the Tin Bot, this can't cause the
+is \enquote{docked} to the back of the Tin Bot, this cannot cause the
 Tin Bot to drive into a wall.)
 
 \begin{description}
 \item[Inputs:] \hfill
 	\begin{description}
-	\item[ir] Current IR sensor readings (6-dimensional vector).
-	\item[proximity\_in] Current proximity sensor readings (8-dimensional vector).
+	\item[ir] Current IR sensor readings (eight dimensional vector).
+	\item[proximity\_in] Current proximity sensor readings (eight dimensional vector).
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
-	\item[proximity\_out] Filtered proximity sensor readings (8-dimensional vector).
+	\item[proximity\_out] Filtered proximity sensor readings (eight dimensional vector).
 	\end{description}
 \end{description}
 
@@ -343,7 +343,7 @@ Note that Path Finder constantly collects information about the environment, eve
 \begin{description}
 \item[Inputs:] \hfill
     \begin{description}
-    \item[proximity] Filtered proximity sensor readings (8-dimensional vector).
+    \item[proximity] Filtered proximity sensor readings (eight dimensional vector).
     \item[current\_x\_y\_phi] Approximate position and orientation of the Tin Bot.
   	\item[dst\_x, dst\_y] Destination location (either victim or nearest exit).
     \item[compute] Flag whether this subsystem shall be active.
@@ -352,8 +352,8 @@ Note that Path Finder constantly collects information about the environment, eve
 	\begin{description}
     \item[drive] Flag whether the Path Executor subsystem shall be active.
     \item[next\_x, next\_y] Next waypoint.
-    \item[no\_path] Flag whether $A^\ast$ search has failed, and some fallback system needs to run.
-    \item[path\_completed] Flag whether the Path Finder and Path Executor subsystems is done.
+    \item[no\_path] Flag whether $A^\ast$ search has failed, and some fall-back system needs to run.
+    \item[path\_completed] Flag whether the Path Finder and Path Executor subsystems are done.
 	\end{description}
 \end{description}
 
@@ -376,24 +376,24 @@ The Path Executor tries to reach each waypoint directly, i.e.\ drives straight t
 
 \subsubsection{Blind Traffic Cop}
 
-Decide \enquote{who is allowed to drive}, and keep track of overall Tin Bot state.
+Decides \enquote{who is allowed to drive}, and keeps track of the overall Tin Bot state.
 
 \begin{description}
 \item[Inputs:] \hfill
     \begin{description}
     \item[need\_angle] Flag whether this subsystem shall be active.
 	\item[found\_victim\_phi] Flag to indicate that new angular information is available.
-    \item[found\_victim\_xy] Flag to indicate that new cartesian information is available.
-    \item[no\_path] Flag whether $A^\ast$ search has failed, and some fallback system needs to run.
+    \item[found\_victim\_xy] Flag to indicate that new Cartesian information is available.
+    \item[no\_path] Flag whether $A^\ast$ search has failed, and some fall-back system needs to run.
     \item[path\_completed] Flag whether the Path Finder and Path Executor subsystems is done.
-	\item[victim\_x, victim\_y] If corresponding flag is set, this are the coordinates of the victim.  Otherwise, garbage.
-	\item[initial\_x, initial\_y] Start coordinates (needed as exit).
+	\item[victim\_x, victim\_y] If corresponding flag is set, this are the coordinates of the victim.  Otherwise: garbage.
+	\item[initial\_x, initial\_y] Start coordinates, functioning as the exit's coordinates as well.
 	\end{description}
 \item[Outputs:] \hfill
 	\begin{description}
   	\item[dst\_x, dst\_y] Destination location (either victim or nearest exit).
     \item[run\_path\_finder] Flag whether the Path Finder/Executor subsystems shall be active.
-	\item[run\_rhr] Flag whether the right-hand rule subsystem (Right Hand Follower) shall be active.
+	\item[run\_rhr] Flag whether the right hand rule subsystem (Right Hand Follower) shall be active.
 	\item[run\_victim\_finder] Flag whether the Victim Direction subsystem shall be active.
 	\end{description}
 \end{description}
@@ -410,7 +410,7 @@ Wrapper for Blind Traffic Cop and Traffic Cop Eyes.
 	\begin{description}
 	\item[x] Current $x$ coordinate of the corresponding Tin Bot.
 	\item[y] Current $y$ coordinate of the corresponding Tin Bot.
-	\item[phi] Current direction the corresponding Tin Bot is heading toward.
+	\item[phi] Current direction the corresponding Tin Bot is heading towards.
 	\item[en] Whether the LPS is enabled or not.
 	\end{description}
 \item[Outputs:] \hfill
@@ -442,7 +442,7 @@ Complete model of the Tin Bot.
 Complete model of the Victim.
 
 \section{Test Cases}
-As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
+As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, but the last two tests cover the combination of the system components.
 
 \subsection{Unit-Tests}
 \begin{description}
@@ -452,7 +452,7 @@ As already mentioned we mostly used a unit-test-like approach to test all aspect
 \item[traffic\_blind\_test] Tests the \enquote{blind} part of the traffic cop, i.e.\ without any IR-sensor input.
 \item[victim\_direction\_test] Tests victim direction calculation, i.e.\ the logic used to approximate the angle from the Tin Bot to the victim based on IR-sensor input.
 \item[path\_finder\_test] Tests internal map generation and escape path calculation, i.e.\ in essence also a test for \textbf{UC-D}, since one can see that the logic is able to deal with formerly unknown obstacles and behave reasonably.
-\item[approximator\_test] Tests approximation of current position and orientation based on the motors data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
+\item[approximator\_test] Tests approximation of current position and orientation based on the motor's data as opposed to real data provided by the LPS. Also checks update mechanism in case the LPS is turned on.
 \item[follow\_right\_hand\_test] Tests the correct application of the right hand rule taking proximity sensor data into account. Covers large parts of the project since most components are involved.
 \end{description}
 
@@ -461,7 +461,7 @@ The test \textbf{controller\_test} implements the concrete virtual prototype. It
 
 % <TODO: implement use case C by bypassing the map chain> -> nice to have, not necessary
 
-Use cases \textbf{UC-A} and \textbf{UC-B} are modeled implicitly, because startup corresponds to starting the simulation, and shutdown corresponds to stopping the simulation.
+Use cases \textbf{UC-A} and \textbf{UC-B} are modeled implicitly, because the startup corresponds to starting the simulation, and the shutdown corresponds to stopping the simulation.
 Use case \textbf{UC-C} corresponds to a nice-to-have feature and is not modeled. We did, however, not yet model tests with more than one Tin Bot at a time, so the failure of one has no impact anyways.
 
 \newgeometry{top=2cm,bottom=2cm,right=2cm,left=2cm}
