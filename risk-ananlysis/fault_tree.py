@@ -61,7 +61,7 @@ class Proximity:
     coll_sw = F('software failure')
     coll_sw << (avoid_sys & any_collide)
 
-    collision = P('collision with obstacle')
+    collision = F('collision with obstacle')
     collision << (coll_sw | false_negative)
 
 
@@ -232,7 +232,8 @@ class Victim404(Tree):
               & P('drift from real orientation\ndoes not stabilize'))
 
     failure = T('victim cannot be found')
-    failure << (VictimSilent.failure | proto.SOS.receiver | rhr_hangs | drift)
+    failure << (VictimSilent.failure | proto.SOS.receiver | rhr_hangs | drift
+                | not_placed_in | unsolvable)
 
 
 class NoEscort(Tree):
