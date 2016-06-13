@@ -107,7 +107,7 @@ class EscortNoLED(Tree):
 
 class StandingStill(Tree):
     with F('no initial position from LPS') as no_initial_lps:
-        user = S('user forgot to\nenable LPS')
+        user = S('user did not\nenable LPS')
         no_initial_lps << (proto.LPS.failure | user)
 
     with F('wheels do not turn') as wheel_fault:
@@ -210,7 +210,7 @@ class NoPowerLED(Tree):
 
 
 class SeeNoLed(Tree):
-    primary = F('primary failure\nof the display-LED')
+    primary = P('primary failure\nof the display-LED')
     software = software_bug()
 
     not_turned_on = hw.EPuck.not_turned_on()

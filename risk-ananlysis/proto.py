@@ -14,7 +14,7 @@ import hw
 
 
 class CBP(Tree):
-    medium = P('primary environment failure\n(not enough light, no clear line of sight, ...)')
+    medium = S('environment failure (not enough light,\nno clear line of sight, ...)')
     sender = S('missing color blob')
     receiver = hw.Camera.failure
 
@@ -28,7 +28,7 @@ class LPS(Tree):
     receiver = hw.Bluetooth.receiver
 
     with F('LPS link down') as link_down:
-        service_outage = P('primary LPS\nservice outage (NR1)')
+        service_outage = S('simulated LPS\nservice outage (NR1)')
 
         # Raspberry board failure includes Bluetooth sender failure
         link_down << (service_outage | medium | receiver)
