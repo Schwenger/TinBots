@@ -79,7 +79,9 @@
 \item[Failure Rate:]
 \item[Source:]
 \end{description}
+
 \subsubsection{Front LED}
+
 \subsubsection{Victim Indicator LEDs}
 \subsubsection{Power Switch}
 \subsubsection{IR-Sensors}
@@ -126,7 +128,46 @@ components are listed.
 
 \subsection*{Other top-level failures}
 
-\incomplete{FIXME}
+Note that MR2, MR4, MR6, MR16, MR18, MR19, and \incomplete{FIXME} do
+not have fault trees, as this concept doesn't apply here.  Also note
+that MR11 has been removed.
+
+\begin{description}
+\item[\texttt{nopowerled}:]
+    The fault tree of the power LED staying off (MR1).
+\item[\texttt{uncooperative}:]
+    The fault tree of behavior that appears to be uncooperative (MR3, MR22).
+\item[\texttt{ignorevictim}:]
+    The fault tree of apparently ignoring information about the victim
+    (MR5, MR13).
+\item[\texttt{victimlost}:]
+    The fault tree of losing the victim during escort (MR7, MR8).
+\item[\texttt{noescort}:]
+    The fault tree of (apparently) not escorting the victim properly
+    (MR8, MR17).
+\item[\texttt{escortnoled}:]
+    The fault tree of not flashing properly during escort (MR9).
+\item[\texttt{victim404}, \texttt{victimsilent}:]
+    Fault trees of not finding the victim (MR10).
+\item[\texttt{seenoled}:]
+    The fault tree of the IR visualization missing (MR12, MR20, MR21).
+\item[\texttt{standingstill}:]
+    The fault tree of standing still (MR13).
+\item[\texttt{gowrong}:]
+    The fault tree of going to the wrong location at a specific step
+    during the rescue action (MR14).
+\item[\texttt{runintowall}:]
+    The fault tree of colliding with a wall; or unintentionally with a
+    victim (MR15).
+\item[\texttt{spuriousmovements}:]
+    The fault tree of spurious or unreasonable movements (MR23 and
+    several others).
+\item[\texttt{systemfailure}:]
+    The overall fault tree of the victim not being moved out.  Note
+    that this is essentially the \texttt{OR} of some\footnote{e.g.\
+    \texttt{standingstill}, but not \texttt{seenoled}} other fault
+    trees.
+\end{description}
 
 
 \end{document}

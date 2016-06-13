@@ -144,11 +144,11 @@ class IgnoreVictim(Tree):
 
     no_triang = F('triangulation fails')
     no_triang << (late | software_bug())
-    
+
     overwrite = S('information gets overwritten\nbefore E-Puck picks it up\n(software bug)')
 
     failure = T('not using information\nabout victim')
-    failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang | 
+    failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang |
                 overwrite)
 
 
@@ -180,8 +180,10 @@ class SpuriousMovements(Tree):
     turn = F('does not\nstop turning\nwhile sensing\nangle to victim')
     turn << (VictimSilent.failure.as_leaf() | hw.ExtBoard.failure)
 
+    badcolor = S("Tin Bot's physical color\nis not hardcoded color")
+
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
-    failure << (proto.LPS.failure.as_leaf() | software_bug()
+    failure << (proto.LPS.failure.as_leaf() | software_bug() | badcolor
                 | Proximity.failure() | Uncooperative.failure.as_leaf() | turn)
 
 
