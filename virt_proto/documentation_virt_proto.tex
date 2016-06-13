@@ -441,14 +441,6 @@ Complete model of the Tin Bot.
 \subsubsection{Victim}
 Complete model of the Victim.
 
-% ------
-
-
-Next, there is the detection of good points in time to measure the exact angle to the victim.  We assume that the intersection of all measurements provides a reasonably good result.  This functionality is spread across \emph{Traffic Cop Eyes, Victim Finder, Victim Detector}; each of which are state machines.
-
-
-All these modules, who in composition are called \emph{Controller}, need the concept of \enquote{current location and direction}, which is given by the \emph{Approximator}. This module takes the LPS data (if available) and motor output, and tries to interpolate the current position and direction from it. This module applies the same differential equations as the Differential Drive.
-
 \section{Test Cases}
 As already mentioned we mostly used a unit-test-like approach to test all aspects of the system, only the last two tests cover the combination of the system components.
 
