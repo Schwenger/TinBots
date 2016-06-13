@@ -169,8 +169,8 @@ class BlobDetector:
     # Note that x and y are on the image, so axes are "→x" and "↓y",
     # so angles start as → and go towards ↓
 
-    # 'output' members: hue, raw_center, raw_angle
-    # 'visualize' members: raw_center_overlay, raw_dot_overlay, raw_dir_overlay
+    # 'output' members: cc_hue, cc_center, cc_angle
+    # 'visualize' members: cc_center_overlay, cc_dot_overlay, cc_dir_overlay
 
     def __init__(self, hue):
         self.hue = hue
@@ -199,16 +199,16 @@ class BlobDetector:
 
         print("  Detected hue {} instead.".format(self.cc_hue))
         self.whiteish = pixelwise(img_in, whiteish)
-        self.raw_dot = find_dot(self.whiteish, self.raw_center)
-        if self.raw_dot is None:
+        self.cc_dot = find_dot(self.whiteish, self.cc_center)
+        if self.cc_dot is None:
             return
-        dx, dy = self.raw_dot
-        self.raw_angle = atan2(dy, dx)
+        dx, dy = self.cc_dot
+        self.cc_angle = atan2(dy, dx)
         if visualize:
-            px, py, _ = self.raw_center
-            self.raw_dir_overlay = overlay_dir(self.raw_center_overlay, hue, [px, py, self.raw_angle])
+            px, py, _ = self.cc_center
+            self.cc_dir_overlay = overlay_dir(self.cc_center_overlay, self.cc_hue, [px, py, self.cc_angle])
             px, py = px + dx, py + dy
-            self.raw_dot_overlay = overlay_center(img_in, hue, [px, py, 5])
+            self.cc_dot_overlay = overlay_center(img_in, self.cc_hue, [px, py, 5])
 
 
 # ===== Example call =====
@@ -231,8 +231,8 @@ if __name__ == '__main__':
         # 'whiteish'
         # 'raw_scores', 'raw_center_overlay'
         # 'cc_scores', 'cc_center_overlay'
-        # 'raw_dir_overlay', 'raw_dot_overlay'
-        for attr in ['raw_scores', 'raw_center_overlay', 'cc_scores', 'cc_center_overlay']:
+        # 'cc_dir_overlay', 'cc_dot_overlay'
+        for attr in ['cc_dir_overlay']:
             try:
                 it = bd.__getattribute__(attr)
             except AttributeError:
