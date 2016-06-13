@@ -123,3 +123,24 @@ Proposed specification amendments:
   zu:
       solvable maze (including table and walls; walls need to be of
       sufficient height *and thickness* to prevent signals radiating *through a wall*)
+
+
+==============================
+
+scribe: Ben Wiederhake 13.06.2016 16-18 session
+
+- E-Puck ausprobieren
+- documentation absolut fertig bekommen
+- risk document rumwerkeln
+- blob_detection.py optimieren und auf cython ans laufen bekommen
+- Einer der E-Pucks sendet kein Bluetooth-Signal.  Könnte an der
+  Batterie liegen (entladen), könnte aber auch kaputt sein.
+  -> Wir laden die Batterie mal.
+- "risk ananlysis" so weit bekommen, dass man es an Hazem senden kann
+- E-Puck proximity Sensoren sind ziemlich beschissen.
+  >5 cm: liefert den Wert 0
+  ~3 cm: liefert den Wert ~30
+  ~0 cm: liefert den Wert 8000
+  Diese Werte ist völlig unbrauchbar
+  Auf glatten Oberflächen scheint es besser zu gehen; aber der
+  Wertebereich ist wirklich ungünstig.
