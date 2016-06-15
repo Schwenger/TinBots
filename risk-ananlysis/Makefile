@@ -59,5 +59,7 @@ pdf-trees: ${TREES_PDF}
 	                 pdflatex -halt-on-error document.tex )
 
 .PHONY: tar
-tar: risk-document.pdf ${TREES_PDF} ../spec/document.pdf
-	tar czf risk-document.tar.gz $^
+tar: risk-document.pdf ${TREES_PDF} | ../spec/document.pdf
+	ln -fs ../spec/document.pdf specification-document.pdf
+	tar czhf risk-ananlysis.tar.gz $^ specification-document.pdf
+	rm -f specification-document.pdf risk-document.tar.gz  # Old filename

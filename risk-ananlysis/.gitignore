@@ -1,3 +1,5 @@
 *.eps
 *.pdf
+/risk-ananlysis.tar.gz
+# Old filename, but ignore it anyway:
 /risk-document.tar.gz
