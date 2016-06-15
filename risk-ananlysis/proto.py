@@ -6,8 +6,6 @@ Failures in Communication
 
 from fault_tree_lib import Tree, Failure as F, Primary as P, Secondary as S
 
-from common import software_bug
-
 import hw
 
 
