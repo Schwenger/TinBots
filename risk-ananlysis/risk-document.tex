@@ -192,28 +192,50 @@ Reliability is 0 (and thus the Failure Rate is $\infty$).
 \subsection{LPS} % ===================================
 
 \subsubsection{Raspberry}
-\incomplete{FIXME}
+General Raspberry Pi module.
+\begin{description}
+\item[Failure Rate:] $\approx 10*^{-6}$ per hour
+\item[Source:] We approximate the reliability lower than the one of an FPGA ($10^{-8}$)\footnote{\url{http://www.xilinx.com/support/documentation/user_guides/ug116.pdf}}, but greater than the one of a Camera ($10^{-4}$).
+\end{description}
 
 \subsubsection{Camera}
-\incomplete{FIXME}
-
-\subsubsection{USB Connection}
-\incomplete{FIXME}
+Takes photo and converts it into the RAW format.
+\begin{description}
+\item[Failure Rate:] $\approx 10*^{-4}$ per hour % 0.0000294
+\item[Source:] Educated guess based on the component's complexity.
+\end{description}
 
 \subsubsection{LPS Software (Ours)}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $0$ per hour
+\item[Source:] Based on the fact that the software is only a loop
+executing very simple code, we estimate the code is correct.
+\end{description}
 
 \subsubsection{LPS Software (External Module)}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $0$ per hour
+\item[Source:] We want to use well established libraries and perform rather simple computations, thus we estimate this to be correct.
+\end{description}
 
 \subsubsection{LPS Operating System (Linux)}
-\incomplete{FIXME}
+The Raspberry Pi runs a Linux kernel and performs communications, as well as image processing tasks.
+\begin{description}
+\item[Failure Rate:] $\approx 2.94 * 10*^{-5}$ per hour % 0.0000294
+\item[Source:] The IBM Linux Technology Center conducted a 30 day stress test resulting in a success rate of 97.88\%\footnote{\url{https://www.ibm.com/developerworks/library/l-rel/}}.
+\end{description}
 
 \subsubsection{Power Supply}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $10^{-6}$ 
+\item[Source:] Since the Raspberry Pi is widely used for long running processes such as server installation, we can safely assume that the power supply is rather reliable, thus we guess the failure rate educatedly.
+\end{description}
 
 \subsubsection{Electricity Grid}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $\approx 2.25 * 10^{-5}$ %0,00002492389658
+\item[Source:] Based on data by the Verband der Elektrotechnik Elektronik Informationstechnik (VDE) in 2014\footnote{\url{http://www.energiezukunft.eu/netze/netzausbau/deutsches-stromnetz-ist-aeusserst-zuverlaessig-gn103605/}}. We cannot assume that at the point of deployment there is no major environmental catastrophe taking place since we simulate a rescue team.
+\end{description}
 
 \subsection{Victim} % ===================================
 
@@ -298,25 +320,6 @@ of the victim should remain mostly undisturbed by the environment.
 
 \section{Fault Trees and Computed Failure Probabilities}
 
-Please note that due to the complex interactions of the
-four\footnote{LPS, E-Puck, extension board, victim} autonomous systems,
-our fault tree\footnote{technically: fault DAG, as some intermediate
-failures share cause fault/failure} is very large.  Thus, it is not
-meaningful to write a paragraph about each intermediate failure.
-Instead, we chose to leave out \emph{some} of the intermediate
-failures.
-
-Please note that \emph{all} the top-level failures and \emph{all} basic
-components are listed.
-
-% Example doesn't use any numeration, so we don't, either.
-\subsection*{Top-Level \texttt{runintowall}-Failure and Intermediate Events and their Probabilites}
-
-\incomplete{in-depth explanation of the file \texttt{runintowall.pdf}}
-
-\incomplete{FIXME}
-
-
 \subsection*{Other Top-Level Failures}
 
 Note that MR2, MR4, MR6, MR16, MR18, and MR19 do
@@ -324,13 +327,27 @@ not have fault trees, as this concept does not apply here.  Also note
 that MR11 has been removed.
 
 \begin{description}
-\item[\texttt{nopowerled}:]
-    The fault tree of the power LED staying off (MR1).
-\item[\texttt{uncooperative}:]
-    The fault tree of behavior that appears to be uncooperative (MR3, MR22).
-\item[\texttt{ignorevictim}:]
-    The fault tree of apparently ignoring information about the victim
-    (MR5, MR13).
+\item[\texttt{power LED is off}: (see nopowerled.pdf)]
+    The power LED is not lit. \\
+    This means that either there is a failure in the E-Puck, or the power LED is faulty.
+\item[\texttt{E-Puck failure}:]
+    There is a problem with the E-Puck. 
+    Either the user forgot to turn on the E-Puck or there is a problem with the hardware, such as a problem with the power, the board, or the memory.
+\item[\texttt{power failure}:]
+    The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \textit{consumer} might be impaired since a problem with the power switch prevents a connection, or there is a failure in the wiring.
+\item[\texttt{uncooperative}: (see uncooperative.pdf)]
+    The fault tree of behavior that appears to be uncooperative (MR3, MR22). \\
+    The reason for such behavior is that the E-Puck does not know that there are other E-Puck or it did not receive any data to take into account because there was a problem with the communication protocol (T2T). 
+    Alternatively, the transportation medium might prevent a meaningful communication.
+
+    A problem with the receiver or the sender can also be the culprit, caused by a software bug, or a problem with the Bluetooth module. % we do not describe the subtrees separately, in regard to BW's and MS's conversation with HT
+\item[\texttt{not using information about the victim}: (see ignorevictim.pdf)]
+    The E-Puck ignores gathered information about the victim (MR5, MR13). \\
+    Potential reasons for this behavior is that the extension board is faulty (see below), the triangulation failed, meaning that we effectively do not have meaningful data about the victim, there are inconsistencies in the data about the victim, or the E-Puck does not consume received information fast enough, such that it gets overwritten.
+\item[\texttt{triangulation fails}:]
+    Unless there is a software failure due to an unhandled edge case, the triangulation does not provide data because the E-Puck needs to travel a certain distance until a triangulation is triggered. 
+    This distance is an empirically determined value and can be inappropriate. 
+    Note that this distance is the length of a straight line orthogonal to the line of measure of older triangulations.
 \item[\texttt{victimlost}:]
     The fault tree of losing the victim during escort (MR7, MR8).
 \item[\texttt{noescort}:]
