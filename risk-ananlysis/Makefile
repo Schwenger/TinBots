@@ -39,13 +39,11 @@ compile-document: risk-document.pdf
 
 # ===== Third step:  convert the trees into paper =====
 
-TREES_PDF := $(addprefix tree_,${TREES_EPS:.eps=.pdf})
+TREES_PDF := $(addprefix trees/,${TREES_EPS:.eps=.pdf})
 
-${TREES_PDF}: tree_%.pdf: %.eps
+${TREES_PDF}: trees/%.pdf: %.eps
+	@mkdir -p trees
 	epstopdf $< --outfile=$@
-
-say:
-	echo ${TREES_PDF}
 
 # I was tempted to call this 'Into The Trees'
 # https://www.amazon.com/Into-Trees-Zoe-Keating/dp/B0052YO4L0
@@ -58,8 +56,10 @@ pdf-trees: ${TREES_PDF}
 	( cd ../spec/ && pdflatex -halt-on-error document.tex && \
 	                 pdflatex -halt-on-error document.tex )
 
-.PHONY: tar
-tar: risk-document.pdf ${TREES_PDF} | ../spec/document.pdf
+risk-ananlysis.tar.gz: risk-document.pdf ${TREES_PDF} | ../spec/document.pdf
 	ln -fs ../spec/document.pdf specification-document.pdf
 	tar czhf risk-ananlysis.tar.gz $^ specification-document.pdf
-	rm -f specification-document.pdf risk-document.tar.gz  # Old filename
+	rm -f specification-document.pdf risk-document.tar.gz tree_*  # Old filenames
+
+.PHONY: tar
+tar: risk-ananlysis.tar.gz
