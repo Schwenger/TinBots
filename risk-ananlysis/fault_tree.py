@@ -65,7 +65,7 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
 
-    magnet_trigger_acc = P('magnets unintentionally trigger')
+    magnet_trigger_acc = P('magnets unintentionally trigger', failure_rate=1e-5)
 
     hang = F('picked up victim\nthrough the wall\n(paper does not shield magnetic fields)')
     hang << (magnet_trigger_acc & Proximity.sparse_walls())
@@ -123,7 +123,7 @@ class Uncooperative(Tree):
     with F('receiver failure') as receiver:
         receiver << (software_bug() | hw.Bluetooth.receiver())
 
-    design = P('protocol design failure (T2T)')
+    design = P('protocol design failure (T2T)', failure_rate=0)
 
     failure = T('uncooperative behavior\n(explores cells twice, ...)')
     failure << (sender | receiver | hw.Bluetooth.medium() | design)
@@ -134,12 +134,13 @@ class IgnoreVictim(Tree):
     conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim') |
                  Uncooperative.failure.as_leaf())
 
-    late = P('too high min-distance\nfor sensing again')
+    late = P('too high min-distance\nfor sensing again', failure_rate=1e-1)
 
     no_triang = F('triangulation fails')
     no_triang << (late | software_bug())
 
-    overwrite = P('information gets overwritten\nbefore E-Puck picks it up\n(software bug)')
+    overwrite = F('information gets overwritten\nbefore E-Puck picks it up')
+    overwrite << Uncooperative.design()
 
     failure = T('not using information\nabout victim')
     failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang |

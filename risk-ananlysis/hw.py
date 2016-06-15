@@ -8,8 +8,8 @@ from fault_tree_lib import Tree, Failure as F, Primary as P, Secondary as S
 
 
 class Bluetooth(Tree):
-    sender = P('bluetooth module failure\n(sender)')
-    receiver = P('bluetooth module failure\n(receiver)')
+    sender = P('bluetooth module failure\n(sender)', failure_rate=1e-5)
+    receiver = P('bluetooth module failure\n(receiver)', failure_rate=1e-5)
 
     medium = P('medium failure\n(noise, interference, ...)', failure_rate=1e-3)
 
@@ -61,7 +61,7 @@ class EPuck(Tree):
 
     not_turned_on = S('user did not turn\non the E-Puck')
 
-    memory_fault = P('memory fault')
+    memory_fault = P('memory fault', failure_rate=1e-11)
 
     failure = F('E-Puck failure')
     failure << (board | controller | Battery.failure | not_turned_on |
@@ -73,7 +73,7 @@ class Motor(Tree):
 
 
 class ExtBoard(Tree):
-    board = P('primary circuit failure')
+    board = P('primary circuit failure', failure_rate=1e-10)
     controller = P('primary microcontroller\nfailure', failure_rate=1e-12)
 
     ir_sensor = P('primary IR\nsensor defect', failure_rate=1e-5)
