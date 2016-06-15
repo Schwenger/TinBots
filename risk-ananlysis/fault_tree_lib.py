@@ -44,11 +44,9 @@ def get_trees():
 
 
 class Node:
-    shape = None
-    label = 'None'
     parameters = {}
 
-    def __init__(self, parent=None, *children, label=None, shape=None, **parameters):
+    def __init__(self, parent=None, *children, **parameters):
         frame = inspect.currentframe()
         while frame:
             code = frame.f_code
@@ -56,11 +54,10 @@ class Node:
                 nodes[self] = (code.co_filename, frame.f_lineno)
                 break
             frame = frame.f_back
-        self.label = label or self.label
-        self.shape = shape or self.shape
         self.parent = parent
         self.children = list(children)
         self.parameters = dict(parameters)
+        assert 'children' not in self.parameters
 
     def __call__(self):
         return copy.deepcopy(self)
@@ -71,31 +68,41 @@ class Node:
         return 'node{}'.format(id(self))
 
     def graphviz_node(self):
-        label = r'\n'.join(line.strip() for line in self.label.splitlines())
-        self.parameters['label'] = '"{}"'.format(label)
-        if self.shape is not None:
-            self.parameters['shape'] = self.shape
-        params = ('{}={}'.format(name, value) for name, value in self.parameters.items())
+        label = '"<Unnamed>"'
+        if self.parameters['label']:
+            label = self.parameters['label']
+            label = r'\n'.join(line.strip() for line in label.splitlines())
+            label = '"{}"'.format(label)
+        params = dict(self.parameters)  # Copy by value
+        params['label'] = label
+        params = ('{}={}'.format(name, value) for name, value in params.items())
         return '{}[{}];'.format(self.make_name(), ','.join(params))
 
     def graphviz_edges(self):
         return '\n'.join('{} -> {};'.format(child.make_name(), self.make_name())
                          for child in self.children)
 
-    def as_leaf(self):
-        # Or, in case you want to see all the 'diamonds' resolved by this:
-        #return self
-        return Node(label=self.label + '\n(reference)', shape=self.shape,
-                    style='dashed', **self.parameters)
 
 
 class Failure(Node):
-    shape = 'box'
-
-    def __init__(self, description=None, probability=None, **parameters):
-        super().__init__(label=description, **parameters)
-        self.description = description
+    def __init__(self, label, probability=None, **parameters):
+        super().__init__(label=label, **parameters)
         self.probability = probability
+        self.parameters['shape'] = 'box'
+
+
+    def as_leaf(self):
+        # == In case you want to see all the 'diamonds' resolved by this:
+        #return self
+
+        # == Just create a "reference" box:
+        params = dict(self.parameters)   # Copy by value
+        params['label'] = params['label'] + '\n(reference)'
+        # Sadly, it's not possible to create a bold+dashed box,
+        # so we don't handle that case.
+        params['style'] = 'dashed'
+        return Failure(**params)
+
 
     def __lshift__(self, other):
         other.parent = self
@@ -114,54 +121,64 @@ class Failure(Node):
         if isinstance(other, OR):
             other.children.append(self)
             return other
-        return OR(None, self, other)
+        return OR(self, other)
 
     def __and__(self, other):
         if isinstance(other, AND):
             other.children.append(self)
             return other
-        return AND(None, self, other)
+        return AND(self, other)
 
     __ror__ = __or__
     __rand__ = __and__
 
 
 class Toplevel(Failure):
-    parameters = {
-        'style': 'bold'
-    }
+    def __init__(self, label, **parameters):
+        super().__init__(label=label, **parameters)
+        self.parameters['style'] = 'bold'
 
 
 class Primary(Failure):
-    shape = 'ellipse'
+    def __init__(self, label, **parameters):
+        super().__init__(label=label, **parameters)
+        self.parameters['shape'] = 'ellipse'
 
 
 class Secondary(Failure):
-    shape = 'diamond'
+    def __init__(self, label, **parameters):
+        super().__init__(label=label, **parameters)
+        self.parameters['shape'] = 'diamond'
 
 
 class Gate(Node):
-    shape = 'box'
+    def __init__(self, label, *children):
+        super().__init__(None, *children, label=label)
+        self.parameters['shape'] = 'box'
 
     def __or__(self, other):
         if isinstance(other, Failure) and isinstance(self, OR):
             self.children.append(other)
             return self
-        return OR(None, self, other)
+        return OR(self, other)
 
     def __and__(self, other):
         if isinstance(other, Failure) and isinstance(self, AND):
             self.children.append(other)
             return self
-        return AND(None, self, other)
+        return AND(self, other)
 
 
 class AND(Gate):
-    label = 'AND'
+    def __init__(self, *children):
+        assert len(children) >= 2
+        super().__init__('AND', *children)
 
 
 class OR(Gate):
-    label = 'OR'
+    def __init__(self, *children):
+        assert len(children) >= 2
+        super().__init__('OR', *children)
 
 
 def traverse(node):
@@ -194,4 +211,9 @@ def generate(*nodes, filename='fault-tree.eps', create_gv=False):
             text_file.write(rawstring)
     dot.communicate(rawstring.encode('utf-8'))
     exitcode = dot.wait()
+    if exitcode != 0:
+        tofile = filename + '.dot'
+        print('generating {} failed.  Wrote dotcode to {} ...'.format(filename, tofile))
+        with open(tofile, 'w') as fp:
+            fp.write(rawstring)
     assert exitcode == 0
