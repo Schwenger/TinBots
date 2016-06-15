@@ -39,8 +39,6 @@ from math import inf  # To denote a component with reliability = 0
 import hw
 import proto
 
-# TODO: add references to specification document
-
 
 class Proximity:
     failure = P('primary proximity\nsensor fault', failure_rate=1e-1)
@@ -78,7 +76,7 @@ class Escort:
     unintentional << (hang.as_leaf() | open_space)
 
 
-# FIXME: this is in the OR-case of nearly everything (not only of RunIntoWall)
+# This is in the OR-case of nearly everything (not only of RunIntoWall)
 bad_firmware = S('bad firmware or\nwrong program uploaded')
 
 
@@ -246,7 +244,6 @@ class SystemFailure(Tree):
     tin_bot_failure << (VictimLost.failure | IgnoreVictim.failure | SpuriousMovements.failure |
                         GoWrong.failure | NoEscort.failure | Victim404.failure)
 
-    # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
     all_bad = F('all Tin Bots fail')
     all_bad << (tin_bot_failure & tin_bot_failure)
 

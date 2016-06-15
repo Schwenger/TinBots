@@ -4,8 +4,6 @@
 Failures in Communication
 """
 
-# TODO: add documentation for components (needed for risk documentation) (use python docstrings)
-
 from fault_tree_lib import Tree, Failure as F, Primary as P, Secondary as S
 
 from common import software_bug
