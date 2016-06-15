@@ -41,7 +41,7 @@ class LPS(Tree):
 
 
 class SOS(Tree):
-    medium = P('primary medium failure\n(interference, ...)')
+    medium = P('primary medium failure\n(interference, ...)', failure_rate=1e-4)
 
     sender = hw.Victim.failure.as_leaf()
 

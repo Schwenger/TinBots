@@ -4,8 +4,6 @@
 Failures in Hardware Components
 """
 
-# TODO: add documentation for components (needed for risk documentation) (use python docstrings)
-
 from fault_tree_lib import Tree, Failure as F, Primary as P, Secondary as S
 
 
@@ -13,7 +11,7 @@ class Bluetooth(Tree):
     sender = P('bluetooth module failure\n(sender)')
     receiver = P('bluetooth module failure\n(receiver)')
 
-    medium = P('medium failure\n(noise, interference, ...)')
+    medium = P('medium failure\n(noise, interference, ...)', failure_rate=1e-3)
 
     failure = F('bluetooth communication failure')
     failure << (medium | sender | receiver)
