@@ -144,3 +144,27 @@ scribe: Ben Wiederhake 13.06.2016 16-18 session
   Diese Werte ist völlig unbrauchbar
   Auf glatten Oberflächen scheint es besser zu gehen; aber der
   Wertebereich ist wirklich ungünstig.
+
+
+==============================
+
+scribe: Ben Wiederhake 15.06.2016 12-16 session
+
+Feedback von Hazem:
+- wir dürfen Sachen mit nach Hause nehmen (hurra!)
+- "pick up victim through wall" genauer beschreiben
+- Wir dürfen "das LPS" als zwei unabhängige Instanzen betrachten
+	-> falsche Berechnung, aber deutlich einfacher
+
+Done:
+- Risk document base probabilities aufschreiben,
+  und vorbereiten, es in unseren "Wald" einzubauen
+- planen, wie wir das im Conrad kaufen
+- im Conrad einkaufen gehen
+- viele Probabilities in den Wald einbauen (noch nicht alle!)
+
+Todo:
+- ausprobieren, wie gut man RHR mit kleineren Thresholds basteln kann
+  => Gut, dass wir die Herleitung der ganzen Magic Numbers aufgeschrieben haben
+- Find out data retention rate for memory
+
