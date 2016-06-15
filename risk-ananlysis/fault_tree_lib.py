@@ -19,6 +19,8 @@ import copy
 import inspect
 import subprocess
 
+from math import nan
+
 
 trees = set()
 nodes = {}
@@ -71,6 +73,14 @@ class Node:
         label = '"<Unnamed>"'
         if self.parameters['label']:
             label = self.parameters['label']
+            if not isinstance(self, Gate):
+                # Q: Why '%g'?
+                # A: Properly display very small rates
+                # >>> '%.9f' % (1e-12/9)
+                # '0.000000000'
+                # >>> '%.9g' % (1e-12/9)
+                # '1.11111111e-13'
+                label = label + '\n%.5g' % self.compute_rate()
             label = r'\n'.join(line.strip() for line in label.splitlines())
             label = '"{}"'.format(label)
         params = dict(self.parameters)  # Copy by value
@@ -83,13 +93,11 @@ class Node:
                          for child in self.children)
 
 
-
 class Failure(Node):
-    def __init__(self, label, reliability=None, **parameters):
+    def __init__(self, label, failure_rate=nan, **parameters):
         super().__init__(label=label, **parameters)
-        self.reliability = reliability
+        self.failure_rate = failure_rate
         self.parameters['shape'] = 'box'
-
 
     def as_leaf(self):
         # == In case you want to see all the 'diamonds' resolved by this:
@@ -103,6 +111,13 @@ class Failure(Node):
         params['style'] = 'dashed'
         return Failure(**params)
 
+    def compute_rate(self):
+        assert len(self.children) <= 1
+        rate = self.failure_rate
+        if rate is nan and self.children:
+            assert len(self.children) == 1
+            rate = self.children[0].compute_rate()
+        return rate
 
     def __lshift__(self, other):
         other.parent = self
@@ -174,11 +189,24 @@ class AND(Gate):
         assert len(children) >= 2
         super().__init__('AND', *children)
 
+    def compute_rate(self):
+        from functools import reduce
+        from operator import mul
+        return 1 - reduce(mul, [1 - c.compute_rate() for c in self.children], 1)
+
 
 class OR(Gate):
     def __init__(self, *children):
         assert len(children) >= 2
         super().__init__('OR', *children)
+
+    def compute_rate(self):
+        rate = sum([c.compute_rate() for c in self.children])
+        if rate > 1:
+            # Have fun trying to fomrat this source code
+            print('WARNING: failure rate of {} is greater than one: {}'.
+                  format(self.parameters['label'], rate))
+        return rate
 
 
 def traverse(node):
