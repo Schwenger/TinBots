@@ -76,44 +76,100 @@
 \subsection{Tin Bot} % ===================================
 
 \subsubsection{Power LED}
-\incomplete{FIXME}
+Indicator LED for power.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf
+\end{description}
 
 \subsubsection{Front LED}
-\incomplete{FIXME}
+Front LED on E-Puck.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf
+\end{description}
 
 \subsubsection{Victim Indicator LEDs}
-\incomplete{FIXME}
+Red LEDs on E-Puck.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf
+\end{description}
 
 \subsubsection{Power Switch}
-\incomplete{FIXME}
+E-Puck's power switch.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-6}$ per hour
+	\item[Source:] The failure rate is estimated to be low as the power switch is a simple standard component.
+\end{description}
 
 \subsubsection{IR-Sensors}
-\incomplete{FIXME}
+IR-sensors on the extension board.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] Estimated to be similar to the LEDs.
+\end{description}
 
 \subsubsection{Proximity Sensors}
-\incomplete{FIXME}
+The E-Puck's proximity sensors.
+\begin{description}
+	\item[Failure Rate:] $\infty$
+	\item[Source:] The proximity sensors seem not to work as advertised.
+	\item[Experiment Setup:] We sent the raw proximity sensor data via Bluetooth to a smartphone and saw that it clearly does not follow the specification: the sensor values decrease with the increasing distance and not even the operating range applies.
+	\item[Desired Failure Rate:] $\leq 10^{-1}$ per hour
+	\item[Source:] We have to do some more experiments and hope to achieve a better failure rate. For now we estimate a high failure rate of $\leq 10^{-1}$ to be able to give a result.
+\end{description}
 
 \subsubsection{ATmega328}
-\incomplete{FIXME}
+Processor controlling the signals picked up from the victim.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-12}$ per hour
+	\item[Source:] http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf
+\end{description}
 
 \subsubsection{E-Puck Controller Board}
-\incomplete{FIXME}
+The E-Puck's controller.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-10}$ per hour
+	\item[Source:] The failure rate is estimated to be slightly higher than the one of ATmega328 because it has more components.
+\end{description}
 
 \subsubsection{E-Puck Motors and Driver Board}
-\incomplete{FIXME}
+The E-Puck's motors and motor controller.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] The failure rate of the E-Puck's motors and motor controller is estimated to be low as it is a standard component and the E-Pucks are not used a lot.
+\end{description}
 
 \subsubsection{E-Puck Memory}
-\incomplete{FIXME}
+The E-Puck's memory.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:]
+\end{description}
 
 \subsubsection{I2C Bus}
-\incomplete{FIXME}
+Cable connecting the controlling E-Puck and the E-Puck's extension board.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] The failure rate is estimated to be low due to the simple construction.
+\end{description}
 
 \subsubsection{Magnets}
+The magnets attached to the E-Puck.
     % Both positive and negative failures
-\incomplete{FIXME}
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:]
+\end{description}
 
 \subsubsection{Bluetooth Module}
-\incomplete{FIXME}
+The E-Puck's bluetooth module.
+\begin{description}
+	\item[Failure Rate:] $\leq 10^{-5}$ per hour
+	\item[Source:] The failure rate of the bluetooth module is estimated to be low as it is a standard component and the distances between the connected participants are small.
+	(http://www.connectblue.com/fileadmin/Connectblue/Web2006/Documents/White\_papers/Bluetooth\_Reliability.pdf)
+\end{description}
 
 \subsection{Tin Bot Software} % ===================================
 
@@ -176,7 +232,7 @@ Main powers source of the Victim.
 \end{description}
 
 \subsubsection{ATtiny2313}
-Processor controlling light emission of the E-Puck.
+Processor controlling light emission of the victim.
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-12}$ per hour
 \item[Source:] http://www.atmel.com/images/doc8246.pdf
