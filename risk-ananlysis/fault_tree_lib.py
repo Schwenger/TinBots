@@ -193,9 +193,11 @@ class AND(Gate):
         super().__init__('AND', *children)
 
     def compute_rate(self):
-        from functools import reduce
-        from operator import mul
-        return 1 - reduce(mul, [1 - c.compute_rate() for c in self.children], 1)
+        rates = [c.compute_rate() for c in self.children]
+        if any([r is nan for r in rates]):
+            return nan
+        # Difficult to compute; see whiteboard.
+        return min(rates)
 
 
 class OR(Gate):
