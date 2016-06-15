@@ -85,9 +85,9 @@ class Node:
 
 
 class Failure(Node):
-    def __init__(self, label, probability=None, **parameters):
+    def __init__(self, label, reliability=None, **parameters):
         super().__init__(label=label, **parameters)
-        self.probability = probability
+        self.reliability = reliability
         self.parameters['shape'] = 'box'
 
 
