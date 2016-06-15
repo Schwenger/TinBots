@@ -34,6 +34,7 @@ Generate EPS file containing specific nodes:
 from fault_tree_lib import Tree, Failure as F, Toplevel as T, Primary as P, Secondary as S
 
 from common import software_bug
+from math import inf  # To denote a component with reliability = 0
 
 import hw
 import proto
@@ -51,8 +52,8 @@ class Proximity:
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    avoid_sys = F('avoidance watchdog fails', failure_rate=0)
-    avoid_sys << (software_bug | failure)
+    avoid_sys = F('avoidance watchdog fails')
+    avoid_sys << (software_bug() | failure)
 
     collision = F('collision with obstacle')
     collision << (avoid_sys | false_negative)
