@@ -47,6 +47,7 @@ def get_trees():
 
 class Node:
     parameters = {}
+    cached_rate_val = None
 
     def __init__(self, parent=None, *children, **parameters):
         frame = inspect.currentframe()
@@ -59,7 +60,8 @@ class Node:
         self.parent = parent
         self.children = list(children)
         self.parameters = dict(parameters)
-        assert 'children' not in self.parameters
+        self.display_rate = True
+        assert 'failure_rate' not in self.parameters
 
     def __call__(self):
         return copy.deepcopy(self)
@@ -73,14 +75,14 @@ class Node:
         label = '"<Unnamed>"'
         if self.parameters['label']:
             label = self.parameters['label']
-            if not isinstance(self, Gate):
+            if self.display_rate:
                 # Q: Why '%g'?
                 # A: Properly display very small rates
                 # >>> '%.9f' % (1e-12/9)
                 # '0.000000000'
                 # >>> '%.9g' % (1e-12/9)
                 # '1.11111111e-13'
-                label = label + '\n%.5g' % self.compute_rate()
+                label = label + '\n%.5g' % self.cached_rate()
             label = r'\n'.join(line.strip() for line in label.splitlines())
             label = '"{}"'.format(label)
         params = dict(self.parameters)  # Copy by value
@@ -88,36 +90,47 @@ class Node:
         params = ('{}={}'.format(name, value) for name, value in params.items())
         return '{}[{}];'.format(self.make_name(), ','.join(params))
 
+    def cached_rate(self):
+        self.cached_rate_val = self.cached_rate_val or self.compute_rate()
+        return self.cached_rate_val
+
     def graphviz_edges(self):
         return '\n'.join('{} -> {};'.format(child.make_name(), self.make_name())
                          for child in self.children)
 
 
+class Reference(Node):
+    def __init__(self, orig):
+        super().__init__(**orig.parameters)
+        self.orig = orig
+        self.parameters['shape'] = 'box'
+        self.parameters['label'] = self.parameters['label'] + '\n(reference)'
+        # Sadly, it's not possible to create a bold+dashed box,
+        # so we don't handle that case.
+        self.parameters['style'] = 'dashed'
+
+    def compute_rate(self):
+        return self.orig.compute_rate()
+
+
 class Failure(Node):
-    def __init__(self, label, failure_rate=nan, **parameters):
+    def __init__(self, label, **parameters):
         super().__init__(label=label, **parameters)
-        self.failure_rate = failure_rate
         self.parameters['shape'] = 'box'
 
     def as_leaf(self):
         # == In case you want to see all the 'diamonds' resolved by this:
         #return self
 
-        # == Just create a "reference" box:
-        params = dict(self.parameters)   # Copy by value
-        params['label'] = params['label'] + '\n(reference)'
-        # Sadly, it's not possible to create a bold+dashed box,
-        # so we don't handle that case.
-        params['style'] = 'dashed'
-        return Failure(**params)
+        # == Create a "reference" box:
+        return Reference(self)
 
     def compute_rate(self):
-        assert len(self.children) <= 1
-        rate = self.failure_rate
-        if rate is nan and self.children:
-            assert len(self.children) == 1
-            rate = self.children[0].compute_rate()
-        return rate
+        if len(self.children) != 1:
+            print('Warning: Failure has no children: "%s"' %
+                  self.parameters['label'])
+            return nan
+        return self.children[0].compute_rate()
 
     def __lshift__(self, other):
         other.parent = self
@@ -155,23 +168,32 @@ class Toplevel(Failure):
 
 
 class Primary(Failure):
-    def __init__(self, label, **parameters):
+    def __init__(self, label, failure_rate=nan, **parameters):
         super().__init__(label=label, **parameters)
+        self.failure_rate = failure_rate
         self.parameters['shape'] = 'ellipse'
-        if 'failure_rate' not in self.parameters:
+        if failure_rate is nan:
             print('Warning: failure rate not defined for primary fault "%s"' %
                   self.parameters['label'])
+
+    def compute_rate(self):
+        return self.failure_rate
 
 
 class Secondary(Failure):
     def __init__(self, label, **parameters):
         super().__init__(label=label, **parameters)
+        self.display_rate = False
         self.parameters['shape'] = 'diamond'
+
+    def compute_rate(self):
+        return 0
 
 
 class Gate(Node):
     def __init__(self, label, *children):
         super().__init__(None, *children, label=label)
+        self.display_rate = False
         self.parameters['shape'] = 'box'
 
     def __or__(self, other):
