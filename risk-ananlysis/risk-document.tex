@@ -79,21 +79,21 @@
 Indicator LED for power.
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf
+	\item[Source:] Luminaire Lifetime report\footnote{\url{http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf}}
 \end{description}
 
 \subsubsection{Front LED}
 Front LED on E-Puck.
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf
+	\item[Source:] Luminaire Lifetime report
 \end{description}
 
 \subsubsection{Victim Indicator LEDs}
 Red LEDs on E-Puck.
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf
+	\item[Source:] Luminaire Lifetime report
 \end{description}
 
 \subsubsection{Power Switch}
@@ -124,7 +124,7 @@ The E-Puck's proximity sensors.
 Processor controlling the signals picked up from the victim.
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-12}$ per hour
-	\item[Source:] http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf
+	\item[Source:] Atmel datasheet\footnote{\url{http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf}}
 \end{description}
 
 \subsubsection{E-Puck Controller Board}
@@ -144,8 +144,8 @@ The E-Puck's motors and motor controller.
 \subsubsection{E-Puck Memory}
 The E-Puck's memory.
 \begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:]
+	\item[Failure Rate:] $\leq 10^{-11}$ per hour
+	\item[Source:] We assume that the E-Puck memory is comparable to the ATmega328's memory\footnote{\url{http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf}}\footnote{\url{https://www.wolframalpha.com/input/?i=\%281+hour\%29\%2F\%282e7+years\%29}}
 \end{description}
 
 \subsubsection{I2C Bus}
@@ -168,7 +168,8 @@ The E-Puck's bluetooth module.
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-5}$ per hour
 	\item[Source:] The failure rate of the bluetooth module is estimated to be low as it is a standard component and the distances between the connected participants are small.
-	(http://www.connectblue.com/fileadmin/Connectblue/Web2006/Documents/White\_papers/Bluetooth\_Reliability.pdf)
+    \footnote{Example report about Bluetooth being reliable:
+    \url{http://www.connectblue.com/fileadmin/Connectblue/Web2006/Documents/White\_papers/Bluetooth\_Reliability.pdf}}
 \end{description}
 
 \subsection{Tin Bot Software} % ===================================
@@ -283,7 +284,7 @@ Main powers source of the Victim.
 Processor controlling light emission of the victim.
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-12}$ per hour
-\item[Source:] http://www.atmel.com/images/doc8246.pdf
+\item[Source:] Atmel datasheet for this microcontroller\footnote{\url{http://www.atmel.com/images/doc8246.pdf}}
 \end{description}
 
 \subsubsection{MOS-FET (IRLZ44N)}
@@ -302,8 +303,7 @@ Power amplification for IR-diodes.
 \subsubsection{IR-LEDs}
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-5}$ per hour
-\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_
-june2011.pdf
+\item[Source:] Luminaire Lifetime report\footnote{\url{http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf}}, as it is assumed that IR LEDs (which use the same mechanism to emit photons) exhibit the same fault rate.
 \end{description}
 
 \subsubsection{Controller Software}
