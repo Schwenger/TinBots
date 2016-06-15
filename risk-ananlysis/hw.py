@@ -97,8 +97,8 @@ class Victim(Tree):
 
     failure = F('victim failure')
     # Copy Battery.failure as it's a different battery
-    failure << (ir_led | controller | circuit | not_turned_on
-                | Battery.failure())
+    failure << (ir_led | controller | circuit | not_turned_on |
+                Battery.failure())
 
 
 if __name__ == '__main__':

@@ -121,7 +121,7 @@ class Failure(Node):
 
     def as_leaf(self):
         # == In case you want to see all the 'diamonds' resolved by this:
-        #return self
+        # return self
 
         # == Create a "reference" box:
         return Reference(self)

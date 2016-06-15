@@ -112,8 +112,8 @@ class StandingStill(Tree):
     software = software_bug()
 
     failure = T('standing still')
-    failure << (no_initial_lps | bad_setup | software | wheel_fault
-                | hw.EPuck.failure | RunIntoWall.failure | Escort.hang)
+    failure << (no_initial_lps | bad_setup | software | wheel_fault |
+                hw.EPuck.failure | RunIntoWall.failure | Escort.hang)
 
 
 class Uncooperative(Tree):
@@ -229,8 +229,8 @@ class Victim404(Tree):
               P('drift from real orientation\ndoes not stabilize', failure_rate=1e-5))
 
     failure = T('victim cannot be found')
-    failure << (VictimSilent.failure | proto.SOS.receiver() | rhr_hangs | drift
-                | not_placed_in | unsolvable)
+    failure << (VictimSilent.failure | proto.SOS.receiver() | rhr_hangs |
+                drift | not_placed_in | unsolvable)
 
 
 class NoEscort(Tree):
