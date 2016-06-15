@@ -118,27 +118,76 @@
 \subsection{Tin Bot Software} % ===================================
 
 \subsubsection{Victim Recognition}
-    % "Is there a victim sticking to us in this moment?"
-    % Both false positive and false negative
-\incomplete{FIXME}
+Module that determines whether we're carrying a victim.
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-3}$ per hour
+ %
+\item[Source:] As this component uses an educated guess about angles,
+size, and sensor sensitivity, this is estimated to be somewhat
+unreliable.
+ %
+\end{description}
 
 \subsubsection{Victim Triangulation}
-    % Probability for "too high min-distance\nfor sensing again"
-\incomplete{FIXME}
+ %
+Module that triangulates the victim's position based on two or more
+previous measurements.
+ %
+\begin{description}
+\item[Failure Rate:] 0
+ %
+\item[Source:] Assuming correct implementation and correct automatic translation
+to target hardware, the implementation is correct.
+ %
+\end{description}
 
 \subsubsection{Avoidance Watchdog}
-\incomplete{FIXME}
+ %
+Module that shall interrupt when we're about to crash into a wall.
+ %
+\begin{description}
+\item[Failure Rate:] 0
+ %
+\item[Source:] Assuming correct implementation and correct automatic translation
+to target hardware, the implementation is correct.
+ %
+\end{description}
 
 \subsubsection{Path Pruning}
-\incomplete{FIXME}
+ %
+Module that shall detect and deter when RHR is about to walk in circles.
+ %
+\begin{description}
+\item[Failure Rate:] 0
+ %
+\item[Source:] Assuming correct implementation and correct automatic translation
+to target hardware, the implementation is correct.
+ %
+\end{description}
 
-    % "Don't needlessly walk in circles"
+\subsubsection{Crash: Right-Hand Follower}
+ %
+Ability of the Right-Hand Follower to collide with an obstacle.
+ %
+\begin{description}
+\item[Failure Rate:] $\infty$
+ %
+\item[Source:] As we decided against making each Module crash-safe, the
+Reliability is 0 (and thus the Failure Rate is $\infty$).
+ %
+\end{description}
 
-\subsubsection{Right-Hand Follower} % can it collide?
-\incomplete{FIXME}
-
-\subsubsection{Path Finder/Executor} % can it collide?
-\incomplete{FIXME}
+\subsubsection{Crash: Path Finder/Executor}
+ %
+Ability of the Path Finder/Executor to collide with an obstacle.
+ %
+\begin{description}
+\item[Failure Rate:] $\infty$
+ %
+\item[Source:] As we decided against making each module crash-safe, the
+Reliability is 0 (and thus the Failure Rate is $\infty$).
+ %
+\end{description}
 
 \subsection{LPS} % ===================================
 
