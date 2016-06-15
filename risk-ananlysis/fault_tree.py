@@ -232,7 +232,7 @@ class Victim404(Tree):
               & P('drift from real orientation\ndoes not stabilize'))
 
     failure = T('victim cannot be found')
-    failure << (VictimSilent.failure | proto.SOS.receiver | rhr_hangs | drift
+    failure << (VictimSilent.failure | proto.SOS.receiver() | rhr_hangs | drift
                 | not_placed_in | unsolvable)
 
 
@@ -247,7 +247,7 @@ class NoEscort(Tree):
 class SystemFailure(Tree):
     tin_bot_failure = F('Tin Bot failure\n')
     tin_bot_failure << (VictimLost.failure | IgnoreVictim.failure | SpuriousMovements.failure |
-                        GoWrong.failure | NoEscort.failure)
+                        GoWrong.failure | NoEscort.failure | Victim404.failure)
 
     # FIXME: how to model redundancy in fault trees — do wee need 2 copies of the Tin Bot tree?
     all_bad = F('all Tin Bots fail')

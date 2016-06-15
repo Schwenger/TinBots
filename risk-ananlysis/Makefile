@@ -16,7 +16,7 @@ clean-total: clean
 TREES_EPS := escortnoled.eps gowrong.eps ignorevictim.eps noescort.eps nopowerled.eps runintowall.eps seenoled.eps spuriousmovements.eps standingstill.eps systemfailure.eps uncooperative.eps victim404.eps victimlost.eps victimsilent.eps
 
 ${TREES_EPS}: fault_tree.py fault_tree_lib.py
-	# Thankfully, make is clever enough to call this only once.
+# Thankfully, make is clever enough to call this only once.
 	python3 fault_tree.py
 
 .PHONY: compile-tree
