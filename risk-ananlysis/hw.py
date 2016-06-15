@@ -18,8 +18,8 @@ class Bluetooth(Tree):
 
 
 class Power(Tree):
-    supply = P('faulty power supply')
-    grid = P('electricity grid outage')
+    supply = P('faulty power supply', failure_rate=1e-6)
+    grid = P('electricity grid outage', failure_rate=1e-5)
     wiring = S('wiring failure')
 
     failure = F('power supply failure')
@@ -27,22 +27,22 @@ class Power(Tree):
 
 
 class Battery(Tree):
-    defect = P('primary battery defect')
+    defect = P('primary battery defect', failure_rate=1e-8)
     not_charged = S('battery not charged')
-    switch = P('primary power switch failure')
+    switch = P('primary power switch failure', failure_rate=1e-6)
 
-    wiring = P('failure in wiring')
+    wiring = P('failure in wiring', failure_rate=0)
 
     failure = F('power failure')
     failure << (defect | not_charged | wiring | switch)
 
 
 class Raspberry(Tree):
-    board = P('primary hardware failure')
-    os = P('operating system failure')
+    board = P('primary hardware failure', failure_rate=1e-6)
+    os = P('operating system failure', failure_rate=2.94e-5)
 
-    external_module_bug = P('bug in\nexternal module')
-    internal_module_bug = P('bug in LPS software\n(blob recognition, ...)')
+    external_module_bug = P('bug in\nexternal module', failure_rate=0)
+    internal_module_bug = P('bug in LPS software\n(blob recognition, ...)', failure_rate=0)
 
     software_failure = F('software failure')
     software_failure << (os | external_module_bug | internal_module_bug)
@@ -52,44 +52,46 @@ class Raspberry(Tree):
 
 
 class Camera(Tree):
-    failure = P('primary camera failure')
+    failure = P('primary camera failure', failure_rate=1e-4)
 
 
 class EPuck(Tree):
-    board = P('primary board failure')
+    board = P('primary controller board failure', failure_rate=1e-10)
+    controller = P('primary controller failure', failure_rate=1e-12)
 
     not_turned_on = S('user did not turn\non the E-Puck')
 
     memory_fault = P('memory fault')
 
     failure = F('E-Puck failure')
-    failure << (board | Battery.failure | not_turned_on | memory_fault)
+    failure << (board | controller | Battery.failure | not_turned_on |
+                memory_fault)
 
 
 class Motor(Tree):
-    failure = P('primary motor fault')
+    failure = P('primary motor fault', failure_rate=1e-5)
 
 
 class ExtBoard(Tree):
     board = P('primary circuit failure')
-    controller = P('primary microcontroller\nfailure')
+    controller = P('primary microcontroller\nfailure', failure_rate=1e-12)
 
-    ir_sensor = P('primary IR\nsensor defect')
+    ir_sensor = P('primary IR\nsensor defect', failure_rate=1e-5)
 
-    i2c = P('primary I2C\nbus failure')
+    i2c = P('primary I2C\nbus failure', failure_rate=1e-5)
 
     failure = F('extension board failure')
     failure << (i2c | board | controller | ir_sensor)
 
 
 class Victim(Tree):
-    ir_led = P('primary IR LED failure')
-    controller = P('primary microcontroller\nfailure')
+    ir_led = P('primary IR LED failure', failure_rate=1e-5)
+    controller = P('primary microcontroller\nfailure', failure_rate=1e-8)
     not_turned_on = S('user did not turn\non the victim')
 
     with F('circuit failure') as circuit:
-        transistor = P('primary transistor defect')
-        resistor = P('primary resistor defect')
+        transistor = P('primary transistor defect', failure_rate=1e-12)
+        resistor = P('primary resistor defect', failure_rate=1e-9)
 
         circuit << (transistor | resistor)
 

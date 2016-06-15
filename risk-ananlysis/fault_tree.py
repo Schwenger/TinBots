@@ -42,31 +42,24 @@ import proto
 
 
 class Proximity:
-    failure = P('primary proximity\nsensor fault')
+    failure = P('primary proximity\nsensor fault', failure_rate=1e-1)
 
     sparse_walls = S('walls are\noutside specification')
 
-    software = P('software failure\n(overzealous escort-ignoring)')
+    software = P('software failure\n(overzealous escort-ignoring)', failure_rate=1e-3)
 
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    avoid_sys = P('avoidance watchdog fails')
-
-    rhr_collide = P('right-hand-rule\ncan collide')
-    path_collide = P('path finder/executor\ncan collide')
-    any_collide = F('some driver does\nnot prevent collision')
-    any_collide << (rhr_collide | path_collide)
-
-    coll_sw = F('software failure')
-    coll_sw << (avoid_sys & any_collide)
+    avoid_sys = F('avoidance watchdog fails', failure_rate=0)
+    avoid_sys << (software_bug | failure)
 
     collision = F('collision with obstacle')
-    collision << (coll_sw | false_negative)
+    collision << (avoid_sys | false_negative)
 
 
 class Escort:
-    rec_sw = P('recognition method fails')
+    rec_sw = P('recognition method fails', 1e-3)
 
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
@@ -96,7 +89,7 @@ class RunIntoWall(Tree):
 
 
 class EscortNoLED(Tree):
-    led = P('primary indicator LED failure (MR9)')
+    led = P('primary indicator LED failure', failure_rate=1e-5)
 
     with F('not aware of escorting') as not_aware:
         not_aware << (hw.EPuck.memory_fault() | Escort.unintentional)
@@ -154,9 +147,9 @@ class IgnoreVictim(Tree):
 
 class VictimLost(Tree):
     with F('victim dropped / unable to grab') as dropped:
-        magnet_weak = P('primary magnet failure\n(e.g., too weak)')
+        magnet_weak = P('primary magnet failure\n(e.g., too weak)', 1e-1)
 
-        belt_weak = P('primary belt failure\n(magnet slips out of the belt)')
+        belt_weak = P('primary belt failure\n(magnet slips out of the belt)', 1e-1)
         # Your magnet is weak, your belt is weak, your bloodline is
         # weak, and you will *not* survive winter!
 
@@ -195,22 +188,22 @@ class SpuriousMovements(Tree):
 #        gathered but instead try to actually localize and find the victim efficiently
 #        """
 class GoWrong(Tree):
-    spec = P('misunderstanding\nabout MR14')
-    check = P('not discovered during\npeer review')
+    spec = P('misunderstanding\nabout MR14', failure_rate=1e-2)
+    check = P('not discovered during\npeer review', failure_rate=1e-3)
 
     failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
     failure << (spec & check)
 
 
 class NoPowerLED(Tree):
-    primary = P('primary power LED failure')
+    primary = P('primary power LED failure', failure_rate=1e-5)
 
     failure = T('power LED is off')
     failure << (primary | hw.EPuck.failure)
 
 
 class SeeNoLed(Tree):
-    primary = P('primary failure\nof the display-LED')
+    primary = P('primary failure\nof the display-LED', failure_rate=1e-5)
     software = software_bug()
 
     not_turned_on = hw.EPuck.not_turned_on()
@@ -224,12 +217,14 @@ class Victim404(Tree):
     unsolvable = S('unsolvable maze')
 
     rhr_hangs = F('right-hand-rule\ndrives in circles')
-    rhr_hangs << (P('right-hand-rule\ncan drive in circles')
-                  & P('path-pruning fails') & S('maze is not\n1-outerplanar'))
+    rhr_hangs << (P('right-hand-rule\ncan drive in circles', failure_rate=inf) &
+                  P('path-pruning fails', failure_rate=0) &
+                  S('maze is not\n1-outerplanar'))
 
     drift = F('lost orientation')
-    drift << (proto.LPS.failure & P('approximation algorithm\nis way off')
-              & P('drift from real orientation\ndoes not stabilize'))
+    drift << (proto.LPS.failure &
+              P('approximation algorithm\nis way off', failure_rate=1e-3) &
+              P('drift from real orientation\ndoes not stabilize', failure_rate=1e-5))
 
     failure = T('victim cannot be found')
     failure << (VictimSilent.failure | proto.SOS.receiver() | rhr_hangs | drift
