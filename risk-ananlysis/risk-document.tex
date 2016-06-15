@@ -171,27 +171,49 @@
 \subsubsection{Battery}
 Main powers source of the Victim.
 \begin{description}
-\item[Failure Rate:] $\leq 10^{-6}$ per hour
-\item[Source:] Based on the fact that this is a very simple component and is not used frequently, the probability was estimated.
+\item[Failure Rate:] $\leq 10^{-8}$ per hour
+\item[Source:] Based on the fact that this is a very simple component the probability was estimated.
 \end{description}
 
 \subsubsection{ATtiny2313}
-\incomplete{FIXME}
+Processor controlling light emission of the E-Puck.
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-12}$ per hour
+\item[Source:] http://www.atmel.com/images/doc8246.pdf
+\end{description}
 
 \subsubsection{MOS-FET (IRLZ44N)}
-\incomplete{FIXME}
+Power amplification for IR-diodes.
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-12}$ per hour
+\item[Source:] Based on the fact that this is a very simple component probability was estimated.
+\end{description}
 
 \subsubsection{Resistor(s)}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-9}$ per hour
+\item[Source:] http://www.sqconline.com/resistor-failure-rate-model-mil-hdbk-217-rev-f-noetice-2
+\end{description}
 
 \subsubsection{IR-LEDs}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-5}$ per hour
+\item[Source:] http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_
+june2011.pdf
+\end{description}
 
 \subsubsection{Controller Software}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $0$ per hour
+\item[Source:] Based on the fact that the software is only a loop executing the exact same code over and over again.
+\end{description}
 
 \subsubsection{Magnet Belt}
-\incomplete{FIXME}
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-1}$ per hour
+\item[Source:] Doubtful self made construction.
+\end{description}
+
 
 \subsection{Environment} % ===================================
 
