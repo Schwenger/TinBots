@@ -24,6 +24,7 @@ from math import nan
 
 trees = set()
 nodes = {}
+FUN_FACTS = False
 
 
 class TreeMeta(type):
@@ -268,7 +269,13 @@ def generate(*nodes, filename='fault-tree.eps', create_gv=False):
     exitcode = dot.wait()
     if exitcode != 0:
         tofile = filename + '.dot'
-        print('generating {} failed.  Wrote dotcode to {} ...'.format(filename, tofile))
+        print('generating {} failed.  Wrote dotcode to {} ...'
+              .format(filename, tofile))
         with open(tofile, 'w') as fp:
             fp.write(rawstring)
     assert exitcode == 0
+    if FUN_FACTS:
+        for n in nodes:
+            print('Fun fact: overall failure rate of {} for "{}"'
+                  .format(n.cached_rate(),
+                          n.parameters['label'].replace('\n', ' ')))
