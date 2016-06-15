@@ -145,7 +145,7 @@ class IgnoreVictim(Tree):
     no_triang = F('triangulation fails')
     no_triang << (late | software_bug())
 
-    overwrite = S('information gets overwritten\nbefore E-Puck picks it up\n(software bug)')
+    overwrite = P('information gets overwritten\nbefore E-Puck picks it up\n(software bug)')
 
     failure = T('not using information\nabout victim')
     failure << (hw.ExtBoard.failure.as_leaf() | conflict | no_triang |
