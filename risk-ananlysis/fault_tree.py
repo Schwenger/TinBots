@@ -73,7 +73,7 @@ class Escort:
 
     magnet_trigger_acc = P('magnets unintentionally trigger')
 
-    hang = F('picked up victim\nthrough the wall')
+    hang = F('picked up victim\nthrough the wall\n(paper does not shield magnetic fields)')
     hang << (magnet_trigger_acc & Proximity.sparse_walls())
 
     open_space = F('picked up victim\ndirectly')
@@ -137,8 +137,8 @@ class Uncooperative(Tree):
 
 class IgnoreVictim(Tree):
     conflict = F('conflicting data\nabout victim')
-    conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim')
-                 | Uncooperative.failure.as_leaf())
+    conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim') |
+                 Uncooperative.failure.as_leaf())
 
     late = P('too high min-distance\nfor sensing again')
 
@@ -183,8 +183,8 @@ class SpuriousMovements(Tree):
     badcolor = S("Tin Bot's physical color\nis not hardcoded color")
 
     failure = T('spurious movements\n(e.g., spin around, drive circles, ...)')
-    failure << (proto.LPS.failure.as_leaf() | software_bug() | badcolor
-                | Proximity.failure() | Uncooperative.failure.as_leaf() | turn)
+    failure << (proto.LPS.failure.as_leaf() | software_bug() | badcolor |
+                Proximity.failure() | Uncooperative.failure.as_leaf() | turn)
 
 
 # Q: merge this with SpuriousMovements?
