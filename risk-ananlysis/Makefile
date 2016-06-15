@@ -54,6 +54,10 @@ pdf-trees: ${TREES_PDF}
 
 # ===== Final step:  Profit =====
 
+../spec/document.pdf: ../spec/document.tex
+	( cd ../spec/ && pdflatex -halt-on-error document.tex && \
+	                 pdflatex -halt-on-error document.tex )
+
 .PHONY: tar
-tar: risk-document.pdf ${TREES_PDF}
+tar: risk-document.pdf ${TREES_PDF} ../spec/document.pdf
 	tar czf risk-document.tar.gz $^
