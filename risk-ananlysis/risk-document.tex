@@ -160,7 +160,7 @@ The magnets attached to the E-Puck.
     % Both positive and negative failures
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:]
+	\item[Source:] The chance that the magnets trigger unintentionally, i.e. through a wall, is low since the Tin Bot has to drive close a section of a wall while the victim's location coincidentally is close to this very wall.
 \end{description}
 
 \subsubsection{Bluetooth Module}
@@ -221,30 +221,6 @@ to target hardware, the implementation is correct.
  %
 \end{description}
 
-\subsubsection{Crash: Right-Hand Follower}
- %
-Ability of the Right-Hand Follower to collide with an obstacle.
- %
-\begin{description}
-\item[Failure Rate:] $\infty$
- %
-\item[Source:] As we decided against making each Module crash-safe, the
-Reliability is 0 (and thus the Failure Rate is $\infty$).
- %
-\end{description}
-
-\subsubsection{Crash: Path Finder/Executor}
- %
-Ability of the Path Finder/Executor to collide with an obstacle.
- %
-\begin{description}
-\item[Failure Rate:] $\infty$
- %
-\item[Source:] As we decided against making each module crash-safe, the
-Reliability is 0 (and thus the Failure Rate is $\infty$).
- %
-\end{description}
-
 \subsection{LPS} % ===================================
 
 \subsubsection{Raspberry}
@@ -290,7 +266,8 @@ The Raspberry Pi runs a Linux kernel and performs communications, as well as ima
 \subsubsection{Electricity Grid}
 \begin{description}
 \item[Failure Rate:] $\approx 2.25 * 10^{-5}$ %0,00002492389658
-\item[Source:] Based on data by the Verband der Elektrotechnik Elektronik Informationstechnik (VDE) in 2014\footnote{\url{http://www.energiezukunft.eu/netze/netzausbau/deutsches-stromnetz-ist-aeusserst-zuverlaessig-gn103605/}}. We cannot assume that at the point of deployment there is no major environmental catastrophe taking place since we simulate a rescue team.
+\item[Source:] Based on data by the Verband der Elektrotechnik Elektronik Informationstechnik (VDE) in 2014\footnote{\url{http://www.energiezukunft.eu/netze/netzausbau/deutsches-stromnetz-ist-aeusserst-zuverlaessig-gn103605/}}. 
+We cannot assume that at the point of deployment there is no major environmental catastrophe taking place since we simulate a rescue team.
 \end{description}
 
 \subsection{Victim} % ===================================
@@ -339,7 +316,7 @@ executing very simple code, we estimate the code is correct.
 \subsubsection{Magnet Belt}
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-1}$ per hour
-\item[Source:] Doubtful self made construction.
+\item[Source:] Unreliable construction.
 \end{description}
 
 
@@ -376,7 +353,7 @@ of the victim should remain mostly undisturbed by the environment.
 
 \section{Fault Trees and Computed Failure Probabilities}
 
-\subsection*{Other Top-Level Failures}
+\subsection*{Top-Level Failures}
 
 Note that MR2, MR4, MR6, MR16, MR18, and MR19 do
 not have fault trees, as this concept does not apply here.  Also note
@@ -404,6 +381,20 @@ that MR11 has been removed.
     Unless there is a software failure due to an unhandled edge case, the triangulation does not provide data because the E-Puck needs to travel a certain distance until a triangulation is triggered. 
     This distance is an empirically determined value and can be inappropriate. 
     Note that this distance is the length of a straight line orthogonal to the line of measure of older triangulations.
+\item[\texttt{conflicting data about victim}:]
+    Conflicting data about the victim can be the result of an unexpected movement by the victim, i.e. it is moved by the user. 
+    Alternatively, uncooperative behavior might lead to conflicting data, since Tin Bots believe other Tin Bots trust, even if they send wrong data. 
+    Additionally, faulty memory causes the same behavior.
+\item[\texttt{run into walls}: (see runintowall.pdf)]
+    A Tin Bot runs into a wall.\\
+    The problem is either bad firmware, including that the wrong program has been uploaded to the E-Puck, or that the collision avoidance failed.
+\item[\texttt{collision with obstacle}:]
+    A collision can be the result of a problem in detecting obstacles, or a software failure.
+\item[\texttt{obstacle not detected}:]
+    Undetected obstacles are a result of walls that are not in conformity to the specification, e.g. hovering in the air or too small. 
+    Otherwise, a software failure or faulty proximity sensors can result in ignoring obstacles.
+\item[\texttt{avoidance watchdog fails}:]
+    The avoidance watchdog fails if either TODO!!!
 \item[\texttt{victimlost}:]
     The fault tree of losing the victim during escort (MR7, MR8).
 \item[\texttt{noescort}:]
