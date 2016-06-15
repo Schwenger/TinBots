@@ -158,6 +158,9 @@ class Primary(Failure):
     def __init__(self, label, **parameters):
         super().__init__(label=label, **parameters)
         self.parameters['shape'] = 'ellipse'
+        if 'failure_rate' not in self.parameters:
+            print('Warning: failure rate not defined for primary fault "%s"' %
+                  self.parameters['label'])
 
 
 class Secondary(Failure):
