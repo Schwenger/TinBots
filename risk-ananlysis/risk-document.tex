@@ -359,6 +359,8 @@ Note that MR2, MR4, MR6, MR16, MR18, and MR19 do
 not have fault trees, as this concept does not apply here.  Also note
 that MR11 has been removed.
 
+\newcommand{\refpdf}[1]{(see \texttt{trees/#1.pdf})}
+
 \begin{description}
 \item[\texttt{power LED is off}: (see nopowerled.pdf)]
     The power LED is not lit. \\
@@ -417,11 +419,16 @@ that MR11 has been removed.
 \item[\texttt{spuriousmovements}:]
     The fault tree of spurious or unreasonable movements (MR23 and
     several others).
-\item[\texttt{systemfailure}:]
+\item[\texttt{system failure}:] \refpdf{systemfailure}
     The overall fault tree of the victim not being moved out.  Note
-    that this is essentially the \texttt{OR} of some\footnote{e.g.\
-    \texttt{standingstill}, but not \texttt{seenoled}} other fault
-    trees.
+    that this can only happen if \emph{all} Tin Bots fail to move the
+    victim out, and is thus a disjunction of the following, previously
+    mentioned top-level failures that are fatal to the Tin Bot's
+    operability:
+     \\
+    \texttt{victim cannot be found}, \texttt{not using information
+    about the victim}, \texttt{not moving the victim out} and
+    \texttt{victim lost while escorting}
 \end{description}
 
 

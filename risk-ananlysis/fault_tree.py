@@ -241,14 +241,14 @@ class NoEscort(Tree):
 
 class SystemFailure(Tree):
     tin_bot_failure = F('Tin Bot failure\n')
-    tin_bot_failure << (VictimLost.failure | IgnoreVictim.failure | SpuriousMovements.failure |
-                        GoWrong.failure | NoEscort.failure | Victim404.failure)
+    tin_bot_failure << (VictimLost.failure | IgnoreVictim.failure |
+                        NoEscort.failure | Victim404.failure)
 
     all_bad = F('all Tin Bots fail')
     all_bad << (tin_bot_failure & tin_bot_failure)
 
     failure = T('system failure\n(victim remains in maze)')
-    failure << (all_bad | VictimSilent.failure)
+    failure << all_bad
 
 
 if __name__ == '__main__':
