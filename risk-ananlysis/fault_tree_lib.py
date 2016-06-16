@@ -21,7 +21,7 @@ import subprocess
 
 from functools import reduce
 from operator import mul
-from math import nan, exp
+from math import nan, expm1
 
 
 trees = set()
@@ -184,7 +184,7 @@ class Primary(Failure):
             return nan
         # F(t) = 1 - e^{-\lambda t}
         # F(1 h) = 1 - e^{-\lambda}
-        return 1 - exp(-self.failure_rate)
+        return -expm1(-self.failure_rate)
 
 
 class Secondary(Failure):
