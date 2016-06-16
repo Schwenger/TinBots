@@ -19,7 +19,9 @@ import copy
 import inspect
 import subprocess
 
-from math import nan
+from functools import reduce
+from operator import mul
+from math import nan, exp
 
 
 trees = set()
@@ -48,7 +50,7 @@ def get_trees():
 
 class Node:
     parameters = {}
-    cached_rate_val = None
+    cached_fail_prob = None
 
     def __init__(self, parent=None, *children, **parameters):
         frame = inspect.currentframe()
@@ -83,7 +85,7 @@ class Node:
                 # '0.000000000'
                 # >>> '%.9g' % (1e-12/9)
                 # '1.11111111e-13'
-                label = label + '\n%.5g' % self.cached_rate()
+                label = label + '\n%.5g' % self.get_fail_prob()
             label = r'\n'.join(line.strip() for line in label.splitlines())
             label = '"{}"'.format(label)
         params = dict(self.parameters)  # Copy by value
@@ -91,9 +93,9 @@ class Node:
         params = ('{}={}'.format(name, value) for name, value in params.items())
         return '{}[{}];'.format(self.make_name(), ','.join(params))
 
-    def cached_rate(self):
-        self.cached_rate_val = self.cached_rate_val or self.compute_rate()
-        return self.cached_rate_val
+    def get_fail_prob(self):
+        self.cached_fail_prob = self.cached_fail_prob or self.compute_fail_prob()
+        return self.cached_fail_prob
 
     def graphviz_edges(self):
         return '\n'.join('{} -> {};'.format(child.make_name(), self.make_name())
@@ -110,8 +112,8 @@ class Reference(Node):
         # so we don't handle that case.
         self.parameters['style'] = 'dashed'
 
-    def compute_rate(self):
-        return self.orig.compute_rate()
+    def compute_fail_prob(self):
+        return self.orig.get_fail_prob()
 
 
 class Failure(Node):
@@ -126,12 +128,12 @@ class Failure(Node):
         # == Create a "reference" box:
         return Reference(self)
 
-    def compute_rate(self):
+    def compute_fail_prob(self):
         if len(self.children) != 1:
             print('Warning: Failure has no children: "%s"' %
                   self.parameters['label'])
             return nan
-        return self.children[0].compute_rate()
+        return self.children[0].get_fail_prob()
 
     def __lshift__(self, other):
         other.parent = self
@@ -177,8 +179,12 @@ class Primary(Failure):
             print('Warning: failure rate not defined for primary fault "%s"' %
                   self.parameters['label'])
 
-    def compute_rate(self):
-        return self.failure_rate
+    def compute_fail_prob(self):
+        if self.failure_rate is nan:
+            return nan
+        # F(t) = 1 - e^{-\lambda t}
+        # F(1 h) = 1 - e^{-\lambda}
+        return 1 - exp(-self.failure_rate)
 
 
 class Secondary(Failure):
@@ -187,7 +193,7 @@ class Secondary(Failure):
         self.display_rate = False
         self.parameters['shape'] = 'diamond'
 
-    def compute_rate(self):
+    def compute_fail_prob(self):
         return 0
 
 
@@ -215,12 +221,9 @@ class AND(Gate):
         assert len(children) >= 2
         super().__init__('AND', *children)
 
-    def compute_rate(self):
-        rates = [c.compute_rate() for c in self.children]
-        if any([r is nan for r in rates]):
-            return nan
-        # Difficult to compute; see whiteboard.
-        return min(rates)
+    def compute_fail_prob(self):
+        fail_probs = [c.get_fail_prob() for c in self.children]
+        return reduce(mul, fail_probs, 1)
 
 
 class OR(Gate):
@@ -228,13 +231,9 @@ class OR(Gate):
         assert len(children) >= 2
         super().__init__('OR', *children)
 
-    def compute_rate(self):
-        rate = sum([c.compute_rate() for c in self.children])
-        if rate > 1:
-            # Have fun trying to fomrat this source code
-            print('WARNING: failure rate of {} is greater than one: {}'.
-                  format(self.parameters['label'], rate))
-        return rate
+    def compute_fail_prob(self):
+        succ_probs = [1 - c.get_fail_prob() for c in self.children]
+        return 1 - reduce(mul, succ_probs, 1)
 
 
 def traverse(node):
