@@ -512,7 +512,14 @@ that MR11 has been removed.
 \item[\texttt{victim404} \refpdf{victim404}:]
     Fault tree of not finding the victim (MR10). TODO
 \item[\texttt{victimsilent} \refpdf{victimsilent}:]
-    Fault trees of not finding the victim (MR10). TODO
+    Fault tree of the victim not sending any signal (MR22).
+      \\
+    The victim can only fail to send the specified signal if there is a
+    hardware failure (see next), or a software bug.
+\item[\texttt{victim hardware failure}]
+    Unless the victim's battery is not charged, this must be caused by
+    some primary hadware failure (transistors, resistors, IR LEDs,
+    battery, wiring).
 \item[\texttt{seenoled} \refpdf{seenoled}:]
     The fault tree of the IR visualization missing (MR12, MR20, MR21).
      \\

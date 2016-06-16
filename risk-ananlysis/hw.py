@@ -36,6 +36,9 @@ class Battery(Tree):
     failure = F('power failure')
     failure << (defect | not_charged | wiring | switch)
 
+    failure_no_switch = F('power failure')
+    failure << (defect() | not_charged() | wiring())
+
 
 class Raspberry(Tree):
     board = P('primary hardware failure', failure_rate=1e-6)
@@ -87,7 +90,6 @@ class ExtBoard(Tree):
 class Victim(Tree):
     ir_led = P('primary IR LED failure', failure_rate=1e-5)
     controller = P('primary microcontroller\nfailure', failure_rate=1e-8)
-    not_turned_on = S('user did not turn\non the victim')
 
     with F('circuit failure') as circuit:
         transistor = P('primary transistor defect', failure_rate=1e-12)
@@ -97,8 +99,7 @@ class Victim(Tree):
 
     failure = F('victim failure')
     # Copy Battery.failure as it's a different battery
-    failure << (ir_led | controller | circuit | not_turned_on |
-                Battery.failure())
+    failure << (ir_led | controller | circuit | Battery.failure_no_switch)
 
 
 if __name__ == '__main__':
