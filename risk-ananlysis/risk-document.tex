@@ -239,7 +239,7 @@ mechanism is more sophisticated.
 
 \subsubsection{Path Pruning}
  %
-Module that shall detect and determine when RHR is about to walk in circles.
+Module that shall detect and determine when Right-Hand Follower is about to walk in circles.
  %
 \begin{description}
 \item[Failure Rate:] 0
@@ -352,13 +352,13 @@ executing very simple code, we assume the code is correct.
 \subsubsection{IR Medium}
  %
 Measures how well the environment permits or perturbs an IR signal.
-This also cares about noise and background \enquote{luminancy}.
+This also cares about noise and background \enquote{luminosity}.
  %
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-4}$ per hour
  %
 \item[Source:] As we assume that there is not much noise and background
-luminancy, this should be reasonably small, and the IR signal of the
+luminosity, this should be reasonably small, and the IR signal of the
 victim should remain mostly undisturbed by the environment.
  %
 \end{description}
@@ -366,13 +366,13 @@ victim should remain mostly undisturbed by the environment.
 \subsubsection{Bluetooth Medium}
  %
 Measures how well the environment permits or perturbs Bluetooth communication.
-This also cares about noise and background \enquote{luminancy}.
+This also cares about noise and background \enquote{luminosity}.
  %
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-3}$ per hour
  %
 \item[Source:] As we assume that there is not much noise and background
-luminancy, this should be reasonably small, and Bluetooth communication
+luminosity, this should be reasonably small, and Bluetooth communication
 of the victim should remain mostly undisturbed by the environment.
  %
 \end{description}
@@ -380,7 +380,7 @@ of the victim should remain mostly undisturbed by the environment.
  \pagebreak
 \subsection*{Computed Failure Probabilities}
 
-We chose $t = 1h$ for the computation of the failure probabilites, so
+We chose $t = 1h$ for the computation of the failure probabilities, so
 we have $F = 1-e^{-\lambda}$.  As many failure rates are repeated,
 here is a conversion table:
 
@@ -509,13 +509,11 @@ that MR11 has been removed.
     There are three potential reasons for this: Firstly, the victim could have been picked up unintentionally (see respective tree's description). Secondly, the Tin Bot actually takes a detour during the escort. Lastly, the Tin Bot does not move at all.
 \item[\texttt{taking a detour during escort}:]
     A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting Tin Bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
-\item[\texttt{escortnoled} \refpdf{escortnoled}:]
+\item[\texttt{escorting, but no LED indication} \refpdf{escortnoled}:]
     The fault tree of not flashing properly during escort (MR9). 
     Reasons for this behavior is that the Tin Bot is not aware of the fact that it is escorting the victim, the LED is faulty, or there is a software bug preventing the LED to be turned on.
 \item[\texttt{not aware of escorting}:]
     Either the Tin Bot forgot about the victim due to a memory fault, or it picked up the victim unintentionally.
-% \item[\texttt{picked up victim through wall}:]
-    % TODO
 \item[\texttt{victim not found} \refpdf{victim404}:]
     Fault tree of not finding the victim (MR10).
      \\
@@ -549,7 +547,7 @@ that MR11 has been removed.
     Unless the victim's battery is not charged, this must be caused by
     some primary hardware failure (transistors, resistors, IR LEDs,
     battery).
-\item[\texttt{seenoled} \refpdf{seenoled}:]
+\item[\texttt{clear line of sight, but no LED indication} \refpdf{seenoled}:]
     The fault tree of missing IR visualization (MR12, MR20, MR21).
      \\
     Unless the user did not turn on the E-Puck, the only causes for
