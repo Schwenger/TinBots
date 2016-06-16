@@ -19,7 +19,7 @@ class Bluetooth(Tree):
 
 class Power(Tree):
     supply = P('faulty power supply', failure_rate=1e-6)
-    grid = P('electricity grid outage', failure_rate=1e-5)
+    grid = P('electricity grid outage', failure_rate=2.25e-5)
     wiring = S('wiring failure')
 
     failure = F('power supply failure')

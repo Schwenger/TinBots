@@ -184,7 +184,7 @@ class Primary(Failure):
             return nan
         # F(t) = 1 - e^{-\lambda t}
         # F(1 h) = 1 - e^{-\lambda}
-        return -expm1(-self.failure_rate)
+        return abs(expm1(-self.failure_rate))
 
 
 class Secondary(Failure):
