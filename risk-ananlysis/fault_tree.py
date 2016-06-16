@@ -100,7 +100,7 @@ class EscortNoLED(Tree):
     with F('not aware of escorting') as not_aware:
         not_aware << (hw.EPuck.memory_fault() | Escort.unintentional)
 
-    failure = T('escorting,\nbut no LED')
+    failure = T('escorting, but\nno LED indication')
     failure << (led | not_aware | software_bug())
 
 
