@@ -443,6 +443,8 @@ results than the naive approach.
 
 \subsection*{Top-Level Failures}
 
+Note that you can click on the the node's pdf-file's name to open the respective fault tree.
+
 Note that MR2, MR4, MR6, MR16, MR18, and MR19 do
 not have fault trees, as this concept does not apply here.  Also note
 that MR11 has been removed.
@@ -457,7 +459,7 @@ that MR11 has been removed.
     There is a problem with the E-Puck. 
     Either the user forgot to turn on the E-Puck or there is a problem with the hardware, such as a problem with the power, the board, or the memory.
 \item[\texttt{power failure}:]
-    The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \textit{consumer} might be impaired since a problem with the power switch prevents a connection.
+    The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \enquote{consumer} might be impaired since a problem with the power switch prevents a connection.
 \item[\texttt{uncooperative} \refpdf{uncooperative}:]
     The fault tree of behavior that appears to be uncooperative (MR3, MR22). \\
     The reason for such behavior is that the E-Puck does not know that there are other E-Puck or it did not receive any data to take into account because there was a problem with the communication protocol (T2T). 
@@ -473,7 +475,7 @@ that MR11 has been removed.
     Note that this distance is the length of a straight line orthogonal to the line of measure of older triangulations.
 \item[\texttt{conflicting data about victim}:]
     Conflicting data about the victim can be the result of an unexpected movement by the victim, i.e. it is moved by the user. 
-    Alternatively, uncooperative behavior might lead to conflicting data, since Tin Bots believe other Tin Bots trust, even if they send wrong data. 
+    Alternatively, uncooperative behavior might lead to conflicting data, since Tin Bots trust other Tin Bots unconditionally even if they send wrong data. 
     Additionally, faulty memory causes the same behavior.
 \item[\texttt{run into walls} \refpdf{runintowall}:]
     A Tin Bot runs into a wall.\\
@@ -481,21 +483,21 @@ that MR11 has been removed.
 \item[\texttt{collision with obstacle}:]
     A collision can be the result of a problem in collision avoidance, or a failure to detect the obstacle.
 \item[\texttt{obstacle not detected}:]
-    Undetected obstacles are a result of walls that are not in conformity to the specification, e.g. hovering in the air or too small. 
+    Undetected obstacles are a result of walls that are not in conformity to the specification, e.g. hovering in the air or being too small. 
     Otherwise, a software failure or faulty proximity sensors can result in ignoring obstacles.
 \item[\texttt{avoidance system fails}:]
-    The avoidance system can only fail if any of the drivers fails to avoid a collision on its on \emph{and} the dedicated collision avoidance watchdog fails, too.
+    The avoidance system can only fail if any of the drivers fails to avoid a collision on its own \emph{and} the dedicated collision avoidance watchdog fails, too.
 \item[\texttt{victim lost while escorting} \refpdf{victimlost}:]
     The fault tree of losing the victim during escort (MR7, MR8).\\
-    This can happen if the victim was dropped since it was not grabbed properly, or the grabbing process failed entirely. Other than than, the victim might be pulled away by another Tin Bot.
+    This can happen if the victim was dropped since it was not grabbed properly, or the grabbing process failed entirely. Other than that, the victim might be pulled away by another Tin Bot.
 \item[\texttt{victim dropped / unable to grab}:]
     For this to happen, the magnets can be too weak to properly grab and hold the victim. Alternatively, the belt might have fallen off.
 \item[\texttt{pulled away by another Tin Bot}:]
     This can be a result of uncooperative behavior, e.g. one Tin Bot works overzealous or has not been informed, that the victim was already found. Moreover, the victim might have been picked up accidentally.
 \item[\texttt{picking up the victim was accidental}:]
-    Either the Tin Bot picked up the victim through a wall, which can happen since the walls do not shield the magnetic field, or there was actual physical contact resulting.
+    Either the Tin Bot picked up the victim through a wall, which can happen since the walls do not shield the magnetic field, or there was actual physical contact involved.
 \item[\texttt{picked up victim with physical contact}:]
-    For this to happen, three events have to take place at the same time: The escort recognition fails, the Tin Bot did not detect an obstacle, in the case the victim, and the magnets triggered unintentionally, so the Tin Bot stood in an appropriate angle to victim by chance.
+    For this to happen, three events have to take place at the same time: The escort recognition fails, the Tin Bot did not detect an obstacle, and the magnets triggered unintentionally. This can only happen if the Tin Bot and the victim stood in an appropriate angle to each other by chance.
 \item[\texttt{escort recognition fails}:]
     Either there is a problem in the SOS-Protocol, meaning the victim's signal was not sent or perceived properly, or the recognition method failed, e.g. the victim is in a blind spot during the escort.
 \item[\texttt{SOS failure}:]
@@ -507,21 +509,21 @@ that MR11 has been removed.
     (MR8, MR17).\\
     There are three potential reasons for this: Firstly, the victim could have been picked up unintentionally (see respective tree's description). Secondly, the Tin Bot actually takes a detour during the escort. Lastly, the Tin Bot does not move at all.
 \item[\texttt{taking a detour during escort}:]
-    A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
+    A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting Tin Bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
 \item[\texttt{escortnoled} \refpdf{escortnoled}:]
     The fault tree of not flashing properly during escort (MR9). 
     Reasons for this behavior is that the Tin Bot is not aware of the fact that it is escorting the victim, the LED is faulty, or there is a software bug preventing the LED to be turned on.
 \item[\texttt{not aware of escorting}:]
     Either the Tin Bot forgot about the victim due to a memory fault, or it picked up the victim unintentionally.
-\item[\texttt{picked up victim through wall}:]
-    TODO
+% \item[\texttt{picked up victim through wall}:]
+    % TODO
 \item[\texttt{victim not found} \refpdf{victim404}:]
     Fault tree of not finding the victim (MR10).
      \\
     Unless the maze is outside the specified conditions (victim not in
     maze; unsolvable maze), the only reasons for which a Tin Bot can
     fail to find the victim (ignoring the low-level causes that are
-    already handles elsewhere) are extension board failure (see below),
+    already handled elsewhere) are extension board failure (see below),
     victim signal failure (see below), losing orientation (see below),
     and driving in a circle (see next).
 \item[\texttt{Right-Hand Follower drives in circles}:]
@@ -549,7 +551,7 @@ that MR11 has been removed.
     some primary hardware failure (transistors, resistors, IR LEDs,
     battery).
 \item[\texttt{seenoled} \refpdf{seenoled}:]
-    The fault tree of the IR visualization missing (MR12, MR20, MR21).
+    The fault tree of missing IR visualization (MR12, MR20, MR21).
      \\
     Unless the user did not turn on the E-Puck, the only causes for
     this are software bugs, hardware failure of the LED, extension
@@ -559,14 +561,14 @@ that MR11 has been removed.
     The fault tree of standing still (MR13).
      \\
     Unless the setup is bad (e.g.\ wrong firmware), this is either
-    causes by a severe software failure (bug), picking up the victim
+    caused by a severe software failure (bug), picking up the victim
     through a wall (see above, \enquote{accidental pickup}),
     having run into a wall (see below),
     inability to turn wheels (see below), general E-Puck failure (see
     below), or a failure to poll the initial position from the LPS.
 \item[\texttt{wheels do not turn}:]
     Unless the wheels are blocked (secondary failure), this can only be
-    due to a primary motor fault. (Note that things like battery etc.\
+    due to a primary motor fault. (Note that faults like battery faults etc.\
     are handled in the general E-Puck failure.)
 \item[\texttt{E-Puck failure}:]
     This can be due to hardware failures (memory, controller board,
@@ -575,8 +577,8 @@ that MR11 has been removed.
     A power failure can only be due to hardware faults (power switch,
     battery) or user error (battery not charged).
 \item[\texttt{no initial position from LPS}:]
-    Unless the user did not enable the LPS as specified, this LPP
-    failure is either due to the LPP link being down, or the LPS
+    Unless the user did not enable the LPS as specified, this 
+    failure is either due to the Bluetooth link being down, or the LPS
     sending no data.
 \item[\texttt{LPP link down}:]
     The only faults that can take down the LPP link are hardware
