@@ -488,25 +488,25 @@ that MR11 has been removed.
 \item[\texttt{victim lost while escorting} \refpdf{victimlost}:]
     The fault tree of losing the victim during escort (MR7, MR8).\\
     This can happen if the victim was dropped since it was not grabbed properly, or the grabbing process failed entirely. Other than than, the victim might be pulled away by another Tin Bot.
-\item[\texttt{victim dropped / unable to grab}]
+\item[\texttt{victim dropped / unable to grab}:]
     For this to happen, the magnets can be too weak to properly grab and hold the victim. Alternatively, the belt might have fallen off.
-\item[\texttt{pulled away by another Tin Bot}]
+\item[\texttt{pulled away by another Tin Bot}:]
     This can be a result of uncooperative behavior, e.g. one Tin Bot works overzealous or has not been informed, that the victim was already found. Moreover, the victim might have been picked up accidentally.
-\item[\texttt{picking up the victim was accidental}]
+\item[\texttt{picking up the victim was accidental}:]
     Either the Tin Bot picked up the victim through a wall, which can happen since the walls do not shield the magnetic field, or there was actual physical contact resulting.
-\item[\texttt{picked up victim with physical contact}]
+\item[\texttt{picked up victim with physical contact}:]
     For this to happen, three events have to take place at the same time: The escort recognition fails, the Tin Bot did not detect an obstacle, in the case the victim, and the magnets triggered unintentionally, so the Tin Bot stood in an appropriate angle to victim by chance.
-\item[\texttt{escort recognition fails}]
+\item[\texttt{escort recognition fails}:]
     Either there is a problem in the SOS-Protocol, meaning the victim's signal was not sent or perceived properly, or the recognition method failed, e.g. the victim is in a blind spot during the escort.
-\item[\texttt{SOS failure}]
+\item[\texttt{SOS failure}:]
     If there is a signal, either the extension board failed, so the Tin Bot cannot pick up IR signals anymore, or the medium interferes with the signal transmission. If there is no signal, there is a failure in the victim.
-\item[\texttt{obstacle not detected}]
+\item[\texttt{obstacle not detected}:]
     Either the proximity sensor is faulty such that an obstacle cannot be recognized, or the walls do not meet the specification, e.g. they are not tall enough, or there is a software failure leading to signals being ignored.
 \item[\texttt{not moving the victim out; at least not on the shortest known path} \refpdf{noescort}:]
     The fault tree of (apparently) not escorting the victim properly
     (MR8, MR17).\\
     There are three potential reasons for this: Firstly, the victim could have been picked up unintentionally (see respective tree's description). Secondly, the Tin Bot actually takes a detour during the escort. Lastly, the Tin Bot does not move at all.
-\item[\texttt{taking a detour during escort}]
+\item[\texttt{taking a detour during escort}:]
     A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
 \item[\texttt{escortnoled} \refpdf{escortnoled}:]
     The fault tree of not flashing properly during escort (MR9). 
@@ -524,7 +524,7 @@ that MR11 has been removed.
     already handles elsewhere) are extension board failure (see below),
     victim signal failure (see below), losing orientation (see below),
     and driving in a circle (see next).
-\item[\texttt{Right-Hand Follower drives in circles}]
+\item[\texttt{Right-Hand Follower drives in circles}:]
     A Tin Bot can only end up driving in a circle if the
     path-pruning\footnote{This is the module responsible for detecting
     and avoiding driving in circles.} fails, and the maze permits it
@@ -532,21 +532,21 @@ that MR11 has been removed.
     that the Right-Hand Follower itself does not contain logic that
     prevents it from driving in circles, thus its failure probability
     is 1.
-\item[\texttt{Tin Bot lost orientation}]
+\item[\texttt{Tin Bot lost orientation}:]
     In order to make a Tin Bot lose its orientation, first the LPS must
     be failing (see below), \emph{and} the approximation algorithm
     (including choice of all hard-coded constants) needs to be
     sufficiently far off, \emph{and} the drift\footnote{difference
-    between real and percieved orientation and position} must not
+    between real and perceived orientation and position} must not
     stabilize.
 \item[\texttt{victim silent} \refpdf{victimsilent}:]
     Fault tree of the victim not sending any signal (MR22).
       \\
     The victim can only fail to send the specified signal if there is a
     hardware failure (see next), or a software bug.
-\item[\texttt{victim hardware failure}]
+\item[\texttt{victim hardware failure}:]
     Unless the victim's battery is not charged, this must be caused by
-    some primary hadware failure (transistors, resistors, IR LEDs,
+    some primary hardware failure (transistors, resistors, IR LEDs,
     battery).
 \item[\texttt{seenoled} \refpdf{seenoled}:]
     The fault tree of the IR visualization missing (MR12, MR20, MR21).
@@ -559,7 +559,7 @@ that MR11 has been removed.
     The fault tree of standing still (MR13).
      \\
     Unless the setup is bad (e.g.\ wrong firmware), this is either
-    caues by a severe software failure (bug), picking up the victim
+    causes by a severe software failure (bug), picking up the victim
     through a wall (see above, \enquote{accidental pickup}),
     having run into a wall (see below),
     inability to turn wheels (see below), general E-Puck failure (see
@@ -634,7 +634,7 @@ that MR11 has been removed.
     that this can only happen if \emph{all} Tin Bots fail to move the
     victim out, and is thus a disjunction of the following, previously
     mentioned top-level failures that are fatal to the Tin Bot's
-    operability:
+    ability to operate:
      \\
     Victim cannot be found, not using information
     about the victim, not moving the victim out, and
