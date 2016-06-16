@@ -137,7 +137,7 @@ class Failure(Node):
 
     def __lshift__(self, other):
         other.parent = self
-        self.children.append(other())
+        self.children.append(other)
 
     def __rshift__(self, other):
         return other << self
@@ -150,15 +150,15 @@ class Failure(Node):
 
     def __or__(self, other):
         if isinstance(other, OR):
-            other.children.append(self())
+            other.children.append(self)
             return other
-        return OR(self(), other())
+        return OR(self, other)
 
     def __and__(self, other):
         if isinstance(other, AND):
-            other.children.append(self())
+            other.children.append(self)
             return other
-        return AND(self(), other())
+        return AND(self, other)
 
     __ror__ = __or__
     __rand__ = __and__
@@ -205,13 +205,13 @@ class Gate(Node):
 
     def __or__(self, other):
         if isinstance(self, OR) and not isinstance(other, OR):
-            self.children.append(other())
+            self.children.append(other)
             return self
         return OR(self, other)
 
     def __and__(self, other):
         if isinstance(self, AND) and not isinstance(other, AND):
-            self.children.append(other())
+            self.children.append(other)
             return self
         return AND(self, other)
 
@@ -237,11 +237,19 @@ class OR(Gate):
 
 
 def traverse(node):
-    queue = collections.deque([node])
+    queue = collections.deque([(None, node)])
+    all_nodes = set()
     while queue:
-        current = queue.popleft()
-        yield current
-        queue.extend(current.children)
+        parent, current = queue.popleft()
+        if current in all_nodes:
+            ref = current.as_leaf()
+            parent.children.remove(current)
+            parent.children.append(ref)
+            yield ref
+        else:
+            all_nodes.add(current)
+            yield current
+            queue.extend(map(lambda child: (current, child), current.children))
 
 
 def graphviz(*nodes):
