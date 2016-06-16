@@ -43,7 +43,7 @@ import proto
 class Proximity:
     failure = P('primary proximity\nsensor fault', failure_rate=1e-1)
 
-    sparse_walls = S('walls are\noutside specification')
+    sparse_walls = S('walls do not\nmeet requirements')
 
     software = P('software failure\n(overzealous escort-ignoring)', failure_rate=1e-3)
 
