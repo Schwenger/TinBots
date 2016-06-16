@@ -520,15 +520,37 @@ that MR11 has been removed.
      \\
     Unless the setup is bad (e.g.\ wrong firmware), this is either
     caues by a severe software failure (bug), picking up the victim
-    through a wall (see above), having run into a wall (see below),
+    through a wall (see above, \enquote{accidental pickup}),
+    having run into a wall (see below),
     inability to turn wheels (see below), general E-Puck failure (see
     below), or a failure to poll the initial position from the LPS.
 \item[\texttt{wheels do not turn}:]
-    TODO
+    Unless the wheels are blocked (secondary failure), this can only be
+    due to a primary motor fault. (Note that things like battery etc.\
+    are handled in the general E-Puck failure.)
 \item[\texttt{E-Puck failure}:]
-    TODO
+    This can be due to hardware failures (memory, controller board,
+    controller), user errors (not switched on), or a power failure.
+\item[\texttt{E-Puck power failure}:]
+    A power failure can only be due to hardware faults (power switch,
+    wiring, battery) or user error (battery not charged).
 \item[\texttt{no initial position from LPS}:]
-    TODO
+    Unless the user did not enable the LPS as specified, this LPP
+    failure is either due to the LPP link being down, or the LPS
+    sending no data.
+\item[\texttt{LPP link down}:]
+    The only faults that can take down the LPP link are hardware
+    failures in the receiver or the medium, or a simulated LPS outage.
+    Note that a sender failure is already handled in the more general
+    failure of not getting an initial position from the LPS (see
+    previous).
+\item[\texttt{no initial position from LPS}:]
+    The LPS only sends no data if there was a failure in the Color Blob
+    Protocol (which is either due to a camera fault, or
+    outside-specification conditions), or the Raspberry Pi is failing.
+    The only causes for this are hardware failures (e.g.\ wiring,
+    power) and software failures (bug in any of OS, external module, or
+    our module).
 \item[\texttt{moving to the \enquote{gathered position}} \refpdf{gowrong}:]
     The fault tree of going to the wrong location at a specific step
     during the rescue action (MR14).
