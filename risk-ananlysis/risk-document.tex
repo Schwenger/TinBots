@@ -518,9 +518,18 @@ that MR11 has been removed.
 \item[\texttt{gowrong} \refpdf{gowrong}:]
     The fault tree of going to the wrong location at a specific step
     during the rescue action (MR14). TODO
-\item[\texttt{runintowall} \refpdf{runintowall}:]
+\item[\texttt{run into walls} \refpdf{runintowall}:]
     The fault tree of colliding with a wall or unintentionally with a
-    victim (MR15). TODO
+    victim (MR15).
+     \\
+    We can only run into a wall if the wrong firmware was uploaded to
+    the E-Puck, the wall (generalized: obstacle) was not detected (see
+    next), or the avoidance system failed (see above).
+\item[\texttt{obstacle not detected}:]
+    Unless the obstacle/wall was outside our specification, the only
+    reasons to fail at detecting an obstacle are faulty proximity
+    sensors, and primary software fault (e.g.\ the module that should
+    ignore the victim's proximity data accidentally ignores a wall).
 \item[\texttt{spurious movements} \refpdf{spuriousmovements}:]
     The fault tree of spurious or unreasonable movements (MR23 and
     several others).
