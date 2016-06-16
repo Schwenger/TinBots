@@ -252,7 +252,7 @@ class SystemFailure(Tree):
                         NoEscort.failure | Victim404.failure)
 
     all_bad = F('all Tin Bots fail')
-    all_bad << (tin_bot_failure & tin_bot_failure)
+    all_bad << (tin_bot_failure & tin_bot_failure.as_leaf())
 
     failure = T('system failure\n(victim remains in maze)')
     failure << all_bad
