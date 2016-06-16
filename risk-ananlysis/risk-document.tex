@@ -521,9 +521,23 @@ that MR11 has been removed.
 \item[\texttt{runintowall} \refpdf{runintowall}:]
     The fault tree of colliding with a wall or unintentionally with a
     victim (MR15). TODO
-\item[\texttt{spuriousmovements} \refpdf{spuriousmovements}:]
+\item[\texttt{spurious movements} \refpdf{spuriousmovements}:]
     The fault tree of spurious or unreasonable movements (MR23 and
-    several others). TODO
+    several others).
+     \\
+    There are several possible causes for spurious movements.  It could
+    be caused by a software bug, or a primary proximity sensor fault.
+    It can also be due to a secondary setup failure: having the wrong
+    color on top of the Tin Bot leads to mis-identification.  The
+    previously mentioned LPS failure and uncooperative behavior (see
+    above each) are also possible reasons. Finally, this is also a way
+    to describe the failure to stop turning.
+\item[\texttt{does not stop turning}:]
+    This can be due to the victim not sending a valid signal (see
+    above) or due to an extension board failure (see next).
+\item[\texttt{extension board failure}:]
+    This is the generalization of any failure in the microcontroller,
+    IR sensor, I2C bus, or extension board circuit.
 \item[\texttt{system failure} \refpdf{systemfailure}:]
     The overall fault tree of the victim not being moved out.  Note
     that this can only happen if \emph{all} Tin Bots fail to move the
@@ -531,9 +545,9 @@ that MR11 has been removed.
     mentioned top-level failures that are fatal to the Tin Bot's
     operability:
      \\
-    \texttt{victim cannot be found}, \texttt{not using information
-    about the victim}, \texttt{not moving the victim out} and
-    \texttt{victim lost while escorting}
+    Victim cannot be found, not using information
+    about the victim, not moving the victim out, and
+    victim lost while escorting.
 \end{description}
 
 
