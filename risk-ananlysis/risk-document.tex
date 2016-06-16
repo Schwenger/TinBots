@@ -254,46 +254,46 @@ to target hardware, the implementation is correct.
 \subsubsection{Raspberry}
 General Raspberry Pi module.
 \begin{description}
-\item[Failure Rate:] $\approx 10*^{-6}$ per hour
+\item[Failure Rate:] $\leq 10^{-6}$ per hour
 \item[Source:] We approximate the reliability lower than the one of an FPGA ($10^{-8}$)\footnote{\url{http://www.xilinx.com/support/documentation/user_guides/ug116.pdf}}, but greater than the one of a Camera ($10^{-4}$).
 \end{description}
 
 \subsubsection{Camera}
 Takes photo and converts it into the RAW format.
 \begin{description}
-\item[Failure Rate:] $\approx 10*^{-4}$ per hour % 0.0000294
+\item[Failure Rate:] $\leq 10^{-4}$ per hour
 \item[Source:] Educated guess based on the component's complexity.
 \end{description}
 
 \subsubsection{LPS Software (Ours)}
 \begin{description}
-\item[Failure Rate:] $0$ per hour
+\item[Failure Rate:] $0$
 \item[Source:] Based on the fact that the software is only a loop
 executing very simple code, we estimate the code is correct.
 \end{description}
 
 \subsubsection{LPS Software (External Module)}
 \begin{description}
-\item[Failure Rate:] $0$ per hour
+\item[Failure Rate:] $0$
 \item[Source:] We want to use well established libraries and perform rather simple computations, thus we estimate this to be correct.
 \end{description}
 
 \subsubsection{LPS Operating System (Linux)}
 The Raspberry Pi runs a Linux kernel and performs communications, as well as image processing tasks.
 \begin{description}
-\item[Failure Rate:] $\approx 2.94 * 10*^{-5}$ per hour % 0.0000294
+\item[Failure Rate:] $\leq 2.94 \times 10^{-5}$ per hour
 \item[Source:] The IBM Linux Technology Center conducted a 30 day stress test resulting in a success rate of 97.88\%\footnote{\url{https://www.ibm.com/developerworks/library/l-rel/}}.
 \end{description}
 
 \subsubsection{Power Supply}
 \begin{description}
-\item[Failure Rate:] $10^{-6}$ 
+\item[Failure Rate:] $\leq 10^{-6}$
 \item[Source:] Since the Raspberry Pi is widely used for long running processes such as server installation, we can safely assume that the power supply is rather reliable, thus we guess the failure rate educatedly.
 \end{description}
 
 \subsubsection{Electricity Grid}
 \begin{description}
-\item[Failure Rate:] $\approx 2.25 * 10^{-5}$ %0,00002492389658
+\item[Failure Rate:] $\leq 2.25 \times 10^{-5}$ %0,00002492389658
 \item[Source:] Based on data by the Verband der Elektrotechnik Elektronik Informationstechnik (VDE) in 2014\footnote{\url{http://www.energiezukunft.eu/netze/netzausbau/deutsches-stromnetz-ist-aeusserst-zuverlaessig-gn103605/}}. 
 We cannot assume that at the point of deployment there is no major environmental catastrophe taking place since we simulate a rescue team.
 \end{description}
@@ -335,7 +335,7 @@ Power amplification for IR-diodes.
 
 \subsubsection{Controller Software}
 \begin{description}
-\item[Failure Rate:] $0$ per hour
+\item[Failure Rate:] $0$
 \item[Source:] Based on the fact that the software is only a loop
 executing very simple code, we estimate the code is correct.
 \end{description}
@@ -355,7 +355,7 @@ Measures how well the environment permits or perturbs an IR signal.
 This also cares about noise and background \enquote{luminancy}.
  %
 \begin{description}
-\item[Failure Rate:] $10^{-4}$ per hour
+\item[Failure Rate:] $\leq 10^{-4}$ per hour
  %
 \item[Source:] As we assume that there is not much noise and background
 luminancy, this should be reasonably small, and the IR signal of the
@@ -369,7 +369,7 @@ Measures how well the environment permits or perturbs Bluetooth communication.
 This also cares about noise and background \enquote{luminancy}.
  %
 \begin{description}
-\item[Failure Rate:] $10^{-3}$ per hour
+\item[Failure Rate:] $\leq 10^{-3}$ per hour
  %
 \item[Source:] As we assume that there is not much noise and background
 luminancy, this should be reasonably small, and Bluetooth communication
