@@ -210,6 +210,33 @@ to target hardware, the implementation is correct.
  %
 \end{description}
 
+\subsubsection{Crash Watchdog: Right-Hand Follower}
+ %
+The part of the Right-Hand Follower that tries to avoid crashing into obstacles.
+ %
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-1}$ per hour
+ %
+\item[Source:] We ran our virtual prototype of the Right-Hand Follower
+for 1 simulated hour and did not observe any crash.
+ %
+\end{description}
+
+\subsubsection{Crash Watchdog: Path Finder/Executor}
+ %
+The part of the Path Finder/Executor that tries to avoid crashing into obstacles.
+ %
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-2}$ per hour
+ %
+\item[Source:] We ran our virtual prototype of the Path Finder/Executor
+for 1 simulated hour (with hand-chosen destinations upon completion) and
+did not observe any crash.  We assume that the failure rate is smaller
+than that of the Right-Hand Follower as the update and checking
+mechanism is more sophisticated.
+ %
+\end{description}
+
 \subsubsection{Path Pruning}
  %
 Module that shall detect and deter when RHR is about to walk in circles.

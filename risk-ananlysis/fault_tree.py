@@ -50,11 +50,21 @@ class Proximity:
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    avoid_sys = F('avoidance watchdog fails')
-    avoid_sys << (software_bug() | failure)
+    crash_rhr = P('RHR crashes', failure_rate=1e-1)
+    crash_path = P('path follower crashes', failure_rate=1e-2)
+    crash_some = F('some component crashes')
+    crash_some << (crash_rhr | crash_path)
+
+    avoid_dog = P('avoidance watchdog fails', failure_rate=0)
+
+    avoid_sys = F('avoidance system fails')
+    avoid_sys << (avoid_dog & crash_some)
+
+    avoid = F('avoidance fails')
+    avoid << (avoid_sys | failure)
 
     collision = F('collision with obstacle')
-    collision << (avoid_sys | false_negative)
+    collision << (avoid | false_negative)
 
 
 class Escort:
@@ -266,4 +276,4 @@ if __name__ == '__main__':
 
     for node in set(nodes.keys()).difference(used_nodes):
         filename, line = nodes[node]
-        print('not used:', repr(node.label), os.path.basename(filename), line)
+        print('not used:', repr(node.parameters['label']), os.path.basename(filename), line)
