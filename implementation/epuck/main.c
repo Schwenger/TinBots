@@ -35,6 +35,9 @@ int main() {
     e_start_agendas_processing();
     e_init_motors();
     e_init_uart1();
+    e_init_uart2(BAUD115200);
+    e_i2c_init();
+    e_i2c_enable();
 
     e_init_ad_scan(ALL_ADC);
 
@@ -58,6 +61,8 @@ int main() {
         sprintf(buffer, "%i : %i\r\n", 0, proximity[0]);
         e_send_uart1_char(buffer, strlen(buffer));
         while (e_uart1_sending());
+        e_send_uart2_char("Hallo", 5);
+        while (e_uart2_sending());
         wait(800000);
         update_proximity(&tinbot, proximity);
 
@@ -65,6 +70,18 @@ int main() {
         for (number = 0; number < 6; number++) {
             ir[number] = (reg >> number) & 1;
         }
+        /*
+        e_i2cp_write_string(EXT_I2C_ADDR, "Hallo", 0, 5);
+         */
+        e_i2c_start();
+        e_i2c_write(EXT_I2C_ADDR);
+        e_i2c_write('H');
+        e_i2c_write('e');
+        e_i2c_write('l');
+        e_i2c_write('l');
+        e_i2c_write('o');
+        e_i2c_stop();
+        e_i2c_reset();
         update_ir(&tinbot, ir);
 
         loop(&tinbot);
