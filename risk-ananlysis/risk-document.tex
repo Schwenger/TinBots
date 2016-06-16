@@ -507,14 +507,28 @@ that MR11 has been removed.
     (MR8, MR17). TODO
 \item[\texttt{escortnoled} \refpdf{escortnoled}:]
     The fault tree of not flashing properly during escort (MR9). TODO
+\item[\texttt{picked up victim through wall}:]
+    TODO
 \item[\texttt{victim404} \refpdf{victim404}:]
     Fault tree of not finding the victim (MR10). TODO
 \item[\texttt{victimsilent} \refpdf{victimsilent}:]
     Fault trees of not finding the victim (MR10). TODO
 \item[\texttt{seenoled} \refpdf{seenoled}:]
     The fault tree of the IR visualization missing (MR12, MR20, MR21). TODO
-\item[\texttt{standingstill} \refpdf{standingstill}:]
-    The fault tree of standing still (MR13). TODO
+\item[\texttt{standing still} \refpdf{standingstill}:]
+    The fault tree of standing still (MR13).
+     \\
+    Unless the setup is bad (e.g.\ wrong firmware), this is either
+    caues by a severe software failure (bug), picking up the victim
+    through a wall (see above), having run into a wall (see below),
+    inability to turn wheels (see below), general E-Puck failure (see
+    below), or a failure to poll the initial position from the LPS.
+\item[\texttt{wheels do not turn}:]
+    TODO
+\item[\texttt{E-Puck failure}:]
+    TODO
+\item[\texttt{no initial position from LPS}:]
+    TODO
 \item[\texttt{moving to the \enquote{gathered position}} \refpdf{gowrong}:]
     The fault tree of going to the wrong location at a specific step
     during the rescue action (MR14).
