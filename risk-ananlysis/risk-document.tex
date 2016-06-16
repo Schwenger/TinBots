@@ -479,12 +479,12 @@ that MR11 has been removed.
     A Tin Bot runs into a wall.\\
     The problem is either bad firmware, including that the wrong program has been uploaded to the E-Puck, or that the collision avoidance failed.
 \item[\texttt{collision with obstacle}:]
-    A collision can be the result of a problem in detecting obstacles, or a software failure.
+    A collision can be the result of a problem in collision avoidance, or a failure to detect the obstacle.
 \item[\texttt{obstacle not detected}:]
     Undetected obstacles are a result of walls that are not in conformity to the specification, e.g. hovering in the air or too small. 
     Otherwise, a software failure or faulty proximity sensors can result in ignoring obstacles.
-\item[\texttt{avoidance watchdog fails}:]
-    The avoidance watchdog fails if either TODO!!!
+\item[\texttt{avoidance system fails}:]
+    The avoidance system can only fail if any of the drivers fails to avoid a collision on its on \emph{and} the dedicated collision avoidance watchdog fails, too.
 \item[\texttt{victimlost} \refpdf{victimlost}:]
     The fault tree of losing the victim during escort (MR7, MR8).
 \item[\texttt{noescort} \refpdf{noescort}:]

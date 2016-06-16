@@ -60,11 +60,8 @@ class Proximity:
     avoid_sys = F('avoidance system fails')
     avoid_sys << (avoid_dog & crash_some)
 
-    avoid = F('avoidance fails')
-    avoid << (avoid_sys | failure)
-
     collision = F('collision with obstacle')
-    collision << (avoid | false_negative)
+    collision << (avoid_sys | false_negative)
 
 
 class Escort:
