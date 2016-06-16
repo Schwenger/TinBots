@@ -70,7 +70,7 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
 
-    magnet_trigger_acc = P('magnets trigger unintentionally' , failure_rate=1e-5)
+    magnet_trigger_acc = P('magnets unintentionally\nmade contact' , failure_rate=1e-5)
 
     hang = F('picked up victim\nthrough the wall\n(paper does not shield magnetic fields)')
     hang << (magnet_trigger_acc & Proximity.sparse_walls())

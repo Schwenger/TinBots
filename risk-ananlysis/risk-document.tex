@@ -161,7 +161,10 @@ The magnets attached to the E-Puck.
     % Both positive and negative failures
 \begin{description}
 	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] The chance that the magnets trigger unintentionally, i.e. through a wall, is low since the Tin Bot has to drive close to a section of a wall while the victim's location coincidentally is close to this very wall.
+    \item[Source:] The chance that the magnets unintentionally make
+    contact, i.e. through a wall, is low since the Tin Bot has to drive
+    close to a section of a wall while the victim's location
+    coincidentally is close to this very wall.
 \end{description}
 
 \subsubsection{Bluetooth Module}
@@ -523,7 +526,12 @@ that MR11 has been removed.
 \item[\texttt{picking up the victim was accidental}:]
     Either the Tin Bot picked up the victim through a wall, which can happen since the walls do not shield the magnetic field, or there was actual physical contact involved.
 \item[\texttt{picked up victim with physical contact}:]
-    For this to happen, three events have to take place at the same time: The escort recognition fails, the Tin Bot did not detect an obstacle, and the magnets triggered unintentionally. This can only happen if the Tin Bot and the victim stood in an appropriate angle to each other by chance.
+    For this to happen, three events have to take place at the same
+    time: The escort recognition fails, the Tin Bot did not detect an
+    obstacle, and the magnets made contact\footnote{as in: the victim
+    got picked up} unintentionally. This can only happen if the Tin Bot
+    and the victim stood in an appropriate angle to each other by
+    chance.
 \item[\texttt{escort recognition fails}:]
     Either there is a problem in the SOS-Protocol, meaning the victim's signal was not sent or perceived properly, or the recognition method failed, e.g. the victim is in a blind spot during the escort.
 \item[\texttt{SOS failure}:]
