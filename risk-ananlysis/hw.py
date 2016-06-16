@@ -90,7 +90,7 @@ class ExtBoard(Tree):
 
 class Victim(Tree):
     ir_led = P('primary IR LED failure', failure_rate=1e-5)
-    controller = P('primary microcontroller\nfailure', failure_rate=1e-8)
+    controller = P('primary microcontroller\nfailure', failure_rate=1e-12)
 
     with F('circuit failure') as circuit:
         transistor = P('primary transistor defect', failure_rate=1e-12)
