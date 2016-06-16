@@ -502,9 +502,21 @@ that MR11 has been removed.
     If there is a signal, either the extension board failed, so the Tin Bot cannot pick up IR signals anymore, or the medium interferes with the signal transmission. If there is no signal, there is a failure in the victim.
 \item[\texttt{obstacle not detected}]
     Either the proximity sensor is faulty such that an obstacle cannot be recognized, or the walls do not meet the specification, e.g. they are not tall enough, or there is a software failure leading to signals being ignored.
-\item[\texttt{noescort} \refpdf{noescort}:]
+\item[\texttt{not moving the victim out; at least not on the shortest known path} \refpdf{noescort}:]
     The fault tree of (apparently) not escorting the victim properly
-    (MR8, MR17). TODO
+    (MR8, MR17).\\
+    There are three potential reasons for this: Firstly, the victim could have been picked up unintentionally (see respective tree's description). Secondly, the Tin Bot actually takes a detour during the escort. Lastly, the Tin Bot does not move at all.
+\item[\texttt{taking a detour during escort}]
+    A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
+\item[\texttt{standing still}]
+    There are plenty of reasons for this behavior. \\
+    First of all, the wheels could not turn, because of a primary motor fault or because they are blocked.\\
+    Second of all, the setup is bad, e.g. the user placed the Tin Bot the wrong way around or on its side. \\
+    Thirdly, there could be a software failure, i.e. an unhandled edge case.\\
+    Additionally, the victim could have been pickup up through a wall, because the TODO
+\item[\texttt{E-Puck failure}]
+    An E-Puck fails if there is a failure regarding its power, or the controller board is faulty, the controller, meaning the software, if faulty, the user forgot to turn the E-Puck on, or there is a memory fault, such that invalid data is read leading to unpredictable behavior, such as standing still.
+\item[\texttt{runs into walls}]
 \item[\texttt{escortnoled} \refpdf{escortnoled}:]
     The fault tree of not flashing properly during escort (MR9). TODO
 \item[\texttt{picked up victim through wall}:]
