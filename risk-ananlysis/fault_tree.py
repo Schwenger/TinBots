@@ -139,7 +139,7 @@ class IgnoreVictim(Tree):
     conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim') |
                  Uncooperative.failure.as_leaf())
 
-    late = P('too high min-distance\nfor sensing again', failure_rate=1e-1)
+    late = P('too high min-distance\nfor sensing again', failure_rate=1e-4)
 
     no_triang = F('triangulation fails')
     no_triang << (late | software_bug())
@@ -195,8 +195,8 @@ class SpuriousMovements(Tree):
 #        gathered but instead try to actually localize and find the victim efficiently
 #        """
 class GoWrong(Tree):
-    spec = P('misunderstanding\nabout MR14', failure_rate=1e-2)
-    check = P('not discovered during\npeer review', failure_rate=1e-3)
+    spec = P('misunderstanding\nabout MR14', failure_rate=1e-4)
+    check = P('not discovered during\npeer review', failure_rate=1e-4)
 
     failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
     failure << (spec & check)

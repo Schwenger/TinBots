@@ -249,6 +249,33 @@ to target hardware, the implementation is correct.
  %
 \end{description}
 
+\subsubsection{Software Bug (e.g., unhandled edge case)}
+Generalization for any kind of software failure.
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-2}$ per hour
+ %
+\item[Source:] By the end of the course, we will have tested and detected any software bug that appears too frequently, thus we estimate the failure rate to be somewhat low.
+ %
+\end{description}
+
+\subsubsection{T2T protocol design}
+As the T2T protocol will be a protocol of non-trivial complexity, we need to include it in the risk ananlysis.
+\begin{description}
+\item[Failure Rate:] 0
+ %
+\item[Source:] We hope to be able to prove the T2T protocol correct.
+ %
+\end{description}
+
+\subsubsection{Hard-Coded Constants (\enquote{Magic Numbers})}
+Insufficient fine-tuning of these constants might lead to faulty behavior.
+\begin{description}
+\item[Failure Rate:] $\leq 10^{-4}$ per hour
+ %
+\item[Source:] We hope that given enough time, we can find out good parameters that lead to reliable behavior.
+ %
+\end{description}
+
 \subsection{LPS} % ===================================
 
 \subsubsection{Raspberry}
