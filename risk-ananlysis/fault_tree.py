@@ -70,12 +70,12 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
 
-    magnet_trigger_acc = P('magnets unintentionally trigger', failure_rate=1e-5)
+    magnet_trigger_acc = P('magnets trigger unintentionally' , failure_rate=1e-5)
 
     hang = F('picked up victim\nthrough the wall\n(paper does not shield magnetic fields)')
     hang << (magnet_trigger_acc & Proximity.sparse_walls())
 
-    open_space = F('picked up victim\ndirectly')
+    open_space = F('picked up victim\nwith physical contact')
     open_space << (Proximity.false_negative & recognition & magnet_trigger_acc())
 
     unintentional = F('picking up the victim\nwas accidental')
@@ -154,7 +154,7 @@ class IgnoreVictim(Tree):
 
 class VictimLost(Tree):
     with F('victim dropped / unable to grab') as dropped:
-        magnet_weak = P('primary magnet failure\n(e.g., too weak)', 1e-1)
+        magnet_weak = P('primary magnet failure\n(e.g., too weak)', 1e-5)
 
         belt_weak = P('primary belt failure\n(magnet slips out of the belt)', 1e-1)
         # Your magnet is weak, your belt is weak, your bloodline is
