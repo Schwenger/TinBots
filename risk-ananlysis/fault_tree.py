@@ -198,7 +198,7 @@ class GoWrong(Tree):
     spec = P('misunderstanding\nabout MR14', failure_rate=1e-4)
     check = P('not discovered during\npeer review', failure_rate=1e-4)
 
-    failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
+    failure = T(r'moving to the \"gathered position\"\ninstead of \"towards the victim\"')
     failure << (spec & check)
 
 
