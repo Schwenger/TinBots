@@ -206,8 +206,7 @@ Module that shall interrupt the movement when we are about to crash into a wall.
 \begin{description}
 \item[Failure Rate:] 0
  %
-\item[Source:] Assuming correct implementation and correct automatic translation
-to target hardware, the module works as intended.
+\item[Source:] Since the watchdog is a very simple component we assume a correct implementation and correct automatic translation to target hardware, therefore the module works as intended.
  %
 \end{description}
 
@@ -325,7 +324,7 @@ Power amplification for IR-diodes.
 \subsubsection{Resistor(s)}
 \begin{description}
 \item[Failure Rate:] $\leq 10^{-9}$ per hour
-\item[Source:] Resistor Failure Rate model \footnote{\url{http://www.sqconline.com/resistor-mtbf-mil-hdbk-217-rev-f-notice-2}}.
+\item[Source:] Resistor Failure Rate model \footnote{\url{http://www.sqconline.com/resistor-failure-rate-model-mil-hdbk-217-rev-f-noetice-2}}.
 \end{description}
 
 \subsubsection{IR-LEDs}
@@ -435,7 +434,7 @@ here is a conversion table:
 0                   & 0.0
 \end{array}\]
 
-Note that we used a built-in function \texttt{expm1} to get more accurate
+Note that we used the built-in function \texttt{expm1} of Python to get more accurate
 results than the naive approach.
 
 
@@ -642,6 +641,7 @@ that MR11 has been removed.
     about the victim, not moving the victim out, and
     victim lost while escorting.
 \end{description}
+
 
 
 \end{document}
