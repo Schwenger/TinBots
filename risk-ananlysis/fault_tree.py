@@ -50,9 +50,9 @@ class Proximity:
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    crash_rhr = P('RHR crashes', failure_rate=1e-1)
-    crash_path = P('path follower crashes', failure_rate=1e-2)
-    crash_some = F('some component crashes')
+    crash_rhr = P('RHR crashes\ninto wall', failure_rate=1e-1)
+    crash_path = P('path follower crashes\ninto wall', failure_rate=1e-2)
+    crash_some = F('some component crashes\ninto wall')
     crash_some << (crash_rhr | crash_path)
 
     avoid_dog = P('avoidance watchdog fails', failure_rate=0)
