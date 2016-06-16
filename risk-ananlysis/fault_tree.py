@@ -223,8 +223,8 @@ class Victim404(Tree):
     not_placed_in = S('user did not place\nthe victim in the maze')
     unsolvable = S('unsolvable maze')
 
-    rhr_hangs = F('right-hand-rule\ndrives in circles')
-    rhr_hangs << (P('right-hand-rule\ncan drive in circles', failure_rate=inf) &
+    rhr_hangs = F('right-hand follower\ndrives in circles')
+    rhr_hangs << (P('right-hand follower\ncan drive in circles', failure_rate=inf) &
                   P('path-pruning fails', failure_rate=0) &
                   S('maze is not\n1-outerplanar'))
 

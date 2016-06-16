@@ -509,9 +509,31 @@ that MR11 has been removed.
     The fault tree of not flashing properly during escort (MR9). TODO
 \item[\texttt{picked up victim through wall}:]
     TODO
-\item[\texttt{victim404} \refpdf{victim404}:]
-    Fault tree of not finding the victim (MR10). TODO
-\item[\texttt{victimsilent} \refpdf{victimsilent}:]
+\item[\texttt{victim not found} \refpdf{victim404}:]
+    Fault tree of not finding the victim (MR10).
+     \\
+    Unless the maze is outside the specified conditions (victim not in
+    maze; unsolvable maze), the only reasons for which a Tin Bot can
+    fail to find the victim (ignoring the low-level causes that are
+    already handles elsewhere) are extension board failure (see below),
+    victim signal failure (see below), losing orientation (see below),
+    and driving in a circle (see next).
+\item[\texttt{Right-Hand Follower drives in circles}]
+    A Tin Bot can only end up driving in a circle if the
+    path-pruning\footnote{This is the module responsible for detecting
+    and avoiding driving in circles.} fails, and the maze permits it
+    (and is thus not 1-outerplanar, contrary to our requirement).  Note
+    that the Right-Hand Follower itself does not contain logic that
+    prevents it from driving in circles, thus its failure probability
+    is 1.
+\item[\texttt{Tin Bot lost orientation}]
+    In order to make a Tin Bot lose its orientation, first the LPS must
+    be failing (see below), \emph{and} the approximation algorithm
+    (including choice of all hard-coded constants) needs to be
+    sufficiently far off, \emph{and} the drift\footnote{difference
+    between real and percieved orientation and position} must not
+    stabilize.
+\item[\texttt{victim silent} \refpdf{victimsilent}:]
     Fault tree of the victim not sending any signal (MR22).
       \\
     The victim can only fail to send the specified signal if there is a
@@ -557,6 +579,8 @@ that MR11 has been removed.
     failure of not getting an initial position from the LPS (see
     previous).
 \item[\texttt{no initial position from LPS}:]
+    This can only happen if there is a general LPS failure from the beginning.
+\item[\texttt{LPS failure}:]
     The LPS only sends no data if there was a failure in the Color Blob
     Protocol (which is either due to a camera fault, or
     outside-specification conditions), or the Raspberry Pi is failing.
