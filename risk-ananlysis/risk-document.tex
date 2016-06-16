@@ -447,10 +447,10 @@ Note that MR2, MR4, MR6, MR16, MR18, and MR19 do
 not have fault trees, as this concept does not apply here.  Also note
 that MR11 has been removed.
 
-\newcommand{\refpdf}[1]{(see \href{trees/#1.pdf}{\texttt{#1.pdf}})\\}
+\newcommand{\refpdf}[1]{(\texttt{\href{trees/#1.pdf}{\texttt{#1.pdf}}})}
 
 \begin{description}
-\item[\texttt{power LED is off}: (see nopowerled.pdf)]
+\item[\texttt{power LED is off} \refpdf{nopowerled}:]
     The power LED is not lit. \\
     This means that either there is a failure in the E-Puck, or the power LED is faulty.
 \item[\texttt{E-Puck failure}:]
@@ -458,13 +458,13 @@ that MR11 has been removed.
     Either the user forgot to turn on the E-Puck or there is a problem with the hardware, such as a problem with the power, the board, or the memory.
 \item[\texttt{power failure}:]
     The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \textit{consumer} might be impaired since a problem with the power switch prevents a connection, or there is a failure in the wiring.
-\item[\texttt{uncooperative}: (see uncooperative.pdf)]
+\item[\texttt{uncooperative} \refpdf{uncooperative}:]
     The fault tree of behavior that appears to be uncooperative (MR3, MR22). \\
     The reason for such behavior is that the E-Puck does not know that there are other E-Puck or it did not receive any data to take into account because there was a problem with the communication protocol (T2T). 
     Alternatively, the transportation medium might prevent a meaningful communication.
 
     A problem with the receiver or the sender can also be the culprit, caused by a software bug, or a problem with the Bluetooth module. % we do not describe the subtrees separately, in regard to BW's and MS's conversation with HT
-\item[\texttt{not using information about the victim}: (see ignorevictim.pdf)]
+\item[\texttt{not using information about the victim} \refpdf{ignorevictim}:]
     The E-Puck ignores gathered information about the victim (MR5, MR13). \\
     Potential reasons for this behavior is that the extension board is faulty (see below), the triangulation failed, meaning that we effectively do not have meaningful data about the victim, there are inconsistencies in the data about the victim, or the E-Puck does not consume received information fast enough, such that it gets overwritten.
 \item[\texttt{triangulation fails}:]
@@ -475,7 +475,7 @@ that MR11 has been removed.
     Conflicting data about the victim can be the result of an unexpected movement by the victim, i.e. it is moved by the user. 
     Alternatively, uncooperative behavior might lead to conflicting data, since Tin Bots believe other Tin Bots trust, even if they send wrong data. 
     Additionally, faulty memory causes the same behavior.
-\item[\texttt{run into walls}: (see runintowall.pdf)]
+\item[\texttt{run into walls} \refpdf{runintowall}:]
     A Tin Bot runs into a wall.\\
     The problem is either bad firmware, including that the wrong program has been uploaded to the E-Puck, or that the collision avoidance failed.
 \item[\texttt{collision with obstacle}:]
@@ -485,29 +485,31 @@ that MR11 has been removed.
     Otherwise, a software failure or faulty proximity sensors can result in ignoring obstacles.
 \item[\texttt{avoidance watchdog fails}:]
     The avoidance watchdog fails if either TODO!!!
-\item[\texttt{victimlost}:]
+\item[\texttt{victimlost} \refpdf{victimlost}:]
     The fault tree of losing the victim during escort (MR7, MR8).
-\item[\texttt{noescort}:]
+\item[\texttt{noescort} \refpdf{noescort}:]
     The fault tree of (apparently) not escorting the victim properly
-    (MR8, MR17).
-\item[\texttt{escortnoled}:]
-    The fault tree of not flashing properly during escort (MR9).
-\item[\texttt{victim404}, \texttt{victimsilent}:]
-    Fault trees of not finding the victim (MR10).
-\item[\texttt{seenoled}:]
-    The fault tree of the IR visualization missing (MR12, MR20, MR21).
-\item[\texttt{standingstill}:]
-    The fault tree of standing still (MR13).
-\item[\texttt{gowrong}:]
+    (MR8, MR17). TODO
+\item[\texttt{escortnoled} \refpdf{escortnoled}:]
+    The fault tree of not flashing properly during escort (MR9). TODO
+\item[\texttt{victim404} \refpdf{victim404}:]
+    Fault tree of not finding the victim (MR10). TODO
+\item[\texttt{victimsilent} \refpdf{victimsilent}:]
+    Fault trees of not finding the victim (MR10). TODO
+\item[\texttt{seenoled} \refpdf{seenoled}:]
+    The fault tree of the IR visualization missing (MR12, MR20, MR21). TODO
+\item[\texttt{standingstill} \refpdf{standingstill}:]
+    The fault tree of standing still (MR13). TODO
+\item[\texttt{gowrong} \refpdf{gowrong}:]
     The fault tree of going to the wrong location at a specific step
-    during the rescue action (MR14).
-\item[\texttt{runintowall}:]
+    during the rescue action (MR14). TODO
+\item[\texttt{runintowall} \refpdf{runintowall}:]
     The fault tree of colliding with a wall or unintentionally with a
-    victim (MR15).
-\item[\texttt{spuriousmovements}:]
+    victim (MR15). TODO
+\item[\texttt{spuriousmovements} \refpdf{spuriousmovements}:]
     The fault tree of spurious or unreasonable movements (MR23 and
-    several others).
-\item[\texttt{system failure}:] \refpdf{systemfailure}
+    several others). TODO
+\item[\texttt{system failure} \refpdf{systemfailure}:]
     The overall fault tree of the victim not being moved out.  Note
     that this can only happen if \emph{all} Tin Bots fail to move the
     victim out, and is thus a disjunction of the following, previously
