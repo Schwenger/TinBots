@@ -509,7 +509,10 @@ that MR11 has been removed.
 \item[\texttt{taking a detour during escort}]
     A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
 \item[\texttt{escortnoled} \refpdf{escortnoled}:]
-    The fault tree of not flashing properly during escort (MR9). TODO
+    The fault tree of not flashing properly during escort (MR9). 
+    Reasons for this behavior is that the Tin Bot is not aware of the fact that it is escorting the victim, the LED is faulty, or there is a software bug preventing the LED to be turned on.
+\item[\texttt{not aware of escorting}:]
+    Either the Tin Bot forgot about the victim due to a memory fault, or it picked up the victim unintentionally.
 \item[\texttt{picked up victim through wall}:]
     TODO
 \item[\texttt{victim not found} \refpdf{victim404}:]
