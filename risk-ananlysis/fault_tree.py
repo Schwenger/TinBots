@@ -43,16 +43,16 @@ import proto
 class Proximity:
     failure = P('primary proximity\nsensor fault', failure_rate=1e-1)
 
-    sparse_walls = S('walls are\noutside specification')
+    sparse_walls = S('walls do not\nmeet requirements')
 
     software = P('software failure\n(overzealous escort-ignoring)', failure_rate=1e-3)
 
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    crash_rhr = P('RHR crashes', failure_rate=1e-1)
-    crash_path = P('path follower crashes', failure_rate=1e-2)
-    crash_some = F('some component crashes')
+    crash_rhr = P('RHR crashes\ninto wall', failure_rate=1e-1)
+    crash_path = P('path follower crashes\ninto wall', failure_rate=1e-2)
+    crash_some = F('some component crashes\ninto wall')
     crash_some << (crash_rhr | crash_path)
 
     avoid_dog = P('avoidance watchdog fails', failure_rate=0)
@@ -70,7 +70,7 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
 
-    magnet_trigger_acc = P('magnets trigger unintentionally' , failure_rate=1e-5)
+    magnet_trigger_acc = P('magnets unintentionally\nmade contact' , failure_rate=1e-5)
 
     hang = F('picked up victim\nthrough the wall\n(paper does not shield magnetic fields)')
     hang << (magnet_trigger_acc & Proximity.sparse_walls())
@@ -198,7 +198,7 @@ class GoWrong(Tree):
     spec = P('misunderstanding\nabout MR14', failure_rate=1e-4)
     check = P('not discovered during\npeer review', failure_rate=1e-4)
 
-    failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
+    failure = T(r'moving to the \"gathered position\"\ninstead of \"towards the victim\"')
     failure << (spec & check)
 
 
