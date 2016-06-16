@@ -20,7 +20,7 @@ class Bluetooth(Tree):
 class Power(Tree):
     supply = P('faulty power supply', failure_rate=1e-6)
     grid = P('electricity grid outage', failure_rate=2.25e-5)
-    wiring = S('wiring failure')
+    wiring = S('power not\nconnected')
 
     failure = F('power supply failure')
     failure << (supply | grid | wiring)
@@ -31,13 +31,14 @@ class Battery(Tree):
     not_charged = S('battery not charged')
     switch = P('primary power switch failure', failure_rate=1e-6)
 
-    wiring = P('failure in wiring', failure_rate=0)
+    # Q: Why don't we include 'wiring'?
+    # A: Because that's already handled in things such as 'controller board' etc.
 
     failure = F('power failure')
-    failure << (defect | not_charged | wiring | switch)
+    failure << (defect | not_charged | switch)
 
     failure_no_switch = F('power failure')
-    failure << (defect() | not_charged() | wiring())
+    failure_no_switch << (defect() | not_charged())
 
 
 class Raspberry(Tree):

@@ -23,7 +23,7 @@ class LPS(Tree):
     sender = hw.Raspberry.failure
     receiver = hw.Bluetooth.receiver
 
-    with F('LPS link down') as link_down:
+    with F('LPP link down') as link_down:
         service_outage = S('simulated LPS\nservice outage (NR1)')
 
         # Raspberry board failure includes Bluetooth sender failure
@@ -32,7 +32,7 @@ class LPS(Tree):
     with F('LPS sends no data') as no_data:
         no_data << (CBP.failure | sender)
 
-    failure = F('LPS failure')
+    failure = F('LPP failure')
     failure << (link_down | no_data)
 
 

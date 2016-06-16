@@ -457,7 +457,7 @@ that MR11 has been removed.
     There is a problem with the E-Puck. 
     Either the user forgot to turn on the E-Puck or there is a problem with the hardware, such as a problem with the power, the board, or the memory.
 \item[\texttt{power failure}:]
-    The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \textit{consumer} might be impaired since a problem with the power switch prevents a connection, or there is a failure in the wiring.
+    The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \textit{consumer} might be impaired since a problem with the power switch prevents a connection.
 \item[\texttt{uncooperative} \refpdf{uncooperative}:]
     The fault tree of behavior that appears to be uncooperative (MR3, MR22). \\
     The reason for such behavior is that the E-Puck does not know that there are other E-Puck or it did not receive any data to take into account because there was a problem with the communication protocol (T2T). 
@@ -541,7 +541,7 @@ that MR11 has been removed.
 \item[\texttt{victim hardware failure}]
     Unless the victim's battery is not charged, this must be caused by
     some primary hadware failure (transistors, resistors, IR LEDs,
-    battery, wiring).
+    battery).
 \item[\texttt{seenoled} \refpdf{seenoled}:]
     The fault tree of the IR visualization missing (MR12, MR20, MR21).
      \\
@@ -567,7 +567,7 @@ that MR11 has been removed.
     controller), user errors (not switched on), or a power failure.
 \item[\texttt{E-Puck power failure}:]
     A power failure can only be due to hardware faults (power switch,
-    wiring, battery) or user error (battery not charged).
+    battery) or user error (battery not charged).
 \item[\texttt{no initial position from LPS}:]
     Unless the user did not enable the LPS as specified, this LPP
     failure is either due to the LPP link being down, or the LPS
@@ -584,8 +584,8 @@ that MR11 has been removed.
     The LPS only sends no data if there was a failure in the Color Blob
     Protocol (which is either due to a camera fault, or
     outside-specification conditions), or the Raspberry Pi is failing.
-    The only causes for this are hardware failures (e.g.\ wiring,
-    power) and software failures (bug in any of OS, external module, or
+    The only causes for this are hardware failures (e.g.\ power)
+    and software failures (bug in any of OS, external module, or
     our module).
 \item[\texttt{moving to the \enquote{gathered position}} \refpdf{gowrong}:]
     The fault tree of going to the wrong location at a specific step
