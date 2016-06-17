@@ -62,7 +62,43 @@
 
 \subsection*{Part 1}
 
-FIXME
+I choose to start with EDF and backtrack when necessary (after all,
+there's only 3 tasks, so there's only 6 permutations, so backtracking
+won't hurt too much).
+
+Until $t=1$, there's no way to do anything.
+ \\
+At $t=1$, both $J_1, J_2$ become available.  EDF would choose $J_3$
+now, so let's go with that.
+ \\
+At $t=1+C_3=4$, we realize that we missed the deadline for $J_2$.
+Dangit.  We must go back!\footnote{In case you don't know:
+\url{https://www.google.com/search?q=We\%20must\%20go\%20back!&tbm=isch}}
+
+Back at $t=1$, we choose to do $J_1$ instead, so that $J_2$
+can be completed in time.
+ \\
+At $t=3$, we completed $J_1$ and begin with $J_2$, which is already
+available.
+ \\
+At $t=4$, we completed $J_2$, and don't even start with $J_3$, because
+that's not going to work.
+
+\emph{Again} at $t=1$, we choose to do nothing, as obviously both
+choices are wrong.
+ \\
+At $t=2$, we start with $J_2$ as our apparently first activity.
+ \\
+At $t=3$, we completed $J_2$.  Now EDF would choose $J_3$, so we try
+that.
+ \\
+At $t=6$, we find that we completed $J_2$ just in time, and start with
+$J_1$ (just as EDF or any other sane algorithm would).
+ \\
+At $t=8$, we completed $J_1$, and are done with the task set, meaning
+that $(2, J_2), (3, J_3), (6, J_1)$ is a feasible schedule.
+ \\
+At $t=9$, we sell the time machine and become millionaires.
 
 \subsection*{Part 2}
 
