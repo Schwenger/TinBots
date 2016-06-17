@@ -25,6 +25,8 @@
 % \usepackage{float}
 % \usepackage{caption}
 
+\usepackage{marvosym} % \Lightning
+
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
 \lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
@@ -50,9 +52,9 @@
 % \newcommand{\abs}[1]{\lvert #1 \rvert}
 
 % Thanks to https://tex.stackexchange.com/questions/4216/how-to-typeset-correctly
-%\newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
-%                    \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
-%                    =}
+\newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                    \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                    =}
 
 %\DeclareMathOperator{\sinc}{sinc}
 
@@ -62,19 +64,104 @@
 
 \subsection*{Part 1}
 
-FIXME
+I choose to start with EDF and backtrack when necessary (after all,
+there's only 3 tasks, so there's only 6 permutations, so backtracking
+won't hurt too much).
+
+Until $t=1$, there's no way to do anything.
+ \\
+At $t=1$, both $J_1, J_2$ become available.  EDF would choose $J_3$
+now, so let's go with that.
+ \\
+At $t=1+C_3=4$, we realize that we missed the deadline for $J_2$.
+Dangit.  We must go back!\footnote{In case you don't know:
+\url{https://www.google.com/search?q=We\%20must\%20go\%20back!&tbm=isch}}
+
+Back at $t=1$, we choose to do $J_1$ instead, so that $J_2$
+can be completed in time.
+ \\
+At $t=3$, we completed $J_1$ and begin with $J_2$, which is already
+available.
+ \\
+At $t=4$, we completed $J_2$, and don't even start with $J_3$, because
+that's not going to work.
+
+\emph{Again} at $t=1$, we choose to do nothing, as obviously both
+choices are wrong.
+ \\
+At $t=2$, we start with $J_2$ as our apparently first activity.
+ \\
+At $t=3$, we completed $J_2$.  Now EDF would choose $J_3$, so we try
+that.
+ \\
+At $t=6$, we find that we completed $J_2$ just in time, and start with
+$J_1$ (just as EDF or any other sane algorithm would).
+ \\
+At $t=8$, we completed $J_1$, and are done with the task set, meaning
+that $(2, J_2), (3, J_3), (6, J_1)$ is a feasible schedule.
+ \\
+At $t=9$, we sell the time machine and become millionaires.
 
 \subsection*{Part 2}
 
-FIXME
+There exists a feasible EDF schedule for $\Gamma$, as the processor
+utilization is $\approx 0.96 \leq 1$.  For RM, we apply the
+\enquote{schedulability check} from the lecture:
+
+% Periods are: 3, 4, 8
+% C_i are:     1, 2, 1
+\[\begin{array}{lll}
+R_1^0 = C_1 = 1 & R_2^0 = C_2 = 2 & R_3^0 = C_3 = 1 \\
+R_1^1 = 1 \checkmark & R_2^1 = 2 + 1 = 3 & R_3^1 = 1 + 1 + 2 = 4 \\
+& R_2^2 = 2 + 1 = 3 \checkmark & R_3^2 = 1 + 2 + 2 = 5 \\
+& & R_3^3 = 1 + 2 + 4 = 7 \\
+& & R_3^4 = 1 + 3 + 4 = 8 \\
+& & R_3^5 = 1 + 3 + 4 = 8 \checkmark \\
+\end{array}\]
+
+For $\Delta$, there is no feasible schedule, as the processor
+utilization is $\frac{1}{2}+\frac{1}{3}+\frac{1}{4} \gg 1$, and thus
+there is no EDF or RM schedule.
+
+For $\Gamma$, there exists a feasible EDF schedule, as the processor
+utilization is $1 \leq 1$.  For RM, we again apply the
+\enquote{schedulability check} from the lecture:
+
+% Periods are: 2, 5, 8, 20
+% C_i are:     1, 1, 2,  1
+\[\begin{array}{llll}
+R_1^0 = C_1 = 1 & R_2^0 = C_2 = 1 & R_3^0 = C_3 = 2 & R_4^0 = C_4 = 1 \\
+R_1^1 = 1\checkmark & R_2^1 = 1 + 1 = 2 & R_3^1 = 2 + 1 + 1 = 4 & R_4^1 = 1 + 1 + 1 + 2 = 5 \\
+& R_2^2 = 1 + 1 = 2\checkmark & R_3^2 = 2 + 2 + 1 = 5 & R_4^2 = 1 + 3 + 1 + 2 = 7 \\
+& & R_3^3 = 2 + 3 + 1 = 6 & R_4^3 = 1 + 4 + 2 + 2 = 9 \\
+& & R_3^4 = 2 + 3 + 2 = 7 & R_4^4 = 1 + 5 + 2 + 4 = 12 \\
+& & R_3^5 = 2 + 4 + 2 = 8 & R_4^5 = 1 + 6 + 3 + 4 = 14 \\
+& & R_3^6 = 2 + 4 + 2 = 8\checkmark & R_4^6 = 1 + 7 + 3 + 4 = 15 \\
+& & & R_4^7 = 1 + 8 + 3 + 4 = 16 \\
+& & & R_4^8 = 1 + 8 + 4 + 4 = 17 \\
+& & & R_4^9 = 1 + 9 + 4 + 6 = 20 \\
+& & & R_4^{10} = 1 + 10 + 4 + 6 = 21 \text{\Lightning}
+\end{array}\]
 
 
 \section*{Problem 2: Priority Ceiling Protocol}
 
-FIXME
+\includegraphics[width=\textwidth]{p3-schedule}
+
+The type of computation is either normal (white box) or critical
+section (grey box).
+ \\
+The numbers are the priorities; changes are indicated as changes.
 
 
 \section*{Problem 3: Aperiodic Scheduling}
+
+Notation: in the following, let $\sigma(i) \in \{1, 2, \ldots, n\}$ be
+the index of the $i$-th task of some schedule $\sigma$.  For instance,
+$J_{\sigma(i)}$ is the $i$-th task of schedule $\sigma$.
+ \\
+Also, let $f_i^\sigma$ be the finishing time of task $J_i$ under
+schedule $\sigma$.
 
 \subsection*{Part a}
 
@@ -82,26 +169,158 @@ FIXME
 
 \subsection*{Part b}
 
-FIXME
+Algorithm: sort the tasks by their decreasing \enquote{weight density}
+$\frac{w_i}{C_i}$, and execute the tasks in that order.
+
+Claim 1: given any schedule $\sigma$, we can construct an idle-free
+schedule $\sigma'$ by removing idle periods in a way that does not
+increase $T_w$.
+ \\
+Proof: we immediately get $f_i^(\sigma') \leq f_i^(\sigma)$ and
+therefore $T_w(\sigma')$, as we are given that $w_i \geq 0$ holds.
+This does not violate any release times as the task set is synchronous.
+
+Claim 2: given an index $k \in \{0, 1, \ldots, n - 2\}$ and any
+nonpreemptive, idle-free schedule $\sigma$ with
+$\frac{w_{\sigma(k)}}{C_{\sigma(k)}} \leq \frac{w_{\sigma(k +
+1)}}{C_{\sigma(k+1)}}$, then we can construct a nonpreemptive,
+idle-free schedule $\sigma'$ with these two tasks swapped, which
+does not increase $T_w$.  Formally:
+ %
+\begin{align}
+    \sigma'(i) \defeq \begin{cases}
+        \sigma(k + 1) & i = k \\
+        \sigma(k) & i = k + 1 \\
+        \sigma(i) & \text{else}
+    \end{cases} \\
+    \implies T_w(\sigma') \leq T_w(\sigma)
+\end{align}
+ \\
+Proof: the finishing times $f_i$ stay the same for all jobs
+$J_i$ with $i \notin \{\sigma(k), \sigma(k+1)\}$.  Thus, the claimed
+inequality simplifies to:
+ %
+\begin{align}
+    w_{\sigma'(k)}f_{\sigma'(k)}^{\sigma'} + w_{\sigma'(k + 1)}f_{\sigma'(k + 1)}^{\sigma'}
+    &\leq w_{\sigma(k)}f_{\sigma(k)}^{\sigma} + w_{\sigma(k + 1)}f_{\sigma(k + 1)}^{\sigma}
+        \\ \iff
+    w_{\sigma(k+1)}f_{\sigma(k+1)}^{\sigma'} + w_{\sigma(k)}f_{\sigma(k)}^{\sigma'}
+    &\leq w_{\sigma(k)}f_{\sigma(k)}^{\sigma} + w_{\sigma(k + 1)}f_{\sigma(k + 1)}^{\sigma}
+\end{align}
+ %
+As the completion time of the \enquote{later} task must stay the same,
+we can deduce $f_{\sigma(k)}^{\sigma'} = f_{\sigma(k+1)}^{\sigma}$ and
+plug it in:
+ %
+\begin{align}
+    w_{\sigma(k+1)}f_{\sigma(k+1)}^{\sigma'} + w_{\sigma(k)}f_{\sigma(k+1)}^{\sigma}
+    &\leq w_{\sigma(k)}f_{\sigma(k)}^{\sigma} + w_{\sigma(k + 1)}f_{\sigma(k)}^{\sigma'}
+        \\ \iff
+    w_{\sigma(k)}(f_{\sigma(k+1)}^{\sigma} - f_{\sigma(k)}^{\sigma})
+    &\leq w_{\sigma(k+1)}(f_{\sigma(k)}^{\sigma'} - f_{\sigma(k+1)}^{\sigma'})
+        \\ \iff
+    w_{\sigma(k)}C_{\sigma(k+1)}
+    &\leq w_{\sigma(k+1)}C_{\sigma(k)}
+        \\ \iff
+    \frac{w_{\sigma(k)}}{C_{\sigma(k)}}
+    &\leq \frac{w_{\sigma(k + 1)}}{C_{\sigma(k+1)}}
+\end{align}
+ %
+Since the last inequality is true by construction, this completes the
+proof.  This does not violate any release times as the task set is
+synchronous.
+
+Claim 3: the equivalent of Claim 2 holds for preemptive idle-free
+schedules, resulting in a strictly less-preemptive idle-free schedule
+ %
+Proof: one can treat the \enquote{execution fragments} of a single task
+as their own respective tasks, by splitting up $w_i$ appropriately, and
+applying Claim 2.
+
+Claim 4: given any idle-free schedule $\sigma$ and any nonpreemptive,
+idle-free schedule $\sigma'$ with $\forall k \in \{0, 1, \ldots, n -
+2\}: \frac{w_{\sigma'(k)}}{C_{\sigma'(k)}} \geq \frac{w_{\sigma(k +
+1)}}{C_{\sigma(k+1)}}$, then $T_w(\sigma') \leq T_w(\sigma)$.
+ %
+Proof: this follows from applying Claim 3 repeatedly, in a Bubble
+Sort-fashion.
+
+Claim 5: given an \emph{arbitrary} schedule $\sigma$ and any
+nonpreemptive, idle-free schedule $\sigma'$ with $\forall k \in \{0, 1,
+\ldots, n - 2\}: \frac{w_{\sigma'(k)}}{C_{\sigma'(k)}} \geq
+\frac{w_{\sigma(k + 1)}}{C_{\sigma(k+1)}}$, then $T_w(\sigma') \leq
+T_w(\sigma)$.
+ %
+Proof: this follows from applying Claim 1 (remove idle periods) and
+Claim 4 (reorder).
+
+Claim 6: the algorithm minimizes $T_w$.
+ %
+Proof: Let $\sigma$ be an arbitrary schedule and let $\sigma'$ be the
+algorithm's schedule.  By Claim 5, it follows that $T_w(\sigma') \leq
+T_w(\sigma)$.  This means that $\sigma'$ is a global (but not
+necessarily strict) minimum.
 
 
 \section*{Problem 4: Optimality of Aperiodic scheduling}
 
 \subsection*{Part (a)}
 
-FIXME
+False.  Counter-example:
+
+\begin{tabular}{l|ccc}
+      & $J_1$ & $J_2$ \\ \hline
+$C_i$ &   1   &  100  \\
+$D_i$ &   2   &   1   \\
+\end{tabular}
+
+\begin{align*}
+    \sigma_{EDD} &= (J_2, J_1) \\
+    \bar{R}_{EDD} &= \frac{100+101}{2} = 100.5 \\
+    \sigma_{OPT} &= (J_1, J_2) \\
+    \bar{R}_{OPT} &= \frac{1+101}{2} = 51
+\end{align*}
 
 \subsection*{Part (b)}
 
-FIXME
+True.  Justification: as we consider a synchronous task set, EDD is
+idle-free, thus reordering can't change the total completion time.
 
 \subsection*{Part (c)}
 
-FIXME
+False, as this is a generalization of the average response time
+(because $r_i = 0$).  Counter-example:
+
+\begin{tabular}{l|ccc}
+      & $J_1$ & $J_2$ \\ \hline
+$C_i$ &   1   &  100  \\
+$D_i$ &   2   &   1   \\
+$w_i$ &  0.5  &  0.5  \\
+\end{tabular}
+
+\begin{align*}
+    \sigma_{EDD} &= (J_2, J_1) \\
+    \bar{R}_{EDD} &= \frac{100+101}{2} = 100.5 \\
+    \sigma_{OPT} &= (J_1, J_2) \\
+    \bar{R}_{OPT} &= \frac{1+101}{2} = 51
+\end{align*}
 
 \subsection*{Part (d)}
 
-FIXME
+False.  Counter-example:
+
+\begin{tabular}{l|ccc}
+      & $J_1$ & $J_2$ \\ \hline
+$C_i$ &   1   &  100  \\
+$D_i$ &   2   &   1   \\
+\end{tabular}
+
+\begin{align*}
+    \sigma_{EDD} &= (J_2, J_1) \\
+    N_{late}(EDD) &= 2 \\
+    \sigma_{OPT} &= (J_1, J_2) \\
+    N_{late}(OPT) &= 1 \\
+\end{align*}
 
 
 \end{document}
