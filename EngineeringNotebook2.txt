@@ -208,6 +208,14 @@ scribe: Ben Wiederhake 17.06.2016 12-14 session
 - Ben und Max versuchen irgendwas zu programmieren
 	=> LLVM als C++-to-C Converter verwenden?
 	=> Allen ernstes: Ja, ansonsten
+- Oder auch nicht:
+	- das kann nur llvm <= 3.1 (wurde rausgeworfen nach 3.1 weil zu
+	  kaputt)
+	- Es scheint nur sonst noch "cfront" und "comeau" zu geben,
+	  (letzteres evtl anders geschrieben), beide sehen ungut aus
+	- Das github repository
+	  (https://github.com/draperlaboratory/llvm-cbe) von einem Nutzer,
+	  der das C-BackEnd wiederbeleben will sieht ziemlich tot aus.
 - Btw, man muss installieren:
 	- xc16: https://www.microchip.com/mplab/compilers
 	- avr-gcc (use your favourite package manager)
