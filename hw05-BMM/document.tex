@@ -52,9 +52,9 @@
 % \newcommand{\abs}[1]{\lvert #1 \rvert}
 
 % Thanks to https://tex.stackexchange.com/questions/4216/how-to-typeset-correctly
-%\newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
-%                    \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
-%                    =}
+\newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                    \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                    =}
 
 %\DeclareMathOperator{\sinc}{sinc}
 
@@ -156,13 +156,110 @@ The numbers are the priorities; changes are indicated as changes.
 
 \section*{Problem 3: Aperiodic Scheduling}
 
+Notation: in the following, let $\sigma(i) \in \{1, 2, \ldots, n\}$ be
+the index of the $i$-th task of some schedule $\sigma$.  For instance,
+$J_{\sigma(i)}$ is the $i$-th task of schedule $\sigma$.
+ \\
+Also, let $f_i^\sigma$ be the finishing time of task $J_i$ under
+schedule $\sigma$.
+
 \subsection*{Part a}
 
 FIXME
 
 \subsection*{Part b}
 
-FIXME
+Algorithm: sort the tasks by their decreasing \enquote{weight density}
+$\frac{w_i}{C_i}$, and execute the tasks in that order.
+
+Claim 1: given any schedule $\sigma$, we can construct an idle-free
+schedule $\sigma'$ by removing idle periods in a way that does not
+increase $T_w$.
+ \\
+Proof: we immediately get $f_i^(\sigma') \leq f_i^(\sigma)$ and
+therefore $T_w(\sigma')$, as we are given that $w_i \geq 0$ holds.
+This does not violate any release times as the task set is synchronous.
+
+Claim 2: given an index $k \in \{0, 1, \ldots, n - 2\}$ and any
+nonpreemptive, idle-free schedule $\sigma$ with
+$\frac{w_{\sigma(k)}}{C_{\sigma(k)}} \leq \frac{w_{\sigma(k +
+1)}}{C_{\sigma(k+1)}}$, then we can construct a nonpreemptive,
+idle-free schedule $\sigma'$ with these two tasks swapped, which
+does not increase $T_w$.  Formally:
+ %
+\begin{align}
+    \sigma'(i) \defeq \begin{cases}
+        \sigma(k + 1) & i = k \\
+        \sigma(k) & i = k + 1 \\
+        \sigma(i) & \text{else}
+    \end{cases} \\
+    \implies T_w(\sigma') \leq T_w(\sigma)
+\end{align}
+ \\
+Proof: the finishing times $f_i$ stay the same for all jobs
+$J_i$ with $i \notin \{\sigma(k), \sigma(k+1)\}$.  Thus, the claimed
+inequality simplifies to:
+ %
+\begin{align}
+    w_{\sigma'(k)}f_{\sigma'(k)}^{\sigma'} + w_{\sigma'(k + 1)}f_{\sigma'(k + 1)}^{\sigma'}
+    &\leq w_{\sigma(k)}f_{\sigma(k)}^{\sigma} + w_{\sigma(k + 1)}f_{\sigma(k + 1)}^{\sigma}
+        \\ \iff
+    w_{\sigma(k+1)}f_{\sigma(k+1)}^{\sigma'} + w_{\sigma(k)}f_{\sigma(k)}^{\sigma'}
+    &\leq w_{\sigma(k)}f_{\sigma(k)}^{\sigma} + w_{\sigma(k + 1)}f_{\sigma(k + 1)}^{\sigma}
+\end{align}
+ %
+As the completion time of the \enquote{later} task must stay the same,
+we can deduce $f_{\sigma(k)}^{\sigma'} = f_{\sigma(k+1)}^{\sigma}$ and
+plug it in:
+ %
+\begin{align}
+    w_{\sigma(k+1)}f_{\sigma(k+1)}^{\sigma'} + w_{\sigma(k)}f_{\sigma(k+1)}^{\sigma}
+    &\leq w_{\sigma(k)}f_{\sigma(k)}^{\sigma} + w_{\sigma(k + 1)}f_{\sigma(k)}^{\sigma'}
+        \\ \iff
+    w_{\sigma(k)}(f_{\sigma(k+1)}^{\sigma} - f_{\sigma(k)}^{\sigma})
+    &\leq w_{\sigma(k+1)}(f_{\sigma(k)}^{\sigma'} - f_{\sigma(k+1)}^{\sigma'})
+        \\ \iff
+    w_{\sigma(k)}C_{\sigma(k+1)}
+    &\leq w_{\sigma(k+1)}C_{\sigma(k)}
+        \\ \iff
+    \frac{w_{\sigma(k)}}{C_{\sigma(k)}}
+    &\leq \frac{w_{\sigma(k + 1)}}{C_{\sigma(k+1)}}
+\end{align}
+ %
+Since the last inequality is true by construction, this completes the
+proof.  This does not violate any release times as the task set is
+synchronous.
+
+Claim 3: the equivalent of Claim 2 holds for preemptive idle-free
+schedules, resulting in a strictly less-preemptive idle-free schedule
+ %
+Proof: one can treat the \enquote{execution fragments} of a single task
+as their own respective tasks, by splitting up $w_i$ appropriately, and
+applying Claim 2.
+
+Claim 4: given any idle-free schedule $\sigma$ and any nonpreemptive,
+idle-free schedule $\sigma'$ with $\forall k \in \{0, 1, \ldots, n -
+2\}: \frac{w_{\sigma'(k)}}{C_{\sigma'(k)}} \geq \frac{w_{\sigma(k +
+1)}}{C_{\sigma(k+1)}}$, then $T_w(\sigma') \leq T_w(\sigma)$.
+ %
+Proof: this follows from applying Claim 3 repeatedly, in a Bubble
+Sort-fashion.
+
+Claim 5: given an \emph{arbitrary} schedule $\sigma$ and any
+nonpreemptive, idle-free schedule $\sigma'$ with $\forall k \in \{0, 1,
+\ldots, n - 2\}: \frac{w_{\sigma'(k)}}{C_{\sigma'(k)}} \geq
+\frac{w_{\sigma(k + 1)}}{C_{\sigma(k+1)}}$, then $T_w(\sigma') \leq
+T_w(\sigma)$.
+ %
+Proof: this follows from applying Claim 1 (remove idle periods) and
+Claim 4 (reorder).
+
+Claim 6: the algorithm minimizes $T_w$.
+ %
+Proof: Let $\sigma$ be an arbitrary schedule and let $\sigma'$ be the
+algorithm's schedule.  By Claim 5, it follows that $T_w(\sigma') \leq
+T_w(\sigma)$.  This means that $\sigma'$ is a global (but not
+necessarily strict) minimum.
 
 
 \section*{Problem 4: Optimality of Aperiodic scheduling}
