@@ -43,16 +43,16 @@ import proto
 class Proximity:
     failure = P('primary proximity\nsensor fault', failure_rate=1e-1)
 
-    sparse_walls = S('walls are\noutside specification')
+    sparse_walls = S('walls do not\nmeet requirements')
 
     software = P('software failure\n(overzealous escort-ignoring)', failure_rate=1e-3)
 
     false_negative = F('obstacle\nnot detected')
     false_negative << (failure | sparse_walls | software)
 
-    crash_rhr = P('RHR crashes', failure_rate=1e-1)
-    crash_path = P('path follower crashes', failure_rate=1e-2)
-    crash_some = F('some component crashes')
+    crash_rhr = P('RHR crashes\ninto wall', failure_rate=1e-1)
+    crash_path = P('path follower crashes\ninto wall', failure_rate=1e-2)
+    crash_some = F('some component crashes\ninto wall')
     crash_some << (crash_rhr | crash_path)
 
     avoid_dog = P('avoidance watchdog fails', failure_rate=0)
@@ -60,11 +60,8 @@ class Proximity:
     avoid_sys = F('avoidance system fails')
     avoid_sys << (avoid_dog & crash_some)
 
-    avoid = F('avoidance fails')
-    avoid << (avoid_sys | failure)
-
     collision = F('collision with obstacle')
-    collision << (avoid | false_negative)
+    collision << (avoid_sys | false_negative)
 
 
 class Escort:
@@ -73,12 +70,12 @@ class Escort:
     recognition = F('escort recognition fails')
     recognition << (rec_sw | proto.SOS.failure)
 
-    magnet_trigger_acc = P('magnets unintentionally trigger', failure_rate=1e-5)
+    magnet_trigger_acc = P('magnets unintentionally\nmade contact' , failure_rate=1e-5)
 
     hang = F('picked up victim\nthrough the wall\n(paper does not shield magnetic fields)')
     hang << (magnet_trigger_acc & Proximity.sparse_walls())
 
-    open_space = F('picked up victim\ndirectly')
+    open_space = F('picked up victim\nwith physical contact')
     open_space << (Proximity.false_negative & recognition & magnet_trigger_acc())
 
     unintentional = F('picking up the victim\nwas accidental')
@@ -103,7 +100,7 @@ class EscortNoLED(Tree):
     with F('not aware of escorting') as not_aware:
         not_aware << (hw.EPuck.memory_fault() | Escort.unintentional)
 
-    failure = T('escorting,\nbut no LED')
+    failure = T('escorting, but\nno LED indication')
     failure << (led | not_aware | software_bug())
 
 
@@ -142,7 +139,7 @@ class IgnoreVictim(Tree):
     conflict << (hw.EPuck.memory_fault() | S('user moved\nvictim') |
                  Uncooperative.failure.as_leaf())
 
-    late = P('too high min-distance\nfor sensing again', failure_rate=1e-1)
+    late = P('too high min-distance\nfor sensing again', failure_rate=1e-4)
 
     no_triang = F('triangulation fails')
     no_triang << (late | software_bug())
@@ -157,7 +154,7 @@ class IgnoreVictim(Tree):
 
 class VictimLost(Tree):
     with F('victim dropped / unable to grab') as dropped:
-        magnet_weak = P('primary magnet failure\n(e.g., too weak)', 1e-1)
+        magnet_weak = P('primary magnet failure\n(e.g., too weak)', 1e-5)
 
         belt_weak = P('primary belt failure\n(magnet slips out of the belt)', 1e-1)
         # Your magnet is weak, your belt is weak, your bloodline is
@@ -198,10 +195,10 @@ class SpuriousMovements(Tree):
 #        gathered but instead try to actually localize and find the victim efficiently
 #        """
 class GoWrong(Tree):
-    spec = P('misunderstanding\nabout MR14', failure_rate=1e-2)
-    check = P('not discovered during\npeer review', failure_rate=1e-3)
+    spec = P('misunderstanding\nabout MR14', failure_rate=1e-4)
+    check = P('not discovered during\npeer review', failure_rate=1e-4)
 
-    failure = T(r'moving to the \"gathered position\"\ninstead \"towards the victim\"')
+    failure = T(r'moving to the \"gathered position\"\ninstead of \"towards the victim\"')
     failure << (spec & check)
 
 
@@ -226,8 +223,8 @@ class Victim404(Tree):
     not_placed_in = S('user did not place\nthe victim in the maze')
     unsolvable = S('unsolvable maze')
 
-    rhr_hangs = F('right-hand-rule\ndrives in circles')
-    rhr_hangs << (P('right-hand-rule\ncan drive in circles', failure_rate=inf) &
+    rhr_hangs = F('right-hand follower\ndrives in circles')
+    rhr_hangs << (P('right-hand follower\ncan drive in circles', failure_rate=inf) &
                   P('path-pruning fails', failure_rate=0) &
                   S('maze is not\n1-outerplanar'))
 
@@ -255,7 +252,7 @@ class SystemFailure(Tree):
                         NoEscort.failure | Victim404.failure)
 
     all_bad = F('all Tin Bots fail')
-    all_bad << (tin_bot_failure & tin_bot_failure)
+    all_bad << (tin_bot_failure & tin_bot_failure.as_leaf())
 
     failure = T('system failure\n(victim remains in maze)')
     failure << all_bad

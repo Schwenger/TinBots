@@ -168,3 +168,30 @@ Todo:
   => Gut, dass wir die Herleitung der ganzen Magic Numbers aufgeschrieben haben
 - Find out data retention rate for memory
 
+
+==============================
+
+scribe: Maximilian Köhl 16.06.2016 20:26 (recording progress regarding the hardware)
+
+- E-Pucks Bluetooth module does not work without the "default extension board"
+- built IR-Sensors: increased their precision by completely pasting over them with back isolation tape
+- removed ground sensors and prepared E-Pucks for our custom extension board
+  * need additional parts to mount the extension board on the E-Puck
+- developed base idea for victim platform and built first prototype
+  * use aluminum-foil to build a conductive frame out of magnets and iron globes
+  * use magnets wrapped with aluminum-foil to detect contact to the platform
+- determined pin assignment for the connection cable
+  * green => GND
+  * blue => +4V
+  * white => SDA
+  * black => SCL
+- cut the raster boards into shape and begun soldering parts on them
+- we need the following additional parts
+  * Buchsen-, Stiftleisten
+  * Green LEDs (3x), 100Ω Resistors (3x)
+  * 100Ω Resistors (4x)
+  * Victim Power Switch
+  * IRLZ44n
+  * some parts to hold the accumulator in place (victim)
+- decided to use third E-Puck accumulator for the victim
+

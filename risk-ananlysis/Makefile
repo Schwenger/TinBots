@@ -15,7 +15,7 @@ clean-total: clean
 
 TREES_EPS := escortnoled.eps gowrong.eps ignorevictim.eps noescort.eps nopowerled.eps runintowall.eps seenoled.eps spuriousmovements.eps standingstill.eps systemfailure.eps uncooperative.eps victim404.eps victimlost.eps victimsilent.eps
 
-${TREES_EPS}: fault_tree.py fault_tree_lib.py
+${TREES_EPS}: fault_tree.py fault_tree_lib.py hw.py proto.py
 # Thankfully, make is clever enough to call this only once.
 	python3 fault_tree.py
 
@@ -56,10 +56,10 @@ pdf-trees: ${TREES_PDF}
 	( cd ../spec/ && pdflatex -halt-on-error document.tex && \
 	                 pdflatex -halt-on-error document.tex )
 
-risk-ananlysis.tar.gz: risk-document.pdf ${TREES_PDF} | ../spec/document.pdf
+risk-analysis.tar.gz.pdf: risk-document.pdf ${TREES_PDF} | ../spec/document.pdf
 	ln -fs ../spec/document.pdf specification-document.pdf
-	tar czhf risk-ananlysis.tar.gz $^ specification-document.pdf
-	rm -f specification-document.pdf risk-document.tar.gz tree_*  # Old filenames
+	tar czhf risk-analysis.tar.gz.pdf $^ specification-document.pdf
+	rm -f specification-document.pdf risk-document.tar.gz risk-ananlysis.tar.gz tree_*  # Old filenames
 
 .PHONY: tar
-tar: risk-ananlysis.tar.gz
+tar: risk-analysis.tar.gz.pdf

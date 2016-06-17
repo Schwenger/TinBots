@@ -20,7 +20,7 @@ class Bluetooth(Tree):
 class Power(Tree):
     supply = P('faulty power supply', failure_rate=1e-6)
     grid = P('electricity grid outage', failure_rate=2.25e-5)
-    wiring = S('wiring failure')
+    wiring = S('power not\nconnected')
 
     failure = F('power supply failure')
     failure << (supply | grid | wiring)
@@ -31,10 +31,14 @@ class Battery(Tree):
     not_charged = S('battery not charged')
     switch = P('primary power switch failure', failure_rate=1e-6)
 
-    wiring = P('failure in wiring', failure_rate=0)
+    # Q: Why don't we include 'wiring'?
+    # A: Because that's already handled in things such as 'controller board' etc.
 
     failure = F('power failure')
-    failure << (defect | not_charged | wiring | switch)
+    failure << (defect | not_charged | switch)
+
+    failure_no_switch = F('power failure')
+    failure_no_switch << (defect() | not_charged())
 
 
 class Raspberry(Tree):
@@ -86,8 +90,7 @@ class ExtBoard(Tree):
 
 class Victim(Tree):
     ir_led = P('primary IR LED failure', failure_rate=1e-5)
-    controller = P('primary microcontroller\nfailure', failure_rate=1e-8)
-    not_turned_on = S('user did not turn\non the victim')
+    controller = P('primary microcontroller\nfailure', failure_rate=1e-12)
 
     with F('circuit failure') as circuit:
         transistor = P('primary transistor defect', failure_rate=1e-12)
@@ -97,8 +100,7 @@ class Victim(Tree):
 
     failure = F('victim failure')
     # Copy Battery.failure as it's a different battery
-    failure << (ir_led | controller | circuit | not_turned_on |
-                Battery.failure())
+    failure << (ir_led | controller | circuit | Battery.failure_no_switch)
 
 
 if __name__ == '__main__':

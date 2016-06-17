@@ -204,13 +204,13 @@ class Gate(Node):
         self.parameters['shape'] = 'box'
 
     def __or__(self, other):
-        if isinstance(other, Failure) and isinstance(self, OR):
+        if isinstance(self, OR) and not isinstance(other, OR):
             self.children.append(other)
             return self
         return OR(self, other)
 
     def __and__(self, other):
-        if isinstance(other, Failure) and isinstance(self, AND):
+        if isinstance(self, AND) and not isinstance(other, AND):
             self.children.append(other)
             return self
         return AND(self, other)
@@ -237,11 +237,19 @@ class OR(Gate):
 
 
 def traverse(node):
-    queue = collections.deque([node])
+    queue = collections.deque([(None, node)])
+    all_nodes = set()
     while queue:
-        current = queue.popleft()
-        yield current
-        queue.extend(current.children)
+        parent, current = queue.popleft()
+        if current in all_nodes:
+            ref = current.as_leaf()
+            parent.children.remove(current)
+            parent.children.append(ref)
+            yield ref
+        else:
+            all_nodes.add(current)
+            yield current
+            queue.extend(map(lambda child: (current, child), current.children))
 
 
 def graphviz(*nodes):
