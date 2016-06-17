@@ -266,19 +266,61 @@ necessarily strict) minimum.
 
 \subsection*{Part (a)}
 
-FIXME
+False.  Counter-example:
+
+\begin{tabular}{l|ccc}
+      & $J_1$ & $J_2$ \\ \hline
+$C_i$ &   1   &  100  \\
+$D_i$ &   2   &   1   \\
+\end{tabular}
+
+\begin{align*}
+    \sigma_{EDD} &= (J_2, J_1) \\
+    \bar{R}_{EDD} &= \frac{100+101}{2} = 100.5 \\
+    \sigma_{OPT} &= (J_1, J_2) \\
+    \bar{R}_{OPT} &= \frac{1+101}{2} = 51
+\end{align*}
 
 \subsection*{Part (b)}
 
-FIXME
+True.  Justification: as we consider a synchronous task set, EDD is
+idle-free, thus reordering can't change the total completion time.
 
 \subsection*{Part (c)}
 
-FIXME
+False, as this is a generalization of the average response time
+(because $r_i = 0$).  Counter-example:
+
+\begin{tabular}{l|ccc}
+      & $J_1$ & $J_2$ \\ \hline
+$C_i$ &   1   &  100  \\
+$D_i$ &   2   &   1   \\
+$w_i$ &  0.5  &  0.5  \\
+\end{tabular}
+
+\begin{align*}
+    \sigma_{EDD} &= (J_2, J_1) \\
+    \bar{R}_{EDD} &= \frac{100+101}{2} = 100.5 \\
+    \sigma_{OPT} &= (J_1, J_2) \\
+    \bar{R}_{OPT} &= \frac{1+101}{2} = 51
+\end{align*}
 
 \subsection*{Part (d)}
 
-FIXME
+False.  Counter-example:
+
+\begin{tabular}{l|ccc}
+      & $J_1$ & $J_2$ \\ \hline
+$C_i$ &   1   &  100  \\
+$D_i$ &   2   &   1   \\
+\end{tabular}
+
+\begin{align*}
+    \sigma_{EDD} &= (J_2, J_1) \\
+    N_{late}(EDD) &= 2 \\
+    \sigma_{OPT} &= (J_1, J_2) \\
+    N_{late}(OPT) &= 1 \\
+\end{align*}
 
 
 \end{document}
