@@ -195,3 +195,21 @@ scribe: Maximilian Köhl 16.06.2016 20:26 (recording progress regarding the hard
   * some parts to hold the accumulator in place (victim)
 - decided to use third E-Puck accumulator for the victim
 
+
+==============================
+
+scribe: Ben Wiederhake 17.06.2016 12-14 session
+
+- "time-triggered", allerdings propagieren wir updates
+	Eigene Messungen erst eintragen, wenn sie vom "master" zurückkommen.
+- Alles in "ein" Struct werfen, und kein malloc/free
+	(Ugh!  Aber ansonsten können wir nicht beweisen, dass der Speicher ausreicht)
+- Maxi und Marlene gehen zum Conrad, Sachen kaufen (diesmal wirklich!)
+- Ben und Max versuchen irgendwas zu programmieren
+	=> LLVM als C++-to-C Converter verwenden?
+	=> Allen ernstes: Ja, ansonsten
+- Btw, man muss installieren:
+	- xc16: https://www.microchip.com/mplab/compilers
+	- avr-gcc (use your favourite package manager)
+- E-Puck hat einen Dreh-Schalter
+	=> eigene Farbe nicht hardcoden, sondern per Drehschalten "eingeben"
