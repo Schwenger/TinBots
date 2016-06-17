@@ -16,7 +16,7 @@ void loop(TinBot* tinbot) {
 
 }
 
-void update_proximity(TinBot* tinbot, int proximity[8]) {
+void update_proximity(TinBot* tinbot, double proximity[8]) {
     unsigned int number;
     for (number = 0; number < 8; number++) {
         if (proximity[number] > 50) {
@@ -29,6 +29,10 @@ void update_proximity(TinBot* tinbot, int proximity[8]) {
 }
 
 void update_ir(TinBot* tinbot, int ir[6]) {
+
+}
+
+void update_lps(TinBot* tinbot, double x, double y, double direction) {
 
 }
 

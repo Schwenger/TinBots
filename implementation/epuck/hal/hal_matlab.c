@@ -11,12 +11,13 @@
 
 static MatlabBot* current;
 
-void set_speed_left(int speed) {
-    current->motor_left = speed;
+void set_speed(double left, double right) {
+    current->motor_left = left;
+    current->motor_right = right;
 }
 
-void set_speed_right(int speed) {
-    current->motor_right = speed;
+void set_led(unsigned int led, unsigned int value) {
+    
 }
 
 void print(const char* message) {
@@ -44,20 +45,15 @@ void matlab_loop(long matlab_bot) {
     loop(current->tinbot);
 }
 
-int matlab_get_motor_left() {
+double matlab_get_motor_left() {
     return current->motor_left;
 }
 
-int matlab_get_motor_right() {
+double matlab_get_motor_right() {
     return current->motor_right;
 }
 
-void matlab_update_proximity(double* proximity_raw) {
-    int number;
-    int proximity[8];
-    for (number = 0; number < 8; number++) {
-        proximity[number] = (int) proximity_raw[number];
-    }
+void matlab_update_proximity(double* proximity) {
     update_proximity(current->tinbot, proximity);
 }
 
@@ -67,9 +63,9 @@ void matlab_update_ir(double* ir_raw) {
     for (number = 0; number < 6; number++) {
         ir[number] = (int) ir_raw[number];
     }
-    update_proximity(current->tinbot, ir);
+    update_ir(current->tinbot, ir);
 }
 
 void matlab_update_lps(double* lps) {
-
+    update_lps(current->tinbot, lps[0], lps[1], lps[2]);
 }

@@ -4,8 +4,8 @@
 #include "tinbot.h"
 
 typedef struct MatlabBot {
-    int motor_left;
-    int motor_right;
+    double motor_left;
+    double motor_right;
 
     TinBot* tinbot;
 } MatlabBot;
@@ -16,8 +16,8 @@ void matlab_select_bot(long matlab_bot);
 
 void matlab_loop();
 
-int matlab_get_motor_left();
-int matlab_get_motor_right();
+double matlab_get_motor_left();
+double matlab_get_motor_right();
 
 void matlab_update_proximity(double* proximity);
 void matlab_update_ir(double* ir);

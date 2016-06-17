@@ -5,12 +5,18 @@
 #ifndef HAL_H
 #define HAL_H
 
-void set_speed_left(int speed);
-void set_speed_right(int speed);
+#define BROADCAST_ADDRESS 0
+
+/*
+ * TODO: constants for LEDs and ON, OFF
+ */
+
+void set_speed(double left, double right);
 
 void set_led(unsigned int led, unsigned int value);
+void set_front_led(unsigned int value);
 
-/* TODO: abstraction of Bluetooth communication */
+void send_msg(unsigned int address, char* message, unsigned int length);
 
 void print(const char *message);
 

@@ -49,7 +49,7 @@ int main() {
 
     char reg;
     unsigned int number;
-    int proximity[8];
+    double proximity[8];
     int ir[6];
 
     while (1) {
@@ -58,7 +58,7 @@ int main() {
 
         }
         memset(buffer, 0, 64);
-        sprintf(buffer, "%i : %i\r\n", 0, proximity[0]);
+        sprintf(buffer, "%i : %f\r\n", 0, proximity[0]);
         e_send_uart1_char(buffer, strlen(buffer));
         while (e_uart1_sending());
         e_send_uart2_char("Hallo", 5);
