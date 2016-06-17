@@ -221,3 +221,6 @@ scribe: Ben Wiederhake 17.06.2016 12-14 session
 	- avr-gcc (use your favourite package manager)
 - E-Puck hat einen Dreh-Schalter
 	=> eigene Farbe nicht hardcoden, sondern per Drehschalten "eingeben"
+
+MS: potential lib for A*: https://github.com/justinhj/astar-algorithm-cpp/
+https://github.com/BigZaphod/AStar
