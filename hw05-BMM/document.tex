@@ -25,6 +25,8 @@
 % \usepackage{float}
 % \usepackage{caption}
 
+\usepackage{marvosym} % \Lightning
+
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
 \lohead{Marlene Böhmer, s9meboeh@stud\ldots, 2547718 \\
@@ -102,7 +104,44 @@ At $t=9$, we sell the time machine and become millionaires.
 
 \subsection*{Part 2}
 
-FIXME
+There exists a feasible EDF schedule for $\Gamma$, as the processor
+utilization is $\approx 0.96 \leq 1$.  For RM, we apply the
+\enquote{schedulability check} from the lecture:
+
+% Periods are: 3, 4, 8
+% C_i are:     1, 2, 1
+\[\begin{array}{lll}
+R_1^0 = C_1 = 1 & R_2^0 = C_2 = 2 & R_3^0 = C_3 = 1 \\
+R_1^1 = 1 \checkmark & R_2^1 = 2 + 1 = 3 & R_3^1 = 1 + 1 + 2 = 4 \\
+& R_2^2 = 2 + 1 = 3 \checkmark & R_3^2 = 1 + 2 + 2 = 5 \\
+& & R_3^3 = 1 + 2 + 4 = 7 \\
+& & R_3^4 = 1 + 3 + 4 = 8 \\
+& & R_3^5 = 1 + 3 + 4 = 8 \checkmark \\
+\end{array}\]
+
+For $\Delta$, there is no feasible schedule, as the processor
+utilization is $\frac{1}{2}+\frac{1}{3}+\frac{1}{4} \gg 1$, and thus
+there is no EDF or RM schedule.
+
+For $\Gamma$, there exists a feasible EDF schedule, as the processor
+utilization is $1 \leq 1$.  For RM, we again apply the
+\enquote{schedulability check} from the lecture:
+
+% Periods are: 2, 5, 8, 20
+% C_i are:     1, 1, 2,  1
+\[\begin{array}{llll}
+R_1^0 = C_1 = 1 & R_2^0 = C_2 = 1 & R_3^0 = C_3 = 2 & R_4^0 = C_4 = 1 \\
+R_1^1 = 1\checkmark & R_2^1 = 1 + 1 = 2 & R_3^1 = 2 + 1 + 1 = 4 & R_4^1 = 1 + 1 + 1 + 2 = 5 \\
+& R_2^2 = 1 + 1 = 2\checkmark & R_3^2 = 2 + 2 + 1 = 5 & R_4^2 = 1 + 3 + 1 + 2 = 7 \\
+& & R_3^3 = 2 + 3 + 1 = 6 & R_4^3 = 1 + 4 + 2 + 2 = 9 \\
+& & R_3^4 = 2 + 3 + 2 = 7 & R_4^4 = 1 + 5 + 2 + 4 = 12 \\
+& & R_3^5 = 2 + 4 + 2 = 8 & R_4^5 = 1 + 6 + 3 + 4 = 14 \\
+& & R_3^6 = 2 + 4 + 2 = 8\checkmark & R_4^6 = 1 + 7 + 3 + 4 = 15 \\
+& & & R_4^7 = 1 + 8 + 3 + 4 = 16 \\
+& & & R_4^8 = 1 + 8 + 4 + 4 = 17 \\
+& & & R_4^9 = 1 + 9 + 4 + 6 = 20 \\
+& & & R_4^{10} = 1 + 10 + 4 + 6 = 21 \text{\Lightning}
+\end{array}\]
 
 
 \section*{Problem 2: Priority Ceiling Protocol}
