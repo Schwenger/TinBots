@@ -16,16 +16,17 @@ class Analyzer:
         self.y_grid, self.x_grid = numpy.mgrid[0:height:1, 0:width:1]
 
     def prepare(self, saturation, value):
-        return (saturation > 0.4) & (value > 0.4)
+        return (saturation > 0.5) & (value > 0.4)
+
 
     def analyze(self, hue, saturation, value, target, prepared=None):
         if prepared is None:
             prepared = self.prepare(saturation, value)
 
-        mask = (numpy.abs((hue - target + 0.5) % 1 - 0.5) < 0.15) & prepared
+        mask = (numpy.abs((hue - target + 0.5) % 1 - 0.5) < 0.25) & prepared
         total = numpy.sum(mask)
 
-        if total < 20:
+        if total < 1:
             return 0, 0, 0, 0
 
         # calculate rough center
@@ -124,8 +125,8 @@ def main():
     from PIL import Image, ImageEnhance
 
     output = Image.open('../../heavy/cbp_tests/gen_800x600/PICT0002.JPG.png')
-    converter = ImageEnhance.Color(output)
-    output = converter.enhance(0)
+    #converter = ImageEnhance.Color(output)
+    #output = converter.enhance(0)
 
     prepared = analyzer.prepare(saturation, value)
 
