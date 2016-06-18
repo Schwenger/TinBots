@@ -38,7 +38,7 @@ with picamera.camera.PiCamera() as camera:
             converter = ImageEnhance.Color(output)
             output = converter.enhance(0)
 
-            for target in (0.60, ):
+            for target in (0.55, 0.60, 0.65, 0.85, 0.90, 0.95):
                 x, y, angle, r = analyzer.analyze(hue, saturation, value, target)
                 if r > 0:
                     render(output, target, x, y, angle, r)
