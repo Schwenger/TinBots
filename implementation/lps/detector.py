@@ -16,8 +16,11 @@ class Analyzer:
         self.y_grid, self.x_grid = numpy.mgrid[0:height:1, 0:width:1]
 
     def analyze(self, hue, saturation, value, target):
-        mask = (numpy.abs((hue - target + 0.5) % 1 - 0.5) < 0.15) & (saturation > 0.3) & (value > 0.1)
+        mask = (numpy.abs((hue - target + 0.5) % 1 - 0.5) < 0.15) & (saturation > 0.3) & (value > 0.4)
         total = numpy.sum(mask)
+
+        if total < 20:
+            return 0, 0, 0, 0
 
         x = numpy.sum(mask * self.x_grid) / total
         y = numpy.sum(mask * self.y_grid) / total
@@ -40,6 +43,9 @@ class Analyzer:
         inside = ((saturation < 0.2) & (value > 0.8) & grid_mask)
 
         total = numpy.sum(inside)
+
+        if total < 1:
+            return 0, 0, 0, 0
 
         dot_x = numpy.sum(inside * x_dot_grid) / total
         dot_y = numpy.sum(inside * y_dot_grid) / total
@@ -79,9 +85,10 @@ def main():
     converter = ImageEnhance.Color(output)
     output = converter.enhance(0)
 
-    for target in (0.60, 0.90):
+    for target in (0.55,):
         x, y, angle, r = analyzer.analyze(hue, saturation, value, target)
-        render(output, target, x, y, angle, r)
+        if r != 0:
+            render(output, target, x, y, angle, r)
 
     output.save('output.png')
 
