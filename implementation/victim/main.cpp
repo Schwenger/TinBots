@@ -2,7 +2,7 @@
 
 #include "neatavr.hpp"
 
-#include <avr/delay.h>
+#include <util/delay.h>
 
 using namespace NeatAVR;
 
@@ -23,8 +23,6 @@ int main() {
     IREmitter::output();
 
     Timer::init(Timer::Prescaler::DIV_8);
-
-    Timer::Interrupt::enable();
     Timer::WaveGeneration::set(Timer::WaveGeneration::CTC);
 
     Timer::ChannelA::Interrupt::enable();
