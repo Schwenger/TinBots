@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NEATAVR_TIMER_HPP
-#define NEATAVR_TIMER_HPP
+#ifndef NEATAVR_TWI_HPP
+#define NEATAVR_TWI_HPP
 
 #include <avr/interrupt.h>
 
@@ -109,8 +109,6 @@ namespace NeatAVR {
         static inline void acknowledge() ALWAYS_INLINE {
             Control::Acknowledge::set();
         }
-
-
     };
 }
 
