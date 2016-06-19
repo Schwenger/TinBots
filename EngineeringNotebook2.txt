@@ -224,3 +224,24 @@ scribe: Ben Wiederhake 17.06.2016 12-14 session
 
 MS: potential lib for A*: https://github.com/justinhj/astar-algorithm-cpp/
 https://github.com/BigZaphod/AStar
+
+
+==============================
+
+scribe: Maximilian Köhl 19.06.2016 17:36 (recording progress)
+
+- setup raspberry PI
+- speed up color blob recognition by using NumPy
+  * detection works most of the time
+  * TODO: improve detection (compare with the original version?)
+- with Marlene yesterday (18.06.2016)
+  * built camera stand (+30€)
+  * bought missing parts (+10€)
+  * mount Raspberry PI on the stand
+- wrote IR transmitter and detection software
+- got I2C to work properly
+  * problem with I2C and IR detection - for some reason the interrupt does not
+    fire for a short period after stop signal on I2C occurred
+- successfully test multiple bluetooth clients with raspberry as master
+- E-Puck library is a pain in the a**, for example french comments claiming that
+  some functions probably might not work (they actually do not, for whatever reason)
