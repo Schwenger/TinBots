@@ -245,3 +245,15 @@ scribe: Maximilian Köhl 19.06.2016 17:36 (recording progress)
 - successfully test multiple bluetooth clients with raspberry as master
 - E-Puck library is a pain in the a**, for example french comments claiming that
   some functions probably might not work (they actually do not, for whatever reason)
+
+supplemental:
+- I had a look at the receiver code of UART2 (bluetooth) — there is a 64 bytes buffer —
+  if there is more information than the buffer can handle the last byte will be
+  overwritten over and over again - we have to keep that in mind for protocol design
+
+  possible alternatives (if we run intro any problems):
+
+  * increase buffer size
+  * implement our own interrupt for data reception and immediately handle, e.g.,
+    map updates and all other important stuff
+  * use C coroutines for long computations (e.g. A*) and some sort of scheduling
