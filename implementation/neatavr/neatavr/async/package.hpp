@@ -34,6 +34,7 @@
 
 #include "../core.hpp"
 #include "../fifo.hpp"
+#include "../serial.hpp"
 
 #include "loop.hpp"
 #include "task.hpp"
@@ -81,7 +82,7 @@ namespace NeatAVR {
             if (state_tx == IDLE) {
                 Serial::TX::Interrupt::enable();
                 current_tx = fifo_tx.get();
-                state_tx = LENGTH;
+                state_tx = (volatile EngineState) LENGTH;
                 Serial::put(current_tx.command);
             }
         }

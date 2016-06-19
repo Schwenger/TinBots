@@ -19,8 +19,33 @@
 #define NEATAVR_ATTINY2313_HPP
 
 #include "../port.hpp"
+#include "../timer.hpp"
+
+#define TIMER_OVERLOW_INTERRUPT TIMER0_OVF_vect
+#define TIMER_COMPARE_A_INTRRUPT TIMER0_COMPA_vect
+#define TIMER_COMPARE_B_INTRRUPT TIMER0_COMPB_vect
 
 namespace NeatAVR {
+    typedef PrescalerWithExternal<Slice<Registers::Tccr0::B, 0, 3>> Timer0Prescaler;
+    typedef WaveGeneration8<Concat<Slice<Registers::Tccr0::B, 3, 1>, Slice<Registers::Tccr0::A, 0, 2>>> Timer0WaveGeneration;
+
+    typedef Slice<Registers::Tccr0::A, 6, 2> Timer0ChannelAMode;
+    typedef Slice<Registers::Tccr0::A, 4, 2> Timer0ChannelBMode;
+
+    typedef Channel<Timer0ChannelAMode, Registers::OutputCompare0A, Registers::Timsk::Bit0, Registers::Tccr0::B::Bit7> Timer0ChannelA;
+    typedef Channel<Timer0ChannelBMode, Registers::OutputCompare0B, Registers::Timsk::Bit2, Registers::Tccr0::B::Bit6> Timer0ChannelB;
+
+    typedef TwoChannels<
+            CounterMixin<
+                    TimerWaveGeneration<
+                            TimerBase<Timer0Prescaler, Registers::Timsk::Bit1>,
+                            Timer0WaveGeneration>,
+                    Registers::Tcnt0>,
+            Timer0ChannelA, Timer0ChannelB> Timer0;
+
+    typedef Timer0 Timer;
+
+
     typedef PortA::Pin2 Pin1;
     typedef PortD::Pin0 Pin2;
     typedef PortD::Pin1 Pin3;

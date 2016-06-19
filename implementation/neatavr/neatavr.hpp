@@ -34,6 +34,7 @@
 #include "neatavr/chips/atmega328p.hpp"
 #endif
 
-#include "neatavr/serial.hpp"
+//#include "neatavr/serial.hpp"
+#include "neatavr/twi.hpp"
 
 #endif

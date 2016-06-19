@@ -31,6 +31,8 @@
 #define SYNCHRONIZED_FORCEON ATOMIC_FORCEON
 #define SYNCHRONIZED_RESTORE ATOMIC_RESTORESTATE
 
+#define INTERRUPT_ROUTINE(VECTOR, ...) ISR(VECTOR, __VA_ARGS__)
+
 namespace NeatAVR {
     typedef uint8_t uint8;
     typedef uint16_t uint16;

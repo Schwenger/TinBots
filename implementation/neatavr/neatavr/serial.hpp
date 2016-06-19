@@ -33,6 +33,8 @@
 #define URSEL_OR 0
 #endif
 
+#undef U2X
+
 #define _MAKE_SERIAL(NUMBER)                                                                                \
     typedef Register8<_SFR_ADDR(UDR##NUMBER)> _SerialData##NUMBER;                                          \
     class _SerialControlStatus##NUMBER {                                                                    \
@@ -235,7 +237,7 @@ namespace NeatAVR {
             buffer[i] = '\0';
         }
         static void readline(char *buffer, uint16 max_length=65535) {
-            read(buffer, '\n', max_length);
+            read_until(buffer, '\n', max_length);
         }
     };
 
