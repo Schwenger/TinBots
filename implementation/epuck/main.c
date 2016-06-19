@@ -16,6 +16,8 @@
 #include <motor_led/advance_one_timer/e_motors.h>
 #include <motor_led/advance_one_timer/e_agenda.h>
 
+#include <motor_led/advance_one_timer/e_led.h>
+
 #include "a_d/advance_ad_scan/e_ad_conv.h"
 #include "a_d/advance_ad_scan/e_prox.h"
 
@@ -26,9 +28,8 @@
 #include "src/tinbot.h"
 
 #define EXT_I2C_ADDR 0x42
-#define EXT_I2C_REG 0x00
 
-char buffer[64];
+unsigned int on = 0;
 
 int main() {
     e_init_port();
@@ -53,7 +54,37 @@ int main() {
     int ir[6];
 
     while (1) {
-        for (number = 0; number < 8; number++) {
+        /*e_i2c_start();
+        //i2c_write(EXT_I2C_ADDR, "Hello World!");
+        e_i2c_write(EXT_I2C_ADDR);
+        e_i2c_write('H');
+        e_i2c_write('e');
+        e_i2c_write('l');
+        e_i2c_write('l');
+        e_i2c_write('o');
+        e_i2c_stop();
+        e_i2c_reset();
+        wait(80000);
+         */
+        e_i2c_start();
+        e_i2c_write(EXT_I2C_ADDR);
+        e_i2c_restart();
+        e_i2c_write(EXT_I2C_ADDR | 1);
+        char data;
+        e_i2c_read(&data);
+        e_i2c_ack();
+        e_i2c_read(&data);
+        e_i2c_nack();
+        e_i2c_stop();
+        e_i2c_reset();
+        wait(80000);
+        e_set_led(1, on);
+        //e_i2cp_read(EXT_I2C_REG, 0x16);
+
+        on ^= 1;
+        /*e_i2cp_write(EXT_I2C_ADDR | 1, 0x05, 0x50);
+        wait(80000);*/
+        /*for (number = 0; number < 8; number++) {
             proximity[number] = e_get_calibrated_prox(number);
 
         }
@@ -69,11 +100,11 @@ int main() {
         reg = e_i2cp_read(EXT_I2C_ADDR, EXT_I2C_REG);
         for (number = 0; number < 6; number++) {
             ir[number] = (reg >> number) & 1;
-        }
+        }*/
         /*
         e_i2cp_write_string(EXT_I2C_ADDR, "Hallo", 0, 5);
          */
-        e_i2c_start();
+        /*e_i2c_start();
         e_i2c_write(EXT_I2C_ADDR);
         e_i2c_write('H');
         e_i2c_write('e');
@@ -85,5 +116,6 @@ int main() {
         update_ir(&tinbot, ir);
 
         loop(&tinbot);
+         */
     }
 }
