@@ -29,9 +29,66 @@
 
 #define EXT_I2C_ADDR 0x42
 
+void enable_timer() {
+    // stop timer
+    T3CONbits.TON = 0;
+    // reset timer control register
+    T3CON = 0;
+    // prescaler divide by 1
+    T3CONbits.TCKPS = 0;
+    // clear timer value
+    TMR3 = 0;
+    // interrupt every 100us
+    PR3 = (unsigned int)(0.1 * MILLISEC);
+    // clear interrupt flag
+    IFS0bits.T3IF = 0;
+    // enable timer interrupt
+    IEC0bits.T3IE = 1;
+    // start timer
+    T3CONbits.TON = 1;
+}
+
+volatile unsigned long time = 0;
+volatile unsigned int counter = 0;
+
+volatile unsigned int state;
+
+void __attribute__((__interrupt__, auto_psv)) _T3Interrupt(void)  {
+    // interrupt is executed every 100us
+    //counter++;
+    //if (counter > 10) {
+    //    counter = 0;
+        state ^= 1;
+        e_set_led(1, state);
+    //    time++;
+    //}
+}
+
+void reset_time() {
+    INTERRUPT_OFF();
+    time = 0;
+    counter = 0;
+    INTERRUPT_ON();
+}
+
+long get_time() {
+    INTERRUPT_OFF();
+    long value = time;
+    INTERRUPT_ON();
+    return value;
+}
+
+
+
+
+
+volatile unsigned int state = 0;
 unsigned int on = 0;
 
+
 int main() {
+    enable_timer();
+
     e_init_port();
     e_start_agendas_processing();
     e_init_motors();
@@ -119,3 +176,4 @@ int main() {
          */
     }
 }
+
