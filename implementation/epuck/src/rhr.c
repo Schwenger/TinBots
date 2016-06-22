@@ -103,7 +103,15 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         }
         break;
     case RHR_wall_wait:
-        /* FIXME */
+        {
+            const double wait_sec = rhr->wall_rot / RHR_ROT_PER_SEC;
+            const e_time_t wait_ticks = wait_sec * E_TICKS_PER_SEC;
+            const e_time_t end_time = rhr->time_entered + wait_ticks;
+            assert(end_time >= rhr->time_entered);
+            if (get_e_time() >= end_time) {
+                rhr->state = RHR_wall_orient;
+            }
+        }
         break;
     case RHR_wall_orient:
         /* FIXME */
@@ -135,7 +143,6 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
     }
 
     if (rhr->state != old_state) {
-        /* rhr->time_entered = get_time(); */
-        rhr->time_entered = 42; /* FIXME */
+        rhr->time_entered = get_e_time();
     }
 }
