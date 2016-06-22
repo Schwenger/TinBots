@@ -8,7 +8,7 @@
 #include "tinbot.h"
 
 void setup(TinBot* tinbot) {
-    print("Tin Bot Setup");
+    hal_print("Tin Bot Setup");
     rhr_reset(&tinbot->rhr);
 }
 
@@ -24,9 +24,9 @@ void update_proximity(TinBot* tinbot, double proximity[8]) {
     unsigned int number;
     for (number = 0; number < 8; number++) {
         if (proximity[number] > 50) {
-            set_led(number, 1);
+            hal_set_led(number, 1);
         } else {
-            set_led(number, 0);
+            hal_set_led(number, 0);
         }
         tinbot->sens.proximity[number] = prox_to_cm(proximity[number]);
     }

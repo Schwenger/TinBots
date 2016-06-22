@@ -33,15 +33,15 @@ static const double RHR_MOTOR_ROT = 1;
 static const double SECS_PER_DEGREE = (M_PI / 180) / ROT_PER_SEC;
 
 static void rhr_rot_left(void) {
-    set_speed(-RHR_MOTOR_ROT, RHR_MOTOR_ROT);
+    hal_set_speed(-RHR_MOTOR_ROT, RHR_MOTOR_ROT);
 }
 
 static void rhr_rot_right(void) {
-    set_speed(RHR_MOTOR_ROT, -RHR_MOTOR_ROT);
+    hal_set_speed(RHR_MOTOR_ROT, -RHR_MOTOR_ROT);
 }
 
 static void rhr_move(void) {
-    set_speed(RHR_MOTOR_MV, RHR_MOTOR_MV);
+    hal_set_speed(RHR_MOTOR_MV, RHR_MOTOR_MV);
 }
 
 static int time_passed_p(const e_time_t entered, const double wait_secs) {
@@ -188,9 +188,9 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
     default:
         /* Uhh */
         assert(0);
-        print("RHR illegal state?!  Resetting ...");
+        hal_print("RHR illegal state?!  Resetting ...");
         rhr->state = RHR_check_wall;
-        set_speed(0, 0);
+        hal_set_speed(0, 0);
         break;
     }
 

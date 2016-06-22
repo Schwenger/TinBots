@@ -11,17 +11,17 @@
 
 static MatlabBot* current;
 
-void set_speed(double left, double right) {
+void hal_set_speed(double left, double right) {
     current->motor_left = left;
     current->motor_right = right;
 }
 
-void set_led(unsigned int led, unsigned int value) {
-    
+void hal_set_led(unsigned int led, unsigned int value) {
+    /* FIXME */
 }
 
-void print(const char* message) {
-
+void hal_print(const char* message) {
+    /* FIXME */
 }
 
 
