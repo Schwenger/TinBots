@@ -12,47 +12,15 @@
 
 #include <util/twi.h>
 
+#include "detector.hpp"
+
 #define I2C_ADDRESS 0x42
 
 using namespace NeatAVR;
 
 typedef Pin14 LED;
 
-template<typename Pin> class IRDetector {
-private:
-    volatile uint16 counter;
 
-    volatile uint8 state;
-    volatile uint8 pulses;
-public:
-    volatile uint8 active;
-
-    void init() {
-        Pin::input();
-    }
-
-    void detect() {
-        uint8 next_state = Pin::read();
-        if (state == next_state) {
-            counter++;
-            if (counter > 4000) {
-                counter = 0;
-                active = 0;
-            }
-        } else {
-            if (counter > 15 || counter < 4) {
-                pulses = 0;
-            } else {
-                pulses++;
-            }
-            if (pulses > 6) {
-                active = 1;
-            }
-            counter = 0;
-        }
-        state = next_state;
-    }
-};
 
 IRDetector<Pin12> ir0;
 IRDetector<Pin11> ir1;
@@ -107,6 +75,8 @@ INTERRUPT_ROUTINE(TIMER_COMPARE_A_INTRRUPT) {
     ir4.detect();
     ir5.detect();
 }
+
+
 
 
 
