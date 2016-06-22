@@ -8,8 +8,6 @@
 #include "hal.h"
 #include "rhr.h"
 
-#define NUM_PROXIMITY (8)
-
 
 enum RHR_STATES {
     RHR_check_wall, /* I was tempted to call this "czech wall" */
@@ -48,7 +46,8 @@ static void find_wall(RhrLocals* rhr, Sensors* sens) {
          +90*M_PI/180,
         +150*M_PI/180};
     static const unsigned int order[NUM_PROXIMITY] =
-        {4 - 1, 3 - 1, 5 - 1, 2 - 1, 6 - 1, 1 - 1, 7 - 1, 8 - 1};
+        {PROXIMITY_M_20, PROXIMITY_M_45, PROXIMITY_P_20, PROXIMITY_M_90,
+         PROXIMITY_P_45, PROXIMITY_M_150, PROXIMITY_P_90, PROXIMITY_P_150};
     /* rot_angles = sense_angles - (-20); */
     unsigned i;
 
