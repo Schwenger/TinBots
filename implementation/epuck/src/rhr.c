@@ -25,8 +25,10 @@ enum RHR_STATES {
 static const double RHR_SENSE_TOL = 10;
 static const double RHR_MOTOR_MV = 2;
 static const double RHR_MOTOR_ROT = 1;
-static const double MV_PER_SEC = 2; /* FIXME ??? */
-static const double ROT_PER_SEC = MV_PER_SEC * 2 / 5.3;
+/* Must be a macro, as xc16 is too dumb. */
+#define MV_PER_SEC (2.0 /* FIXME ??? */)
+/* Must be a macro, as xc16 is too dumb. */
+#define ROT_PER_SEC (MV_PER_SEC * 2 / 5.3)
 
 static const double SECS_PER_DEGREE = (M_PI / 180) / ROT_PER_SEC;
 

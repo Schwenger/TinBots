@@ -24,7 +24,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-Wl,--heap=128,--stack=512,--report-mem,-Map=${CMAKE
 
 set(LIB_PATH "../../libraries/e-puck/library")
 
-include_directories(hal src)
+include_directories(. hal src)
 
 include_directories(
         ${LIB_PATH}
@@ -34,8 +34,10 @@ include_directories(
 
 set(SOURCE_FILES
         main.c
+        e_time.c
 
         src/tinbot.c
+        src/rhr.c
 
         hal/hal_epuck.c
 
