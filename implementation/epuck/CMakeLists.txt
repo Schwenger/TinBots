@@ -22,10 +22,16 @@ set(CMAKE_C_FLAGS "-mcpu=${DEVICE} -mlarge-code -mlarge-data -O0 -fmessage-lengt
 set(CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS})
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,--heap=128,--stack=512,--report-mem,-Map=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_PROJECT_NAME}.map,--script=/opt/microchip/xc16/v1.26/support/dsPIC30F/gld/p30F6014A.gld")
 
-include_directories(hal lib src)
+include_directories(. hal lib src)
 
 set(SOURCE_FILES
-        main.c)
+        main.c
+        e_time.c
+
+        src/tinbot.c
+        src/rhr.c
+
+        hal/hal_epuck.c)
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 
