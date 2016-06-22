@@ -94,7 +94,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         {
             unsigned int i;
             for (i = 2; i < 6; ++i) {
-                if (sens->proximity <= RHR_SENSE_TOL) {
+                if (sens->proximity[i] <= RHR_SENSE_TOL) {
                     rhr->state = RHR_check_wall;
                     /* Keep going (don't change motors) */
                     break;
@@ -104,8 +104,8 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         break;
     case RHR_wall_wait:
         {
-            const double wait_sec = rhr->wall_rot / RHR_ROT_PER_SEC;
-            const e_time_t wait_ticks = wait_sec * E_TICKS_PER_SEC;
+            const double wait_sec = rhr->wall_rot / ROT_PER_SEC;
+            const e_time_t wait_ticks = (e_time_t)(wait_sec * E_TICKS_PER_SEC);
             const e_time_t end_time = rhr->time_entered + wait_ticks;
             assert(end_time >= rhr->time_entered);
             if (get_e_time() >= end_time) {
