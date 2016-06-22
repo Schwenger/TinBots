@@ -28,6 +28,18 @@ static const double RHR_MOTOR_ROT = 1;
 static const double MV_PER_SEC = 2; /* FIXME ??? */
 static const double ROT_PER_SEC = MV_PER_SEC * 2 / 5.3;
 
+static void rhr_rot_left(void) {
+    set_speed(-RHR_MOTOR_ROT, RHR_MOTOR_ROT);
+}
+
+static void rhr_rot_right(void) {
+    set_speed(RHR_MOTOR_ROT, -RHR_MOTOR_ROT);
+}
+
+static void rhr_move(void) {
+    set_speed(RHR_MOTOR_MV, RHR_MOTOR_MV);
+}
+
 void rhr_reset(RhrLocals* rhr) {
     rhr->state = RHR_check_wall;
     /* No further initialization needed because RHR_check_wall doesn't
@@ -74,30 +86,26 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         find_wall(rhr, sens);
         if (!rhr->wall_p) {
             rhr->state = RHR_find_wall;
-            /* Move forward */
-            set_speed(RHR_MOTOR_MV, RHR_MOTOR_MV);
+            rhr_move();
         } else {
             if (rhr->wall_rot < 0) {
-                /* Rotate right */
-                set_speed(RHR_MOTOR_ROT, -RHR_MOTOR_ROT);
+                rhr_rot_right();
                 rhr->wall_rot = -rhr->wall_rot;
             } else {
-                /* Rotate left */
-                set_speed(-RHR_MOTOR_ROT, RHR_MOTOR_ROT);
+                rhr_rot_left();
             }
             rhr->state = RHR_wall_wait;
         }
         break;
     case RHR_find_wall:
-        /* -45, -20, +20, +45 degree are the sensors 2, 3, 4, 5 */
-        {
-            unsigned int i;
-            for (i = 2; i < 6; ++i) {
-                if (sens->proximity[i] <= RHR_SENSE_TOL) {
-                    rhr->state = RHR_check_wall;
-                    /* Keep going (don't change motors) */
-                    break;
-                }
+        if (sens->proximity[PROXIMITY_M_20] <= RHR_SENSE_TOL
+            || sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL
+            || sens->proximity[PROXIMITY_P_20] <= RHR_SENSE_TOL
+            || sens->proximity[PROXIMITY_P_45] <= RHR_SENSE_TOL) {
+            if (sens->proximity[i] <= RHR_SENSE_TOL) {
+                rhr->state = RHR_check_wall;
+                /* Keep going (don't change motors) */
+                break;
             }
         }
         break;
@@ -109,11 +117,15 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             assert(end_time >= rhr->time_entered);
             if (get_e_time() >= end_time) {
                 rhr->state = RHR_wall_orient;
+                rhr_rot_right();
             }
         }
         break;
     case RHR_wall_orient:
-        /* FIXME */
+        if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL) {
+            rhr->state = RHR_avoid_coll;
+            rhr_rot_left();
+        }
         break;
     case RHR_avoid_coll:
         /* FIXME */
@@ -138,6 +150,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         assert(0);
         print("RHR illegal state?!  Resetting ...");
         rhr->state = RHR_check_wall;
+        set_speed(0, 0);
         break;
     }
 
