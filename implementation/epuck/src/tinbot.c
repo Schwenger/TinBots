@@ -3,17 +3,21 @@
  */
 
 #include "hal.h"
+#include "rhr.h"
 
 #include "tinbot.h"
 
 void setup(TinBot* tinbot) {
     print("Tin Bot Setup");
-    /*set_speed_left(500);
-    set_speed_right(500);*/
+    rhr_reset(&tinbot->rhr);
 }
 
 void loop(TinBot* tinbot) {
+    rhr_step(&tinbot->rhr, &tinbot->sens);
+}
 
+static double prox_to_cm(double measured) {
+    return measured; /* FIXME */
 }
 
 void update_proximity(TinBot* tinbot, double proximity[8]) {
@@ -24,15 +28,17 @@ void update_proximity(TinBot* tinbot, double proximity[8]) {
         } else {
             set_led(number, 0);
         }
-
+        tinbot->sens.proximity[number] = prox_to_cm(proximity[number]);
     }
 }
 
 void update_ir(TinBot* tinbot, int ir[6]) {
-
+    unsigned int i;
+    for (i = 0; i < 6; ++i) {
+        tinbot->sens.ir[i] = ir[i];
+    }
 }
 
 void update_lps(TinBot* tinbot, double x, double y, double direction) {
-
+    /* FIXME */
 }
-
