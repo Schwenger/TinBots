@@ -4,8 +4,7 @@
 
 #include <string.h> /* strlen */
 
-#include "lib/motors.h"
-#include "lib/leds.h"
+#include "tinpuck.h"
 
 #include "hal.h"
 
@@ -19,11 +18,11 @@ void hal_set_speed(double left, double right) {
 }
 
 void hal_set_led(unsigned int led, unsigned int value) {
-    e_set_led(led, value);
+    tin_set_led(led, value);
 }
 
 void hal_set_front_led(unsigned int value) {
-    e_set_front_led(value);
+    tin_set_led(LED_FRONT, value);
 }
 
 void hal_send_msg(unsigned int address, char* message, unsigned int length) {

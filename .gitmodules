@@ -4,3 +4,6 @@
 [submodule "heavy"]
 	path = heavy
 	url = git@github.com:BenWiederhake/es_heavy.git
+[submodule "libraries/tinpuck"]
+	path = libraries/tinpuck
+	url = git@github.com:koehlma/tinpuck.git

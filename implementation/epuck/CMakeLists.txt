@@ -22,27 +22,29 @@ set(CMAKE_C_FLAGS "-mcpu=${DEVICE} -mlarge-code -mlarge-data -O0 -fmessage-lengt
 set(CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS})
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,--heap=128,--stack=512,--report-mem,-Map=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_PROJECT_NAME}.map,--script=/opt/microchip/xc16/v1.26/support/dsPIC30F/gld/p30F6014A.gld")
 
-include_directories(. hal lib src)
+set(LIB_PATH "../../libraries/tinpuck")
+
+include_directories(. hal lib src ${LIB_PATH}/include)
 
 set(SOURCE_FILES
         main.c
         e_time.c
 
+        ${LIB_PATH}/src/adc.c
+        ${LIB_PATH}/src/com.c
+        ${LIB_PATH}/src/core.c
+        ${LIB_PATH}/src/leds.c
+        ${LIB_PATH}/src/motors.c
+        ${LIB_PATH}/src/rs232.c
+        ${LIB_PATH}/src/scheduler.c
+        ${LIB_PATH}/src/selector.c
+        ${LIB_PATH}/src/time.c
+        ${LIB_PATH}/src/utils.c
+
         src/tinbot.c
         src/rhr.c
 
-        hal/hal_epuck.c
-
-        lib/adc.c
-        lib/com.c
-        lib/config.c
-        lib/leds.c
-        lib/motors.c
-        lib/scheduler.c
-        lib/selector.c
-        lib/time.c
-        lib/utils.c
-        lib/rs232.c)
+        hal/hal_epuck.c)
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 
