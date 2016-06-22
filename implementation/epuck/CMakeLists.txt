@@ -34,12 +34,15 @@ set(SOURCE_FILES
         hal/hal_epuck.c
 
         lib/adc.c
+        lib/com.c
         lib/config.c
         lib/leds.c
         lib/motors.c
         lib/scheduler.c
         lib/selector.c
-        lib/utils.c)
+        lib/time.c
+        lib/utils.c
+        lib/rs232.c)
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 

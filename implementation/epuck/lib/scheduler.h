@@ -11,6 +11,7 @@ typedef struct ETask {
 
 void e_init_scheduler(void);
 
+void e_task_register(ETask* task, void (*callback)(void), unsigned int period);
 ETask* e_task_create(void (*callback)(void), unsigned int period);
 void e_task_activate(ETask* task);
 void e_task_deactivate(ETask* task);

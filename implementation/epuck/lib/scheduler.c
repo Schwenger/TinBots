@@ -25,6 +25,15 @@ void e_init_scheduler(void) {
     T2CONbits.TON = 1;
 }
 
+void e_task_register(ETask* task, void (*callback)(void), unsigned int period) {
+    task->active = 0;
+    task->counter = 0;
+    task->period = period;
+    task->callback = callback;
+    task->next = e_task_list_head;
+    e_task_list_head = task;
+}
+
 ETask* e_task_create(void (*callback)(void), unsigned int period) {
     ETask* task = (ETask*)(malloc(sizeof(ETask)));
     task->active = 0;
@@ -35,6 +44,8 @@ ETask* e_task_create(void (*callback)(void), unsigned int period) {
     e_task_list_head = task;
     return task;
 }
+
+
 
 void e_task_activate(ETask* task) {
     task->counter = 0;
