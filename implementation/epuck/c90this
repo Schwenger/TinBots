@@ -1,0 +1,16 @@
+#!/bin/bash
+# Not sure if there's any bashisms
+
+set -e
+
+INCLUDE_DIRS="-I .. -I ."
+for d in src ../src hal ../hal
+do
+    if [ -d $d ]
+    then
+        INCLUDE_DIRS="${INCLUDE_DIRS} -I $d"
+    fi
+done
+echo "Guessed include dirs: ${INCLUDE_DIRS}"
+set -v
+clang -std=c90 -ansi -Weverything -pedantic -g -c -o "$1.o" "$1.c" ${INCLUDE_DIRS}

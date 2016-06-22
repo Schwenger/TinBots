@@ -25,7 +25,7 @@ void print(const char* message) {
 }
 
 
-long matlab_create_bot() {
+long matlab_create_bot(void) {
     MatlabBot* matlab_bot = malloc(sizeof(MatlabBot));
     matlab_bot->tinbot = malloc(sizeof(TinBot));
     setup(matlab_bot->tinbot);
@@ -45,11 +45,11 @@ void matlab_loop(long matlab_bot) {
     loop(current->tinbot);
 }
 
-double matlab_get_motor_left() {
+double matlab_get_motor_left(void) {
     return current->motor_left;
 }
 
-double matlab_get_motor_right() {
+double matlab_get_motor_right(void) {
     return current->motor_right;
 }
 
