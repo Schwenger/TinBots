@@ -28,6 +28,8 @@ static const double RHR_MOTOR_ROT = 1;
 static const double MV_PER_SEC = 2; /* FIXME ??? */
 static const double ROT_PER_SEC = MV_PER_SEC * 2 / 5.3;
 
+static const double SECS_PER_DEGREE = (M_PI / 180) / ROT_PER_SEC;
+
 static void rhr_rot_left(void) {
     set_speed(-RHR_MOTOR_ROT, RHR_MOTOR_ROT);
 }
@@ -38,6 +40,15 @@ static void rhr_rot_right(void) {
 
 static void rhr_move(void) {
     set_speed(RHR_MOTOR_MV, RHR_MOTOR_MV);
+}
+
+static int time_passed_p(const e_time_t entered, const double wait_secs) {
+    const e_time_t now = get_e_time();
+    const e_time_t wait_ticks = (e_time_t)(wait_secs * E_TICKS_PER_SEC);
+    /* If this assert fails, you only need to fix this part.
+     * Note that it won't fail for roughly 1193 hours (see e_time.h) */
+    assert(now >= entered);
+    return entered - now >= wait_ticks;
 }
 
 void rhr_reset(RhrLocals* rhr) {
@@ -102,23 +113,15 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             || sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL
             || sens->proximity[PROXIMITY_P_20] <= RHR_SENSE_TOL
             || sens->proximity[PROXIMITY_P_45] <= RHR_SENSE_TOL) {
-            if (sens->proximity[i] <= RHR_SENSE_TOL) {
-                rhr->state = RHR_check_wall;
-                /* Keep going (don't change motors) */
-                break;
-            }
+            rhr->state = RHR_check_wall;
+            /* Keep going (don't change motors) */
+            break;
         }
         break;
     case RHR_wall_wait:
-        {
-            const double wait_sec = rhr->wall_rot / ROT_PER_SEC;
-            const e_time_t wait_ticks = (e_time_t)(wait_sec * E_TICKS_PER_SEC);
-            const e_time_t end_time = rhr->time_entered + wait_ticks;
-            assert(end_time >= rhr->time_entered);
-            if (get_e_time() >= end_time) {
-                rhr->state = RHR_wall_orient;
-                rhr_rot_right();
-            }
+        if (time_passed_p(rhr->time_entered, rhr->wall_rot / ROT_PER_SEC)) {
+            rhr->state = RHR_wall_orient;
+            rhr_rot_right();
         }
         break;
     case RHR_wall_orient:
@@ -128,22 +131,57 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         }
         break;
     case RHR_avoid_coll:
-        /* FIXME */
+        if (sens->proximity[PROXIMITY_M_90] <= RHR_SENSE_TOL) {
+            rhr->state = RHR_claustrophobia;
+            rhr_rot_left();
+        } else if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL
+                   && time_passed_p(rhr->time_entered, 5 * SECS_PER_DEGREE)) {
+            rhr->state = RHR_wall_orient;
+            rhr_move();
+        }
         break;
     case RHR_claustrophobia:
-        /* FIXME */
+        if (sens->proximity[PROXIMITY_M_20] > RHR_SENSE_TOL
+            && time_passed_p(rhr->time_entered, 5 * SECS_PER_DEGREE)) {
+            rhr->state = RHR_follow;
+            rhr_move();
+        }
         break;
     case RHR_follow:
-        /* FIXME */
+        if (sens->proximity[PROXIMITY_M_20] <= RHR_SENSE_TOL) {
+            rhr->state = RHR_claustrophobia;
+            rhr_rot_left();
+        } else if (sens->proximity[PROXIMITY_M_45] > RHR_SENSE_TOL) {
+            rhr->state = RHR_go_on;
+        }
         break;
     case RHR_go_on:
-        /* FIXME */
+        if (sens->proximity[PROXIMITY_M_20] <= RHR_SENSE_TOL) {
+            rhr->state = RHR_claustrophobia;
+            rhr_rot_left();
+        } else if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL) {
+            rhr->state = RHR_follow;
+            rhr_move();
+        } else if (time_passed_p(rhr->time_entered, 10 / MV_PER_SEC)) {
+            rhr->state = RHR_stay_close;
+            rhr_rot_right();
+        }
         break;
     case RHR_stay_close:
-        /* FIXME */
+        if (time_passed_p(rhr->time_entered, 70 * SECS_PER_DEGREE)) {
+            rhr->state = RHR_run_close;
+            rhr_move();
+        }
         break;
     case RHR_run_close:
-        /* FIXME */
+        if (sens->proximity[PROXIMITY_M_20] <= RHR_SENSE_TOL) {
+            rhr->state = RHR_wall_orient;
+            rhr_move();
+        } else if (sens->proximity[PROXIMITY_M_45] > RHR_SENSE_TOL
+                   && time_passed_p(rhr->time_entered, 10 / MV_PER_SEC)) {
+            rhr->state = RHR_stay_close;
+            rhr_rot_right();
+        }
         break;
     default:
         /* Uhh */
