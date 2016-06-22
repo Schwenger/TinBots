@@ -35,17 +35,17 @@ public:
         uint8 next_state = Pin::read();
         if (state == next_state) {
             counter++;
-            if (counter > 3500) {
+            if (counter > 4000) {
                 counter = 0;
                 active = 0;
             }
         } else {
-            if (counter > 6 || counter < 2) {
+            if (counter > 15 || counter < 4) {
                 pulses = 0;
             } else {
                 pulses++;
             }
-            if (pulses > 10) {
+            if (pulses > 6) {
                 active = 1;
             }
             counter = 0;
@@ -54,12 +54,12 @@ public:
     }
 };
 
-IRDetector<Pin15> ir0;
-IRDetector<Pin13> ir1;
-IRDetector<Pin12> ir2;
-IRDetector<Pin11> ir3;
-IRDetector<Pin10> ir4;
-IRDetector<Pin9>  ir5;
+IRDetector<Pin12> ir0;
+IRDetector<Pin11> ir1;
+IRDetector<Pin10> ir2;
+IRDetector<Pin9>  ir3;
+IRDetector<Pin16> ir4;
+IRDetector<Pin15> ir5;
 
 
 int main() {
@@ -71,7 +71,10 @@ int main() {
     LED::output();
 
     Timer::init(Timer::Prescaler::DIV_8);
-    Timer::Interrupt::enable();
+    Timer::WaveGeneration::set(Timer::WaveGeneration::CTC);
+
+    Timer::ChannelA::Interrupt::enable();
+    Timer::ChannelA::Compare::set(50);
 
     ir0.init();
     ir1.init();
@@ -95,8 +98,8 @@ int main() {
     }
 }
 
-INTERRUPT_ROUTINE(TIMER_OVERLOW_INTERRUPT) {
-    // executed every 255us
+INTERRUPT_ROUTINE(TIMER_COMPARE_A_INTRRUPT) {
+    // executed every 50us
     ir0.detect();
     ir1.detect();
     ir2.detect();

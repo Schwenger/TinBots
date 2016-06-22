@@ -5,9 +5,9 @@
 #include <util/delay.h>
 
 /**
- * Emits IR Signal using 2% or the IR-Band
+ * Emits IR Signal using 3% or the IR-Band
  * - 33kHz carrier wave
- * - 2.4ms signal every 150ms
+ * - 4.3ms signal every 150ms
  */
 
 using namespace NeatAVR;
@@ -17,12 +17,13 @@ typedef Pin9 IREmitter;
 volatile uint8 carrier = 1;
 
 void squawk() {
-    // total signal length 2.4ms (delay is not precise)
+    // total signal length 4.3ms (delay is not precise)
+    // smaller pulse width will not work
     for (uint8 counter = 0; counter < 4; counter++) {
         carrier = 1;
-        _delay_us(230);
+        _delay_us(400);
         carrier = 0;
-        _delay_us(230);
+        _delay_us(400);
     }
 }
 
