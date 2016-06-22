@@ -14,16 +14,16 @@
 */
 
 void hal_set_speed(double left, double right) {
-    set_speed_left(left);
-    set_speed_left(right);
+    //e_set_speed_left(left);
+    //e_set_speed_left(right);
 }
 
 void hal_set_led(unsigned int led, unsigned int value) {
-    set_led(led, value);
+    e_set_led(led, value);
 }
 
 void hal_set_front_led(unsigned int value) {
-    set_front_led(value);
+    e_set_front_led(value);
 }
 
 void hal_send_msg(unsigned int address, char* message, unsigned int length) {
