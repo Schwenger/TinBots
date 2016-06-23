@@ -28,7 +28,6 @@ include_directories(. hal lib src ${LIB_PATH}/include)
 
 set(SOURCE_FILES
         main.c
-        e_time.c
 
         ${LIB_PATH}/src/adc.c
         ${LIB_PATH}/src/com.c

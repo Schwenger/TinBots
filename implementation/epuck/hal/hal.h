@@ -11,6 +11,10 @@
  * TODO: constants for LEDs and ON, OFF
  */
 
+typedef unsigned long hal_time;
+
+hal_time hal_get_time();
+
 void hal_set_speed(double left, double right);
 
 void hal_set_led(unsigned int led, unsigned int value);

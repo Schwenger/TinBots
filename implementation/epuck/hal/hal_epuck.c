@@ -25,6 +25,10 @@ void hal_set_front_led(unsigned int value) {
     tin_set_led(LED_FRONT, value);
 }
 
+hal_time hal_get_time() {
+    return tin_get_time();
+}
+
 void hal_send_msg(unsigned int address, char* message, unsigned int length) {
     /* FIXME */
 }

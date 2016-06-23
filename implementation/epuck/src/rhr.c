@@ -8,6 +8,8 @@
 #include "hal.h"
 #include "rhr.h"
 
+// FIXME: ?
+const hal_time E_TICKS_PER_SEC = 1000;
 
 enum RHR_STATES {
     RHR_check_wall, /* I was tempted to call this "czech wall" */
@@ -44,9 +46,9 @@ static void rhr_move(void) {
     hal_set_speed(RHR_MOTOR_MV, RHR_MOTOR_MV);
 }
 
-static int time_passed_p(const e_time_t entered, const double wait_secs) {
-    const e_time_t now = get_e_time();
-    const e_time_t wait_ticks = (e_time_t)(wait_secs * E_TICKS_PER_SEC);
+static int time_passed_p(const hal_time entered, const double wait_secs) {
+    const hal_time now = hal_get_time();
+    const hal_time wait_ticks = (hal_time)(wait_secs * E_TICKS_PER_SEC);
     /* If this assert fails, you only need to fix this part.
      * Note that it won't fail for roughly 1193 hours (see e_time.h) */
     assert(now >= entered);
@@ -195,6 +197,6 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
     }
 
     if (rhr->state != old_state) {
-        rhr->time_entered = get_e_time();
+        rhr->time_entered = hal_get_time();
     }
 }
