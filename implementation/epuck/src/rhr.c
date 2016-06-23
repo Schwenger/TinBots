@@ -5,11 +5,7 @@
 #include <assert.h>
 
 #include "pi.h" /* M_PI */
-#include "hal.h"
 #include "rhr.h"
-
-// FIXME: ?
-const hal_time E_TICKS_PER_SEC = 1000;
 
 enum RHR_STATES {
     RHR_check_wall, /* I was tempted to call this "czech wall" */
@@ -23,6 +19,10 @@ enum RHR_STATES {
     RHR_stay_close,
     RHR_run_close
 };
+/* static_assert(sizeof(enum RHR_STATES) == sizeof(RhrLocals::state),
+ *               "Bad things"); */
+typedef char check_rhr_states_size[
+    (sizeof(enum RHR_STATES) == sizeof(int)) ? 1 : -1];
 
 static const double RHR_SENSE_TOL = 10;
 static const double RHR_MOTOR_MV = 2;
@@ -48,7 +48,7 @@ static void rhr_move(void) {
 
 static int time_passed_p(const hal_time entered, const double wait_secs) {
     const hal_time now = hal_get_time();
-    const hal_time wait_ticks = (hal_time)(wait_secs * E_TICKS_PER_SEC);
+    const hal_time wait_ticks = (hal_time)(wait_secs * 1000);
     /* If this assert fails, you only need to fix this part.
      * Note that it won't fail for roughly 1193 hours (see e_time.h) */
     assert(now >= entered);
@@ -189,9 +189,9 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         break;
     default:
         /* Uhh */
-        assert(0);
         hal_print("RHR illegal state?!  Resetting ...");
-        rhr->state = RHR_check_wall;
+        assert(0);
+        rhr_reset(rhr);
         hal_set_speed(0, 0);
         break;
     }

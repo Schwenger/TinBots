@@ -5,7 +5,7 @@
 #include "sensors.h"
 
 typedef struct RhrLocals {
-    int state; /* The state we will *enter* at the next step() */
+    int state;
     int wall_p;
     double wall_rot;
     hal_time time_entered;
