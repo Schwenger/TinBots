@@ -43,6 +43,7 @@ set(SOURCE_FILES
         src/tinbot.c
         src/rhr.c
         src/blind-cop.c
+        src/path-exec.c
 
         hal/hal_epuck.c)
 
