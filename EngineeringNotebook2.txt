@@ -257,3 +257,13 @@ supplemental:
   * implement our own interrupt for data reception and immediately handle, e.g.,
     map updates and all other important stuff
   * use C coroutines for long computations (e.g. A*) and some sort of scheduling
+
+
+==============================
+
+scribe: Ben Wiederhake 24.06.2016 13-14 session
+
+- A* muss nicht yield()en, kann man auch per ISR machen
+- controller.h/c wäre ganz cool
+- Wir sollten RHR in Matlab testen
+- irgendjemand: Was genau für Pakete wollen wir eigentlich senden?
