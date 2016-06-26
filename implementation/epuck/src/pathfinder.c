@@ -1,10 +1,24 @@
-//
-// Created by Maximilian Schwenger on 19/06/16.
-//
 
 #include "pathfinder.h"
 #include <math.h>
-#define PI 3.14159265358979323846
+#include <stdio.h>
+#include "../pi.h"
+#include "astar/astar.h"
+#include "map.h"
+
+void find_neighbours(ASNeighborList neighbours, void *node, void *map);
+float heuristic(void *node, void *goal, void *map);
+int search_node_comparator(void *node1, void *node2, void *map);
+Position intersection(Position origin, Position goal, Map *map);
+int invalid_pos(Position pos, Map *map);
+int occupied(Position *pos, Map *map);
+
+int invalid_pos(Position pos, Map *map) {
+    return pos.x >= map->width || pos.x < 0 || pos.y >= map->height || pos.y < 0;
+}
+int occupied(Position *pos, Map *map) {
+    return map->occupancy[pos->x][pos->y] != 0;
+}
 
 static const ASPathNodeSource path_node_source = {
         sizeof(Position),
@@ -14,58 +28,60 @@ static const ASPathNodeSource path_node_source = {
         &search_node_comparator
 };
 
-Position* find_path(Position position, Position goal, Map *map, Position *path) {
-    ASPath as_path = ASPathCreate(&path_node_source, map, &position, &goal);
-	int path_length = ASPathGetCount(as_path);
+Position* pf_find_path(Position position, Position goal, Map *map, Position *path) {
+    ASPath  as_path;
+    size_t path_length, i;
+    Context context;
 
-	int i;
+    context.map = map;
+    context.goal = goal;
+    as_path = ASPathCreate(&path_node_source, &context, &position, &goal);
+    path_length = ASPathGetCount(as_path);
+
 	for(i = 0; i < path_length; ++i) {
 		path[i] = *(Position *) ASPathGetNode(as_path, i);
 	}
-	path[i] = NO_PATH;
+	path[i] = INVALID_POS;
 
 	ASPathDestroy(as_path);
 	return path;
 }
 
-double right_angle = PI/2;
-
 /**
  * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 4
  */
-void find_neighbours(ASNeighborList neighbours, void *node, void *context) {
+void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
+    double thetas[4];
+    double cand_next_x, cand_next_y;
+    int i;
+    Position next, cand_next;
 
 	Position *state = (Position *) node;
-	Map *map = (Map *) context;
+	Context *context = (Context *) context_p;
 
 
-	if(heuristic(node, &map->goal, map) < STEP_DISTANCE){
+	if(heuristic(node, &context->goal, context->map) < STEP_DISTANCE){
 		/* in reach of goal */
-		Position special = intersection(*state, map->goal, map);
+		Position special = intersection(*state, context->goal, context->map);
 		ASNeighborListAdd(neighbours, &special, 1);
 	}
 
-	double thetas[4];
-	thetas[0] = (double) rand() / (double) PI;
-	thetas[1] = (double) rand() / (double) PI;
-	thetas[2] = (double) rand() / (double) PI;
-	thetas[3] = (double) rand() / (double) PI;
+	thetas[0] = rand() / M_PI;
+	thetas[1] = rand() / M_PI;
+	thetas[2] = rand() / M_PI;
+	thetas[3] = rand() / M_PI;
 
-	double cand_next_x, cand_next_y;
-	Position next;
-	Position cand_next;
-	int i;
 	for(i = 0; i < 4; i++){
-		cand_next_x = state->x + STEP_DISTANCE * cos(thetas[i] + i * right_angle);
-		cand_next_y = state->y + STEP_DISTANCE * sin(thetas[i] + i * right_angle);
-		cand_next = (Position) {(int) cand_next_x, (int) cand_next_y};
-		next = intersection(*state, cand_next, map);
+		cand_next_x = state->x + STEP_DISTANCE * cos(thetas[i] + i * M_PI/2);
+		cand_next_y = state->y + STEP_DISTANCE * sin(thetas[i] + i * M_PI/2);
+        cand_next.x = (int) (floor(cand_next_x));
+        cand_next_y = (int) (floor(cand_next_y));
+		next = intersection(*state, cand_next, context->map);
 		ASNeighborListAdd(neighbours, &next, 1);
 	}
 }
 
-float heuristic(void *node, void *goal_node, void *map) {
-	printf("In heuristic \n");
+float heuristic(void *node, void *goal_node, void *context) {
     Position *state = (Position *) node;
     Position *goal = (Position *) goal_node;
 
@@ -76,7 +92,7 @@ float heuristic(void *node, void *goal_node, void *map) {
 	return h;
 }
 
-int search_node_comparator(void *node1, void *node2, void *map) {
+int search_node_comparator(void *node1, void *node2, void *context) {
     Position p1 = *(Position *) node1;
     Position p2 = *(Position *) node2;
 
@@ -99,7 +115,8 @@ Position intersection(Position origin, Position goal, Map* map) {
 		else
 			y += delta_y;
 
-		pos = (Position) {x, y};
+		pos.x = x;
+        pos.y = y;
 		if(invalid_pos(pos, map))
 			return old;
 		if(occupied(&pos, map))

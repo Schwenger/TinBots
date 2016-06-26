@@ -1,6 +1,3 @@
-//
-// Created by Maximilian Schwenger on 19/06/16.
-//
 
 /*
  Copyright (c) 2012, Sean Heber. All rights reserved.
@@ -70,10 +67,10 @@ struct __VisitedNodes {
     size_t nodeRecordsCapacity;
     size_t nodeRecordsCount;
     void *nodeRecords;
-    size_t *nodeRecordsIndex;           // array of nodeRecords indexes, kept sorted by nodeRecords[i]->nodeKey using source->nodeComparator
+    size_t *nodeRecordsIndex;           /* array of nodeRecords indexes, kept sorted by nodeRecords[i]->nodeKey using source->nodeComparator */
     size_t openNodesCapacity;
     size_t openNodesCount;
-    size_t *openNodes;                  // binary heap of nodeRecords indexes, sorted by the nodeRecords[i]->rank
+    size_t *openNodes;                  /* binary heap of nodeRecords indexes, sorted by the nodeRecords[i]->rank */
 };
 typedef struct __VisitedNodes *VisitedNodes;
 
@@ -229,7 +226,7 @@ static Node GetNode(VisitedNodes nodes, void *nodeKey)
         return NodeNull;
     }
 
-    // looks it up in the index, if it's not found it inserts a new record in the sorted index and the nodeRecords array and returns a reference to it
+    /* looks it up in the index, if it's not found it inserts a new record in the sorted index and the nodeRecords array and returns a reference to it */
     size_t first = 0;
 
     if (nodes->nodeRecordsCount > 0) {
@@ -424,14 +421,14 @@ ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNo
     Node goalNode = GetNode(visitedNodes, goalNodeKey);
     ASPath path = NULL;
 
-    // mark the goal node as the goal
+    /* mark the goal node as the goal */
     SetNodeIsGoal(goalNode);
 
-    // set the starting node's estimate cost to the goal and add it to the open set
+    /* set the starting node's estimate cost to the goal and add it to the open set */
     SetNodeEstimatedCost(current,  GetPathCostHeuristic(current, goalNode));
     AddNodeToOpenSet(current, 0, NodeNull);
 
-    // perform the A* algorithm
+    /* perform the A* algorithm */
     while (HasOpenNode(visitedNodes) && !NodeIsGoal((current = GetOpenNode(visitedNodes)))) {
         if (source->earlyExit) {
             const int shouldExit = source->earlyExit(visitedNodes->nodeRecordsCount, GetNodeKey(current), goalNodeKey, context);
@@ -486,8 +483,8 @@ ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNo
             n = GetParentNode(n);
         }
 
-        // due to statically know path length this is bounded.
-        // can be transformed in non-malloc call.
+        /* due to statically know path length this is bounded. */
+        /* can be transformed in non-malloc call. */
         path = malloc(sizeof(struct __ASPath) + (count * source->nodeSize));
         path->nodeSize = source->nodeSize;
         path->count = count;
@@ -516,7 +513,7 @@ ASPath ASPathCopy(ASPath path)
 {
     if (path) {
         const size_t size = sizeof(struct __ASPath) + (path->count * path->nodeSize);
-        // never used, so malloc poses no threat.
+        /* never used, so malloc poses no threat. */
         ASPath newPath = malloc(size);
         memcpy(newPath, path, size);
         return newPath;
@@ -527,7 +524,7 @@ ASPath ASPathCopy(ASPath path)
 
 float ASPathGetCost(ASPath path)
 {
-    return path? path->cost : INFINITY;
+    return path? path->cost : INFTY;
 }
 
 size_t ASPathGetCount(ASPath path)
