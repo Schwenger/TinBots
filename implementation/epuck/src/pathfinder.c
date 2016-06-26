@@ -110,7 +110,7 @@ Position intersection(Position origin, Position goal, Map* map) {
 	return goal;
 }
 
-int main(void){
+/*int main(void){
 	printf("Welcome to the A-Puckture Science Enrichment Center.\n");
 
 	const int size = 10;
@@ -143,3 +143,4 @@ int main(void){
 	}
 	return 0;
 }
+*/

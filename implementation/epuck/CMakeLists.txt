@@ -44,6 +44,8 @@ set(SOURCE_FILES
         src/rhr.c
         src/blind-cop.c
         src/path-exec.c
+        src/astar/astar.c
+        src/pathfinder.c
 
         hal/hal_epuck.c)
 
