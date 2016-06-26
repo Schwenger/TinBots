@@ -34,7 +34,7 @@ Position* pf_find_path(Position position, Position goal, Map *map, Position *pat
 }
 
 /**
- * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 4
+ * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 5
  */
 static void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
     double thetas[4];

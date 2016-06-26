@@ -6,6 +6,7 @@
 
 #include "pi.h" /* M_PI */
 #include "path-exec.h"
+#include "map.h"
 
 enum PE_STATES {
     PE_inactive,
@@ -22,6 +23,9 @@ typedef char check_pe_states_size[
 static const double PE_MAX_STRAY = 10;
 static const double PE_MOTOR_MV = 2;
 static const double PE_MOTOR_ROT = 1;
+
+static const double epsilon = 0.001;
+
 /* Must be a macro, as xc16 is too dumb. */
 #define MV_PER_SEC (2.0 /* FIXME ??? */)
 /* Must be a macro, as xc16 is too dumb. */
@@ -44,6 +48,10 @@ static void pe_move(void) {
     hal_set_speed(PE_MOTOR_MV, PE_MOTOR_MV);
 }
 
+static void pe_halt(void) {
+    hal_set_speed(0, 0);
+}
+
 static int time_passed_p(const hal_time entered, const double wait_secs) {
     /* TODO: Candidate for code deduplication */
     const hal_time now = hal_get_time();
@@ -62,19 +70,38 @@ void pe_reset(PathExecState* pe) {
 }
 
 void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
+    Position pos, dest;
+    double delta_phi;
     const int old_state = pe->locals.state;
+
     switch (pe->locals.state) {
     case PE_inactive:
-        /* FIXME */
+        if(inputs->drive_p)
+            pe->locals.state = PE_rotate;
         break;
     case PE_compute:
         /* FIXME */
         break;
     case PE_rotate:
-        /* FIXME */
+        delta_phi = sens->current.direction - pe->locals.desired_angle;
+        if(fabs(delta_phi) < epsilon){
+            pe->locals.state = PE_drive;
+            pe_halt();
+        } else {
+            delta_phi > 0 ? pe_rot_right() : pe_rot_left();
+        }
         break;
     case PE_drive:
-        /* FIXME */
+
+        pos = map_discretize(sens->current.x, sens->current.y);
+        dest = map_discretize(inputs->next_x, inputs->next_y);
+        /* TODO include mechanism checking for problems with angle, i.e. moving past the goal */
+        if(pos.x == dest.x && pos.y == dest.y){
+            pe->locals.state = PE_profit; /* not sure about the semantics of profit */
+            pe_halt();
+        } else {
+            pe_move();
+        }
         break;
     case PE_profit:
         /* FIXME */
