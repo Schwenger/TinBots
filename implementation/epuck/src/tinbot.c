@@ -2,6 +2,8 @@
  * Tin Bot Controller Software
  */
 
+#include <time.h>
+
 #include "hal.h"
 #include "rhr.h"
 
@@ -10,6 +12,7 @@
 void setup(TinBot* tinbot) {
     hal_print("Tin Bot Setup");
     rhr_reset(&tinbot->rhr);
+    srand(time(NULL));
 }
 
 void loop(TinBot* tinbot) {
