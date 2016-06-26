@@ -10,6 +10,8 @@ typedef struct Position {
     int x, y;
 } Position;
 
-static const Position INVALID_POS = {-1, -1};
+const Position INVALID_POS = {-1, -1};
+
+static Position map_discretize(double x, double y); /* todo */
 
 #endif /* EPUCK_MAP_H */
