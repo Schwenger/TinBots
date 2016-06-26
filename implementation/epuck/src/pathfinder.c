@@ -6,20 +6,6 @@
 #include "astar/astar.h"
 #include "map.h"
 
-void find_neighbours(ASNeighborList neighbours, void *node, void *map);
-float heuristic(void *node, void *goal, void *map);
-int search_node_comparator(void *node1, void *node2, void *map);
-Position intersection(Position origin, Position goal, Map *map);
-int invalid_pos(Position pos, Map *map);
-int occupied(Position *pos, Map *map);
-
-int invalid_pos(Position pos, Map *map) {
-    return pos.x >= map->width || pos.x < 0 || pos.y >= map->height || pos.y < 0;
-}
-int occupied(Position *pos, Map *map) {
-    return map->occupancy[pos->x][pos->y] != 0;
-}
-
 static const ASPathNodeSource path_node_source = {
         sizeof(Position),
         &find_neighbours,
@@ -50,7 +36,7 @@ Position* pf_find_path(Position position, Position goal, Map *map, Position *pat
 /**
  * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 4
  */
-void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
+static void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
     double thetas[4];
     double cand_next_x, cand_next_y;
     int i;
@@ -81,7 +67,7 @@ void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
 	}
 }
 
-float heuristic(void *node, void *goal_node, void *context) {
+static float heuristic(void *node, void *goal_node, void *context) {
     Position *state = (Position *) node;
     Position *goal = (Position *) goal_node;
 
@@ -92,7 +78,7 @@ float heuristic(void *node, void *goal_node, void *context) {
 	return h;
 }
 
-int search_node_comparator(void *node1, void *node2, void *context) {
+static int search_node_comparator(void *node1, void *node2, void *context) {
     Position p1 = *(Position *) node1;
     Position p2 = *(Position *) node2;
 
@@ -101,7 +87,7 @@ int search_node_comparator(void *node1, void *node2, void *context) {
 	return cmp_x != 0 ? cmp_x : cmp_y;
 }
 
-Position intersection(Position origin, Position goal, Map* map) {
+static Position intersection(Position origin, Position goal, Map* map) {
 	int delta_x = (goal.x > origin.x) - (goal.x < origin.x);
 	int delta_y = (goal.y > origin.y) - (goal.y < origin.y);
 
