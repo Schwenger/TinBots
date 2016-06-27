@@ -3,10 +3,10 @@
  */
 
 #include <assert.h>
+#include <math.h>
 
 #include "pi.h" /* M_PI */
 #include "path-exec.h"
-#include "map.h"
 
 enum PE_STATES {
     PE_inactive,
@@ -24,14 +24,10 @@ static const double PE_MAX_STRAY = 10;
 static const double PE_MOTOR_MV = 2;
 static const double PE_MOTOR_ROT = 1;
 
-static const double epsilon = 0.001;
-
 /* Must be a macro, as xc16 is too dumb. */
 #define MV_PER_SEC (2.0 /* FIXME ??? */)
 /* Must be a macro, as xc16 is too dumb. */
 #define ROT_PER_SEC (MV_PER_SEC * 2 / 5.3)
-
-static const double SECS_PER_DEGREE = (M_PI / 180) / ROT_PER_SEC;
 
 static void pe_rot_left(void) {
     /* TODO: Candidate for code deduplication */
@@ -70,48 +66,87 @@ void pe_reset(PathExecState* pe) {
 }
 
 void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
-    Position pos, dest;
-    double delta_phi;
     const int old_state = pe->locals.state;
+
+    if (!inputs->drive_p) {
+        /* We just got notified that we shouldn't be running anymore. */
+        pe->locals.state = PE_inactive;
+        /* It's okay to 'halt()' many times per second. */
+        pe_halt();
+        /* Don't set 'time_entered'; not needed. */
+        return;
+    }
 
     switch (pe->locals.state) {
     case PE_inactive:
-        if(inputs->drive_p)
-            pe->locals.state = PE_rotate;
-        break;
-    case PE_compute:
-        /* FIXME */
-        break;
-    case PE_rotate:
-        delta_phi = sens->current.direction - pe->locals.desired_angle;
-        if(fabs(delta_phi) < epsilon){
-            pe->locals.state = PE_drive;
-            pe_halt();
-        } else {
-            delta_phi > 0 ? pe_rot_right() : pe_rot_left();
+        if(inputs->drive_p) {
+            pe->locals.state = PE_compute;
         }
         break;
-    case PE_drive:
+    case PE_compute:
+        {
+            double start_dir;
+            double target_dir;
+            pe->locals.start_x = sens->current.x;
+            pe->locals.start_y = sens->current.y;
+            start_dir = sens->current.direction;
+            target_dir = atan2(inputs->next_y - pe->locals.start_y,
+                               inputs->next_x - pe->locals.start_x);
+            pe->locals.need_rot = fmod(target_dir - start_dir + M_PI,
+                                       2 * M_PI) - M_PI;
+            pe->locals.need_rot /= ROT_PER_SEC;
+            pe->locals.normal_x = -(inputs->next_y - pe->locals.start_y);
+            pe->locals.normal_y =   inputs->next_x - pe->locals.start_x;
+            pe->locals.need_dist = pe->locals.normal_x * pe->locals.normal_x
+                                 + pe->locals.normal_y * pe->locals.normal_y;
+            pe->locals.need_dist = sqrt(pe->locals.need_dist);
+            pe->locals.normal_x /= pe->locals.need_dist;
+            pe->locals.normal_y /= pe->locals.need_dist;
+            pe->locals.need_dist /= MV_PER_SEC;
 
-        pos = map_discretize(sens->current.x, sens->current.y);
-        dest = map_discretize(inputs->next_x, inputs->next_y);
-        /* TODO include mechanism checking for problems with angle, i.e. moving past the goal */
-        if(pos.x == dest.x && pos.y == dest.y){
-            pe->locals.state = PE_profit; /* not sure about the semantics of profit */
-            pe_halt();
-        } else {
+            /* Code from the transitions */
+            pe->locals.state = PE_rotate;
+            if (pe->locals.need_rot < 0) {
+                pe->locals.need_rot *= -1;
+                pe_rot_right();
+            } else {
+                pe_rot_left();
+            }
+        }
+        break;
+    case PE_rotate:
+        if (time_passed_p(pe->locals.time_entered, pe->locals.need_rot)) {
+            pe->locals.state = PE_drive;
             pe_move();
         }
         break;
+    case PE_drive:
+        {
+            double stray;
+            stray = 0;
+            stray += (inputs->next_x - sens->current.x) * pe->locals.normal_x;
+            stray += (inputs->next_y - sens->current.y) * pe->locals.normal_y;
+            stray = fabs(stray);
+            if (stray >= PE_MAX_STRAY) {
+                /* Whoopsie daisy. */
+                pe->locals.state = PE_compute;
+                pe_halt();
+            }
+        }
+        if (time_passed_p(pe->locals.time_entered, pe->locals.need_dist)) {
+            pe->locals.state = PE_profit;
+            pe_halt();
+        }
+        break;
     case PE_profit:
-        /* FIXME */
+        /* Nothing to do here. */
         break;
     default:
         /* Uhh */
         hal_print("PathExec illegal state?!  Resetting ...");
         assert(0);
         pe_reset(pe);
-        hal_set_speed(0, 0);
+        pe_halt();
         break;
     }
 
