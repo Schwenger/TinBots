@@ -66,48 +66,50 @@ void pe_reset(PathExecState* pe) {
 }
 
 void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
-    const int old_state = pe->locals.state;
+    PathExecLocals* l;
+    int old_state;
+
+    l = &pe->locals;
+    old_state = l->state;
 
     if (!inputs->drive_p) {
         /* We just got notified that we shouldn't be running anymore. */
-        pe->locals.state = PE_inactive;
+        l->state = PE_inactive;
         /* It's okay to 'halt()' many times per second. */
         pe_halt();
         /* Don't set 'time_entered'; not needed. */
         return;
     }
 
-    switch (pe->locals.state) {
+    switch (l->state) {
     case PE_inactive:
         if(inputs->drive_p) {
-            pe->locals.state = PE_compute;
+            l->state = PE_compute;
         }
         break;
     case PE_compute:
         {
             double start_dir;
             double target_dir;
-            pe->locals.start_x = sens->current.x;
-            pe->locals.start_y = sens->current.y;
+            l->start_x = sens->current.x;
+            l->start_y = sens->current.y;
             start_dir = sens->current.direction;
-            target_dir = atan2(inputs->next_y - pe->locals.start_y,
-                               inputs->next_x - pe->locals.start_x);
-            pe->locals.need_rot = fmod(target_dir - start_dir + M_PI,
-                                       2 * M_PI) - M_PI;
-            pe->locals.need_rot /= ROT_PER_SEC;
-            pe->locals.normal_x = -(inputs->next_y - pe->locals.start_y);
-            pe->locals.normal_y =   inputs->next_x - pe->locals.start_x;
-            pe->locals.need_dist = pe->locals.normal_x * pe->locals.normal_x
-                                 + pe->locals.normal_y * pe->locals.normal_y;
-            pe->locals.need_dist = sqrt(pe->locals.need_dist);
-            pe->locals.normal_x /= pe->locals.need_dist;
-            pe->locals.normal_y /= pe->locals.need_dist;
-            pe->locals.need_dist /= MV_PER_SEC;
+            target_dir = atan2(inputs->next_y - l->start_y,
+                               inputs->next_x - l->start_x);
+            l->need_rot = fmod(target_dir - start_dir + M_PI, 2 * M_PI) - M_PI;
+            l->need_rot /= ROT_PER_SEC;
+            l->normal_x = -(inputs->next_y - l->start_y);
+            l->normal_y =   inputs->next_x - l->start_x;
+            l->need_dist = l->normal_x * l->normal_x + l->normal_y * l->normal_y;
+            l->need_dist = sqrt(l->need_dist);
+            l->normal_x /= l->need_dist;
+            l->normal_y /= l->need_dist;
+            l->need_dist /= MV_PER_SEC;
 
             /* Code from the transitions */
-            pe->locals.state = PE_rotate;
-            if (pe->locals.need_rot < 0) {
-                pe->locals.need_rot *= -1;
+            l->state = PE_rotate;
+            if (l->need_rot < 0) {
+                l->need_rot *= -1;
                 pe_rot_right();
             } else {
                 pe_rot_left();
@@ -115,8 +117,8 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
         }
         break;
     case PE_rotate:
-        if (time_passed_p(pe->locals.time_entered, pe->locals.need_rot)) {
-            pe->locals.state = PE_drive;
+        if (time_passed_p(l->time_entered, l->need_rot)) {
+            l->state = PE_drive;
             pe_move();
         }
         break;
@@ -124,17 +126,17 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
         {
             double stray;
             stray = 0;
-            stray += (inputs->next_x - sens->current.x) * pe->locals.normal_x;
-            stray += (inputs->next_y - sens->current.y) * pe->locals.normal_y;
+            stray += (inputs->next_x - sens->current.x) * l->normal_x;
+            stray += (inputs->next_y - sens->current.y) * l->normal_y;
             stray = fabs(stray);
             if (stray >= PE_MAX_STRAY) {
                 /* Whoopsie daisy. */
-                pe->locals.state = PE_compute;
+                l->state = PE_compute;
                 pe_halt();
             }
         }
-        if (time_passed_p(pe->locals.time_entered, pe->locals.need_dist)) {
-            pe->locals.state = PE_profit;
+        if (time_passed_p(l->time_entered, l->need_dist)) {
+            l->state = PE_profit;
             pe_halt();
         }
         break;
@@ -150,7 +152,7 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
         break;
     }
 
-    if (pe->locals.state != old_state) {
-        pe->locals.time_entered = hal_get_time();
+    if (l->state != old_state) {
+        l->time_entered = hal_get_time();
     }
 }
