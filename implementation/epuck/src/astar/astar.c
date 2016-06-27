@@ -79,7 +79,7 @@ typedef struct {
     size_t index;
 } Node;
 
-static const Node NodeNull = {NULL, -1};
+static const Node NodeNull = {NULL, (size_t)-1};
 
 /********************************************/
 
@@ -106,7 +106,10 @@ static int NodeIsNull(Node n)
 
 static Node NodeMake(VisitedNodes nodes, size_t index)
 {
-    return (Node){nodes, index};
+    Node n;
+    n.nodes = nodes;
+    n.index = index;
+    return n;
 }
 
 static NodeRecord *NodeGetRecord(Node node)
@@ -219,6 +222,7 @@ static Node GetNode(VisitedNodes nodes, void *nodeKey)
 {
     size_t first;
     Node node;
+    NodeRecord *record;
 
     if (!nodeKey) {
         return NodeNull;
@@ -259,7 +263,7 @@ static Node GetNode(VisitedNodes nodes, void *nodeKey)
     memmove(&nodes->nodeRecordsIndex[first+1], &nodes->nodeRecordsIndex[first], (nodes->nodeRecordsCapacity - first - 1) * sizeof(size_t));
     nodes->nodeRecordsIndex[first] = node.index;
 
-    NodeRecord *record = NodeGetRecord(node);
+    record = NodeGetRecord(node);
     memset(record, 0, sizeof(NodeRecord));
     memcpy(record->nodeKey, nodeKey, nodes->source->nodeSize);
 
@@ -326,7 +330,7 @@ static void RemoveNodeFromOpenSet(Node n)
 static void DidInsertIntoOpenSetAtIndex(VisitedNodes nodes, size_t index)
 {
     while (index > 0) {
-        const size_t parentIndex = floorf((index-1) / 2);
+        const size_t parentIndex = (size_t)( floor((index-1) / 2) );
 
         if (NodeRankCompare(NodeMake(nodes, nodes->openNodes[parentIndex]), NodeMake(nodes, nodes->openNodes[index])) < 0) {
             break;
