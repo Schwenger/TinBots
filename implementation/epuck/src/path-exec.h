@@ -17,7 +17,8 @@ typedef struct PathExecLocals {
     double start_y;
     double need_rot;
     double need_dist;
-    double desired_angle;
+    double normal_x;
+    double normal_y;
 } PathExecLocals;
 
 typedef struct PathExecState {

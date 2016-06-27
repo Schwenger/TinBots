@@ -1,4 +1,3 @@
-
 /*
  Copyright (c) 2012, Sean Heber. All rights reserved.
 
@@ -28,10 +27,11 @@
  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "astar.h"
 #include <math.h>
 #include <string.h>
 #include <stdint.h>
+
+#include "astar.h"
 
 struct __ASNeighborList {
     const ASPathNodeSource *source;
@@ -150,11 +150,6 @@ static float GetNodeCost(Node n)
     return NodeGetRecord(n)->cost;
 }
 
-static float GetNodeEstimatedCost(Node n)
-{
-    return NodeGetRecord(n)->estimatedCost;
-}
-
 static void SetNodeEstimatedCost(Node n, float estimatedCost)
 {
     NodeRecord *record = NodeGetRecord(n);
@@ -222,12 +217,16 @@ static int NodeKeyCompare(Node node, void *nodeKey)
 
 static Node GetNode(VisitedNodes nodes, void *nodeKey)
 {
+    size_t first;
+    Node node;
+
     if (!nodeKey) {
         return NodeNull;
     }
 
-    /* looks it up in the index, if it's not found it inserts a new record in the sorted index and the nodeRecords array and returns a reference to it */
-    size_t first = 0;
+    /* looks it up in the index, if it's not found it inserts a new record in the
+     * sorted index and the nodeRecords array and returns a reference to it */
+    first = 0;
 
     if (nodes->nodeRecordsCount > 0) {
         size_t last = nodes->nodeRecordsCount-1;
@@ -254,7 +253,7 @@ static Node GetNode(VisitedNodes nodes, void *nodeKey)
         nodes->nodeRecordsIndex = realloc(nodes->nodeRecordsIndex, nodes->nodeRecordsCapacity * sizeof(size_t));
     }
 
-    Node node = NodeMake(nodes, nodes->nodeRecordsCount);
+    node = NodeMake(nodes, nodes->nodeRecordsCount);
     nodes->nodeRecordsCount++;
 
     memmove(&nodes->nodeRecordsIndex[first+1], &nodes->nodeRecordsIndex[first], (nodes->nodeRecordsCapacity - first - 1) * sizeof(size_t));
@@ -272,12 +271,14 @@ static void SwapOpenSetNodesAtIndexes(VisitedNodes nodes, size_t index1, size_t 
     if (index1 != index2) {
         NodeRecord *record1 = NodeGetRecord(NodeMake(nodes, nodes->openNodes[index1]));
         NodeRecord *record2 = NodeGetRecord(NodeMake(nodes, nodes->openNodes[index2]));
+        size_t tempOpenIndex;
+        size_t tempNodeIndex;
 
-        const size_t tempOpenIndex = record1->openIndex;
+        tempOpenIndex = record1->openIndex;
         record1->openIndex = record2->openIndex;
         record2->openIndex = tempOpenIndex;
 
-        const size_t tempNodeIndex = nodes->openNodes[index1];
+        tempNodeIndex = nodes->openNodes[index1];
         nodes->openNodes[index1] = nodes->openNodes[index2];
         nodes->openNodes[index2] = tempNodeIndex;
     }
@@ -288,13 +289,15 @@ static void DidRemoveFromOpenSetAtIndex(VisitedNodes nodes, size_t index)
     size_t smallestIndex = index;
 
     do {
+        size_t leftIndex;
+        size_t rightIndex;
         if (smallestIndex != index) {
             SwapOpenSetNodesAtIndexes(nodes, smallestIndex, index);
             index = smallestIndex;
         }
 
-        const size_t leftIndex = (2 * index) + 1;
-        const size_t rightIndex = (2 * index) + 2;
+        leftIndex = (2 * index) + 1;
+        rightIndex = (2 * index) + 2;
 
         if (leftIndex < nodes->openNodesCount && NodeRankCompare(NodeMake(nodes, nodes->openNodes[leftIndex]), NodeMake(nodes, nodes->openNodes[smallestIndex])) < 0) {
             smallestIndex = leftIndex;
@@ -311,10 +314,10 @@ static void RemoveNodeFromOpenSet(Node n)
     NodeRecord *record = NodeGetRecord(n);
 
     if (record->isOpen) {
+        const size_t index = record->openIndex;
         record->isOpen = 0;
         n.nodes->openNodesCount--;
 
-        const size_t index = record->openIndex;
         SwapOpenSetNodesAtIndexes(n.nodes, index, n.nodes->openNodesCount);
         DidRemoveFromOpenSetAtIndex(n.nodes, index);
     }
@@ -337,6 +340,7 @@ static void DidInsertIntoOpenSetAtIndex(VisitedNodes nodes, size_t index)
 static void AddNodeToOpenSet(Node n, float cost, Node parent)
 {
     NodeRecord *record = NodeGetRecord(n);
+    size_t openIndex;
 
     if (!NodeIsNull(parent)) {
         record->hasParent = 1;
@@ -350,7 +354,7 @@ static void AddNodeToOpenSet(Node n, float cost, Node parent)
         n.nodes->openNodes = realloc(n.nodes->openNodes, n.nodes->openNodesCapacity * sizeof(size_t));
     }
 
-    const size_t openIndex = n.nodes->openNodesCount;
+    openIndex = n.nodes->openNodesCount;
     n.nodes->openNodes[openIndex] = n.index;
     n.nodes->openNodesCount++;
 
@@ -411,15 +415,21 @@ void ASNeighborListAdd(ASNeighborList list, void *node, float edgeCost)
 
 ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNodeKey, void *goalNodeKey)
 {
+    VisitedNodes visitedNodes;
+    ASNeighborList neighborList;
+    Node current;
+    Node goalNode;
+    ASPath path;
+
     if (!startNodeKey || !source || !source->nodeNeighbors || source->nodeSize == 0) {
         return NULL;
     }
 
-    VisitedNodes visitedNodes = VisitedNodesCreate(source, context);
-    ASNeighborList neighborList = NeighborListCreate(source);
-    Node current = GetNode(visitedNodes, startNodeKey);
-    Node goalNode = GetNode(visitedNodes, goalNodeKey);
-    ASPath path = NULL;
+    visitedNodes = VisitedNodesCreate(source, context);
+    neighborList = NeighborListCreate(source);
+    current = GetNode(visitedNodes, startNodeKey);
+    goalNode = GetNode(visitedNodes, goalNodeKey);
+    path = NULL;
 
     /* mark the goal node as the goal */
     SetNodeIsGoal(goalNode);
@@ -430,6 +440,7 @@ ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNo
 
     /* perform the A* algorithm */
     while (HasOpenNode(visitedNodes) && !NodeIsGoal((current = GetOpenNode(visitedNodes)))) {
+        size_t n;
         if (source->earlyExit) {
             const int shouldExit = source->earlyExit(visitedNodes->nodeRecordsCount, GetNodeKey(current), goalNodeKey, context);
 
@@ -447,7 +458,6 @@ ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNo
         neighborList->count = 0;
         source->nodeNeighbors(neighborList, GetNodeKey(current), context);
 
-        size_t n;
         for (n=0; n<neighborList->count; n++) {
             const float cost = GetNodeCost(current) + NeighborListGetEdgeCost(neighborList, n);
             Node neighbor = GetNode(visitedNodes, NeighborListGetNodeKey(neighborList, n));
@@ -475,6 +485,7 @@ ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNo
     }
 
     if (NodeIsGoal(current)) {
+	    size_t i;
         size_t count = 0;
         Node n = current;
 
@@ -491,7 +502,6 @@ ASPath ASPathCreate(const ASPathNodeSource *source, void *context, void *startNo
         path->cost = GetNodeCost(current);
 
         n = current;
-	    size_t i;
         for (i=count; i>0; i--) {
             memcpy(path->nodeKeys + ((i - 1) * source->nodeSize), GetNodeKey(n), source->nodeSize);
             n = GetParentNode(n);
