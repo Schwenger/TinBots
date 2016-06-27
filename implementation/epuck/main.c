@@ -13,23 +13,29 @@ int main() {
     tin_init_com();
     tin_init_rs232(9600UL);
 
-    //tin_set_speed(500, 500);
+    tin_wait(5);
+
+    tin_calibrate_proximity();
 
     char buffer[128];
+    unsigned int index;
     unsigned int proximity[8];
 
     while (1) {
-        //U2TXREG = 0x42;
-        //while (!U2STAbits.TRMT);
-
         tin_wait(500);
 
         tin_get_proximity(proximity);
-        memset(buffer, 0, 128);
-        sprintf(buffer, "%lu %u\n", tin_get_time(), proximity[0]);
-        tin_com_print(buffer);
 
-        //while (tin_get_time() - start < 500);
+        for (index = 0; index < 8; index++) {
+            tin_set_led(index, proximity[index] > 15 ? ON : OFF);
+        }
+
+        memset(buffer, 0, 128);
+        sprintf(buffer, "%lu %u %u %u %u %u %u %u %u \n", tin_get_time(),
+                proximity[0], proximity[1], proximity[2], proximity[3],
+                proximity[4], proximity[5], proximity[6], proximity[7]);
+        tin_com_print("====");
+        tin_com_print(buffer);
     }
 }
 
