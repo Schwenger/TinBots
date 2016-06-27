@@ -1,4 +1,3 @@
-
 #ifndef EPUCK_ASTAR_H
 #define EPUCK_ASTAR_H
 

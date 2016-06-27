@@ -1,10 +1,33 @@
 
-#include "pathfinder.h"
 #include <math.h>
 #include <stdio.h>
-#include "../pi.h"
+
 #include "astar/astar.h"
-#include "map.h"
+
+#include "pathfinder.h"
+#include "pi.h"
+
+#define STEP_DISTANCE 4
+
+typedef struct Context {
+	Map *map;
+	Position goal;
+} Context;
+
+extern const Position INVALID_POS; /* sigh. */
+const Position INVALID_POS = {-1, -1};
+
+static void find_neighbours(ASNeighborList neighbours, void *node, void *map);
+static float heuristic(void *node, void *goal, void *map);
+static int search_node_comparator(void *node1, void *node2, void *map);
+static Position intersection(Position origin, Position goal, Map *map);
+
+static int invalid_pos(Position pos, Map *map) {
+    return pos.x >= map->width || pos.x < 0 || pos.y >= map->height || pos.y < 0;
+}
+static int occupied(Position *pos, Map *map) {
+    return map->occupancy[pos->x][pos->y] != 0;
+}
 
 static const ASPathNodeSource path_node_source = {
         sizeof(Position),
@@ -75,6 +98,7 @@ static float heuristic(void *node, void *goal_node, void *context) {
 	int diff_y = state->y - goal->y;
 
     float h = (float) sqrt(diff_x * diff_x + diff_y * diff_y);
+    (void)context; /* We don't actually use the context. */
 	return h;
 }
 
@@ -84,6 +108,7 @@ static int search_node_comparator(void *node1, void *node2, void *context) {
 
     int cmp_x = (p1.x > p2.x) - (p1.x < p2.x);
     int cmp_y = (p1.y > p2.y) - (p1.y < p2.y);
+    (void)context; /* We don't actually use the context. */
 	return cmp_x != 0 ? cmp_x : cmp_y;
 }
 
