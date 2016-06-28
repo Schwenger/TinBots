@@ -125,7 +125,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
     case RHR_wall_wait:
         if (time_passed_p(rhr->time_entered, rhr->wall_rot / ROT_PER_SEC)) {
             rhr->state = RHR_wall_orient;
-            rhr_rot_right();
+            rhr_move();
         }
         break;
     case RHR_wall_orient:
@@ -165,6 +165,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             rhr_rot_left();
         } else if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL) {
             rhr->state = RHR_follow;
+            /* Should already be moving, but be extra sure. */
             rhr_move();
         } else if (time_passed_p(rhr->time_entered, 10 / MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
