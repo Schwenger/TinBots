@@ -199,4 +199,5 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
     if (rhr->state != old_state) {
         rhr->time_entered = hal_get_time();
     }
+    hal_debug_out(DEBUG_CAT_RHR_STATE, rhr->state);
 }

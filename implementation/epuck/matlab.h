@@ -1,12 +1,14 @@
 #ifndef MATLAB_H
 #define MATLAB_H
 
+#include "hal.h"
 #include "tinbot.h"
 
 typedef struct MatlabBot {
     double motor_left;
     double motor_right;
     double raw_time;
+    double debug_info[DEBUG_CAT_NUM];
 
     TinBot* tinbot;
 } MatlabBot;
@@ -19,6 +21,7 @@ void matlab_loop(void);
 
 double matlab_get_motor_left(void);
 double matlab_get_motor_right(void);
+double matlab_get_debug_info(int i);
 
 void matlab_update_proximity(double* proximity);
 void matlab_update_ir(double* ir);
