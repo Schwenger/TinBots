@@ -43,6 +43,7 @@ set(SOURCE_FILES
 
         src/tinbot.c
         src/rhr.c
+        src/state-machine-common.c
         src/blind-cop.c
         src/path-exec.c
         src/astar/astar.c
