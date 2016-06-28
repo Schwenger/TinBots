@@ -32,6 +32,7 @@ set(SOURCE_FILES
         ${LIB_PATH}/src/adc.c
         ${LIB_PATH}/src/com.c
         ${LIB_PATH}/src/core.c
+        ${LIB_PATH}/src/i2c.c
         ${LIB_PATH}/src/leds.c
         ${LIB_PATH}/src/motors.c
         ${LIB_PATH}/src/rs232.c

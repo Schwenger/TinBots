@@ -12,14 +12,50 @@
 
 #include <util/twi.h>
 
-#include "detector.hpp"
-
 #define I2C_ADDRESS 0x42
 
 using namespace NeatAVR;
 
+
 typedef Pin14 LED;
 
+
+// IR Detector
+template<typename Pin> class IRDetector {
+private:
+    volatile uint16 counter;
+
+    volatile uint8 state;
+    volatile uint8 pulses;
+public:
+    volatile uint8 active;
+
+    void init() {
+        Pin::input();
+    }
+
+    void detect() {
+        uint8 next_state = Pin::read();
+        if (state == next_state) {
+            counter++;
+            if (counter > 4000) {
+                counter = 0;
+                active = 0;
+            }
+        } else {
+            if (counter > 15 || counter < 4) {
+                pulses = 0;
+            } else {
+                pulses++;
+            }
+            if (pulses > 6) {
+                active = 1;
+            }
+            counter = 0;
+        }
+        state = next_state;
+    }
+};
 
 
 IRDetector<Pin12> ir0;
@@ -28,6 +64,9 @@ IRDetector<Pin10> ir2;
 IRDetector<Pin9>  ir3;
 IRDetector<Pin16> ir4;
 IRDetector<Pin15> ir5;
+
+
+volatile uint8 sensor_data = 0;
 
 
 int main() {
@@ -43,6 +82,12 @@ int main() {
 
     Timer::ChannelA::Interrupt::enable();
     Timer::ChannelA::Compare::set(50);
+
+    TWI::Address::set(I2C_ADDRESS);
+
+    TWI::Control::Enable::on();
+    TWI::Control::Acknowledge::on();
+    TWI::Control::Interrupt::enable();
 
     ir0.init();
     ir1.init();
@@ -66,6 +111,7 @@ int main() {
     }
 }
 
+
 INTERRUPT_ROUTINE(TIMER_COMPARE_A_INTRRUPT) {
     // executed every 50us
     ir0.detect();
@@ -74,88 +120,28 @@ INTERRUPT_ROUTINE(TIMER_COMPARE_A_INTRRUPT) {
     ir3.detect();
     ir4.detect();
     ir5.detect();
+    sensor_data = ((ir5.active << 5) | (ir4.active << 4) | (ir3.active << 3) |
+                   (ir2.active << 2) | (ir1.active << 1) | ir0.active);
+    LED::write(sensor_data);
 }
 
 
-
-
-
-// ===========================================
-//TWI::init(I2C_ADDRESS);
-//TWI::Interrupt::enable();
-
-
-
-/*
-
-
-
-
-
-unsigned int previous = 0;
-unsigned int previous_active = 0;
-
-while (1) {
-    if (status != previous) {
-        Serial::printline("Status:");
-        char data[10];
-        memset(data, 0, 10);
-        sprintf(data, "%i", status);
-        previous = status;
-        Serial::printline(data);
-    }
-    if (available) {
-        System::disable_interrupts();
-        Serial::printline("Message:");
-        Serial::write((char*) buffer, strlen((char*) buffer));
-        Serial::write("\n", 1);
-        available = 0;
-        System::enable_interrupts();
-    }
-
-    _delay_ms(200);
-    char data[64];
-    memset(data, 0, 64);
-    sprintf(data, "Sensors: %i %i %i %i %i %i", ir0.active, ir1.active, ir2.active, ir3.active, ir4.active, ir5.active);
-    Serial::printline(data);
-}*/
-
-
-
-
-
-volatile byte available = 0;
-
-
-volatile char buffer[64];
-
-
-
-
-volatile unsigned int status;
-volatile unsigned int counter = 0;
-
-//volatile char buffer[64];
-volatile unsigned int position;
-
-//typedef TWI2<> twi;
-
+// very simple ISR only suitable for transmitting one byte
 INTERRUPT_ROUTINE(TWI_INTERRUPT) {
-    status = TWI::status();
     switch (TWI::status()) {
         case TW_SR_SLA_ACK:
             TWI::acknowledge();
-            position = 0;
-            available = 0;
+            //position = 0;
+            //available = 0;
             break;
         case TW_SR_DATA_ACK:
-            buffer[position] = (char) TWI::get();
-            position++;
+            //buffer[position] = (char) TWI::get();
+            //position++;
             TWI::acknowledge();
             break;
         case TW_ST_SLA_ACK:
         case TW_ST_DATA_ACK:
-            TWI::put(0x05);
+            TWI::put(sensor_data);
             TWI::acknowledge();
             //LED::on();
             break;
@@ -163,9 +149,8 @@ INTERRUPT_ROUTINE(TWI_INTERRUPT) {
             TWI::acknowledge();
             break;
         default:
-            buffer[position] = 0;
-            available = 1;
+            //buffer[position] = 0;
+            //available = 1;
             TWI::acknowledge();
     }
 }
-
