@@ -26,7 +26,9 @@ void hal_print(const char *message);
 
 typedef enum DebugCategory {
     DEBUG_CAT_RHR_STATE,
-    DEBUG_CAT_OWN_TIME,
+    DEBUG_CAT_RHR_REMAINING_WAIT_TIME,
+    DEBUG_CAT_RHR_TOTAL_WAIT_TIME,
+    /* DEBUG_CAT_OWN_TIME, */
     DEBUG_CAT_NUM
 } DebugCategory;
 

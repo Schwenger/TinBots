@@ -53,7 +53,7 @@ void hal_print(const char* message) {
 void hal_debug_out(DebugCategory key, double value) {
     assert(key < DEBUG_CAT_NUM);
     current->debug_info[key] = value;
-    current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1);
+    /* current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1); */
 }
 
 
