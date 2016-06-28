@@ -20,7 +20,7 @@ static MatlabBot* current;
 /* Implementation of hal.h */
 
 hal_time hal_get_time() {
-    return (hal_time) current->raw_time;
+    return (hal_time)(1000 * current->raw_time);
 }
 
 void hal_set_speed(double left, double right) {
@@ -53,7 +53,7 @@ void hal_print(const char* message) {
 void hal_debug_out(DebugCategory key, double value) {
     assert(key < DEBUG_CAT_NUM);
     current->debug_info[key] = value;
-    current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1);
+    /* current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1); */
 }
 
 
@@ -61,8 +61,12 @@ void hal_debug_out(DebugCategory key, double value) {
 
 long matlab_create_bot() {
     MatlabBot* matlab_bot = malloc(sizeof(MatlabBot));
+    int i;
     matlab_bot->tinbot = malloc(sizeof(TinBot));
     setup(matlab_bot->tinbot);
+    for (i = 0; i < DEBUG_CAT_NUM; ++i) {
+        matlab_bot->debug_info[i] = -0.01;
+    }
     return (long) matlab_bot;
 }
 

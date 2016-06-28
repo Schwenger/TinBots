@@ -4,14 +4,14 @@
 enum Proximity_Order {
     /* If you change this, please also change:
      * - rhr.c -> find_wall -> sense_angles */
-    PROXIMITY_M_150,
-    PROXIMITY_M_90,
-    PROXIMITY_M_45,
     PROXIMITY_M_20,
-    PROXIMITY_P_20,
-    PROXIMITY_P_45,
-    PROXIMITY_P_90,
+    PROXIMITY_M_45,
+    PROXIMITY_M_90,
+    PROXIMITY_M_150,
     PROXIMITY_P_150,
+    PROXIMITY_P_90,
+    PROXIMITY_P_45,
+    PROXIMITY_P_20,
     NUM_PROXIMITY
 };
 

@@ -2,6 +2,7 @@
  * Tin Bot Controller Software
  */
 
+#include <stdlib.h>
 #include <time.h>
 
 #include "hal.h"

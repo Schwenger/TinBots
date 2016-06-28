@@ -49,10 +49,13 @@ static void rhr_move(void) {
 static int time_passed_p(const hal_time entered, const double wait_secs) {
     const hal_time now = hal_get_time();
     const hal_time wait_ticks = (hal_time)(wait_secs * 1000);
+    const hal_time elapsed = now - entered;
     /* If this assert fails, you only need to fix this part.
      * Note that it won't fail for roughly 1193 hours (see e_time.h) */
     assert(now >= entered);
-    return entered - now >= wait_ticks;
+    hal_debug_out(DEBUG_CAT_RHR_TOTAL_WAIT_TIME, wait_secs);
+    hal_debug_out(DEBUG_CAT_RHR_REMAINING_WAIT_TIME, (elapsed) * 0.001);
+    return elapsed >= wait_ticks;
 }
 
 void rhr_reset(RhrLocals* rhr) {
@@ -96,6 +99,8 @@ static void find_wall(RhrLocals* rhr, Sensors* sens) {
 
 void rhr_step(RhrLocals* rhr, Sensors* sens) {
     const int old_state = rhr->state;
+    hal_debug_out(DEBUG_CAT_RHR_TOTAL_WAIT_TIME, 0);
+    hal_debug_out(DEBUG_CAT_RHR_REMAINING_WAIT_TIME, 0);
     switch (rhr->state) {
     case RHR_check_wall:
         find_wall(rhr, sens);
@@ -125,7 +130,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
     case RHR_wall_wait:
         if (time_passed_p(rhr->time_entered, rhr->wall_rot / ROT_PER_SEC)) {
             rhr->state = RHR_wall_orient;
-            rhr_rot_right();
+            rhr_move();
         }
         break;
     case RHR_wall_orient:
@@ -138,7 +143,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         if (sens->proximity[PROXIMITY_M_90] <= RHR_SENSE_TOL) {
             rhr->state = RHR_claustrophobia;
             rhr_rot_left();
-        } else if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL
+        } else if (sens->proximity[PROXIMITY_M_45] > RHR_SENSE_TOL
                    && time_passed_p(rhr->time_entered, 5 * SECS_PER_DEGREE)) {
             rhr->state = RHR_wall_orient;
             rhr_move();
@@ -165,6 +170,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             rhr_rot_left();
         } else if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL) {
             rhr->state = RHR_follow;
+            /* Should already be moving, but be extra sure. */
             rhr_move();
         } else if (time_passed_p(rhr->time_entered, 10 / MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
