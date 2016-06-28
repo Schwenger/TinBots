@@ -27,10 +27,11 @@ typedef char check_rhr_states_size[
 static const double RHR_SENSE_TOL = 10;
 static const double RHR_MOTOR_MV = 2;
 static const double RHR_MOTOR_ROT = 1;
+/* Note: both of the following values actually depend on RHR_MOTOR_*: */
 /* Must be a macro, as xc16 is too dumb. */
 #define MV_PER_SEC (2.0 /* FIXME ??? */)
 /* Must be a macro, as xc16 is too dumb. */
-#define ROT_PER_SEC (MV_PER_SEC * 2 / 5.3)
+#define ROT_PER_SEC (1.0 * 2 / 5.3)
 
 static const double SECS_PER_DEGREE = (M_PI / 180) / ROT_PER_SEC;
 
