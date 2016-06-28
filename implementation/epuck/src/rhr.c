@@ -139,7 +139,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         if (sens->proximity[PROXIMITY_M_90] <= RHR_SENSE_TOL) {
             rhr->state = RHR_claustrophobia;
             rhr_rot_left();
-        } else if (sens->proximity[PROXIMITY_M_45] <= RHR_SENSE_TOL
+        } else if (sens->proximity[PROXIMITY_M_45] > RHR_SENSE_TOL
                    && time_passed_p(rhr->time_entered, 5 * SECS_PER_DEGREE)) {
             rhr->state = RHR_wall_orient;
             rhr_move();
