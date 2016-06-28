@@ -15,8 +15,7 @@ static MatlabBot* current;
 /* Implementation of hal.h */
 
 hal_time hal_get_time() {
-    /* FIXME */
-    return 42;
+    return (hal_time) current->raw_time;
 }
 
 void hal_set_speed(double left, double right) {
@@ -92,4 +91,8 @@ void matlab_update_ir(double* ir_raw) {
 
 void matlab_update_lps(double* lps) {
     update_lps(current->tinbot, lps[0], lps[1], lps[2]);
+}
+
+void matlab_update_time(double time) {
+    current->raw_time = time;
 }

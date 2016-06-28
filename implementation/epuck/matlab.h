@@ -6,6 +6,7 @@
 typedef struct MatlabBot {
     double motor_left;
     double motor_right;
+    double raw_time;
 
     TinBot* tinbot;
 } MatlabBot;
@@ -22,6 +23,6 @@ double matlab_get_motor_right(void);
 void matlab_update_proximity(double* proximity);
 void matlab_update_ir(double* ir);
 void matlab_update_lps(double* lps);
-/* FIXME: matlab_update_time() or something? */
+void matlab_update_time(double time);
 
 #endif
