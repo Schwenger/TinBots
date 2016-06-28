@@ -49,10 +49,11 @@ static void rhr_move(void) {
 static int time_passed_p(const hal_time entered, const double wait_secs) {
     const hal_time now = hal_get_time();
     const hal_time wait_ticks = (hal_time)(wait_secs * 1000);
+    const hal_time elapsed = now - entered;
     /* If this assert fails, you only need to fix this part.
      * Note that it won't fail for roughly 1193 hours (see e_time.h) */
     assert(now >= entered);
-    return entered - now >= wait_ticks;
+    return elapsed >= wait_ticks;
 }
 
 void rhr_reset(RhrLocals* rhr) {

@@ -20,7 +20,7 @@ static MatlabBot* current;
 /* Implementation of hal.h */
 
 hal_time hal_get_time() {
-    return (hal_time) current->raw_time;
+    return (hal_time)(1000 * current->raw_time);
 }
 
 void hal_set_speed(double left, double right) {
