@@ -34,14 +34,14 @@ void rhr_reset(RhrLocals* rhr) {
 static void find_wall(RhrLocals* rhr, Sensors* sens) {
     /* see virt_proto/software/find_wall.m */
     static const double sense_angles[NUM_PROXIMITY] = {
-        -150*M_PI/180,
-         -90*M_PI/180,
-         -45*M_PI/180,
          -20*M_PI/180,
-         +20*M_PI/180,
-         +45*M_PI/180,
+         -45*M_PI/180,
+         -90*M_PI/180,
+        -150*M_PI/180,
+        +150*M_PI/180,
          +90*M_PI/180,
-        +150*M_PI/180};
+         +45*M_PI/180,
+         +20*M_PI/180};
     static const unsigned int order[NUM_PROXIMITY] =
         {PROXIMITY_M_20, PROXIMITY_M_45, PROXIMITY_P_20, PROXIMITY_M_90,
          PROXIMITY_P_45, PROXIMITY_M_150, PROXIMITY_P_90, PROXIMITY_P_150};
