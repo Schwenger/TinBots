@@ -11,11 +11,17 @@ static volatile unsigned char bot_ir_sensors;
 
 extern unsigned char com_buffer[64];
 
+static TinPackage package;
+
+void test_callback(TinPackage* package) {
+    tin_set_led(0, ON);
+}
 
 int main() {
     tin_init();
 
     tin_init_com();
+    // TODO: use RS232 for debugging features
     tin_init_rs232(9600UL);
 
     tin_wait(5);
@@ -26,13 +32,26 @@ int main() {
     unsigned int index;
     unsigned int proximity[8];
 
-    while (1) {
-        I2CCONbits.SEN = 1;
-        tin_wait(500);
+    package.source = 0x42;
+    package.target = 0x00;
+    package.command = 0x60;
+    package.length = 6;
+    package.data = "Hello\n";
+    package.callback = test_callback;
 
-        memset(buffer, 0, 128);
-        sprintf(buffer, "%d\n", bot_ir_sensors);
-        tin_com_print(buffer);
+    while (1) {
+        // trigger ir sensor data refresh
+        I2CCONbits.SEN = 1;
+
+        tin_wait(500);
+        tin_set_led(0, OFF);
+
+        // WARNING: it is unsafe to send a package again before the corresponding callback has been called
+        tin_com_send(&package);
+
+        //memset(buffer, 0, 128);
+        //sprintf(buffer, "%d\n", bot_ir_sensors);
+        //tin_com_print(buffer);
 
 
         //idle_i2c();
@@ -91,4 +110,3 @@ ISR(_MI2CInterrupt) {
             break;
     }
 }
-

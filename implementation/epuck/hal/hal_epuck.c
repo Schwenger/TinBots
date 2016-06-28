@@ -2,19 +2,12 @@
  * E-Puck Hardware Abstraction Layer
  */
 
-#include <string.h> /* strlen */
-
 #include "tinpuck.h"
 
 #include "hal.h"
 
-/*
-#include "e_uart_char.h"
-*/
-
 void hal_set_speed(double left, double right) {
-    //e_set_speed_left(left);
-    //e_set_speed_left(right);
+    tin_set_speed(left, right);
 }
 
 void hal_set_led(unsigned int led, unsigned int value) {
