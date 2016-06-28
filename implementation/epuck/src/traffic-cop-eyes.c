@@ -1,5 +1,7 @@
 #include <hal/hal.h>
 #include <assert.h>
+#include <pi.h>
+#include <stdlib.h>
 #include "traffic-cop-eyes.h"
 
 static double ray_dist(double x, double y, double phi);
@@ -16,11 +18,10 @@ enum TCE_STATES {
 static const int MIN_DIST = 12; /* arbitrary, TODO */
 
 double ray_dist(double x, double y, double phi) {
-    (void) x;
-    (void) y;
-    (void) phi;
-    /* TODO */
-    return 7.0; /* and the wise man spoke: "And the distance shall always be 7 for this is the number before 8. */
+    double ray_orth_x = -sin(phi);
+    double ray_orth_y =  cos(phi);
+    double dist = fabs(x * ray_orth_x + y * ray_orth_y); /* scalar product of [xy] and ray_orth */
+    return dist;
 }
 
 void enter_wait_detect(TCEInputs* inputs, TCEState* tce){
