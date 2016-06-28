@@ -39,3 +39,9 @@ void hal_print(const char* message) {
     while (e_uart1_sending());
     */
 }
+
+void hal_debug_out(DebugCategory key, double value) {
+    /* Ignore, for now. */
+    (void)key;
+    (void)value;
+}

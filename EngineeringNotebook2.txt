@@ -251,7 +251,7 @@ supplemental:
   if there is more information than the buffer can handle the last byte will be
   overwritten over and over again - we have to keep that in mind for protocol design
 
-  possible alternatives (if we run intro any problems):
+  possible alternatives (if we run into any problems):
 
   * increase buffer size
   * implement our own interrupt for data reception and immediately handle, e.g.,
@@ -267,3 +267,20 @@ scribe: Ben Wiederhake 24.06.2016 13-14 session
 - controller.h/c wäre ganz cool
 - Wir sollten RHR in Matlab testen
 - irgendjemand: Was genau für Pakete wollen wir eigentlich senden?
+
+
+==============================
+
+scribe: Maximilian Schwenger 28.06.2016 16-18 session
+
+Regarding map updates:
+We can only walk a finite amount in a fixed time slot (except for teleportation due to map drift and re-enabled LPS), so we have a fixed circle for which we need to transmit new information.
+Information is ternary: Wall, Free, Unknown
+
+path finder computes path -> path executor
+path executer senses wall -> path invalid -> signal to controller
+controller re-triggers path finder.
+
+Note: if path finder signals a problem we run RHR again.
+if path exec signals a problem we run path finder again.
+

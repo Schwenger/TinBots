@@ -2,12 +2,17 @@
  * Matlab Hardware Abstraction Layer
  */
 
+#include <assert.h>
+#include <math.h> /* Only for "time feedback" */
 #include <stdlib.h>
 
 #include "hal.h"
 
 #include "tinbot.h"
 #include "matlab.h"
+
+/* Currently, "TinBot Software > Chart > Explore > debug_info > size" is set to 10 */
+typedef char check_debug_array_length_against_matlab[(DEBUG_CAT_NUM <= 10) ? 1 : -1];
 
 static MatlabBot* current;
 
@@ -45,6 +50,12 @@ void hal_print(const char* message) {
     /* FIXME */
 }
 
+void hal_debug_out(DebugCategory key, double value) {
+    assert(key < DEBUG_CAT_NUM);
+    current->debug_info[key] = value;
+    current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1);
+}
+
 
 /* Implementation of matlab.h */
 
@@ -74,6 +85,13 @@ double matlab_get_motor_left() {
 
 double matlab_get_motor_right() {
     return current->motor_right;
+}
+
+double matlab_get_debug_info(int i) {
+    if (i < 0 || i >= DEBUG_CAT_NUM) {
+        return 0;
+    }
+    return current->debug_info[i];
 }
 
 void matlab_update_proximity(double* proximity) {
