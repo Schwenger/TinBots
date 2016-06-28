@@ -47,7 +47,7 @@ set(SOURCE_FILES
         src/astar/astar.c
         src/pathfinder.c
 
-        hal/hal_epuck.c)
+        hal/hal_epuck.c src/traffic-cop-eyes.h src/traffic-cop-eyes.c)
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 
