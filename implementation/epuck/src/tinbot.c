@@ -27,11 +27,11 @@ static double prox_to_cm(double measured) {
 void update_proximity(TinBot* tinbot, double proximity[8]) {
     unsigned int number;
     for (number = 0; number < 8; number++) {
-        if (proximity[number] > 50) {
+        /*if (proximity[number] > 50) {
             hal_set_led(number, 1);
         } else {
             hal_set_led(number, 0);
-        }
+        }*/
         tinbot->sens.proximity[number] = prox_to_cm(proximity[number]);
     }
 }

@@ -20,7 +20,7 @@ static char buffer[128];
 
 void debug_led_callback(TinPackage* package) {
     unsigned int number;
-    tin_set_led(1, ON);
+    tin_set_led(0, ON);
     for (number = 0; number < 8; number++) {
         tin_set_led(number, (((unsigned int) package->data[0]) >> number) & 1);
     }
@@ -45,7 +45,7 @@ int main() {
     tin_init_com();
     tin_init_rs232(9600UL);
 
-    tin_wait(5);
+    tin_wait(2000);
 
     tin_calibrate_proximity();
 
@@ -54,7 +54,7 @@ int main() {
     tin_task_register(&debug_send_proximity_task, debug_send_proximity, 5000);
     tin_task_activate(&debug_send_proximity_task);
 
-    //setup(&bot);
+    setup(&bot);
 
     //char buffer[128];
     unsigned int index;
@@ -66,14 +66,14 @@ int main() {
     package.command = 0x60;
     package.data = buffer;
 
-    tin_wait(2000);
+
 
     //tin_set_led(LED_FRONT, ON);
 
-    tin_set_speed(2, 2);
+    //tin_set_speed(2, 2);
 
     while (1) {
-        //tin_wait(500);
+        tin_wait(500);
         tin_get_proximity(proximity_raw);
         for (index = 0; index < 8; index++) {
             if (proximity_raw[index] >= 50) {
@@ -83,8 +83,8 @@ int main() {
             }
         }
 
-        //update_proximity(&bot, proximity);
-        //loop(&bot);
+        update_proximity(&bot, proximity);
+        loop(&bot);
 
 
 
