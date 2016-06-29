@@ -47,6 +47,7 @@ int main() {
     package.target = 0x00;
     package.command = 0x60;
     package.length = 6;
+
     package.data = "Hello\n";
     package.callback = test_callback;
 

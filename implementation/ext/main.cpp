@@ -19,6 +19,8 @@ using namespace NeatAVR;
 
 typedef Pin14 LED;
 
+typedef Pin26 Victim;
+
 
 // IR Detector
 template<typename Pin> class IRDetector {
@@ -77,6 +79,9 @@ int main() {
 
     LED::output();
 
+    Victim::input();
+    Victim::off();
+
     Timer::init(Timer::Prescaler::DIV_8);
     Timer::WaveGeneration::set(Timer::WaveGeneration::CTC);
 
@@ -120,7 +125,7 @@ INTERRUPT_ROUTINE(TIMER_COMPARE_A_INTRRUPT) {
     ir3.detect();
     ir4.detect();
     ir5.detect();
-    sensor_data = ((ir5.active << 5) | (ir4.active << 4) | (ir3.active << 3) |
+    sensor_data = ((Victim::read() << 6) | (ir5.active << 5) | (ir4.active << 4) | (ir3.active << 3) |
                    (ir2.active << 2) | (ir1.active << 1) | ir0.active);
     LED::write(sensor_data);
 }
