@@ -1,11 +1,10 @@
 #include <hal/hal.h>
 #include <assert.h>
 #include <pi.h>
-#include <stdlib.h>
 #include "traffic-cop-eyes.h"
 
 static double ray_dist(double x, double y, double phi);
-static void enter_wait_detect(TCEInputs* inputs, TCEState* tce);
+static void enter_wait_detect(TCEState* tce, Sensors* sens);
 
 enum TCE_STATES {
     TCE_noidea, /* no information about the victim's location */
@@ -24,11 +23,11 @@ double ray_dist(double x, double y, double phi) {
     return dist;
 }
 
-void enter_wait_detect(TCEInputs* inputs, TCEState* tce){
+void enter_wait_detect(TCEState* tce, Sensors* sens){
     tce->state = TCE_waitdetect;
-    tce->locals.last_x = inputs->c_x;
-    tce->locals.last_y = inputs->c_y;
-    tce->locals.last_phi = inputs->c_phi;
+    tce->locals.last_x = sens->current.x;
+    tce->locals.last_y = sens->current.y;
+    tce->locals.last_phi = sens->current.direction;
     tce->need_angle = 1;
 }
 
@@ -40,8 +39,6 @@ void tce_reset(TCEState* tce){
 void tce_step(TCEInputs* inputs, TCEState* tce, Sensors* sens){
     double dist; /* according to matlab this is supposed to be an output, but I do not know, why */
 
-    (void) sens;
-
     if(inputs->found_victim_xy) {
         tce->state = TCE_done;
         tce->need_angle = 0;
@@ -50,7 +47,7 @@ void tce_step(TCEInputs* inputs, TCEState* tce, Sensors* sens){
     switch(tce->state) {
         case TCE_noidea:
             if(inputs->ir_stable) {
-                enter_wait_detect(inputs, tce);
+                enter_wait_detect(tce, sens);
             }
             break;
         case TCE_waitdetect:
@@ -65,9 +62,9 @@ void tce_step(TCEInputs* inputs, TCEState* tce, Sensors* sens){
             }
             break;
         case TCE_someidea:
-            dist = ray_dist(inputs->c_x - tce->locals.last_x, inputs->c_y - tce->locals.last_y, tce->locals.last_phi);
+            dist = ray_dist(sens->current.x - tce->locals.last_x, sens->current.y - tce->locals.last_y, tce->locals.last_phi);
             if(inputs->ir_stable && dist >= MIN_DIST) {
-                enter_wait_detect(inputs, tce);
+                enter_wait_detect(tce, sens);
             }
             break;
         case TCE_done:

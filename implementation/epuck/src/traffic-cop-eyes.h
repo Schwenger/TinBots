@@ -4,9 +4,6 @@
 #include "sensors.h"
 
 typedef struct TCEInputs {
-    int c_phi;
-    int c_x;
-    int c_y;
     int found_victim_phi;
     int found_victim_xy;
     double ray_phi;
@@ -14,8 +11,8 @@ typedef struct TCEInputs {
 } TCEInputs;
 
 typedef struct TCELocals {
-    int last_x;
-    int last_y;
+    double last_x;
+    double last_y;
     double last_phi;
 } TCELocals;
 
