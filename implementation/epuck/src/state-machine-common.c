@@ -4,7 +4,7 @@
 #include "pi.h"
 #include "state-machine-common.h"
 
-const double SMC_SENSE_TOL = 10;
+const double SMC_SENSE_TOL = 5;
 const double SMC_SECS_PER_DEGREE = (M_PI / 180) / SMC_ROT_PER_SEC;
 
 void smc_rot_left() {

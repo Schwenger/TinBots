@@ -139,7 +139,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             rhr->state = RHR_follow;
             /* Should already be moving, but be extra sure. */
             smc_move();
-        } else if (smc_time_passed_p(rhr->time_entered, 10 / SMC_MV_PER_SEC)) {
+        } else if (smc_time_passed_p(rhr->time_entered, 7 / SMC_MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
             smc_rot_right();
         }
@@ -155,7 +155,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             rhr->state = RHR_wall_orient;
             smc_move();
         } else if (sens->proximity[PROXIMITY_M_45] > SMC_SENSE_TOL
-                   && smc_time_passed_p(rhr->time_entered, 10 / SMC_MV_PER_SEC)) {
+                   && smc_time_passed_p(rhr->time_entered, 5 / SMC_MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
             smc_rot_right();
         }
