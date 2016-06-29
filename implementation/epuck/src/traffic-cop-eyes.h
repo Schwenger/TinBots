@@ -7,8 +7,6 @@ typedef struct TCEInputs {
     int c_phi;
     int c_x;
     int c_y;
-    int dx;
-    int dy;
     int found_victim_phi;
     int found_victim_xy;
     double ray_phi;
