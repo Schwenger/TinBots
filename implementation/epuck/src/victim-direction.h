@@ -5,7 +5,6 @@
 #include "sensors.h"
 
 typedef struct VDInputs {
-    int ir;
     int run_finder;
 } VDInputs;
 
