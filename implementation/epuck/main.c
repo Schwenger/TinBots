@@ -7,13 +7,13 @@
 
 #include "tinpuck.h"
 
+#include "tinbot.h"
+
 static volatile unsigned char bot_ir_sensors;
 
-extern unsigned char com_buffer[64];
-
 static TinPackage package;
-extern TinPackage rx_package;
 
+static TinBot bot;
 
 void debug_led_callback(TinPackage* package) {
     unsigned int number;
@@ -21,10 +21,6 @@ void debug_led_callback(TinPackage* package) {
     for (number = 0; number < 8; number++) {
         tin_set_led(number, (((unsigned int) package->data[0]) >> number) & 1);
     }
-}
-
-void test_callback(TinPackage* package) {
-    //tin_set_led(0, ON);
 }
 
 int main() {
@@ -39,19 +35,33 @@ int main() {
 
     tin_com_register(0x10, debug_led_callback);
 
+    setup(&bot);
+
     char buffer[128];
     unsigned int index;
-    unsigned int proximity[8];
+    double proximity[8];
+    unsigned int proximity_raw[8];
 
     package.source = 0x42;
     package.target = 0x00;
     package.command = 0x60;
-    package.length = 6;
-
-    package.data = "Hello\n";
-    package.callback = test_callback;
+    package.data = buffer;
 
     while (1) {
+        tin_get_proximity(proximity_raw);
+        for (index = 0; index < 8; index++) {
+            if (proximity_raw[index] >= 200) {
+                proximity[index] = 4;
+            } else {
+                proximity[index] = 6;
+            }
+        }
+
+        update_proximity(&bot, proximity);
+        loop(&bot);
+
+
+
         //asm volatile ("nop");
         // trigger ir sensor data refresh
         //I2CCONbits.SEN = 1;
@@ -60,12 +70,12 @@ int main() {
         //tin_set_led(0, OFF);
 
         // WARNING: it is unsafe to send a package again before the corresponding callback has been called
-        memset(buffer, 0, 128);
-        sprintf(buffer, "data: %d %d %d %d\n", rx_package.source, rx_package.target, rx_package.command, rx_package.length);
+        //memset(buffer, 0, 128);
+        //sprintf(buffer, "data: %d %d %d %d\n", rx_package.source, rx_package.target, rx_package.command, rx_package.length);
         //tin_com_print(buffer);
-        package.data = buffer;
-        package.length = strlen(buffer);
-        tin_com_send(&package);
+        //package.data = buffer;
+        //package.length = strlen(buffer);
+        //tin_com_send(&package);
 
         //memset(buffer, 0, 128);
         //sprintf(buffer, "%d\n", bot_ir_sensors);
@@ -78,7 +88,7 @@ int main() {
         //I2CCONbits.PEN=1;
         //idle_i2c();
 
-        tin_get_proximity(proximity);
+
         //if(I2CSTATbits.P) {
         //    I2CCONbits.SEN = 1;
         //}
