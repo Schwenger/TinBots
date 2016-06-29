@@ -1,8 +1,9 @@
 #include <hal/hal.h>
 #include <assert.h>
 #include <pi.h>
+
+#include "path-finder.h"
 #include "victim-finder.h"
-#include "pathfinder.h"
 
 #define X1   0
 #define Y1   1

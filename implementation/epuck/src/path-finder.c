@@ -4,7 +4,7 @@
 
 #include "astar/astar.h"
 
-#include "pathfinder.h"
+#include "path-finder.h"
 #include "pi.h"
 
 typedef struct Context {

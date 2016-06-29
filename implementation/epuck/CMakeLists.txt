@@ -46,7 +46,7 @@ set(SOURCE_FILES
         src/blind-cop.c
         src/controller.c
         src/path-exec.c
-        src/pathfinder.c
+        src/path-finder.c
         src/rhr.c
         src/state-machine-common.c
         src/tinbot.c

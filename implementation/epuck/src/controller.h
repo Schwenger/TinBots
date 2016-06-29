@@ -3,7 +3,7 @@
 
 #include "blind-cop.h"
 #include "path-exec.h"
-#include "pathfinder.h"
+#include "path-finder.h"
 #include "rhr.h"
 #include "sensors.h"
 #include "traffic-cop-eyes.h"
