@@ -9,7 +9,7 @@ void controller_reset(Controller* c) {
     rhr_reset(&c->rhr);
     tce_reset(&c->cop_eyes);
     vd_reset(&c->vic_dir);
-    /* FIXME: vf_reset(&c->vic_finder); */
+    vf_reset(&c->vic_finder);
 
     /* In the first iteration, we look at the "previous" run choice of
      * the blind cop, so we simulate it. */
@@ -30,7 +30,7 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     {
         TCEInputs inputs;
         inputs.found_victim_phi = c->vic_dir.victim_found;
-        /* FIXME: inputs.found_victim_xy = c->vic_finder.victim_found; */
+        inputs.found_victim_xy = c->vic_finder.found_victim_xy;
         /* FIXME: Other cop-eyes inputs? */
         tce_step(&inputs, &c->cop_eyes, sens);
     }
@@ -40,14 +40,14 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     {
         BlindInputs inputs;
         inputs.found_victim_phi = c->vic_dir.victim_found;
-        /* FIXME: inputs.found_victim_xy = c->vic_finder.victim_found; */
+        inputs.found_victim_xy = c->vic_finder.found_victim_xy;
         inputs.need_angle = c->cop_eyes.need_angle;
         /* FIXME: inputs.no_path = c->path_finder.no_path; */
         /* FIXME: inputs.path_completed = c->path_finder.path_completed; */
         inputs.origin_x = in->origin_x;
         inputs.origin_y = in->origin_y;
-        /* FIXME: inputs.victim_x = c->vic_finder.victim_x; */
-        /* FIXME: inputs.victim_y = c->vic_finder.victim_y; */
+        inputs.victim_x = c->vic_finder.victim_x;
+        inputs.victim_y = c->vic_finder.victim_y;
         blind_step(&inputs, &c->blind);
     }
 
@@ -62,6 +62,12 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
             break;
         case BLIND_RUN_CHOICE_victim_finder:
             vd_reset(&c->vic_dir);
+            {
+                /* Make sure that Victim Finder is *definitely* deactivated. */
+                VFInputs inputs;
+                inputs.found_victim_phi = 0;
+                vf_step(&inputs, &c->vic_finder, sens);
+            }
             break;
         case BLIND_RUN_CHOICE_path_finder:
             /* pf_reset(&c->path_finder); */
@@ -83,6 +89,12 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
         break;
     case BLIND_RUN_CHOICE_victim_finder:
         vd_step(&c->vic_dir, sens);
+        {
+            VFInputs inputs;
+            inputs.found_victim_phi = c->vic_dir.victim_found;
+            inputs.victim_angle = c->vic_dir.victim_phi;
+            vf_step(&inputs, &c->vic_finder, sens);
+        }
         break;
     case BLIND_RUN_CHOICE_path_finder:
         /* pf_step(&c->path_finder); */

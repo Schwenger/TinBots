@@ -8,7 +8,7 @@
 #include "sensors.h"
 #include "traffic-cop-eyes.h"
 #include "victim-direction.h"
-/* FIXME: #include "victim-finder.h" */
+#include "victim-finder.h"
 
 typedef struct Controller {
     BlindState blind;
@@ -17,7 +17,7 @@ typedef struct Controller {
     RhrLocals rhr;
     TCEState cop_eyes;
     VDState vic_dir;
-    /* FIXME: victim-finder state? */
+    VFState vic_finder;
 } Controller;
 
 typedef struct ControllerInput {
