@@ -12,6 +12,9 @@ typedef struct Position {
     int y;
 } Position;
 
-Position* pf_find_path(Position position, Position goal, Map *map, Position *path);
+#define STEP_DISTANCE 4
+#define MAX_PATH_LENGTH 20 /* map size over const dist */
+/* Caller must allocate space for MAX_PATH_LENGTH+1 instances of Position. */
+void pf_find_path(Position position, Position goal, Map *map, Position *path);
 
 #endif /*EPUCK_PATHFINDER_H*/

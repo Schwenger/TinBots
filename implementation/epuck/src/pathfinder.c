@@ -1,4 +1,4 @@
-
+#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -6,8 +6,6 @@
 
 #include "pathfinder.h"
 #include "pi.h"
-
-#define STEP_DISTANCE 4
 
 typedef struct Context {
 	Map *map;
@@ -37,7 +35,7 @@ static const ASPathNodeSource path_node_source = {
         &search_node_comparator
 };
 
-Position* pf_find_path(Position position, Position goal, Map *map, Position *path) {
+void pf_find_path(Position position, Position goal, Map *map, Position *path) {
     ASPath  as_path;
     size_t path_length, i;
     Context context;
@@ -48,12 +46,13 @@ Position* pf_find_path(Position position, Position goal, Map *map, Position *pat
     path_length = ASPathGetCount(as_path);
 
 	for(i = 0; i < path_length; ++i) {
+        assert(i < MAX_PATH_LENGTH);
 		path[i] = *(Position *) ASPathGetNode(as_path, i);
 	}
+    assert(i <= MAX_PATH_LENGTH);
 	path[i] = INVALID_POS;
 
 	ASPathDestroy(as_path);
-	return path;
 }
 
 /**
