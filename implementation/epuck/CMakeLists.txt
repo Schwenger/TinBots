@@ -51,7 +51,6 @@ set(SOURCE_FILES
         src/tinbot.c
         src/traffic-cop-eyes.c
         src/victim-direction.c
-        src/victim-finder.c
 
         hal/hal_epuck.c)
 
