@@ -148,7 +148,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item the exits of the building are the set of the Tin Bots' starting positions
 \item Tin Bots are equipped with a visual marker on top
 \item the custom extension boards (with IR sensors and ATmega328p) are easily deployable / removable
-\item sampling sensor information from IR-Sensors in a real time manner using the ATmega328p 
+\item sampling sensor information from IR-Sensors in a real time manner using the ATmega328p
 \item pick up received signals from ATmega328p in a real time manner such that no information is lost by being overwritten
 \item transmitting pre-specified time-critical signal sequence using the IR-emitters using the ATtiny2313
 \item each ATmega328p must be aware of the color it is \enquote{wearing} (for self-identification via the LPS)
@@ -166,6 +166,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item use actual collapsed buildings or victims
 \item obstacles that are not detected by the proximity sensors (e.g., walls that are too small)
 \item deal with more than 8 Tin Bots
+\item allow Tin Bots to \emph{come online} while the overall system is already active
 \end{enumerate}
 
 
@@ -180,7 +181,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
   are equipped and clearly visible from the LPS; the custom extension boards have
   pairwise distinct colors (for identification by the LPS)
 \item[trigger:] power switch of one or more Tin Bots is switched on
-\item[scenario:] \ 
+\item[scenario:] \
 \begin{enumerate}
 	\item user places Tin Bots on surface
 	\item user switches on the Tin Bots
@@ -194,7 +195,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item[goal in context:] deactivate the simulation / system
 \item[precondition:] at least one Tin Bot's power switch is in the on position
 \item[trigger:] power switches of the currently-switched-on Tin Bots are switched off
-\item[scenario:] \ 
+\item[scenario:] \
 \begin{enumerate}
 	\item user switches off all of the running Tin Bots
 	\item user switches off the LPS
@@ -207,7 +208,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item[goal in context:] simulate hardware failure in one of the Tin Bots
 \item[precondition:] at least two Tin Bots one the table are switched on and running; requirement \ref{req:puckFault} is implemented
 \item[trigger:] power switch of one of the switched-on Tin Bots is switched off
-\item[scenario:] \ 
+\item[scenario:] \
 \begin{enumerate}
 	\item user selects some Tin Bots to be deactivated (at most all except one)
 	\item user switches off these Tin Bots
@@ -222,7 +223,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item[goal in context:] simulate walls segment that collapse or break away
 \item[precondition:] requirement \ref{req:mapChange} is implemented; E-Pucks are running; if removing a wall segment: at least one \enquote{wall}-segment on the table acting as a wall segment
 \item[trigger:] user manually removes or adds one or more of the wall segment
-\item[scenario:] \ 
+\item[scenario:] \
 \begin{enumerate}
 	\item user removes some wall segment
 	\item user places the removed wall segment somewhere else
@@ -235,8 +236,8 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item[primary actor:] user
 \item[goal in context:] simulate connectivity problems between LPS and Tin Bots
 \item[precondition:] LPS is up and running; requirement \ref{req:missLPS} is implemented
-\item[trigger:] user switches off the LPS (either by software, or by switching off the Raspberry Pi)
-\item[scenario:] \ 
+\item[trigger:] user switches off the LPS (either by software, or by switching off the Raspberry Pi, or by blocking the camera's view)
+\item[scenario:] \
 \begin{enumerate}
 	\item user literally switches off the Raspberry Pi
 \end{enumerate}
@@ -264,6 +265,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item solvable maze (including table and walls; walls need to be of sufficient height to prevent signals radiating over the walls)
 \item flat surface
 \item unblocked view from the camera to the maze
+\item the LPS knows in advance how many Tin Bots will initially be available (see N13)
 \end{enumerate}
 
 \subsection{Sensors}
@@ -316,6 +318,8 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \begin{itemize}
     \item Remove MR11 (don't fall off the table)
     \item Include distance in E1 (magnets vs. walls)
+    \item Add requirement that Tin Bots never come online while the system is already active (e.g., there already is map data that would need distribution)
+    \item Modify use-case E to include \enquote{camera blocked} as a trigger
 \end{itemize}
 
 \end{document}

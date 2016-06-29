@@ -284,3 +284,10 @@ controller re-triggers path finder.
 Note: if path finder signals a problem we run RHR again.
 if path exec signals a problem we run path finder again.
 
+
+==============================
+
+scribe: Ben Wiederhake 29.06.2016 intermission
+
+Added two new amendments to the specification as discussed on slack.
+
