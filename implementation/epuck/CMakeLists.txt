@@ -44,6 +44,7 @@ set(SOURCE_FILES
         src/approximator.c
         src/astar/astar.c
         src/blind-cop.c
+        src/controller.c
         src/path-exec.c
         src/pathfinder.c
         src/rhr.c
