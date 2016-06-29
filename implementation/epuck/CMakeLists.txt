@@ -41,15 +41,19 @@ set(SOURCE_FILES
         ${LIB_PATH}/src/time.c
         ${LIB_PATH}/src/utils.c
 
-        src/tinbot.c
-        src/rhr.c
-        src/state-machine-common.c
+        src/approximator.c
+        src/astar/astar.c
         src/blind-cop.c
         src/path-exec.c
-        src/astar/astar.c
         src/pathfinder.c
+        src/rhr.c
+        src/state-machine-common.c
+        src/tinbot.c
+        src/traffic-cop-eyes.c
+        src/victim-direction.c
+        src/victim-finder.c
 
-        hal/hal_epuck.c src/traffic-cop-eyes.h src/traffic-cop-eyes.c src/approximator.c src/approximator.h src/victim-direction.c src/victim-direction.h src/victim-finder.c src/victim-finder.h)
+        hal/hal_epuck.c)
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 
