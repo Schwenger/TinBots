@@ -12,21 +12,32 @@ static volatile unsigned char bot_ir_sensors;
 extern unsigned char com_buffer[64];
 
 static TinPackage package;
+extern TinPackage rx_package;
+
+
+void debug_led_callback(TinPackage* package) {
+    unsigned int number;
+    tin_set_led(1, ON);
+    for (number = 0; number < 8; number++) {
+        tin_set_led(number, (((unsigned int) package->data[0]) >> number) & 1);
+    }
+}
 
 void test_callback(TinPackage* package) {
-    tin_set_led(0, ON);
+    //tin_set_led(0, ON);
 }
 
 int main() {
     tin_init();
 
     tin_init_com();
-    // TODO: use RS232 for debugging features
     tin_init_rs232(9600UL);
 
     tin_wait(5);
 
     tin_calibrate_proximity();
+
+    tin_com_register(0x10, debug_led_callback);
 
     char buffer[128];
     unsigned int index;
@@ -40,13 +51,19 @@ int main() {
     package.callback = test_callback;
 
     while (1) {
+        //asm volatile ("nop");
         // trigger ir sensor data refresh
-        I2CCONbits.SEN = 1;
+        //I2CCONbits.SEN = 1;
 
         tin_wait(500);
-        tin_set_led(0, OFF);
+        //tin_set_led(0, OFF);
 
         // WARNING: it is unsafe to send a package again before the corresponding callback has been called
+        memset(buffer, 0, 128);
+        sprintf(buffer, "data: %d %d %d %d\n", rx_package.source, rx_package.target, rx_package.command, rx_package.length);
+        //tin_com_print(buffer);
+        package.data = buffer;
+        package.length = strlen(buffer);
         tin_com_send(&package);
 
         //memset(buffer, 0, 128);
@@ -60,14 +77,14 @@ int main() {
         //I2CCONbits.PEN=1;
         //idle_i2c();
 
-        //tin_get_proximity(proximity);
+        tin_get_proximity(proximity);
         //if(I2CSTATbits.P) {
         //    I2CCONbits.SEN = 1;
         //}
 
-        /*for (index = 0; index < 8; index++) {
-            tin_set_led(index, proximity[index] > 15 ? ON : OFF);
-        }*/
+        //for (index = 0; index < 8; index++) {
+        //    tin_set_led(index, proximity[index] > 15 ? ON : OFF);
+        //}
 
         //memset(buffer, 0, 128);
         //sprintf(buffer, "%lu %u %u %u %u %u %u %u %u\n", tin_get_time(),
