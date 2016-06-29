@@ -9,7 +9,7 @@ extern const double SMC_SENSE_TOL;
 #define SMC_MOTOR_ROT (1)
 
 #define SMC_MV_PER_SEC SMC_MOTOR_MV
-#define SMC_ROT_PER_SEC (SMC_MOTOR_ROT / 5.3)
+#define SMC_ROT_PER_SEC (SMC_MOTOR_ROT * 2 / 5.3)
 
 extern const double SMC_SECS_PER_DEGREE;
 
