@@ -61,12 +61,7 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
             rhr_reset(&c->rhr);
             break;
         case BLIND_RUN_CHOICE_victim_finder:
-            {
-                VDInputs inputs;
-                inputs.run_finder = 0;
-                /* FIXME: VD should access motors directly */
-                vd_step(&inputs, &c->vic_dir, sens);
-            }
+            vd_reset(&c->vic_dir);
             break;
         case BLIND_RUN_CHOICE_path_finder:
             /* pf_reset(&c->path_finder); */
@@ -87,11 +82,7 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
         rhr_step(&c->rhr, sens);
         break;
     case BLIND_RUN_CHOICE_victim_finder:
-        {
-            VDInputs inputs;
-            inputs.run_finder = 1;
-            vd_step(&inputs, &c->vic_dir, sens);
-        }
+        vd_step(&c->vic_dir, sens);
         break;
     case BLIND_RUN_CHOICE_path_finder:
         /* pf_step(&c->path_finder); */

@@ -1,9 +1,10 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <pi.h>
-#include <hal/hal.h>
-#include "victim-direction.h"
+
+#include "hal/hal.h"
+#include "pi.h"
 #include "sensors.h"
+#include "victim-direction.h"
 
 enum {
     VD_off,
@@ -18,8 +19,6 @@ static double determine_victim_phi(double bound, double current_phi, int sensor)
 
 void vd_reset(VDState* vd){
     vd->state = VD_off;
-    vd->motor_right = 0;
-    vd->motor_left = 0;
     vd->victim_found = 0;
 }
 
@@ -34,8 +33,7 @@ static void entry_start(VDState* vd, Sensors* sens) {
         }
     }
     assert(sens->ir[vd->locals.sensor] == 0);
-    vd->motor_left = -1;
-    vd->motor_right = 1;
+    hal_set_speed(-1, 1);
     vd->locals.initial_phi = sens->current.direction;
 }
 
@@ -57,15 +55,10 @@ static double determine_victim_phi(double ir_start, double ir_end, int sensor) {
     return victim_phi;
 }
 
-void vd_step(VDInputs* inputs, VDState* vd, Sensors* sens){
-    if(vd->state != VD_off && inputs->run_finder == 0) {
-        vd_reset(vd);
-    }
+void vd_step(VDState* vd, Sensors* sens){
     switch(vd->state) {
         case VD_off:
-            if(inputs->run_finder){
-                entry_start(vd, sens);
-            }
+            entry_start(vd, sens);
             break;
         case VD_start:
             if(sens->ir[vd->locals.sensor]){
@@ -82,8 +75,7 @@ void vd_step(VDInputs* inputs, VDState* vd, Sensors* sens){
         case VD_found_end:
             if(fabs(sens->current.direction - vd->locals.initial_phi) < 4 * M_PI/180.0){
                 vd->state = VD_done;
-                vd->motor_left = 0;
-                vd->motor_right = 0;
+                hal_set_speed(0, 0);
             }
             break;
         case VD_done:
@@ -92,5 +84,6 @@ void vd_step(VDInputs* inputs, VDState* vd, Sensors* sens){
             hal_print("Invalid state in victim direction. VICTOR, where are you??");
             assert(0);
             vd_reset(vd);
+            break;
     }
 }
