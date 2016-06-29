@@ -54,7 +54,9 @@ set(SOURCE_FILES
         src/victim-direction.c
         src/victim-finder.c
 
-        hal/hal_epuck.c)
+        hal/hal_epuck.c
+        map.c
+        src/ir-stabilizer.c)
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 
