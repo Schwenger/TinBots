@@ -12,6 +12,10 @@ typedef struct Position {
     int y;
 } Position;
 
+typedef struct ExactPosition {
+    double x, y;
+} ExactPosition;
+
 #define STEP_DISTANCE 4
 #define MAX_PATH_LENGTH 20 /* map size over const dist */
 /* Caller must allocate space for MAX_PATH_LENGTH+1 instances of Position. */

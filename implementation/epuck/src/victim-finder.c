@@ -19,7 +19,7 @@ enum {
     VF_enoughinfo
 };
 
-static Position compute_position(double* data);
+static ExactPosition compute_position(double* data);
 
 void vf_reset(VFState* vf) {
     int i;
@@ -31,46 +31,57 @@ void vf_reset(VFState* vf) {
     }
 }
 
-static Position compute_position(double* data) {
-    double v1_x, v1_y, v1_orth_x, v1_orth_y;
-    double v2_x, v2_y, v2_orth_x, v2_orth_y;
-    double o1_x, o1_y, o2_x, o2_y;
-    double M[4];
-    double b_x, b_y, x, y;
-    v1_x = cos(data[PHI1]);
-    v1_y = sin(data[PHI1]);
-    v1_orth_x = -v1_y;
-    v1_orth_y =  v1_x;
-    v2_x = cos(data[PHI2]);
-    v2_y = sin(data[PHI2]);
-    v2_orth_x = -v2_y;
-    v2_orth_y =  v2_x;
-    o1_x = data[X1];
-    o1_y = data[Y1];
-    o2_x = data[X2];
-    o2_y = data[Y2];
+static ExactPosition compute_position(double* data) {
+    ExactPosition pos;
+    int sanity1, sanity2;
+    double v1[2], v1_orth[2], v2[2], v2_orth[2], o1[2], o2[2];
+    double M[4], b[2], xy[2];
+    v1[0] = cos(data[PHI1]);
+    v1[1] = sin(data[PHI1]);
+    v1_orth[0] = -v1[1];
+    v1_orth[1] =  v1[0];
+    v2[0] = cos(data[PHI2]);
+    v2[1] = sin(data[PHI2]);
+    v2_orth[0] = -v2[1];
+    v2_orth[1] =  v2[0];
+    o1[0] = data[X1];
+    o1[1] = data[Y1];
+    o2[0] = data[X2];
+    o2[1] = data[Y2];
 
-    M[0] = v1_orth_x;
-    M[1] = v1_orth_y;
-    M[2] = v2_orth_x;
-    M[3] = v2_orth_y;
+    M[0] = v1_orth[0];
+    M[1] = v1_orth[1];
+    M[2] = v2_orth[0];
+    M[3] = v2_orth[1];
+    b[0] = v1_orth[0] * o1[0] + v1_orth[1] + o1[1];
+    b[1] = v2_orth[0] * o2[0] + v2_orth[1] + o2[1];
 
-//    M = [v1_orth; v2_orth];
-//    b = [v1_orth*o1; v2_orth*o2];
-//    xy = mldivide(M, b); % Solve equation system: M * xy = b
-//    x = xy(1);
-//    y = xy(2);
-//
-//    % Sanity check
-//    if v1_orth * ([x; y] - o1) >= 0.1 ...
-//    || v2_orth * ([x; y] - o2) >= 0.1
-//    x = -1;
-//    y = -1;
-//    end
+    xy[0] = (b[0] * M[3] - b[1] * M[2]) / (M[0] * M[3] - M[1] * M[2]);
+    xy[1] = (b[1] * M[0] - M[1] * b[0]) / (M[0] * M[3] - M[1] * M[2]);
+
+    /*
+      % Sanity check
+      if v1_orth * ([x; y] - o1) >= 0.1 ...
+      || v2_orth * ([x; y] - o2) >= 0.1
+      x = -1;
+      y = -1;
+      end
+    */
+
+    pos.x = xy[0];
+    pos.y = xy[1];
+    sanity1 = v1_orth[0] * (xy[0] - o1[0]) + v1_orth[1] * (xy[1] - o1[1]) < 0.1;
+    sanity2 = v2_orth[0] * (xy[0] - o2[0]) + v2_orth[1] * (xy[1] - o2[1]) < 0.1;
+    assert(sanity1 && sanity2);
+    if(!sanity1 || !sanity2){
+        pos.x = -1;
+        pos.y = -1;
+    }
+    return pos;
 }
 
 void vf_step(VFInputs* inputs, VFState* vf, Sensors* sens) {
-    Position computed_victim;
+    ExactPosition computed_victim;
     switch(vf->state) {
         case VF_noinfo:
             if(inputs->found_victim_phi) {

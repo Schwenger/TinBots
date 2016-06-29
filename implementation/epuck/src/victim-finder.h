@@ -16,8 +16,8 @@ typedef struct {
     int state;
     VFLocals locals;
     int found_victim_xy;
-    int victim_x;
-    int victim_y;
+    double victim_x;
+    double victim_y;
 } VFState;
 
 void vf_reset(VFState* vf);
