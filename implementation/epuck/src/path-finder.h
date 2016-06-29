@@ -1,20 +1,7 @@
 #ifndef EPUCK_PATHFINDER_H
 #define EPUCK_PATHFINDER_H
 
-typedef struct Map {
-    const int width;
-    const int height;
-    int** occupancy;
-} Map;
-
-typedef struct Position {
-    int x;
-    int y;
-} Position;
-
-typedef struct ExactPosition {
-    double x, y;
-} ExactPosition;
+#include "map.h"
 
 #define STEP_DISTANCE 4
 #define MAX_PATH_LENGTH 20 /* map size over const dist */
