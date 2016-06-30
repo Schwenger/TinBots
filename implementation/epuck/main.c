@@ -12,6 +12,7 @@
 
 static volatile int ir_data[8];
 static volatile double lps_data[3];
+static volatile unsigned lps_updated = 0;
 static volatile unsigned int pickup_data;
 
 static unsigned int proximity_raw[8];
@@ -38,6 +39,7 @@ static void com_update_lps(TinPackage* package) {
     lps_data[0] = x;
     lps_data[1] = y;
     lps_data[2] = phi;
+    lps_updated = 1;
 }
 
 static void debug_led_callback(TinPackage* package) {
@@ -89,12 +91,16 @@ int main() {
         }
 
         update_proximity(&bot, proximity);
-        SYNCHRONIZED({
-            x= lps_data[0];
-            y = lps_data[1];
-            phi = lps_data[2];
-        })
-        update_lps(&bot, x, y, phi);
+
+        if (lps_updated) {
+            SYNCHRONIZED({
+                x= lps_data[0];
+                y = lps_data[1];
+                phi = lps_data[2];
+            })
+            update_lps(&bot, x, y, phi);
+            lps_updated = 0;
+        }
         update_ir(&bot, (int*) ir_data);
         update_victim_pickup(&bot, pickup_data);
 
