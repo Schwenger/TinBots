@@ -65,6 +65,7 @@ static void find_wall(RhrLocals* rhr, Sensors* sens) {
 }
 
 void rhr_step(RhrLocals* rhr, Sensors* sens) {
+    int deg20off, deg90off, waited_long_enough;
     const int old_state = rhr->state;
     hal_debug_out(DEBUG_CAT_RHR_TOTAL_WAIT_TIME, 0);
     hal_debug_out(DEBUG_CAT_RHR_REMAINING_WAIT_TIME, 0);
@@ -124,7 +125,10 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         }
         break;
     case RHR_follow:
-        if (sens->proximity[PROXIMITY_M_20] <= SMC_SENSE_TOL) {
+        deg20off = sens->proximity[PROXIMITY_M_20] <= SMC_SENSE_TOL;
+        deg90off = sens->proximity[PROXIMITY_M_90] <= 1.5;
+        waited_long_enough = smc_time_passed_p(rhr->time_entered, 1 / SMC_MV_PER_SEC);
+        if(deg20off || (deg90off && waited_long_enough)) {
             rhr->state = RHR_claustrophobia;
             smc_rot_left();
         } else if (sens->proximity[PROXIMITY_M_45] > SMC_SENSE_TOL) {
