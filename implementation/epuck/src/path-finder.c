@@ -14,8 +14,6 @@ typedef struct Context {
 
 enum {
     PF_inactive,
-    PF_wait_zero,
-    PF_compute_path,
     PF_running
 };
 
@@ -27,11 +25,11 @@ static int eop(Position pos);
 
 void pf_reset(PathFinderState* pf) {
     pf->state = PF_inactive;
-    pf->drive = 0;
     pf->next = INVALID_POS;
-    pf->nopath = 0;
+    pf->no_path = 0;
     pf->locals.path_index = 0;
     pf->locals.path[0] = INVALID_POS;
+    pf->path_completed = 0;
 }
 
 void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
@@ -39,45 +37,32 @@ void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
     switch(pf->state) {
         case PF_inactive:
             if(inputs->compute){
-                pf->state = PF_compute_path;
+                pf->state = PF_running;
                 dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
                 pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
                 pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
                 pf->locals.path_index = 0;
                 next_wp = pf->locals.path[pf->locals.path_index];
                 if(eop(next_wp)) {
-                    pf->nopath = 1;
+                    pf->no_path = 1;
                 }
-            }
-            break;
-        case PF_wait_zero:
-            if(inputs->compute) {
-                pf->state = PF_inactive;
-                pf->path_completed = 0;
-                pf->nopath = 0;
-            }
-            break;
-        case PF_compute_path:
-            if(pf->nopath){
-                pf->state = PF_wait_zero;
-            } else {
-                pf->state = PF_running;
-                pf->next = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
             }
             break;
         case PF_running:
             pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
             next_wp = pf->locals.path[pf->locals.path_index];
-            if(eop(next_wp)){
-                pf->state = PF_wait_zero;
-                pf->drive = 0;
+            if(eop(next_wp)) {
+                pf->state = PF_inactive;
                 pf->path_completed = 1;
-            } else if(pos.x == pf->next.x && pos.y == pf->next.y) {
-                if(pf->drive){
-                    pf->drive = 0;
+            } else {
+                if(pos.x == pf->next.x && pos.y == pf->next.y) {
                     pf->locals.path_index++;
-                } else {
-                    pf->drive = 1;
+                    next_wp = pf->locals.path[pf->locals.path_index];
+                    if(eop(next_wp)) {
+                        pf->state = PF_inactive;
+                        pf->path_completed = 1;
+                        pf->next = INVALID_POS;
+                    }
                     pf->next = next_wp;
                 }
             }
@@ -103,7 +88,7 @@ static int invalid_pos(Position pos, Map *map) {
     return pos.x >= map->width || pos.x < 0 || pos.y >= map->height || pos.y < 0;
 }
 static int occupied(Position *pos, Map *map) {
-    return map->occupancy[pos->x][pos->y] != 0;
+    return map->occupancy[pos->x][pos->y] != FIELD_WALL;
 }
 
 static const ASPathNodeSource path_node_source = {
@@ -134,12 +119,15 @@ void pf_find_path(Position position, Position goal, Map *map, Position *path) {
 	ASPathDestroy(as_path);
 }
 
+static const int MAX_NEIGHBOURS = 8;
+
 /**
  * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 5
  */
 static void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
     double thetas[4];
     double cand_next_x, cand_next_y;
+    double offset;
     int i;
     Position next, cand_next;
 
@@ -153,14 +141,14 @@ static void find_neighbours(ASNeighborList neighbours, void *node, void *context
 		ASNeighborListAdd(neighbours, &special, 1);
 	}
 
-	thetas[0] = rand() / M_PI;
-	thetas[1] = rand() / M_PI;
-	thetas[2] = rand() / M_PI;
-	thetas[3] = rand() / M_PI;
+    for(i = 0; i < MAX_NEIGHBOURS; ++i) {
+        thetas[i] = rand() * (2 * M_PI * (1.0 / MAX_NEIGHBOURS));
+    }
 
-	for(i = 0; i < 4; i++){
-		cand_next_x = state->x + STEP_DISTANCE * cos(thetas[i] + i * M_PI/2);
-		cand_next_y = state->y + STEP_DISTANCE * sin(thetas[i] + i * M_PI/2);
+	for(i = 0; i < MAX_NEIGHBOURS; i++){
+        offset = i * 2 * M_PI * (1.0 / MAX_NEIGHBOURS);
+		cand_next_x = state->x + STEP_DISTANCE * cos(thetas[i] + offset);
+		cand_next_y = state->y + STEP_DISTANCE * sin(thetas[i] + offset);
         cand_next.x = (int) (floor(cand_next_x));
         cand_next.y = (int) (floor(cand_next_y));
 		next = intersection(*state, cand_next, context->map);

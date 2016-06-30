@@ -14,6 +14,7 @@ typedef struct Controller {
     BlindState blind;
     PathExecState path_exec;
     /* FIXME: path-finder results? (path, no_path_p, path_completed_p) */
+    PathFinderState path_finder;
     RhrState rhr;
     TCEState cop_eyes;
     VDState vic_dir;
