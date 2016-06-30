@@ -52,8 +52,8 @@ void update_victim_pickup(TinBot* tinbot, unsigned int grabbed) {
 }
 
 void update_lps(TinBot* tinbot, double x, double y, double direction) {
-    tinbot->sens.lps_update.x = x;
-    tinbot->sens.lps_update.y = y;
-    tinbot->sens.lps_update.phi = direction;
+    tinbot->sens.lps_update.values.x = x;
+    tinbot->sens.lps_update.values.y = y;
+    tinbot->sens.lps_update.values.phi = direction;
     tinbot->sens.lps_update.update_pending = 1;
 }
