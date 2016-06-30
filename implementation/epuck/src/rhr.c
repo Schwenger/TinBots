@@ -25,6 +25,11 @@ enum RHR_STATES {
 typedef char check_rhr_states_size[
     (sizeof(enum RHR_STATES) == sizeof(int)) ? 1 : -1];
 
+static const double RHR_CONF_CORNER_D = 10;
+static const double RHR_CONF_CORNER_X = 5;
+static const double RHR_CONF_WALL_THRESH = 1.5;
+static const double RHR_CONF_WALL_D = 1;
+
 void rhr_reset(RhrLocals* rhr) {
     rhr->state = RHR_check_wall;
     /* No further initialization needed because RHR_check_wall doesn't
@@ -126,8 +131,8 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
         break;
     case RHR_follow:
         deg20off = sens->proximity[PROXIMITY_M_20] <= SMC_SENSE_TOL;
-        deg90off = sens->proximity[PROXIMITY_M_90] <= 1.5;
-        waited_long_enough = smc_time_passed_p(rhr->time_entered, 1 / SMC_MV_PER_SEC);
+        deg90off = sens->proximity[PROXIMITY_M_90] <= RHR_CONF_WALL_THRESH;
+        waited_long_enough = smc_time_passed_p(rhr->time_entered, RHR_CONF_WALL_D / SMC_MV_PER_SEC);
         if(deg20off || (deg90off && waited_long_enough)) {
             rhr->state = RHR_claustrophobia;
             smc_rot_left();
@@ -143,7 +148,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             rhr->state = RHR_follow;
             /* Should already be moving, but be extra sure. */
             smc_move();
-        } else if (smc_time_passed_p(rhr->time_entered, 10 / SMC_MV_PER_SEC)) {
+        } else if (smc_time_passed_p(rhr->time_entered, RHR_CONF_CORNER_D / SMC_MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
             smc_rot_right();
         }
@@ -159,7 +164,7 @@ void rhr_step(RhrLocals* rhr, Sensors* sens) {
             rhr->state = RHR_wall_orient;
             smc_move();
         } else if (sens->proximity[PROXIMITY_M_45] > SMC_SENSE_TOL
-                   && smc_time_passed_p(rhr->time_entered, 5 / SMC_MV_PER_SEC)) {
+                   && smc_time_passed_p(rhr->time_entered, RHR_CONF_CORNER_X / SMC_MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
             smc_rot_right();
         }
