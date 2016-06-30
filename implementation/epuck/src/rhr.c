@@ -25,9 +25,9 @@ enum RHR_STATES {
 typedef char check_rhr_states_size[
     (sizeof(enum RHR_STATES) == sizeof(int)) ? 1 : -1];
 
-static const double RHR_CONF_CORNER_D = 10;
-static const double RHR_CONF_CORNER_X = 10;
-static const double RHR_CONF_WALL_THRESH = 1.5;
+static const double RHR_CONF_CORNER_D = 9.5;
+static const double RHR_CONF_CORNER_X = 11;
+static const double RHR_CONF_WALL_THRESH = 2;
 static const double RHR_CONF_WALL_D = 1;
 
 void rhr_reset(RhrLocals* rhr) {
