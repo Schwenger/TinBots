@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "tinpuck.h"
 
@@ -76,11 +77,9 @@ int main() {
         tin_wait(500);
         tin_get_proximity(proximity_raw);
         for (index = 0; index < 8; index++) {
-            if (proximity_raw[index] >= 50) {
-                proximity[index] = 4;
-            } else {
-                proximity[index] = 6;
-            }
+            // Empirically found function to convert proximity data into cm:
+            // f(x) = 26.539 * x^(-0.4202)
+            proximity[index] = 26.539 * pow(proximity_raw[index], -0.4202);
         }
 
         update_proximity(&bot, proximity);
