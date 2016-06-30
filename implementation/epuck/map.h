@@ -24,7 +24,6 @@ enum {
     FIEL_UNKOWN
 };
 
-Position map_discretize(Map* map, double x, double y);
 void send_map(Map* map, Position center, int radius);
 
 #endif /* EPUCK_MAP_H */
