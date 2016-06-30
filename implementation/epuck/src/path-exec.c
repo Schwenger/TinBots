@@ -61,6 +61,9 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
             start_dir = sens->current.direction;
             target_dir = atan2(inputs->next_y - l->start_y,
                                inputs->next_x - l->start_x);
+            if(inputs->backwards) {
+                target_dir += M_PI;
+            }
             l->need_rot = fmod(target_dir - start_dir + M_PI, 2 * M_PI) - M_PI;
             l->need_rot /= SMC_ROT_PER_SEC;
             l->normal_x = -(inputs->next_y - l->start_y);
@@ -84,7 +87,11 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
     case PE_rotate:
         if (smc_time_passed_p(l->time_entered, l->need_rot)) {
             l->state = PE_drive;
-            smc_move();
+            if (inputs->backwards) {
+                smc_move();
+            } else {
+                smc_move_back();
+            }
         }
         break;
     case PE_drive:
