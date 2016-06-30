@@ -32,6 +32,7 @@ static void entry_start(VDState* vd, Sensors* sens) {
             vd->locals.sensor = i;
         }
     }
+    assert(vd->locals.sensor != -1);
     assert(sens->ir[vd->locals.sensor] == 0);
     hal_set_speed(-1, 1);
     vd->locals.initial_phi = sens->current.direction;
