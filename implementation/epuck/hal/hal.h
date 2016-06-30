@@ -17,6 +17,9 @@ hal_time hal_get_time(void);
 
 void hal_set_speed(double left, double right);
 
+double hal_get_speed_left(void);
+double hal_get_speed_right(void);
+
 void hal_set_led(unsigned int led, unsigned int value);
 void hal_set_front_led(unsigned int value);
 

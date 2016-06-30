@@ -16,7 +16,6 @@ typedef char check_debug_array_length_against_matlab[(DEBUG_CAT_NUM <= 10) ? 1 :
 
 static MatlabBot* current;
 
-
 /* Implementation of hal.h */
 
 hal_time hal_get_time() {
@@ -26,6 +25,14 @@ hal_time hal_get_time() {
 void hal_set_speed(double left, double right) {
     current->motor_left = left;
     current->motor_right = right;
+}
+
+double hal_get_speed_right(void) {
+    return current->motor_right;
+}
+
+double hal_get_speed_left(void) {
+    return current->motor_left;
 }
 
 void hal_set_led(unsigned int led, unsigned int value) {

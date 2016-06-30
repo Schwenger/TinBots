@@ -6,8 +6,22 @@
 
 #include "hal.h"
 
+static struct {
+    double left, right;
+} motor_wrapper;
+
 void hal_set_speed(double left, double right) {
     tin_set_speed(left, right);
+    motor_wrapper.left = left;
+    motor_wrapper.right = right;
+}
+
+double hal_get_speed_left(void) {
+    return motor_wrapper.left;
+}
+
+double hal_get_speed_right(void) {
+    return motor_wrapper.right;
 }
 
 void hal_set_led(unsigned int led, unsigned int value) {
