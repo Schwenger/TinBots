@@ -9,8 +9,8 @@
 enum {
     VD_off,
     VD_start,
-    VD_found_end,
     VD_found_start,
+    VD_found_end,
     VD_done
 };
 
@@ -20,12 +20,12 @@ static double determine_victim_phi(double bound, double current_phi, int sensor)
 void vd_reset(VDState* vd){
     vd->state = VD_off;
     vd->victim_found = 0;
+    vd->victim_phi = 0;
 }
 
 static void entry_start(VDState* vd, Sensors* sens) {
     int i;
     vd->state = VD_start;
-    vd->victim_found = 0;
     vd->locals.sensor = -1;
     for(i = 0; i < 6; ++i) {
         if(sens->ir[i] == 0){
