@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>Tin Bot Dashboard</title>
+
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+        <link rel="stylesheet" href="css/vis.min.css">
+
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+        <script src="js/raphael-min.js"></script>
+
+        <script src="js/vis.min.js"></script>
+
+        <script type="text/javascript">
+            function Overview(dashboard) {
+                var self = this;
+
+                self.active = false;
+                self.dashboard = dashboard;
+                self.hash = '#overview';
+
+                self.activate = function () {
+                    self.active = true;
+                };
+
+                self.deactivate = function () {
+                    self.active = false;
+                };
+
+                self.process_message = function (data) {
+                    console.log(data);
+                };
+            }
+
+            function LPS(dashboard) {
+                var self = this;
+
+                self.active = false;
+                self.dashboard = dashboard;
+                self.hash = '#lps';
+
+                self.lps_img = $('#lps_img');
+                self.lps_positions = $('#lps_positions');
+                self.lps_canvas = document.getElementById("lps_canvas");
+                self.canvas_context = self.lps_canvas.getContext("2d");
+                self.positions = {};
+
+                self.activate = function () {
+                    self.active = true;
+                    self.dashboard.send_message({
+                        method: 'register_event',
+                        event: 'lps_data'
+                    });
+                };
+
+                self.deactivate = function () {
+                    self.active = false;
+                    self.dashboard.send_message({
+                        method: 'unregister_event',
+                        event: 'lps_data'
+                    });
+                };
+
+                self.process_message = function (data) {
+                    if (data['event'] == 'lps_data') {
+                        self.lps_img.attr('src', 'data:image/jpeg;base64,' + data['image']);
+                        self.lps_positions.empty();
+                        for (var hue in data['positions']) {
+                            var position = data['positions'][hue];
+                            var item = $('<li style="color: hsl(' + (360 * hue) + ', 100%, 50%);">x: ' + position.x + ' y: ' + position.y + ' phi: ' + position.phi + '</li>')
+                            self.lps_positions.append(item);
+                            var x = Math.floor(position.x * 5.8);
+                            var y = Math.floor(480 - position.y * 5.8);
+                            if (self.positions[hue]) {
+                                console.log(hue, self.positions[hue], x, y);
+                                self.canvas_context.beginPath();
+                                self.canvas_context.moveTo(self.positions[hue].x, self.positions[hue].y);
+                                self.canvas_context.lineTo(x, y);
+                                self.canvas_context.lineWidth = 2;
+                                self.canvas_context.strokeStyle = 'hsl(' + (360 * hue) + ', 100%, 50%)';
+                                self.canvas_context.stroke();
+                                self.canvas_context.closePath();
+                            }
+                            self.positions[hue] = {'x': x, 'y': y};
+                        }
+                    }
+                };
+            }
+
+            function Dashboard() {
+                var self = this;
+
+                self.host = window.location.host;
+                self.connected = false;
+                self.enabled = false;
+
+                self.status = $('#status');
+
+                self.set_status = function (message, state) {
+                    self.status.attr('class', 'label');
+                    self.status.addClass('label-' + state);
+                    self.status.text(message);
+                };
+
+                var overview = new Overview(self);
+                var lps = new LPS(self);
+
+                self.tabs = {
+                    '#overview': overview,
+                    '#lps': lps
+                };
+
+                self.get_tab_by_hash = function (hash) {
+                    if (hash in self.tabs) {
+                        return self.tabs[hash];
+                    } else {
+                        return self.tabs['#overview'];
+                    }
+                };
+
+                self.activate = function (tab) {
+                    tab.activate();
+                    $(tab.hash + '_container').addClass('active');
+                    $(tab.hash + '_menu').addClass('active');
+                };
+
+                self.deactivate = function (tab) {
+                    $(tab.hash + '_container').removeClass('active');
+                    $(tab.hash + '_menu').removeClass('active');
+                    tab.deactivate();
+                };
+
+                self.deactivate_all = function () {
+                    for (var hash in self.tabs) {
+                        var tab = self.tabs[hash];
+                        if (tab.active) {
+                            self.deactivate(tab);
+                        }
+                    }
+                };
+
+                self.show = function (hash) {
+                    self.deactivate(self.current);
+                    self.current = self.get_tab_by_hash(hash);
+                    self.activate(self.current);
+                };
+
+                self.overlay = $('#overlay');
+
+                self.enable = function () {
+                    self.enabled = true;
+                    self.overlay.removeClass('active');
+                    self.show(window.location.hash)
+                };
+
+                self.disable = function () {
+                    self.enabled = false;
+                    self.overlay.addClass('active');
+                    self.deactivate_all();
+                };
+
+                self.connect = function () {
+                    self.disable();
+                    self.set_status('Connecting', 'info');
+                    self.websocket = new WebSocket("ws://" + self.host + "/websocket");
+                    self.websocket.onopen = function () {
+                        self.set_status('Connected', 'success');
+                        self.connected = true;
+                        self.enable();
+                    };
+                    self.websocket.onmessage = function (event) {
+                        var data = JSON.parse(event.data);
+                        self.process_message(data);
+                    };
+                    self.websocket.onerror = function () {
+                        self.connected = false;
+                        self.disable();
+                        self.set_status('Error', 'danger');
+                        setTimeout(self.connect, 10000);
+                    };
+                    self.websocket.onclose = function () {
+                        self.connected = false;
+                        self.disable();
+                        self.set_status('Error', 'danger');
+                        setTimeout(self.connect, 10000);
+                    };
+                };
+
+                self.process_message = function (data) {
+                    self.current.process_message(data);
+                };
+
+                self.send_message = function (data) {
+                    if (self.connected) {
+                        self.websocket.send(JSON.stringify(data))
+                    }
+                };
+
+                self.current = self.get_tab_by_hash(window.location.hash);
+                self.show(window.location.hash);
+
+                window.onhashchange = function () {
+                    self.show(window.location.hash);
+                };
+
+                self.connect();
+            }
+
+            $(document).ready(function () {
+                window.dashboard = new Dashboard();
+            });
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#overview">Tin Bot Dashboard</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <div class="nav navbar-nav navbar-right">
+                        <p class="navbar-text"><span id="status" class="label label-info">Connecting</span></p>
+                        <p class="navbar-text">Version: 0.0.1</p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li id="overview_menu"><a href="#overview">Overview</a></li>
+                        <li id="lps_menu"><a href="#lps">LPS</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div id="overview_container" class="tab">
+                        <h1 class="page-header">Overview</h1>
+                        <img src="img/logo.svg" width="25%">
+                    </div>
+                    <div id="lps_container" class="tab">
+                        <h1 class="page-header">LPS</h1>
+                        <div id="lps_viewer" style="width: 640px; height: 480px;">
+                            <div>
+                                <img id="lps_img" src="unknown" style="width: 640px; height: 480px;">
+                                <canvas style="position: relative; top: -480px; left: 0;" id="lps_canvas" width="640" height="480"></canvas>
+                            </div>
+                        </div>
+                        <h2>Positions:</h2>
+                        <ul id="lps_positions" style="font-size: 20px;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="overlay" class="active"></div>
+    </body>
+</html>

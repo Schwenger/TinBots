@@ -13,17 +13,22 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import time
+import asyncio
 
-import bluetooth
+from lps.com import Controller
+from lps.detector import Detector
+from lps.server import Server
 
-devices = bluetooth.discover_devices()
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
 
-socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-socket.connect(('10:00:E8:AD:75:9D', 1))
+    detector = Detector()
+    detector.start()
 
-while True:
-    time.sleep(0.5)
-    socket.send(b'\x00\x00\x10\x01\xAA')
-    time.sleep(0.5)
-    socket.send(b'\x00\x00\x10\x01\x55')
+    controller = Controller(detector)
+    controller.start()
+
+    server = Server(detector)
+
+    loop.run_until_complete(server.setup())
+    loop.run_forever()

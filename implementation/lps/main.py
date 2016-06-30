@@ -8,7 +8,7 @@ import numpy
 import picamera.camera
 import picamera.array
 
-from matplotlib import colors
+c
 
 from PIL import Image, ImageEnhance
 

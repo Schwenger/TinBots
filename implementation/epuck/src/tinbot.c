@@ -43,6 +43,10 @@ void update_ir(TinBot* tinbot, int ir[6]) {
     }
 }
 
+void update_victim_pickup(TinBot* tinbot, unsigned int grabbed) {
+
+}
+
 void update_lps(TinBot* tinbot, double x, double y, double direction) {
     /* FIXME */
 }
