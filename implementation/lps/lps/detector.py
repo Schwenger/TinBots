@@ -3,10 +3,23 @@
 
 import colorsys
 import math
+import threading
 
 import numpy
 
-from PIL import ImageDraw
+from matplotlib import colors
+
+from PIL import Image, ImageDraw, ImageEnhance
+
+try:
+    import picamera.array
+    import picamera.camera
+except ImportError:
+    print('Waring: Unable to import PiCamera.')
+
+from lps.event import Event
+
+HUES = (0.95, 0.54)
 
 
 class Analyzer:
@@ -16,18 +29,17 @@ class Analyzer:
         self.y_grid, self.x_grid = numpy.mgrid[0:height:1, 0:width:1]
 
     def prepare(self, saturation, value):
-        return (saturation > 0.5) & (value > 0.4)
-
+        return (saturation > 0.5) & (value > 50)
 
     def analyze(self, hue, saturation, value, target, prepared=None):
         if prepared is None:
             prepared = self.prepare(saturation, value)
 
-        mask = (numpy.abs((hue - target + 0.5) % 1 - 0.5) < 0.25) & prepared
+        mask = (numpy.abs((hue - target + 0.5) % 1 - 0.5) < 0.1) & prepared
         total = numpy.sum(mask)
 
         if total < 1:
-            return 0, 0, 0, 0
+            return -1, -1, 0, 0
 
         # calculate rough center
         x = numpy.sum(mask * self.x_grid) / total
@@ -36,7 +48,7 @@ class Analyzer:
 
         # at least 50% of the matched area has to be filled with the right color
         if total / (math.pi * r ** 2) < 0.5:
-            return 0, 0, 0, 0
+            return -1, -1, 0, 0
 
         # ignore outliers
         y_start = int(max(0, y - r * 1.5))
@@ -56,7 +68,7 @@ class Analyzer:
 
         # not matched
         if total < 5:
-            return 0, 0, 0, 0
+            return -1, -1, 0, 0
 
         x = numpy.sum(mask * x_grid) / total
         y = numpy.sum(mask * y_grid) / total
@@ -64,14 +76,14 @@ class Analyzer:
 
         # at least 80% of the matched area has to be filled with the right color
         if total / (math.pi * r ** 2) < 0.8:
-            return 0, 0, 0, 0
+            return -1, -1, 0, 0
 
         # calculate position of white dot
-        y_start = int(max(0, y - r * 0.9))
-        y_end = int(min(self.height, y + r * 0.9 + 1))
+        y_start = int(max(0, y - r * 1))
+        y_end = int(min(self.height, y + r * 1 + 1))
 
-        x_start = int(max(0, x - r * 0.9))
-        x_end = int(min(self.width, x + r * 0.9 + 1))
+        x_start = int(max(0, x - r * 1))
+        x_end = int(min(self.width, x + r * 1 + 1))
 
         x_dot_grid = self.x_grid[y_start:y_end:1, x_start:x_end:1]
         y_dot_grid = self.y_grid[y_start:y_end:1, x_start:x_end:1]
@@ -81,13 +93,13 @@ class Analyzer:
         saturation = saturation[y_start:y_end:1, x_start:x_end:1]
         value = value[y_start:y_end:1, x_start:x_end:1]
 
-        inside = ((saturation < 0.2) & (value > 0.8) & grid_mask)
+        inside = ((saturation < 0.5) & (value > 0.5) & grid_mask)
 
         total = numpy.sum(inside)
 
         # not matched
         if total < 3:
-            return 0, 0, 0, 0
+            return -1, -1, 0, 0
 
         dot_x = numpy.sum(inside * x_dot_grid) / total
         dot_y = numpy.sum(inside * y_dot_grid) / total
@@ -105,12 +117,57 @@ def render(image, hue, x, y, angle, r):
     draw.line([x, y, x + r * math.cos(angle), y + r * math.sin(angle)], fill=color)
 
 
+class Detector(threading.Thread):
+    def __init__(self):
+        super().__init__()
+        self.new_data = Event()
+
+    def run(self):
+        with picamera.camera.PiCamera() as camera:
+            camera.resolution = (640, 480)
+            camera.start_preview()
+
+            analyzer = Analyzer(640, 480)
+
+            while True:
+                with picamera.array.PiRGBArray(camera) as output:
+                    camera.capture(output, 'rgb')
+                    image = output.array
+
+                    output = Image.fromarray(numpy.uint8(image))
+
+                    image = colors.rgb_to_hsv(image)
+
+                    hue = image[:, :, 0]
+                    saturation = image[:, :, 1]
+                    value = image[:, :, 2]
+
+                    converter = ImageEnhance.Color(output)
+                    output = converter.enhance(0)
+
+                    positions = {}
+
+                    for target in HUES:
+                        x, y, angle, r = analyzer.analyze(hue, saturation, value, target)
+                        if r > 0:
+                            positions[target] = {
+                                'x': x / 5.8,
+                                'y': (480 - y) / 5.8,
+                                'phi': abs((angle + math.pi) % (2 * math.pi) - math.pi)
+                            }
+                            render(output, target, x, y, angle, r)
+
+                    self.new_data.fire(output, positions)
+
+            time.sleep(2)
+
+
 def main():
     from scipy import ndimage
 
     from matplotlib import colors
 
-    image = ndimage.imread('../../heavy/cbp_tests/gen_800x600/PICT0002.JPG.png')
+    image = ndimage.imread('../../../heavy/raspberry.jpg')
     image = colors.rgb_to_hsv(image)
 
     height = image.shape[0]
@@ -124,9 +181,9 @@ def main():
 
     from PIL import Image, ImageEnhance
 
-    output = Image.open('../../heavy/cbp_tests/gen_800x600/PICT0002.JPG.png')
-    #converter = ImageEnhance.Color(output)
-    #output = converter.enhance(0)
+    output = Image.open('../../../heavy/raspberry.jpg')
+    # converter = ImageEnhance.Color(output)
+    # output = converter.enhance(0)
 
     prepared = analyzer.prepare(saturation, value)
 
