@@ -24,9 +24,8 @@ typedef struct PathFinderLocals {
 typedef struct PathFinderState {
     int state;
     PathFinderLocals locals;
-    int drive;
     Position next;
-    int nopath;
+    int no_path;
     int path_completed;
 } PathFinderState;
 
