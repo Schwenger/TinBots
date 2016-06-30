@@ -82,6 +82,7 @@ void send_map(Map* m, Position center, int radius) {
     serialize(occ, data, fields_to_transmit);
 }
 
+#ifdef MAP_TEST
 int main(void) {
     const int num_fields = 5;
     const int num_bin_bytes = 2;
@@ -101,4 +102,5 @@ int main(void) {
     deserialize(data, buffer, num_bin_bytes);
     printf("Value: %d,%d,%d,%d,%d\n", data[0], data[1], data[2], data[3], data[4]);
 }
+#endif
 
