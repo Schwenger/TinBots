@@ -10,10 +10,15 @@
 
 #include "tinbot.h"
 
+#define STATE_STARTUP 0
+#define STATE_RUNNING 1
+
 static volatile int ir_data[8];
 static volatile double lps_data[3];
 static volatile unsigned lps_updated = 0;
 static volatile unsigned int pickup_data;
+
+static volatile unsigned int state = STATE_STARTUP;
 
 static unsigned int proximity_raw[8];
 static double proximity[8];
@@ -26,7 +31,7 @@ static void com_on_hello(TinPackage* package) {
     tin_com_send(&response);
 }
 
-static void com_update_lps(TinPackage* package) {
+static void com_on_update_lps(TinPackage* package) {
     // static TinPackage response = {NULL, 0x00, 0x01, 0x00};
     // static char buffer[128];
     double x = (((unsigned int) package->data[0] << 8) | ((unsigned int) package->data[1] & 0xff)) / 100.0;
@@ -42,6 +47,11 @@ static void com_update_lps(TinPackage* package) {
     lps_updated = 1;
 }
 
+static void com_on_start(TinPackage* package) {
+    lps_updated = 0;
+    state = STATE_RUNNING;
+}
+
 static void debug_led_callback(TinPackage* package) {
     unsigned int number;
     tin_set_led(0, ON);
@@ -49,7 +59,6 @@ static void debug_led_callback(TinPackage* package) {
         tin_set_led(number, (((unsigned int) package->data[0]) >> number) & 1);
     }
 }
-
 
 static TinTask update_ext_data_task;
 
@@ -65,17 +74,20 @@ int main() {
 
     tin_com_set_address(tin_get_selector());
 
-    tin_wait(2000);
-
-    tin_calibrate_proximity();
-
     tin_task_register(&update_ext_data_task, update_ext_data, 500);
     tin_task_activate(&update_ext_data_task);
 
     tin_com_register(0x01, com_on_hello);
-    tin_com_register(0x02, com_update_lps);
+    tin_com_register(0x02, com_on_update_lps);
+    tin_com_register(0x03, com_on_start);
 
     tin_com_register(0x10, debug_led_callback);
+
+    while (state == STATE_STARTUP || !lps_updated);
+
+    tin_wait(2000);
+
+    tin_calibrate_proximity();
 
     setup(&bot);
 
