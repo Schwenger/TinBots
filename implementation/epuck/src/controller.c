@@ -3,6 +3,8 @@
 #include "controller.h"
 #include "hal.h"
 #include "victim-finder.h"
+#include "approximator.h"
+#include "sensors.h"
 
 void controller_reset(Controller* c) {
     blind_reset(&c->blind);
@@ -22,6 +24,7 @@ static void inquire_eyes_decision(Controller* c, Sensors* sens);
 static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, Sensors* sens);
 static void run_victim_finder(Controller* c, Sensors* sens);
 static void run_path_finder_executer(Controller* c, Sensors* sens);
+static void run_approx_step(ApproxState* approx, Sensors* sens);
 
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
 
@@ -62,6 +65,8 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
         hal_set_speed(0, 0);
         break;
     }
+
+    run_approx_step(&c->approx, sens);
 
     /* Update the internal map if necessary: */
     /* FIXME: pf_update_map(&c->path_finder, sens) */
@@ -138,4 +143,17 @@ static void run_victim_finder(Controller* c, Sensors* sens) {
     inputs.found_victim_phi = c->vic_dir.victim_found;
     inputs.victim_angle = c->vic_dir.victim_phi;
     vf_step(&inputs, &c->vic_finder, sens);
+}
+
+static void run_approx_step(ApproxState* approx, Sensors* sens) {
+    ApproxInputs inputs;
+    if(sens->lps_update.update_pending) {
+        inputs.lps = sens->lps_update.values;
+        sens->lps_update.update_pending = 0;
+    } else {
+        inputs.lps.x = inputs.lps.y = inputs.lps.phi = -1;
+    }
+    inputs.motor_left = (int) hal_get_speed_left();
+    inputs.motor_left = (int) hal_get_speed_right();
+    approx_step(&inputs, approx);
 }
