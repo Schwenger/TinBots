@@ -1,6 +1,5 @@
 #include <assert.h>
-#include <stdio.h>
-#include <limits.h>
+#include <tinpuck.h>
 #include "map.h"
 
 typedef unsigned char byte;
@@ -9,7 +8,6 @@ void deserialize(int* buffer, byte* data, int num_bytes);
 
 static const int BIT_PER_FIELD = 2;
 static const int EOF_FLAG = 3;
-#define TIN_PACKAGE_MAX_LENGTH 128
 
 void serialize(int* data, byte* buffer, int num_fields) {
     byte value, next_value;
