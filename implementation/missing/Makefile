@@ -1,7 +1,7 @@
 TEX     =pdflatex
 VIEWER  =evince
 
-SOURCE  =document.tex
+SOURCE  =document.tex ../../spec/document.tex
 OBJECT  =$(patsubst %.tex,%.pdf,$(SOURCE))
 LOGFILE =$(patsubst %.tex,%.log,$(SOURCE))
 AUXFILE =$(patsubst %.tex,%.aux,$(SOURCE))
@@ -14,7 +14,7 @@ $(OBJECT): %.pdf: %.tex $(SOURCE)
 # Second run because LastPage
 	$(TEX) -halt-on-error -shell-escape $<
 
-.PHONY: clean clean-total compile old say spellcheck-de spellcheck-en touch view zip
+.PHONY: clean clean-total compile pdf say view
 
 clean:
 	rm -f $(LOGFILE) $(AUXFILE) document.out document.mw
@@ -31,21 +31,15 @@ say: super
 	@echo ".aux file:\t$(AUXFILE)"
 	@echo "Object:\t$(OBJECT)"
 
-spellcheck-de:
-	for i in $(SOURCE); do aspell --lang=de check $$i; done
-
-spellcheck-en:
-	for i in $(SOURCE); do aspell --lang=en_US check $$i; done
-
-view: ${OBJECT}
+view: document.pdf
 	@command -v ${VIEWER} > /dev/null || { \
 		echo "Bad $$VIEWER: ${VIEWER}" ; \
 		echo "If you change this, PLEASE DON'T COMMIT SUCH A CHANGE!" ; \
 		exit 1 ; \
 	}
-	$(VIEWER) $(OBJECT) &
+	$(VIEWER) document.pdf &
 
 MATLAB_FILES:=$(wildcard *.mdl)
 
-zip:
-	zip matlab-submission.zip ${MATLAB_FILES}
+pdf:
+	pdfjoin ${}
