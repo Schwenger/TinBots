@@ -25,12 +25,13 @@ void hal_send_msg(unsigned int address, char* message, unsigned int length);
 void hal_print(const char *message);
 
 typedef enum DebugCategory {
-    DEBUG_CAT_RHR_STATE,
-    DEBUG_CAT_RHR_REMAINING_WAIT_TIME,
-    DEBUG_CAT_RHR_TOTAL_WAIT_TIME,
     DEBUG_CAT_VD_STATE,
     DEBUG_CAT_VD_VICTIM_FOUND,
     DEBUG_CAT_VD_VICTIM_PHI,
+    DEBUG_CAT_VD_GIVE_UP,
+    DEBUG_CAT_RHR_STATE,
+    DEBUG_CAT_RHR_REMAINING_WAIT_TIME,
+    DEBUG_CAT_RHR_TOTAL_WAIT_TIME,
     /* DEBUG_CAT_OWN_TIME, */
     DEBUG_CAT_NUM
 } DebugCategory;
