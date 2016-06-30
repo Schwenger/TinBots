@@ -153,7 +153,7 @@ static void run_approx_step(ApproxState* approx, Sensors* sens) {
     } else {
         inputs.lps.x = inputs.lps.y = inputs.lps.phi = -1;
     }
-    inputs.motor_left = (int) hal_get_speed_left();
-    inputs.motor_left = (int) hal_get_speed_right();
+    inputs.motor_left = (int) (hal_get_speed_left());
+    inputs.motor_left = (int) (hal_get_speed_right());
     approx_step(&inputs, approx);
 }
