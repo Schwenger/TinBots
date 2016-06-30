@@ -3,4 +3,5 @@ function setup()
     addpath('library');
     
     open('library/tinbot.slx');
+    open('scenarios/test.slx');
 end
