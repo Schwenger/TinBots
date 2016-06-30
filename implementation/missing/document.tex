@@ -74,7 +74,74 @@
 
 \section{Time}
 
-Foo
+We are short on time as we had to deal with a few problems with the
+E-Puck library and specification:
+ %
+\begin{itemize}
+    \item Proximity sensors do not yield values as specified.  We had
+    to measure the raw values, come up with a reasonable approximating
+    formula, which took time that we now lack for other development.
+ %
+    \item The Bluetooth module of the E-Puck firmware does not work as
+    intended.  This took time that we now lack for other development.
+\end{itemize}
 
+Our approach was to create out own firmware, which (so far) proves to
+be more usable and less error-prone than the pre-existing one.
+
+\section{T2T communication}
+
+Technically, Tin-Bot-to-Tin-Bot-communication only adds more data to
+the maps, despite being a major technical effort.  Therefore, this
+feature is \emph{not} present in our prototype: a single working Tin
+Bot.
+ \\
+Although T2T is already planned for and in some parts already
+specified, our approach is to implement T2T last.  (However, of course
+we already use Bluetooth to exchange debugging data and the internal
+map, so we effectively \emph{are} implementing T2T as we go anyway.)
+
+\section{Rescue mode}
+
+We only have two options for presentation: either we demo the
+Right-Hand-Follower (which definitely works), or we demo the overall
+system, which would require \emph{all} the components to be perfectly
+working.  We can't guarantee the latter for the prototype yet, so we
+only demo the rescue mode RHR.
+ \\
+For the final product, our approach is to get all components working.
+
+\section{IR sensors (victim detection)}
+
+As it turns out, our IR sensors are by far not working as well as one
+could have expected from IR remotes (we already are using the same
+basic principles: quick pulses on a high-frequency carrier-band) and
+our previous experiments with our own IR sensors (which work as
+intended with a single \enquote{screen} of duct tape).
+ \\
+This seems to be due to excessive unexpected IR reflections of the
+environment, highly directed IR emitters.
+ \\
+Our approach is to sacrifice angular and temporal resolution in return
+for stability.
+
+\section{What \emph{does} work}
+
+Right-Hand-Following definitely works, so this is part of the
+prototype.  The LPS also works, including image recognition, conversion
+to the required units and sending the data via Bluetooth.  As
+Right-Hand-Following does not make use of this information, the LPS is
+demoed through a web interface instead.
+
+\section{What is implemented but not presented}
+
+Most internal logic and path finding is already implemented and
+unit-tested.  However, there is no really visible intermediate step
+between Right-Hand-Following and truly solving the maze, so we can't
+show off the internal logic (all the state machines in the
+"Controller", as per virtual Prototype).
+ \\
+Our approach for the Prototype Session will be to try and get certain
+parts working in stand-alone mode anyway.
 
 \end{document}
