@@ -3,13 +3,18 @@
 #include "map.h"
 
 typedef unsigned char byte;
-void serialize(int* data, byte* buffer, int len);
-void deserialize(int* buffer, byte* data, int num_bytes);
 
 static const int BIT_PER_FIELD = 2;
 static const int EOF_FLAG = 3;
 
-void serialize(int* data, byte* buffer, int num_fields) {
+Position map_discretize(Map* map, double x, double y) {
+    Position res;
+    res.x = (int) (floor(x / map->width));
+    res.y = (int) (floor(y / map->height));
+    return res;
+}
+
+static void serialize(int* data, byte* buffer, int num_fields) {
     byte value, next_value;
     int pos_in_byte = 0;
     int field_cnt = 0;
@@ -38,7 +43,7 @@ void serialize(int* data, byte* buffer, int num_fields) {
 /*
  * the buffer's length has to be GREATER than the number of bytes!!
  */
-void deserialize(int* buffer, byte* data, int num_bytes) {
+static void deserialize(int* buffer, byte* data, int num_bytes) {
     int byte_cnt, pos, pos_bar, field_cnt;
     byte current, value;
     int fields_per_byte = 8 / BIT_PER_FIELD;
@@ -101,4 +106,3 @@ int main(void) {
     printf("Value: %d,%d,%d,%d,%d\n", data[0], data[1], data[2], data[3], data[4]);
 }
 #endif
-
