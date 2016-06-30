@@ -10,15 +10,18 @@
 
 #include "tinbot.h"
 
-void setup(TinBot* tinbot) {
-    hal_print("Tin Bot Setup");
-    rhr_reset(&tinbot->rhr);
-    srand(time(NULL));
-}
+/* BEGIN CHOICE BLOCK
+ * This is the actual implementation that will be executed.
+ * Choose any of:
+ * - mode/tinbot-rhr.c (works in matlab, works in reality)
+ * - mode/tinbot-vicdir.c (not implemented)
+ * - mode/tinbot-alone.c (not implemented)
+ * - mode/tinbot-full.c (not implemented)
+ */
 
-void loop(TinBot* tinbot) {
-    rhr_step(&tinbot->rhr, &tinbot->sens);
-}
+#include "mode/tinbot-rhr.c"
+
+/* END CHOICE BLOCK */
 
 static double prox_to_cm(double measured) {
     return measured; /* FIXME */
