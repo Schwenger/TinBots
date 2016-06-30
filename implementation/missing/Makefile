@@ -42,4 +42,4 @@ view: document.pdf
 MATLAB_FILES:=$(wildcard *.mdl)
 
 pdf:
-	pdfjoin ${}
+	pdfjoin ${OBJECT}
