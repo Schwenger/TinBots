@@ -8,6 +8,7 @@ typedef struct PathExecInputs {
     int drive_p;
     double next_x;
     double next_y;
+    int backwards;
 } PathExecInputs;
 
 typedef struct PathExecLocals {

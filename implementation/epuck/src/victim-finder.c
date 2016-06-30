@@ -87,7 +87,7 @@ void vf_step(VFInputs* inputs, VFState* vf, Sensors* sens) {
             if(inputs->found_victim_phi) {
                 vf->locals.data[X1]   = sens->current.x;
                 vf->locals.data[Y1]   = sens->current.y;
-                vf->locals.data[PHI1] = sens->current.direction;
+                vf->locals.data[PHI1] = inputs->victim_angle;
                 vf->state = VF_someinfo;
             }
             break;
@@ -104,7 +104,7 @@ void vf_step(VFInputs* inputs, VFState* vf, Sensors* sens) {
                 vf->locals.data[PHI2] = vf->locals.data[PHI1];
                 vf->locals.data[X1]   = sens->current.x;
                 vf->locals.data[Y1]   = sens->current.y;
-                vf->locals.data[PHI1] = sens->current.direction;
+                vf->locals.data[PHI1] = inputs->victim_angle;
                 computed_victim = compute_position(vf->locals.data);
                 if(computed_victim.x >= 1 && computed_victim.x <= 200
                         && computed_victim.y >= 1 && computed_victim.y <= 200) {

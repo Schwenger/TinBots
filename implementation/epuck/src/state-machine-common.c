@@ -19,6 +19,10 @@ void smc_move() {
     hal_set_speed(SMC_MOTOR_MV, SMC_MOTOR_MV);
 }
 
+void smc_move_back() {
+    hal_set_speed(-SMC_MOTOR_MV, -SMC_MOTOR_MV);
+}
+
 void smc_halt() {
     hal_set_speed(0, 0);
 }

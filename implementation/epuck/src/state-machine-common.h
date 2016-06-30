@@ -16,6 +16,7 @@ extern const double SMC_SECS_PER_DEGREE;
 void smc_rot_left(void);
 void smc_rot_right(void);
 void smc_move(void);
+void smc_move_back(void);
 void smc_halt(void);
 
 int smc_time_passed_p(const hal_time entered, const double wait_secs);
