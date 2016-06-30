@@ -16,8 +16,14 @@
 import asyncio
 
 from lps.com import Controller
+from lps.debugger import Debugger, INFO
 from lps.detector import Detector
 from lps.server import Server
+
+
+def raise_keyboard_interrupt():
+    raise KeyboardInterrupt()
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -31,4 +37,12 @@ if __name__ == '__main__':
     server = Server(detector)
 
     loop.run_until_complete(server.setup())
+
+    debugger = Debugger(controller, {'controller': controller, 'detector': detector})
+    future = debugger.start()
+    future.add_done_callback(lambda _: raise_keyboard_interrupt())
+
+    msg = 'Server running on {}:{}.'.format(server.host, server.port)
+    debugger.print_message(msg, INFO)
+
     loop.run_forever()

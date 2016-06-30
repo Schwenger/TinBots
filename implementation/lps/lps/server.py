@@ -169,5 +169,4 @@ class Server:
         self.host = host or self.host
         self.port = port or self.port
         self.loop = loop or self.loop or asyncio.get_event_loop()
-        print('listening {}:{}'.format(self.host, self.port))
         return self.loop.create_server(handler, self.host, self.port)

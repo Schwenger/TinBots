@@ -60,13 +60,12 @@ public:
 };
 
 
-IRDetector<Pin12> ir0;
-IRDetector<Pin11> ir1;
-IRDetector<Pin10> ir2;
-IRDetector<Pin9>  ir3;
-IRDetector<Pin16> ir4;
-IRDetector<Pin15> ir5;
-
+IRDetector<Pin12> ir0; // front right
+IRDetector<Pin16> ir1; // right
+IRDetector<Pin15> ir2; // rear right
+IRDetector<Pin9>  ir3; // rear left
+IRDetector<Pin10> ir4; // left
+IRDetector<Pin11> ir5; // front left
 
 volatile uint8 sensor_data = 0;
 

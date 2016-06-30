@@ -12,6 +12,7 @@
 
 using namespace NeatAVR;
 
+typedef Pin4 LED;
 typedef Pin9 IREmitter;
 
 volatile uint8 carrier = 1;
@@ -30,6 +31,9 @@ void squawk() {
 int main() {
     IREmitter::output();
 
+    LED::output();
+    LED::on();
+
     Timer::init(Timer::Prescaler::DIV_8);
     Timer::WaveGeneration::set(Timer::WaveGeneration::CTC);
 
@@ -39,7 +43,7 @@ int main() {
     System::enable_interrupts();
 
     while (1) {
-        _delay_ms(150);
+        _delay_ms(120);
         squawk();
     }
 }
