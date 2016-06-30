@@ -1,0 +1,177 @@
+\documentclass[a4paper,parskip,headheight=38pt]{scrartcl} % article or scrartcl
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[%
+  automark,
+  headsepline                %% Separation line below the header
+]{scrlayer-scrpage}
+\usepackage[english]{babel}
+\usepackage{hyphenat}
+\usepackage[hidelinks]{hyperref}
+\usepackage[top=1.4in, bottom=1.5in, left=1in, right=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{datetime}
+
+\usepackage[normalem]{ulem}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\usepackage{microtype}
+
+\usepackage[hang]{footmisc}
+\setlength{\footnotemargin}{3mm}
+
+\usepackage{enumitem}
+
+\usepackage[export]{adjustbox}
+
+% \usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{graphics}
+% \usepackage{float}
+% \usepackage{caption}
+
+\parindent 0pt
+\parskip 6pt
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\renewcommand\thesubsection{\Alph{subsection}}
+
+\setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
+\addtolength{\headheight}{+13pt}
+\lohead{Marlene Böhmer, s9meboeh@stud.uni-saarland.de, 2547718 \\
+	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
+	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
+	Ben Wiederhake, s9bewied@stud.uni-saarland.de, 2541266}
+\rohead{\includegraphics[height=36pt, right]{../../logo/logo.png} \newline ES16, Prototype shortcomings, Group 6, Page {\thepage}/{\pageref*{LastPage}}}
+
+\newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
+\settimeformat{mytime}
+\newdateformat{mydate}{\twodigit{\THEYEAR}\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+\cfoot{\tiny\texttt{ID \mydate\today\currenttime}}
+\chead{} % Needed because now the \subsections get displayed
+\pagestyle{scrheadings}
+
+% \renewcommand{\headrulewidth}{0pt}
+% \addtolength{\textheight}{+30mm}
+% \addtolength{\textwidth}{+50mm}
+% \addtolength{\hoffset}{-7mm}
+
+% \newcommand{\Omicron}{\ensuremath{\mathcal{O}}}
+% \newcommand{\omicron}{\ensuremath{o}}
+% \newcommand{\set}[1]{\{#1\}}
+% \newcommand{\abs}[1]{\lvert #1 \rvert}
+
+\DeclareMathOperator{\sinc}{sinc}
+
+\begin{document}
+
+\section{E-Puck not as specified}
+
+We are short on time as we had to deal with a few problems with the
+E-Puck library and E-Puck specification:
+ %
+\begin{itemize}
+    \item Proximity sensors do not yield values as specified.  We had
+    to measure the raw values, come up with a reasonable approximating
+    formula.
+ %
+    \item The Bluetooth handler of the E-Puck firmware does not have a
+    nice way to prevent packet loss, and does not support packages over
+    64 bytes (which is far too low for our use case).
+ %
+    \item The E-Puck firmware uses several different interrupts, and it
+    was highly unclear which interrupt timers were used by the firmware
+    or free for usage by us.
+\end{itemize}
+
+Our approach was to create our own firmware, which proves to
+be more usable and less error-prone than the pre-existing one.
+
+\section{T2T communication}
+
+Technically, Tin-Bot-to-Tin-Bot-communication only improves the global
+completeness of internal maps, despite being a major technical effort.
+Therefore, this feature is \emph{not} present in our prototype.  Thus,
+we will present a \emph{single}\footnote{thus we also do not need any
+synchronization that makes sure that precisely one Tin Bot rescues the
+victim} working Tin Bot.
+ \\
+Although T2T is already planned for and in some parts already
+specified, our approach is to implement T2T last.  However, of course
+we already use Bluetooth to exchange debugging data and the internal
+map, so we effectively \emph{are} implementing T2T as we go anyway.
+
+\section{Rescue mode}
+
+We only have two options for presentation: either we demo the
+Right-Hand-Follower (which definitely works), or we demo the overall
+system, which would require \emph{all} the components to be perfectly
+working.  At least currently, the next stage does not work yet (the
+\texttt{victim\_direction} module needs working IR sensors; see below).
+We cannot guarantee the latter for the prototype yet, so we only demo
+the rescue mode RHR.
+ \\
+For the final product, our approach is to get all components working.
+
+\section{Moving the victim} % VICTOR
+
+Although our current prototype of the victim is very light and offers
+very little friction against the ground, the Tin Bot cannot turn while
+the victim is attached.  This is bad, as our atomic path-following
+block first turns and then moves.
+ \\
+For the final product, our approach is to solve this by any of the
+following:
+ %
+\begin{itemize}
+    \item making the victim even more light-weight, maybe use wheels
+ %
+    \item changing the turning building-block to move forward-backward
+    in order to turn; not unlike a car
+ %
+    \item using another E-Puck for the victim, which then actively
+    follows the \enquote{rescuer}
+\end{itemize}
+
+\section{IR sensors (victim detection)}
+
+Our IR sensors do not work as well as expected.  They are highly
+sensitive to noise and reflections, contrary to our earlier experiments
+with own hardware.
+ \\
+This seems to be also due to the IR emitters being highly direction
+dependent instead of \enquote{diffuse} in all directions.
+ \\
+Our approach is to sacrifice angular and temporal resolution in return
+for stability of the received signal.
+
+\section{What \emph{does} work}
+
+Right-Hand-Following definitely works, so this is part of the
+prototype.  The LPS also works, including image recognition, conversion
+to the required units and sending the data via Bluetooth.  As
+Right-Hand-Following does not make use of this information, the LPS is
+demonstrated through a web interface instead.  Finally, the hardware to
+determine whether we are currently connected to the victim works
+reliably, and the end-to-end I2C communication works: the highly
+noisy IR data is available to the Tin Bot software.
+
+\section{What is implemented but not presented}
+
+Most internal logic and path finding is already implemented and
+unit-tested.  However, there is no really visible intermediate step
+between Right-Hand-Following and truly solving the maze, so we cannot
+showcase the internal logic, i.e., all the state machines in the
+"Controller", as per virtual Prototype.
+ \\
+Our approach for the Prototype Session will be to try and get certain
+parts working in stand-alone mode anyway.
+
+\end{document}

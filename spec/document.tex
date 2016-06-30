@@ -265,6 +265,7 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \item solvable maze (including table and walls; walls need to be of sufficient height to prevent signals radiating over the walls)
 \item flat surface
 \item unblocked view from the camera to the maze
+\item no items in the maze that have a bright blue or bright red color
 \item the LPS knows in advance how many Tin Bots will initially be available (see N13)
 \end{enumerate}
 
@@ -318,8 +319,9 @@ After a major catastrophe a brave team of robots is sent out to save a damsel in
 \begin{itemize}
     \item Remove MR11 (don't fall off the table)
     \item Include distance in E1 (magnets vs. walls)
-    \item Add requirement that Tin Bots never come online while the system is already active (e.g., there already is map data that would need distribution)
     \item Modify use-case E to include \enquote{camera blocked} as a trigger
+    \item Add requirement E7 that there are no similar colored things that confuse out image recognition
+    \item Add requirement E8 that Tin Bots never come online while the system is already active (e.g., there already is map data that would need distribution)
 \end{itemize}
 
 \end{document}

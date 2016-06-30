@@ -1,12 +1,12 @@
 #ifndef TINBOT_H
 #define TINBOT_H
 
-#include "rhr.h"
+#include "controller.h"
 #include "sensors.h"
 
 typedef struct TinBot {
     Sensors sens;
-    RhrLocals rhr;
+    Controller controller;
 } TinBot;
 
 void setup(TinBot* tinbot);

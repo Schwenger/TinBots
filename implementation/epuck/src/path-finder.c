@@ -12,8 +12,87 @@ typedef struct Context {
 	Position goal;
 } Context;
 
+enum {
+    PF_inactive,
+    PF_wait_zero,
+    PF_compute_path,
+    PF_running
+};
+
 extern const Position INVALID_POS; /* sigh. */
 const Position INVALID_POS = {-1, -1};
+
+static void pf_find_path(Position position, Position goal, Map *map, Position *path);
+static int eop(Position pos);
+
+void pf_reset(PathFinderState* pf) {
+    pf->state = PF_inactive;
+    pf->drive = 0;
+    pf->next = INVALID_POS;
+    pf->nopath = 0;
+    pf->locals.path_index = 0;
+    pf->locals.path[0] = INVALID_POS;
+}
+
+void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
+    Position dest, pos, next_wp;
+    switch(pf->state) {
+        case PF_inactive:
+            if(inputs->compute){
+                pf->state = PF_compute_path;
+                dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
+                pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
+                pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
+                pf->locals.path_index = 0;
+                next_wp = pf->locals.path[pf->locals.path_index];
+                if(eop(next_wp)) {
+                    pf->nopath = 1;
+                }
+            }
+            break;
+        case PF_wait_zero:
+            if(inputs->compute) {
+                pf->state = PF_inactive;
+                pf->path_completed = 0;
+                pf->nopath = 0;
+            }
+            break;
+        case PF_compute_path:
+            if(pf->nopath){
+                pf->state = PF_wait_zero;
+            } else {
+                pf->state = PF_running;
+                pf->next = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
+            }
+            break;
+        case PF_running:
+            pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
+            next_wp = pf->locals.path[pf->locals.path_index];
+            if(eop(next_wp)){
+                pf->state = PF_wait_zero;
+                pf->drive = 0;
+                pf->path_completed = 1;
+            } else if(pos.x == pf->next.x && pos.y == pf->next.y) {
+                if(pf->drive){
+                    pf->drive = 0;
+                    pf->locals.path_index++;
+                } else {
+                    pf->drive = 1;
+                    pf->next = next_wp;
+                }
+            }
+            break;
+        default:
+            hal_print("PathFinder illegal state?!  Resetting ...");
+            assert(0);
+            pf_reset(pf);
+            break;
+    }
+}
+
+static int eop(Position pos) {
+    return pos.x == INVALID_POS.x && pos.y == INVALID_POS.y;
+}
 
 static void find_neighbours(ASNeighborList neighbours, void *node, void *map);
 static float heuristic(void *node, void *goal, void *map);
@@ -83,7 +162,7 @@ static void find_neighbours(ASNeighborList neighbours, void *node, void *context
 		cand_next_x = state->x + STEP_DISTANCE * cos(thetas[i] + i * M_PI/2);
 		cand_next_y = state->y + STEP_DISTANCE * sin(thetas[i] + i * M_PI/2);
         cand_next.x = (int) (floor(cand_next_x));
-        cand_next_y = (int) (floor(cand_next_y));
+        cand_next.y = (int) (floor(cand_next_y));
 		next = intersection(*state, cand_next, context->map);
 		ASNeighborListAdd(neighbours, &next, 1);
 	}

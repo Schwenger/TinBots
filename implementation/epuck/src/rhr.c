@@ -20,23 +20,23 @@ enum RHR_STATES {
     RHR_stay_close,
     RHR_run_close
 };
-/* static_assert(sizeof(enum RHR_STATES) == sizeof(RhrLocals::state),
+/* static_assert(sizeof(enum RHR_STATES) == sizeof(RhrState::state),
  *               "Bad things"); */
 typedef char check_rhr_states_size[
     (sizeof(enum RHR_STATES) == sizeof(int)) ? 1 : -1];
 
-static const double RHR_CONF_CORNER_D = 10;
-static const double RHR_CONF_CORNER_X = 10;
-static const double RHR_CONF_WALL_THRESH = 1.5;
+static const double RHR_CONF_CORNER_D = 9.5;
+static const double RHR_CONF_CORNER_X = 11;
+static const double RHR_CONF_WALL_THRESH = 2;
 static const double RHR_CONF_WALL_D = 1;
 
-void rhr_reset(RhrLocals* rhr) {
+void rhr_reset(RhrState* rhr) {
     rhr->state = RHR_check_wall;
     /* No further initialization needed because RHR_check_wall doesn't
        read from rhr->time_entered */
 }
 
-static void find_wall(RhrLocals* rhr, Sensors* sens) {
+static void find_wall(RhrState* rhr, Sensors* sens) {
     /* see virt_proto/software/find_wall.m */
     static const double sense_angles[NUM_PROXIMITY] = {
          -20*M_PI/180,
@@ -69,7 +69,7 @@ static void find_wall(RhrLocals* rhr, Sensors* sens) {
     }
 }
 
-void rhr_step(RhrLocals* rhr, Sensors* sens) {
+void rhr_step(RhrState* rhr, Sensors* sens) {
     int deg20off, deg90off, waited_long_enough;
     const int old_state = rhr->state;
     hal_debug_out(DEBUG_CAT_RHR_TOTAL_WAIT_TIME, 0);

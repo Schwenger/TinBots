@@ -4,14 +4,14 @@
 #include "hal.h"
 #include "sensors.h"
 
-typedef struct RhrLocals {
+typedef struct RhrState {
     int state;
     int wall_p;
     double wall_rot;
     hal_time time_entered;
-} RhrLocals;
+} RhrState;
 
-void rhr_reset(RhrLocals* rhr);
-void rhr_step(RhrLocals* rhr, Sensors* sens);
+void rhr_reset(RhrState* rhr);
+void rhr_step(RhrState* rhr, Sensors* sens);
 
 #endif
