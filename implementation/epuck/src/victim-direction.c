@@ -76,6 +76,7 @@ void vd_step(VDState* vd, Sensors* sens){
         case VD_found_end:
             if(fabs(sens->current.direction - vd->locals.initial_phi) < 4 * M_PI/180.0){
                 vd->state = VD_done;
+                vd->victim_found = 1;
                 hal_set_speed(0, 0);
             }
             break;
