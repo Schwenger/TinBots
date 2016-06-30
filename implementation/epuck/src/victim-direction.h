@@ -5,15 +5,16 @@
 #include "sensors.h"
 
 typedef struct VDLocals {
-    double initial_phi;
-    double bound1;
-    int sensor;
+    hal_time time_begin;
+    hal_time time_ir_on;
+    int sensor_id;
 } VDLocals;
 
 typedef struct VDState {
     int state;
     VDLocals locals;
     int victim_found;
+    int give_up;
     double victim_phi;
 } VDState;
 

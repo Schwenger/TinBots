@@ -9,6 +9,7 @@
 #include "traffic-cop-eyes.h"
 #include "victim-direction.h"
 #include "victim-finder.h"
+#include "approximator.h"
 
 typedef struct Controller {
     BlindState blind;
@@ -19,6 +20,7 @@ typedef struct Controller {
     TCEState cop_eyes;
     VDState vic_dir;
     VFState vic_finder;
+    ApproxState approx;
 } Controller;
 
 typedef struct ControllerInput {

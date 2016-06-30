@@ -23,6 +23,13 @@ const Position INVALID_POS = {-1, -1};
 static void pf_find_path(Position position, Position goal, Map *map, Position *path);
 static int eop(Position pos);
 
+static Position map_discretize(Map* map, double x, double y) {
+    Position res;
+    res.x = (int) (floor(x / map->width));
+    res.y = (int) (floor(y / map->height));
+    return res;
+}
+
 void pf_reset(PathFinderState* pf) {
     pf->state = PF_inactive;
     pf->next = INVALID_POS;

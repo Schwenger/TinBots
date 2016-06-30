@@ -7,13 +7,6 @@ typedef unsigned char byte;
 static const int BIT_PER_FIELD = 2;
 static const int EOF_FLAG = 3;
 
-Position map_discretize(Map* map, double x, double y) {
-    Position res;
-    res.x = (int) (floor(x / map->width));
-    res.y = (int) (floor(y / map->height));
-    return res;
-}
-
 static void serialize(int* data, byte* buffer, int num_fields) {
     byte value, next_value;
     int pos_in_byte = 0;

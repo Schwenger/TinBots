@@ -15,8 +15,8 @@ void approx_reset(ApproxState* tce, Sensors* sens) {
 static const double magic_number_1 = 2.0; /* please rename */
 static const double magic_number_2 = 5.3;
 
-void approx_step(ApproxInputs* inputs, ApproxState* tce) {
-    ApproxLocals* loc = &tce->locals;
+void approx_step(ApproxInputs* inputs, ApproxState* approx) {
+    ApproxLocals* loc = &approx->locals;
     hal_time delta_t;
     double delta_phi, v, p;
 
@@ -41,7 +41,7 @@ void approx_step(ApproxInputs* inputs, ApproxState* tce) {
     loc->prev_t = hal_get_time();
     loc->prev_motor_left = inputs->motor_left;
     loc->prev_motor_right = inputs->motor_right;
-    tce->current.x = loc->x;
-    tce->current.y = loc->y;
-    tce->current.phi = loc->phi;
+    approx->current.x = loc->x;
+    approx->current.y = loc->y;
+    approx->current.phi = loc->phi;
 }

@@ -5,11 +5,7 @@
 #include "sensors.h"
 
 typedef struct ApproxInputs {
-    struct {
-        int phi;
-        int x;
-        int y;
-    } lps;
+    LPS_Data lps;
     int motor_left;
     int motor_right;
 } ApproxInputs;
@@ -33,7 +29,7 @@ typedef struct ApproxState {
     } current; /* output */
 } ApproxState;
 
-void approx_reset(ApproxState* tce, Sensors* sens);
-void approx_step(ApproxInputs* inputs, ApproxState* tce);
+void approx_reset(ApproxState* approx, Sensors* sens);
+void approx_step(ApproxInputs* inputs, ApproxState* approx);
 
 #endif /* EPUCK_APPROXIMATOR_H */

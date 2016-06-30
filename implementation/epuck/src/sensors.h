@@ -25,6 +25,10 @@ enum IR_Order {
     NUM_IR
 };
 
+typedef struct LPS_Data {
+    double x, y ,phi;
+} LPS_Data;
+
 typedef struct Sensors {
     double proximity[NUM_PROXIMITY];
     int ir[NUM_IR];
@@ -34,6 +38,10 @@ typedef struct Sensors {
         double y;
         double direction;
     } current;
+    struct {
+        LPS_Data values;
+        int update_pending;
+    } lps_update;
 } Sensors;
 
 #endif
