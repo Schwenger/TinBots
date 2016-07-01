@@ -58,6 +58,8 @@ class Debugger:
         self.print_tokens([(kind, '<<< ' + message + os.linesep)])
 
     def on_package(self, device, source, target, command, payload):
+        if command in {0x01}:
+            return
         msg = '[{}] {} -> {} | {} | {!r}'.format(device.color, source, target,
                                                  command, payload)
         self.print_message(msg, INFO)

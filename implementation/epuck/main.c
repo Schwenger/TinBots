@@ -13,15 +13,15 @@
 #define STATE_STARTUP 0
 #define STATE_RUNNING 1
 
-static volatile int ir_data[8];
-static volatile double lps_data[3];
+static volatile int ir_data[8] = {0};
+static volatile double lps_data[3] = {0};
 static volatile unsigned lps_updated = 0;
 static volatile unsigned int pickup_data;
 
 static volatile unsigned int state = STATE_STARTUP;
 
-static unsigned int proximity_raw[8];
-static double proximity[8];
+static unsigned int proximity_raw[8] = {0};
+static double proximity[8] = {0};
 
 static TinBot bot;
 
@@ -66,28 +66,57 @@ void update_ext_data(void) {
     I2CCONbits.SEN = 1;
 }
 
+static TinTask com_debug_task;
+
+static void com_debug(void) {
+    static TinPackage package = {NULL, 0x00, 0x01, 0x00};
+    static char buffer[255];
+    memset(buffer, 0, 255);
+    sprintf(buffer, "%d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %f %d",
+            ir_data[0], ir_data[1], ir_data[2],
+            ir_data[3], ir_data[4], ir_data[5],
+            lps_data[0], lps_data[1], lps_data[2],
+            proximity[0], proximity[1], proximity[2], proximity[3],
+            proximity[4], proximity[5], proximity[6], proximity[7],
+            pickup_data);
+    package.data = buffer;
+    package.length = strlen(buffer);
+    tin_com_send(&package);
+}
+
+static void debug_set(TinPackage* package) {
+    if (package->data[0]) {
+        tin_task_activate(&com_debug_task);
+    } else {
+        tin_task_deactivate(&com_debug_task);
+    }
+}
+
 int main() {
     tin_init();
 
     tin_init_com();
     tin_init_rs232(9600UL);
 
+    tin_wait(2000);
+
+    tin_calibrate_proximity();
+
     tin_com_set_address(tin_get_selector());
 
     tin_task_register(&update_ext_data_task, update_ext_data, 500);
     tin_task_activate(&update_ext_data_task);
+
+    tin_task_register(&com_debug_task, com_debug, 5000);
 
     tin_com_register(0x01, com_on_hello);
     tin_com_register(0x02, com_on_update_lps);
     tin_com_register(0x03, com_on_start);
 
     tin_com_register(0x10, debug_led_callback);
+    tin_com_register(0x11, debug_set);
 
     while (state == STATE_STARTUP || !lps_updated);
-
-    tin_wait(2000);
-
-    tin_calibrate_proximity();
 
     setup(&bot);
 

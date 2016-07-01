@@ -45,6 +45,12 @@ void update_ir(TinBot* tinbot, int ir[6]) {
     for (i = 0; i < 6; ++i) {
         tinbot->sens.ir[i] = ir[i];
     }
+    hal_set_led(1, (unsigned int) ir[0]);
+    hal_set_led(2, (unsigned int) ir[1]);
+    hal_set_led(3, (unsigned int) ir[2]);
+    hal_set_led(5, (unsigned int) ir[3]);
+    hal_set_led(6, (unsigned int) ir[4]);
+    hal_set_led(7, (unsigned int) ir[5]);
 }
 
 void update_victim_pickup(TinBot* tinbot, unsigned int grabbed) {

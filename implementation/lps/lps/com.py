@@ -56,6 +56,12 @@ class TinBot:
         phi = int(phi * 1000).to_bytes(2, 'big')
         self.send(0x02, x + y + phi)
 
+    def enable_debug(self):
+        self.send(0x11, b'\x01')
+
+    def disable_debug(self):
+        self.send(0x11, b'\x00')
+
     def sending(self):
         time.sleep(2)
         while True:
