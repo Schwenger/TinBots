@@ -26,6 +26,7 @@ void approx_step(ApproxInputs* inputs, ApproxState* approx) {
         loc->y = inputs->lps->y;
         loc->phi = inputs->lps->phi;
         inputs->lps->x = -1;
+        approx->lps_initialized = 1;
     } else {
         v = (loc->prev_motor_left + loc->prev_motor_right) / magic_number_1;
         p = (loc->prev_motor_right - loc->prev_motor_left) / magic_number_2;
