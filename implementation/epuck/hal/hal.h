@@ -38,9 +38,6 @@ typedef enum DebugCategory {
     DEBUG_CAT_VD_IR_ID,
     /* DEBUG_CAT_OWN_TIME, */
     DEBUG_CAT_NUM
-    ,DEBUG_CAT_RHR_STATE=0,
-    DEBUG_CAT_RHR_REMAINING_WAIT_TIME,
-    DEBUG_CAT_RHR_TOTAL_WAIT_TIME
 } DebugCategory;
 
 void hal_debug_out(DebugCategory key, double value);

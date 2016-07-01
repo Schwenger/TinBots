@@ -72,8 +72,6 @@ static void find_wall(RhrState* rhr, Sensors* sens) {
 void rhr_step(RhrState* rhr, Sensors* sens) {
     int deg20off, deg90off, waited_long_enough;
     const int old_state = rhr->state;
-    hal_debug_out(DEBUG_CAT_RHR_TOTAL_WAIT_TIME, 0);
-    hal_debug_out(DEBUG_CAT_RHR_REMAINING_WAIT_TIME, 0);
     switch (rhr->state) {
     case RHR_check_wall:
         find_wall(rhr, sens);
@@ -181,5 +179,4 @@ void rhr_step(RhrState* rhr, Sensors* sens) {
     if (rhr->state != old_state) {
         rhr->time_entered = hal_get_time();
     }
-    hal_debug_out(DEBUG_CAT_RHR_STATE, rhr->state);
 }
