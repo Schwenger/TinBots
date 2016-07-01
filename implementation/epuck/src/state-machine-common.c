@@ -34,7 +34,5 @@ int smc_time_passed_p(const hal_time entered, const double wait_secs) {
     /* If this assert fails, you only need to fix this part.
      * Note that it won't fail for roughly 1193 hours (see e_time.h) */
     assert(now >= entered);
-    hal_debug_out(DEBUG_CAT_RHR_TOTAL_WAIT_TIME, wait_secs);
-    hal_debug_out(DEBUG_CAT_RHR_REMAINING_WAIT_TIME, (elapsed) * 0.001);
     return elapsed >= wait_ticks;
 }
