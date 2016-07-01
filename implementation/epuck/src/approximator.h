@@ -5,7 +5,7 @@
 #include "sensors.h"
 
 typedef struct ApproxInputs {
-    LPS_Data lps;
+    LPS_Data* lps;
     int motor_left;
     int motor_right;
 } ApproxInputs;
@@ -27,6 +27,7 @@ typedef struct ApproxState {
         double y;
         double phi;
     } current; /* output */
+    int lps_initialized;
 } ApproxState;
 
 void approx_reset(ApproxState* approx);

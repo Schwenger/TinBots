@@ -10,6 +10,7 @@ void approx_reset(ApproxState* tce) {
     tce->locals.x = 0;
     tce->locals.y = 0;
     tce->locals.phi = 0;
+    tce->lps_initialized = 0;
 }
 
 static const double magic_number_1 = 2.0; /* please rename */
@@ -20,10 +21,11 @@ void approx_step(ApproxInputs* inputs, ApproxState* approx) {
     hal_time delta_t;
     double delta_phi, v, p;
 
-    if(inputs->lps.x != -1){
-        loc->x = inputs->lps.x;
-        loc->y = inputs->lps.y;
-        loc->phi = inputs->lps.phi;
+    if(inputs->lps->x != -1){
+        loc->x = inputs->lps->x;
+        loc->y = inputs->lps->y;
+        loc->phi = inputs->lps->phi;
+        inputs->lps->x = -1;
     } else {
         v = (loc->prev_motor_left + loc->prev_motor_right) / magic_number_1;
         p = (loc->prev_motor_right - loc->prev_motor_left) / magic_number_2;

@@ -7,7 +7,12 @@ void setup(TinBot* tinbot) {
 }
 
 void loop(TinBot* tinbot) {
-    approx_step(&tinbot->controller.approx);
+    ApproxInputs inputs;
+    inputs.lps = &tinbot->sens.lps;
+    inputs.motor_left = hal_get_speed_left();
+    inputs.motor_right = hal_get_speed_right();
+    approx_step(&inputs, &tinbot->controller.approx);
+
     vd_step(&tinbot->controller.vic_dir, &tinbot->sens);
     hal_debug_out(DEBUG_CAT_VD_STATE, tinbot->controller.vic_dir.state);
     hal_debug_out(DEBUG_CAT_VD_VICTIM_FOUND, tinbot->controller.vic_dir.victim_found);

@@ -18,13 +18,15 @@ enum Proximity_Order {
 };
 
 enum IR_Order {
-    IR_Z_0,
-    IR_P_60,
-    IR_P_120,
-    IR_X_180,
-    IR_M_120,
-    IR_M_60,
-    NUM_IR
+    /* If you change this, please also change:
+     * - victim-direction.c -> TODO (not pushed yet) */
+    IR_315,
+    IR_270,
+    IR_225,
+    IR_135,
+    IR_90,
+    IR_45,
+    NUM_IR /* ?? */
 };
 
 typedef struct LPS_Data {
@@ -42,10 +44,7 @@ typedef struct Sensors {
         double y;
         double direction;
     } current;
-    struct {
-        LPS_Data values;
-        int update_pending;
-    } lps_update;
+    LPS_Data lps;
 } Sensors;
 
 #endif

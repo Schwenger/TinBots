@@ -147,12 +147,7 @@ static void run_victim_finder(Controller* c, Sensors* sens) {
 
 static void run_approx_step(ApproxState* approx, Sensors* sens) {
     ApproxInputs inputs;
-    if(sens->lps_update.update_pending) {
-        inputs.lps = sens->lps_update.values;
-        sens->lps_update.update_pending = 0;
-    } else {
-        inputs.lps.x = inputs.lps.y = inputs.lps.phi = -1;
-    }
+    inputs.lps = &sens->lps;
     inputs.motor_left = (int) (hal_get_speed_left());
     inputs.motor_left = (int) (hal_get_speed_right());
     approx_step(&inputs, approx);
