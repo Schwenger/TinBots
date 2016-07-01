@@ -16,6 +16,16 @@ typedef char check_debug_array_length_against_matlab[(DEBUG_CAT_NUM <= 10) ? 1 :
 
 static MatlabBot* current;
 
+const double ir_sensor_angle[6] = {
+    0*M_PI/3,
+    1*M_PI/3,
+    2*M_PI/3,
+    3*M_PI/3,
+    4*M_PI/3,
+    5*M_PI/3
+};
+
+
 /* Implementation of hal.h */
 
 hal_time hal_get_time() {

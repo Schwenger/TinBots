@@ -6,7 +6,10 @@
 
 typedef struct VDLocals {
     hal_time time_begin;
-    hal_time time_ir_on;
+    hal_time counter_total;
+    hal_time counter_on;
+    /* Here it is really important that we use double, not float. */
+    double weighted_sum;
     int sensor_id;
 } VDLocals;
 

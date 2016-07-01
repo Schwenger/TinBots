@@ -1,6 +1,8 @@
 #ifndef SENSORS_H
 #define SENSORS_H
 
+#include "pi.h"
+
 enum Proximity_Order {
     /* If you change this, please also change:
      * - rhr.c -> find_wall -> sense_angles */
@@ -28,6 +30,8 @@ enum IR_Order {
 typedef struct LPS_Data {
     double x, y ,phi;
 } LPS_Data;
+
+extern const double ir_sensor_angle[6];
 
 typedef struct Sensors {
     double proximity[NUM_PROXIMITY];

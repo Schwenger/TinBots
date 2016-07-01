@@ -12,28 +12,30 @@
  * state!=VD_done \iff none of the output flags are set */
 enum {
     VD_off,
-    VD_start,
-    VD_found_start,
-    VD_rotate_end,
+    VD_running,
     VD_done
 };
 
+/* We know that the IR sensors should at *least*
+ * have a sensibility of this many degrees. */
+static const double VD_MIN_ON = 9.0 / 360.0;
+
 static void entry_start(VDState* vd, Sensors* sens);
 static double determine_victim_phi(double bound, double current_phi, int sensor);
-
-static const hal_time vd_turn_ticks =
-    (hal_time)(1000 * 2 * M_PI / SMC_ROT_PER_SEC);
 
 void vd_reset(VDState* vd){
     vd->state = VD_off;
     vd->victim_found = 0;
     vd->victim_phi = 0;
     vd->give_up = 0;
+    vd->locals.counter_total = 1;
+    vd->locals.counter_on = 0;
+    vd->locals.weighted_sum = 0;
 }
 
 static void entry_start(VDState* vd, Sensors* sens) {
     int i;
-    vd->state = VD_start;
+    vd->state = VD_running;
     vd->locals.sensor_id = -1;
     for(i = 0; i < 6; ++i) {
         if(sens->ir[i] == 0){
@@ -45,21 +47,50 @@ static void entry_start(VDState* vd, Sensors* sens) {
         vd->give_up = 1;
     } else {
         assert(sens->ir[vd->locals.sensor_id] == 0);
-        smc_rot_right();
+        hal_debug_out(DEBUG_CAT_VD_IR_ID, vd->locals.sensor_id);
+        smc_rot_left();
+        vd->locals.counter_on = 1;
+        vd->locals.weighted_sum = M_PI;
         vd->locals.time_begin = hal_get_time();
     }
 }
 
 static double determine_victim_phi(double ir_start, double ir_end, int sensor) {
     double look_phi, victim_phi;
-    assert(ir_end < ir_start);
-    assert(ir_end > ir_start - 2 * M_PI);
+    assert(ir_end > ir_start);
+    assert(ir_end < ir_start - 2 * M_PI);
 
     look_phi = (ir_start + ir_end) / 2;
-    victim_phi = look_phi + (sensor - 1) * M_PI/3;
+    /* TODO: Adapt to real-life angles */
+    victim_phi = look_phi + ir_sensor_angle[sensor];
     victim_phi = fmod(victim_phi, 2 * M_PI);
 
     return victim_phi;
+}
+
+static void compute_result(VDState* vd, Sensors* sens) {
+    double eff_angle;
+    double eff_opening;
+
+    if (vd->locals.counter_total < 100) {
+        /* Wat. */
+        vd->give_up = 1;
+        return;
+    }
+
+    eff_opening = vd->locals.counter_on * 1.0 / vd->locals.counter_total;
+    if (eff_opening < VD_MIN_ON) {
+        /* There is no spoon.  And no VICTOR. */
+        vd->give_up = 1;
+        return;
+    }
+
+    eff_angle = sens->current.direction
+        + vd->locals.weighted_sum / vd ->locals.counter_on;
+    vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
+                                          eff_angle + eff_opening / 2,
+                                          vd->locals.sensor_id);
+    vd->victim_found = 1;
 }
 
 void vd_step(VDState* vd, Sensors* sens){
@@ -67,35 +98,21 @@ void vd_step(VDState* vd, Sensors* sens){
         case VD_off:
             entry_start(vd, sens);
             break;
-        case VD_start:
-            if(sens->ir[vd->locals.sensor_id]){
-                vd->locals.time_ir_on = hal_get_time();
-                vd->state = VD_found_start;
-            } else if (hal_get_time() - vd->locals.time_begin >= vd_turn_ticks) {
-                vd->give_up = 1;
-                vd->state = VD_done;
-                smc_halt();
-            }
-            break;
-        case VD_found_start:
-            if(sens->ir[vd->locals.sensor_id] == 0){
-                const hal_time time_ir_off = hal_get_time();
-                const double phi_off = sens->current.direction;
-                const double phi_on = phi_off -
-                    (time_ir_off - vd->locals.time_ir_on) * 1000 * SMC_ROT_PER_SEC;
-                vd->victim_phi = determine_victim_phi(phi_on, phi_off, vd->locals.sensor_id);
-                vd->state = VD_rotate_end;
-            } else if (hal_get_time() - vd->locals.time_begin >= vd_turn_ticks) {
-                vd->give_up = 1;
-                vd->state = VD_done;
-                smc_halt();
-            }
-            break;
-        case VD_rotate_end:
-            if (hal_get_time() - vd->locals.time_begin >= vd_turn_ticks) {
-                vd->victim_found = 1;
-                vd->state = VD_done;
-                smc_halt();
+        case VD_running:
+            {
+                hal_debug_out(DEBUG_CAT_VD_HAVE_IR, sens->ir[vd->locals.sensor_id]);
+                const double angle = (hal_get_time() - vd->locals.time_begin)
+                                     * SMC_ROT_PER_SEC / 1000.0;
+                vd->locals.counter_total += 1;
+                if (sens->ir[vd->locals.sensor_id]) {
+                    vd->locals.counter_on += 1;
+                    vd->locals.weighted_sum += angle;
+                }
+                if (angle >= 2 * M_PI) {
+                    vd->state = VD_done;
+                    smc_halt();
+                    compute_result(vd, sens);
+                }
             }
             break;
         case VD_done:

@@ -2,6 +2,7 @@
  * E-Puck Hardware Abstraction Layer
  */
 
+#include "sensors.h"
 #include "tinpuck.h"
 
 #include "hal.h"
@@ -9,6 +10,15 @@
 static struct {
     double left, right;
 } motor_wrapper;
+
+const double ir_sensor_angle[6] = {
+    7*M_PI/4,
+    6*M_PI/4,
+    5*M_PI/4,
+    3*M_PI/4,
+    2*M_PI/4,
+    1*M_PI/4
+};
 
 void hal_set_speed(double left, double right) {
     tin_set_speed(left, right);
