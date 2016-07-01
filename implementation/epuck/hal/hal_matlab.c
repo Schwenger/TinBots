@@ -73,6 +73,10 @@ void hal_debug_out(DebugCategory key, double value) {
     /* current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1); */
 }
 
+void hal_send_victim_phi(double phi) {
+
+}
+
 
 /* Implementation of matlab.h */
 

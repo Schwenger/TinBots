@@ -29,7 +29,7 @@ typedef struct ApproxState {
     } current; /* output */
 } ApproxState;
 
-void approx_reset(ApproxState* approx, Sensors* sens);
+void approx_reset(ApproxState* approx);
 void approx_step(ApproxInputs* inputs, ApproxState* approx);
 
 #endif /* EPUCK_APPROXIMATOR_H */

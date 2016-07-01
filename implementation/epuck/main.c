@@ -69,7 +69,7 @@ void update_ext_data(void) {
 static TinTask com_debug_task;
 
 static void com_debug(void) {
-    static TinPackage package = {NULL, 0x00, 0x01, 0x00};
+    static TinPackage package = {NULL, 0x00, 0x11, 0x00};
     static char buffer[255];
     memset(buffer, 0, 255);
     sprintf(buffer, "%d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %f %d",

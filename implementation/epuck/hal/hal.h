@@ -25,6 +25,8 @@ void hal_set_front_led(unsigned int value);
 
 void hal_send_msg(unsigned int address, char* message, unsigned int length);
 
+void hal_send_victim_phi(double phi);
+
 void hal_print(const char *message);
 
 typedef enum DebugCategory {

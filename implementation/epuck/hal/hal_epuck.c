@@ -2,6 +2,8 @@
  * E-Puck Hardware Abstraction Layer
  */
 
+#include <string.h>
+#include <stdio.h>
 #include "sensors.h"
 #include "tinpuck.h"
 
@@ -55,6 +57,16 @@ void hal_print(const char* message) {
     e_send_uart1_char(message, strlen(message));
     while (e_uart1_sending());
     */
+}
+
+void hal_send_victim_phi(double phi) {
+    static TinPackage package = {NULL, 0x00, 0x20, 0x00};
+    static char buffer[32];
+    memset(buffer, 0, 32);
+    sprintf(buffer, "%f", phi);
+    package.data = buffer;
+    package.length = strlen(buffer);
+    tin_com_send(&package);
 }
 
 void hal_debug_out(DebugCategory key, double value) {

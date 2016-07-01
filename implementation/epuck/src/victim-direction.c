@@ -58,7 +58,7 @@ static void entry_start(VDState* vd, Sensors* sens) {
 static double determine_victim_phi(double ir_start, double ir_end, int sensor) {
     double look_phi, victim_phi;
     assert(ir_end > ir_start);
-    assert(ir_end < ir_start - 2 * M_PI);
+    assert(ir_end < ir_start + 2 * M_PI);
 
     look_phi = (ir_start + ir_end) / 2;
     /* TODO: Adapt to real-life angles */
@@ -90,6 +90,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
                                           vd->locals.sensor_id);
+    hal_send_victim_phi(vd->victim_phi);
     vd->victim_found = 1;
 }
 

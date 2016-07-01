@@ -3,13 +3,13 @@
 #include <pi.h>
 #include "approximator.h"
 
-void approx_reset(ApproxState* tce, Sensors* sens) {
+void approx_reset(ApproxState* tce) {
     tce->locals.prev_motor_left = 0;
     tce->locals.prev_motor_right = 0;
     tce->locals.prev_t = hal_get_time();
-    tce->locals.x = sens->current.x;
-    tce->locals.y = sens->current.y;
-    tce->locals.phi = sens->current.direction;
+    tce->locals.x = 0;
+    tce->locals.y = 0;
+    tce->locals.phi = 0;
 }
 
 static const double magic_number_1 = 2.0; /* please rename */

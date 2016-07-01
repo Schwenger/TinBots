@@ -19,12 +19,9 @@
  * - mode/tinbot-full.c (not implemented)
  */
 
-<<<<<<< Updated upstream
-#include "mode/tinbot-rhr.c"
-#include "sensors.h"
-=======
 #include "mode/tinbot-vicdir.c"
->>>>>>> Stashed changes
+#include "sensors.h"
+
 
 /* END CHOICE BLOCK */
 
