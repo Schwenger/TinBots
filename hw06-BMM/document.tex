@@ -62,6 +62,32 @@
 
 \section*{Problem 1: Testing}
 
+\subsection*{Part (a)}
+
+\begin{description}
+    \item[Statement, $t_0$:] Not satisfied, 3 is missing.
+    \item[Statement, $t_1$:] Not satisfied, 5 is missing.
+    \item[Statement, both:] Satisfied.
+    \item[Decision, $t_0$:] Not satisfied, decision $2 \rightarrow 3$ is missing.
+    \item[Decision, $t_1$:] Not satisfied, decision $4 \rightarrow 5$ is missing.
+    \item[Decision, both:] Satisfied.
+\end{description}
+
+\subsection*{Part (b)}
+
+Assuming that 1 and 7 are supposed to be the initial and final nodes, respectively:
+
+\[ t_2 = [1, 2, 3, 2, 4, 5, 6, 1, 7] \]
+
+Any test path necessarily covers both decisions made in 1 and both
+decisions made in 2.  Thus, any further test path is \emph{basically}
+the same as $t_2$, but not necessarily identical.  For example, this is
+\enquote{another one}:
+
+\[ t_3 = [1, 2, 3, 2, 4, 5, 6, 1, 2, 4, 5, 6, 1, 7] \]
+
+\subsection*{Part (c)}
+
 FIXME
 
 
