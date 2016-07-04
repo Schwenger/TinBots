@@ -103,7 +103,43 @@ FIXME
 
 \section*{Problem 4: LTL}
 
-FIXME
+\newcommand{\ltlbinop}[1]{\mathbin{\ensuremath{\mathbf{{#1}}}}}
+\newcommand{\ltlunop}[1]{\mathopen{\ensuremath{\mathbf{{#1}}}}\,}
+    % \ltlunop:
+    % Although the appropriate class is actually \mathop instead of \mathopen,
+    % \mathop would change the vertical alignment.  Sigh.
+    % Source: http://tex.stackexchange.com/a/38984
+\newcommand{\ltlG}{\ltlunop{G}}
+\newcommand{\ltlF}{\ltlunop{F}}
+\newcommand{\ltlX}{\ltlunop{X}}
+\newcommand{\ltlU}{\ltlbinop{U}}
+\newcommand{\ltlUm}{\ltlbinop{Um}}
+
+Notation:
+ %
+\begin{itemize}
+    \item we write $\varphi_0 \implies \varphi_1$ as syntactic sugar for $\neg(\varphi_0 \land \neg \varphi_1)$ (intuition: logical implication)
+    \item we write $\varphi_0 \lor \varphi_1$ as syntactic sugar for $\neg(\neg\varphi_0 \land \neg\varphi_1)$ (intuition: logical or)
+    \item we write $\varphi_0 \ltlUm \varphi_1$ as syntactic sugar for $(\ltlG{} \varphi_0) \lor (\varphi_0 \ltlU \varphi_1)$ (intuition: \enquote{until maybe})
+\end{itemize}
+
+Answers:
+ %
+\begin{itemize}
+ %  \item[(${}^\backprime$)] What happened to Alice and Bob?
+    \item[(a)] $\ltlG{} \neg(Peter.use \land Betsy.use)$
+    \item[(b)] $\ltlG{} \Big( (Peter.use \implies \ltlF{} \neg{}Peter.use) \land (Betsy.use \implies \ltlF{} \neg{} Betsy.use) \Big)$
+    \item[(c)] $\ltlG{} \Big( (Peter.request \implies \ltlF{} Peter.use) \land (Betsy.request \implies \ltlF{} Betsy.use) \Big)$
+    \item[(d)] Step-based approach, assuming that \enquote{usage} only lasts one \enquote{step}: \\
+               $\ltlG{}\Big( (Peter.use \implies \ltlX{}(\neg{}Peter.use \ltlUm{} Betsy.use))$ \\
+                    \phantom{x} $\quad \land (Betsy.use \implies \ltlX{}(\neg{}Betsy.use \ltlUm{} Peter.use)) \Big)$ \\
+               Flank-based approach: \\
+               $\ltlG{}\Big( (Peter.use \land \ltlX{} \neg{}Peter.use) \implies \ltlX{} (\neg{}Peter.use \ltlUm{} Betsy.use)$ \\
+                   \phantom{x} $\quad \land (Betsy.use \land \ltlX{} \neg{}Betsy.use) \implies \ltlX{} (\neg{}Betsy.use \ltlUm{} Peter.use) \Big)$ \\
+               Or, assuming that your interpretation of $User.release$ is $User.use \land \neg{}\ltlX{}User.use$: \\
+               $\ltlG{}\Big( Peter.release \implies \ltlX{} (\neg{}Peter.use \ltlUm{} Betsy.use)$ \\
+                   \phantom{x} $\quad \land Betsy.release \implies \ltlX{} (\neg{}Betsy.use \ltlUm{} Peter.use) \Big)$ \\
+\end{itemize}
 
 
 \end{document}
