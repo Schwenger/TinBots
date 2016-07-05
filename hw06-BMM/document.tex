@@ -59,6 +59,18 @@
                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
                     =}
 
+\newcommand{\ltlbinop}[1]{\mathbin{\ensuremath{\mathbf{{#1}}}}}
+\newcommand{\ltlunop}[1]{\mathopen{\ensuremath{\mathbf{{#1}}}}\,}
+    % \ltlunop:
+    % Although the appropriate class is actually \mathop instead of \mathopen,
+    % \mathop would change the vertical alignment.  Sigh.
+    % Source: http://tex.stackexchange.com/a/38984
+\newcommand{\ltlG}{\ltlunop{G}}
+\newcommand{\ltlF}{\ltlunop{F}}
+\newcommand{\ltlX}{\ltlunop{X}}
+\newcommand{\ltlU}{\ltlbinop{U}}
+\newcommand{\ltlUm}{\ltlbinop{Um}}
+
 %\DeclareMathOperator{\sinc}{sinc}
 
 \begin{document}
@@ -136,7 +148,7 @@ x<=hold"];
 
 \subsection*{Part (c)}
 
-\vspace{-1\baselineskip}\digraph[scale=0.7]{p2a}{
+\vspace{-1\baselineskip}\digraph[scale=0.7]{p2c}{
     rankdir=LR;
     node [shape=circle];
     0 [style=invis,shape=none];
@@ -151,22 +163,44 @@ true"];
 
 \section*{Problem 3: Region Automaton}
 
-FIXME
+\subsection*{Part (a)}
 
+\vspace{-1\baselineskip}\digraph[scale=0.7]{p3a}{
+    node [shape=box];
+    AR [label="[[TA]]_r",shape=none];
+    AR -> N_0;
+    N_0 [label="l_0
+x=0"];
+    N_0 -> N_0eps [label="tau"];
+    N_0eps [label="l_0
+0<x<1"]
+    N_0eps -> N_1 [label="tau"];
+    N_1[label="l_0
+x=1"]
+    N_0 -> P_0 [label="a"];  P_0 [label="l_1
+x=0"];
+    N_0eps -> P_0eps [label="a"];  P_0eps [label="l_1
+0<x<1"];
+    N_1 -> P_1 [label="a"];  P_1 [label="l_1
+x=1"];
+    P_0 -> P_0eps [label="tau"];
+    P_0eps -> P_1 [label="tau"];
+    P_1 -> P_1p [label="tau"];  P_1p [label="l_1
+x>1"];
+    { rank=same; N_0; P_0; }
+    { rank=same; N_0eps; P_0eps; }
+    { rank=same; N_1; P_1; }
+}\vspace{-1\baselineskip}{}
+
+\subsection*{Part (b)}
+
+All of them, as the state $l_0$ must be left at some time $x_0 \leq 1$,
+so the machine must always ($\ltlG{}$) eventually ($\ltlF{}$) reach a
+state (namely, $l_1$) in which $p$ holds.
+
+FIXME: Oder funktioniert die Invariante etwa anders als ich dachte?
 
 \section*{Problem 4: LTL}
-
-\newcommand{\ltlbinop}[1]{\mathbin{\ensuremath{\mathbf{{#1}}}}}
-\newcommand{\ltlunop}[1]{\mathopen{\ensuremath{\mathbf{{#1}}}}\,}
-    % \ltlunop:
-    % Although the appropriate class is actually \mathop instead of \mathopen,
-    % \mathop would change the vertical alignment.  Sigh.
-    % Source: http://tex.stackexchange.com/a/38984
-\newcommand{\ltlG}{\ltlunop{G}}
-\newcommand{\ltlF}{\ltlunop{F}}
-\newcommand{\ltlX}{\ltlunop{X}}
-\newcommand{\ltlU}{\ltlbinop{U}}
-\newcommand{\ltlUm}{\ltlbinop{Um}}
 
 Notation:
  %
