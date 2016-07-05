@@ -27,6 +27,7 @@
 
 \usepackage{morewrites}
 \usepackage[pdf]{graphviz}
+\newcommand{\figshrink}{\vspace{-2\baselineskip}}
 
 % \usepackage{marvosym} % \Lightning
 
@@ -91,43 +92,56 @@
 \subsection*{Part (b)}
 
 Assuming that 1 and 7 are supposed to be the initial and final nodes, respectively:
-
+ %
 \[ t_2 = [1, 2, 3, 2, 4, 5, 6, 1, 7] \]
-
+ %
 Any test path necessarily covers both decisions made in 1 and both
 decisions made in 2.  Thus, any further test path is \emph{basically}
 the same as $t_2$, but not necessarily identical.  For example, this is
 \enquote{another one}:
-
+ %
 \[ t_3 = [1, 2, 3, 2, 4, 5, 6, 1, 2, 4, 5, 6, 1, 7] \]
 
 \subsection*{Part (c)}
 
-FIXME
+\[ t_4 = [1, 2, 3, 2, 4, 5, 6, 1, 2, 4, 6, 1, 7] \]
+ %
+Individually, each decision is taken at least once ($\implies$ decision
+coverage), but not, for example, the prime path $p$:
+ %
+\[ p = [3, 2, 4, 6, 1, 7] \]
+
+Yes, there is at least one further:
+ %
+\[ t_5 = [1, 2, 4, 6, 1, 2, 3, 2, 4, 5, 6, 1, 7] \]
+ %
+And another one:
+ %
+\[ t_6 = [1, 2, 4, 5, 6, 1, 2, 3, 2, 4, 6, 1, 7] \]
 
 
 \section*{Problem 2: Modeling with Timed Automata}
 
 \subsection*{Part (a)}
 
-\vspace{-1\baselineskip}\digraph[scale=0.7]{p2a}{
+\figshrink{}\digraph[scale=0.7]{p2a}{
     rankdir=LR;
     node [shape=circle];
-    0 [style=invis,shape=none];
+    0 [label="",style=invis,shape=none];
     0 -> A [label="x:=0"];
     A [label="A
 x<=20"];
     A -> B [label="x>=10"];
     B [label="B
 true"];
-}\vspace{-1\baselineskip}{}
+}\figshrink{}
 
 \subsection*{Part (b)}
 
-\vspace{-1\baselineskip}\digraph[scale=0.7]{p2b}{
+\figshrink{}\digraph[scale=0.7]{p2b}{
     //rankdir=LR;
     //node [shape=circle];
-    0 [style=invis,shape=none];
+    0 [label="",style=invis,shape=none];
     0 -> boring;
     boring [label="boring
 !change&&!tick"];
@@ -144,28 +158,28 @@ true"];
 x<=hold"];
     holding -> success [label="x>=hold"];
     holding -> error [label="change"];
-}\vspace{-1\baselineskip}{}
+}\figshrink{}
 
 \subsection*{Part (c)}
 
-\vspace{-1\baselineskip}\digraph[scale=0.7]{p2c}{
+\figshrink{}\digraph[scale=0.7]{p2c}{
     rankdir=LR;
     node [shape=circle];
-    0 [style=invis,shape=none];
+    0 [label="",style=invis,shape=none];
     0 -> A [label="x:=0"];
     A [label="running
 x<=b"];
     A -> B [label="tau"];
     B [label="breaking
 true"];
-}\vspace{-1\baselineskip}{}
+}\figshrink{}
 
 
 \section*{Problem 3: Region Automaton}
 
 \subsection*{Part (a)}
 
-\vspace{-1\baselineskip}\digraph[scale=0.7]{p3a}{
+\figshrink{}\digraph[scale=0.7]{p3a}{
     node [shape=box];
     AR [label="[[TA]]_r",shape=none];
     AR -> N_0;
@@ -190,7 +204,7 @@ x>1"];
     { rank=same; N_0; P_0; }
     { rank=same; N_0eps; P_0eps; }
     { rank=same; N_1; P_1; }
-}\vspace{-1\baselineskip}{}
+}\figshrink{}
 
 \subsection*{Part (b)}
 
