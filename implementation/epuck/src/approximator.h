@@ -6,16 +6,16 @@
 
 typedef struct ApproxInputs {
     LPS_Data* lps;
-    int motor_left;
-    int motor_right;
+    double motor_left;
+    double motor_right;
 } ApproxInputs;
 
 typedef struct ApproxLocals {
     double x;
     double y;
     double phi;
-    int prev_motor_left;
-    int prev_motor_right;
+    double prev_motor_left;
+    double prev_motor_right;
     hal_time prev_t;
 } ApproxLocals;
 
