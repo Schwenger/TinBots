@@ -84,6 +84,8 @@ long matlab_create_bot() {
     MatlabBot* matlab_bot = malloc(sizeof(MatlabBot));
     int i;
     matlab_bot->tinbot = malloc(sizeof(TinBot));
+    /* Essentially matlab_select_bot(), so that setup() can call hal_* functions: */
+    current = matlab_bot;
     setup(matlab_bot->tinbot);
     for (i = 0; i < DEBUG_CAT_NUM; ++i) {
         matlab_bot->debug_info[i] = 0.0 / 0.0;
