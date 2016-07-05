@@ -144,10 +144,10 @@ true"];
     0 [label="",style=invis,shape=none];
     0 -> boring;
     boring [label="boring
-!change&&!tick"];
+!change && !tick"];
     boring -> recentChange [label="change | x:=0"];
     recentChange [label="recentChange
-!change&&x<=setup&&!tick"];
+!change && x<=setup && !tick"];
     recentChange -> recentChange [label="change | x:=0"];
     recentChange -> boring [label="x>=setup"];
     {boring recentChange} -> holding [label="tick | x:=0"];
@@ -156,7 +156,7 @@ true"];
 true"];
     holding [label="holding
 x<=hold"];
-    holding -> success [label="x>=hold"];
+    holding -> success [label="x>=hold || change"];
     holding -> error [label="change"];
 }\figshrink{}
 
@@ -168,7 +168,7 @@ x<=hold"];
     0 [label="",style=invis,shape=none];
     0 -> A [label="x:=0"];
     A [label="running
-x<=b"];
+x<=b/v"];
     A -> B [label="tau"];
     B [label="breaking
 true"];
@@ -211,8 +211,6 @@ x>1"];
 All of them, as the state $l_0$ must be left at some time $x_0 \leq 1$,
 so the machine must always ($\ltlG{}$) eventually ($\ltlF{}$) reach a
 state (namely, $l_1$) in which $p$ holds.
-
-FIXME: Oder funktioniert die Invariante etwa anders als ich dachte?
 
 \section*{Problem 4: LTL}
 
