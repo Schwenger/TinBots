@@ -25,7 +25,10 @@
 % \usepackage{float}
 % \usepackage{caption}
 
-\usepackage{marvosym} % \Lightning
+\usepackage{morewrites}
+\usepackage[pdf]{graphviz}
+
+% \usepackage{marvosym} % \Lightning
 
 \setkomafont{pagehead}{\normalfont\sffamily\footnotesize}
 \addtolength{\headheight}{+6pt}
@@ -93,7 +96,57 @@ FIXME
 
 \section*{Problem 2: Modeling with Timed Automata}
 
-FIXME
+\subsection*{Part (a)}
+
+\vspace{-1\baselineskip}\digraph[scale=0.7]{p2a}{
+    rankdir=LR;
+    node [shape=circle];
+    0 [style=invis,shape=none];
+    0 -> A [label="x:=0"];
+    A [label="A
+x<=20"];
+    A -> B [label="x>=10"];
+    B [label="B
+true"];
+}\vspace{-1\baselineskip}{}
+
+\subsection*{Part (b)}
+
+\vspace{-1\baselineskip}\digraph[scale=0.7]{p2b}{
+    //rankdir=LR;
+    //node [shape=circle];
+    0 [style=invis,shape=none];
+    0 -> boring;
+    boring [label="boring
+!change&&!tick"];
+    boring -> recentChange [label="change | x:=0"];
+    recentChange [label="recentChange
+!change&&x<=setup&&!tick"];
+    recentChange -> recentChange [label="change | x:=0"];
+    recentChange -> boring [label="x>=setup"];
+    {boring recentChange} -> holding [label="tick | x:=0"];
+    recentChange -> error [label="tick"];
+    error [label="error
+true"];
+    holding [label="holding
+x<=hold"];
+    holding -> success [label="x>=hold"];
+    holding -> error [label="change"];
+}\vspace{-1\baselineskip}{}
+
+\subsection*{Part (c)}
+
+\vspace{-1\baselineskip}\digraph[scale=0.7]{p2a}{
+    rankdir=LR;
+    node [shape=circle];
+    0 [style=invis,shape=none];
+    0 -> A [label="x:=0"];
+    A [label="running
+x<=b"];
+    A -> B [label="tau"];
+    B [label="breaking
+true"];
+}\vspace{-1\baselineskip}{}
 
 
 \section*{Problem 3: Region Automaton}
