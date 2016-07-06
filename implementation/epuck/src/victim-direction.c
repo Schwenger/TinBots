@@ -84,14 +84,13 @@ static void compute_result(VDState* vd, Sensors* sens) {
         vd->give_up = 1;
         return;
     }
-
-    hal_send_victim_phi(sens->current.direction);
+    
     eff_angle = sens->current.direction /* FIXME: use sens->current.direction as soon as this is verified-working. */
         + vd->locals.weighted_sum / vd ->locals.counter_on;
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
                                           vd->locals.sensor_id);
-    //hal_send_victim_phi(vd->victim_phi);
+    hal_send_victim_phi(vd->victim_phi);
     vd->victim_found = 1;
 }
 

@@ -18,11 +18,10 @@ static const double magic_number_2 = 5.3;
 
 void approx_step(ApproxInputs* inputs, ApproxState* approx) {
     ApproxLocals* loc = &approx->locals;
-    hal_time delta_t;
     hal_time next_t;
-    double delta_phi, v, p;
+    double delta_t, delta_phi, v, p;
     static unsigned int status = 0;
-
+    next_t = hal_get_time();
     if(inputs->lps->x != -1){
         status ^= 1;
         hal_set_front_led(status);
@@ -34,8 +33,7 @@ void approx_step(ApproxInputs* inputs, ApproxState* approx) {
     } else {
         v = (loc->prev_motor_left + loc->prev_motor_right) / magic_number_1;
         p = (loc->prev_motor_right - loc->prev_motor_left) / magic_number_2;
-        next_t = hal_get_time() / 1000.0;
-        delta_t = next_t - loc->prev_t;
+        delta_t = (next_t - loc->prev_t) / 1000.0;
         delta_phi = p * delta_t;
         if(loc->prev_motor_right == loc->prev_motor_left){ /* i.e. p == 0 */
             loc->x += v * cos(loc->phi) * delta_t;
