@@ -1,5 +1,22 @@
 /*
  * Matlab Hardware Abstraction Layer
+ *
+ *
+ * Communication Subsystem Example:
+ *
+ *  void hal_send_example(void) {
+ *      unsigned int number;
+ *      MatlabBot* bot = current;
+ *      if (bot->com != NULL) {
+ *          for (number = 0; number < bot->com->length; number++) {
+ *              // select bot to send data to
+ *              matlab_select_bot((long) bot->com->bots[number], (long) bot->com);
+ *              // TODO: call appropriate receive function directly
+ *          }
+ *      }
+ *      // select sending bot
+ *      matlab_select_bot((long) bot, (long) bot->com);
+ *  }
  */
 
 #include <assert.h>
@@ -83,6 +100,7 @@ void hal_send_victim_phi(double phi) {
 long matlab_create_bot() {
     MatlabBot* matlab_bot = malloc(sizeof(MatlabBot));
     int i;
+    matlab_bot->com = NULL;
     matlab_bot->tinbot = malloc(sizeof(TinBot));
     /* Essentially matlab_select_bot(), so that setup() can call hal_* functions: */
     current = matlab_bot;
@@ -98,8 +116,13 @@ void matlab_destroy_bot(long matlab_bot) {
     free((MatlabBot*) matlab_bot);
 }
 
-void matlab_select_bot(long matlab_bot) {
+void matlab_select_bot(long matlab_bot, long matlab_com) {
     current = (MatlabBot*) matlab_bot;
+    if (!current->com && matlab_com > 0) {
+        current->com = (MatlabCom*) matlab_com;
+        current->com->bots[current->com->length] = current;
+        current->com->length++;
+    }
 }
 
 void matlab_loop(void) {
@@ -140,4 +163,15 @@ void matlab_update_lps(double* lps) {
 
 void matlab_update_time(double time) {
     current->raw_time = time;
+}
+
+
+long matlab_create_com(void) {
+    MatlabCom* matlab_com = malloc(sizeof(MatlabCom));
+    matlab_com->length = 0;
+    return (long) matlab_com;
+}
+
+void matlab_destroy_com(long matlab_com) {
+    free((MatlabCom*) matlab_com);
 }
