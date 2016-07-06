@@ -176,7 +176,7 @@ ISR(_MI2CInterrupt) {
             for (index = 0; index < 6; index++) {
                 ir_data[index] = (data >> index) & 1;
             }
-            pickup_data = (data >> 7) & 1;
+            pickup_data = (data >> 6) & 1;
             I2CCONbits.ACKDT=1;
             I2CCONbits.ACKEN=1;
             state = 3;
