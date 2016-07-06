@@ -12,6 +12,9 @@ void loop(TinBot* tinbot) {
     inputs.motor_left = hal_get_speed_left();
     inputs.motor_right = hal_get_speed_right();
     approx_step(&inputs, &tinbot->controller.approx);
+    tinbot->sens.current.x = tinbot->controller.approx.current.x;
+    tinbot->sens.current.y = tinbot->controller.approx.current.y;
+    tinbot->sens.current.direction = tinbot->controller.approx.current.phi;
 
     if(tinbot->controller.approx.lps_initialized) {
         vd_step(&tinbot->controller.vic_dir, &tinbot->sens);

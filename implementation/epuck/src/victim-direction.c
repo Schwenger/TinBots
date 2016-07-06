@@ -85,7 +85,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
         return;
     }
 
-    eff_angle = 0 /* FIXME: use sens->current.direction as soon as this is verified-working. */
+    eff_angle = sens->current.direction /* FIXME: use sens->current.direction as soon as this is verified-working. */
         + vd->locals.weighted_sum / vd ->locals.counter_on;
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
