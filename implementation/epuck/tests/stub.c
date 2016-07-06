@@ -8,6 +8,8 @@
 
 #include "hal.h"
 #include "pi.h"
+#include "sensors.h" /* Wanna define ir_sensors_angles */
+#include "stub.h"
 
 const double ir_sensor_angle[6] = {
     0*M_PI/3,
@@ -21,10 +23,14 @@ const double ir_sensor_angle[6] = {
 static double mot_l;
 static double mot_r;
 
+static hal_time global_clock = 0;
+
+void tests_stub_tick(hal_time amount) {
+    global_clock += amount;
+}
 
 hal_time hal_get_time() {
-    static hal_time last_time = 0;
-    return ++last_time;
+    return global_clock;
 }
 
 void hal_set_speed(double left, double right) {
@@ -62,10 +68,16 @@ void hal_print(const char* message) {
     (void)message;
 }
 
+static double debug_info[DEBUG_CAT_NUM] = {0};
+
 void hal_debug_out(DebugCategory key, double value) {
-    /* Nothing to do here. */
-    (void)key;
-    (void)value;
+    assert(key < DEBUG_CAT_NUM);
+    debug_info[key] = value;
+}
+
+double tests_stub_get_debug(DebugCategory cat) {
+    assert(cat < DEBUG_CAT_NUM);
+    return debug_info[cat];
 }
 
 void hal_send_victim_phi(double phi) {
