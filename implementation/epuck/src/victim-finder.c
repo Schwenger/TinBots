@@ -23,6 +23,7 @@ static ExactPosition compute_position(double* data);
 
 void vf_reset(VFState* vf) {
     int i;
+    vf->state = VF_noinfo;
     vf->found_victim_xy = 0;
     vf->victim_x = -1;
     vf->victim_y = -1;
