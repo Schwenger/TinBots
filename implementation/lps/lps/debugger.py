@@ -60,6 +60,24 @@ class Debugger:
     def on_package(self, device, source, target, command, payload):
         if command in {0x01}:
             return
+        if command == 0x20:
+            msg = '[{}] Victim Direction: {}'.format(device.color,
+                                                     payload.decode('ascii'))
+            self.print_message(msg, INFO)
+            return
+        if command == 0x11:
+            data = payload.decode('ascii').split()
+            msg = '[{}] IR       : {} {} {} {} {} {}'.format(device.color, *data[:6])
+            self.print_message(msg, INFO)
+            msg = '[{}] LPS      : {} {} {}'.format(device.color, *data[6:9])
+            self.print_message(msg, INFO)
+            msg = '[{}] PROXIMITY: {} {} {} {} {} {} {} {}'.format(device.color,
+                                                                   *data[9:17])
+            self.print_message(msg, INFO)
+            msg = '[{}] GRABBED  : {}'.format(device.color, data[17])
+            self.print_message(msg, INFO)
+            return
+
         msg = '[{}] {} -> {} | {} | {!r}'.format(device.color, source, target,
                                                  command, payload)
         self.print_message(msg, INFO)

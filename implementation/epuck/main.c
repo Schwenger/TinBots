@@ -92,6 +92,10 @@ static void debug_set(TinPackage* package) {
     }
 }
 
+static void debug_oneshot(TinPackage* package) {
+    com_debug();
+}
+
 int main() {
     tin_init();
 
@@ -115,8 +119,10 @@ int main() {
 
     tin_com_register(0x10, debug_led_callback);
     tin_com_register(0x11, debug_set);
+    tin_com_register(0x12, debug_oneshot);
 
-    while (state == STATE_STARTUP || !lps_updated);
+    while (state == STATE_STARTUP);
+    while (!lps_updated);
 
     setup(&bot);
 

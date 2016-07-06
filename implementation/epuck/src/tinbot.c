@@ -19,7 +19,7 @@
  * - mode/tinbot-full.c (not implemented)
  */
 
-#include "mode/tinbot-vicdir.c"
+#include "mode/tinbot-rhr.c"
 #include "sensors.h"
 
 

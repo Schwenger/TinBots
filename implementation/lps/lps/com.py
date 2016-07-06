@@ -62,6 +62,9 @@ class TinBot:
     def disable_debug(self):
         self.send(0x11, b'\x00')
 
+    def request_debug(self):
+        self.send(0x12)
+
     def sending(self):
         time.sleep(2)
         while True:
