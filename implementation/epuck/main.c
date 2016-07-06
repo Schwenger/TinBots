@@ -52,12 +52,18 @@ static void com_on_start(TinPackage* package) {
     state = STATE_RUNNING;
 }
 
-static void debug_led_callback(TinPackage* package) {
+static void debug_led(TinPackage *package) {
     unsigned int number;
     tin_set_led(0, ON);
     for (number = 0; number < 8; number++) {
         tin_set_led(number, (((unsigned int) package->data[0]) >> number) & 1);
     }
+}
+
+static void debug_motors(TinPackage *package) {
+    unsigned long speed_left = ((unsigned long) package->data[0] << 8) | package->data[1] - 32768;
+    unsigned long speed_right = ((unsigned long) package->data[2] << 8) | package->data[3] - 32768;
+    tin_set_speed(speed_left / 1000.0, speed_right / 1000.0);
 }
 
 static TinTask update_ext_data_task;
@@ -117,9 +123,10 @@ int main() {
     tin_com_register(0x02, com_on_update_lps);
     tin_com_register(0x03, com_on_start);
 
-    tin_com_register(0x10, debug_led_callback);
+    tin_com_register(0x10, debug_led);
     tin_com_register(0x11, debug_set);
     tin_com_register(0x12, debug_oneshot);
+    tin_com_register(0x13, debug_motors);
 
     while (state == STATE_STARTUP);
     while (!lps_updated);

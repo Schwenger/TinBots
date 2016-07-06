@@ -56,6 +56,14 @@ class TinBot:
         phi = int(phi * 1000).to_bytes(2, 'big')
         self.send(0x02, x + y + phi)
 
+    def cmd_debug_motors(self, left_speed, right_speed):
+        left_speed = int(left_speed * 1000 + 32768).to_bytes(2, 'big')
+        right_speed = int(right_speed * 1000 + 32768).to_bytes(2, 'big')
+        self.send(0x13, left_speed + right_speed)
+
+    def cmd_debug_leds(self, bitmask):
+        self.send(0x10, bytes([bitmask]))
+
     def enable_debug(self):
         self.send(0x11, b'\x01')
 
