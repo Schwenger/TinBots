@@ -5,6 +5,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include "hal.h"
 #include "pi.h"
@@ -64,8 +65,7 @@ void hal_send_msg(unsigned int address, char* message, unsigned int length) {
 }
 
 void hal_print(const char* message) {
-    /* Nothing to do here. */
-    (void)message;
+    printf("%s\n", message);
 }
 
 static double debug_info[DEBUG_CAT_NUM] = {0};
