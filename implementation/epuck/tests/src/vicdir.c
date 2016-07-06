@@ -8,7 +8,7 @@
 #define IR_COMPLETION_TIME (16651UL)
 #define IR_PASS_TIME ((hal_time)((IR_COMPLETION_TIME*40)/360))
 
-static const double true_victim_phi = 10 * M_PI / 180;
+static const double true_victim_phi = 350 * M_PI / 180;
 
 static int cyclic_within_p(hal_time begin, hal_time now, hal_time end) {
     /* while (end < begin) {
@@ -46,17 +46,32 @@ int main() {
         for (i = 0; i < NUM_IR; ++i) {
             sens.ir[i] = cyclic_within_p(core_time[i] - IR_PASS_TIME, hal_get_time(), core_time[i] + IR_PASS_TIME);
         }
+        sens.current.direction = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
         vd_step(&vds, &sens);
-        tests_stub_tick(10);
-        if (hal_get_time() % 200 == 0) {
-            printf("Debug data:");
-            for (i = 0; i < DEBUG_CAT_NUM; ++i) {
-                printf(" %7.2f", tests_stub_get_debug((DebugCategory)i));
-            }
-            printf("\n");
+        if (hal_get_time() % 4000 == 0) {
+            printf("Debug data: @%5.3f state%1d IR%1d@%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
+                sens.current.direction,
+                vds.state,
+                (int)(tests_stub_get_debug(DEBUG_CAT_VD_IR_ID)),
+                (int)(tests_stub_get_debug(DEBUG_CAT_VD_HAVE_IR)),
+                vds.victim_phi,
+                vds.victim_found,
+                vds.give_up,
+                vds.locals.counter_on * 100.0 / vds.locals.counter_total,
+                vds.locals.weighted_sum / vds.locals.counter_on);
         }
+        tests_stub_tick(10);
     }
+    printf("VICTIM DIRECTION END RESULT: true_phi=%5.3f v_phi=%5.3f have_phi=%1d give_up=%1d\n",
+        true_victim_phi,
+        vds.victim_phi,
+        vds.victim_found,
+        vds.give_up);
+    if (!vds.victim_found || vds.give_up || fabs(true_victim_phi - vds.victim_phi) > 2 * M_PI / 180) {
+        printf("\t=> and that's BAD!\n");
+        return 1;
+    }
+    printf("\t=> and that's GOOD!\n");
 
-    printf("Hello world!\n");
     return 0;
 }
