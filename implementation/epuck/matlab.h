@@ -37,6 +37,7 @@ void matlab_update_proximity(double* proximity);
 void matlab_update_ir(double* ir);
 void matlab_update_lps(double* lps);
 void matlab_update_time(double time);
+void matlab_update_attached(double attached);
 
 long matlab_create_com(void);
 void matlab_destroy_com(long matlab_com);

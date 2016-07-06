@@ -161,6 +161,10 @@ void matlab_update_lps(double* lps) {
     update_lps(current->tinbot, lps[0], lps[1], lps[2]);
 }
 
+void matlab_update_attached(double attached) {
+    update_victim_pickup(current->tinbot, attached > 0);
+}
+
 void matlab_update_time(double time) {
     current->raw_time = time;
 }
