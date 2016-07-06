@@ -15,7 +15,7 @@ WARN_FLAGS:=-std=c90 -ansi -Weverything -pedantic
 CFLAGS?=-g -c -O2
 
 TBSRCS:=$(wildcard ../src/*.c) $(wildcard ../src/astar/*.c)
-TBHEADERS:=$(wildcard ../src/*.h) $(wildcard ../src/astar/*.h) $(wildcard ../*.h) ../hal/hal.h
+TBHEADERS:=$(wildcard ../src/*.h) $(wildcard ../src/astar/*.h) $(wildcard ../*.h) ../hal/hal.h stub.h
 TBOBJS:=$(patsubst ../src/%.c,${OBJDIR}/%_tb.o,${TBSRCS})
 TESTOBJS:=$(patsubst src/%.c,${OBJDIR}/%_test.o,${TESTS})
 TESTBINS:=$(patsubst src/%.c,${BINDIR}/%,${TESTS})
@@ -76,4 +76,4 @@ ${TESTOBJS}: ${OBJDIR}/%_test.o: src/%.c | ${TBHEADERS} dirs
 # Binaries
 
 ${TESTBINS}: ${BINDIR}/%: ${OBJDIR}/%_test.o ${OBJDIR}/stub.o ${TBOBJS} | dirs
-	clang ${LFLAGS} -o $@ $<
+	clang ${LFLAGS} -Weverything -lm -o $@ $^

@@ -291,3 +291,8 @@ scribe: Ben Wiederhake 29.06.2016 intermission
 
 Added two new amendments to the specification as discussed on slack.
 
+scribe: Max Schwenger 06.07.2016
+
+Problem: Strut reflects IR-Signals, thus we need to shield/reflect in different angle, ...
+Solutions so far: Tested plastic, does not work, black paper does not work either.
+iPad Screens and Samsung OLED Screens do work if placed in right angle. iPad Screen works more robust. Shelfs do not pose a problem since moving the table had provided no significant improvements.
