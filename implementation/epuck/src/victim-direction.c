@@ -85,7 +85,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
         return;
     }
 
-    eff_angle = sens->current.direction
+    eff_angle = 0 /* FIXME: use sens->current.direction as soon as this is verified-working. */
         + vd->locals.weighted_sum / vd ->locals.counter_on;
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
@@ -101,9 +101,9 @@ void vd_step(VDState* vd, Sensors* sens){
             break;
         case VD_running:
             {
-                hal_debug_out(DEBUG_CAT_VD_HAVE_IR, sens->ir[vd->locals.sensor_id]);
                 const double angle = (hal_get_time() - vd->locals.time_begin)
                                      * SMC_ROT_PER_SEC / 1000.0;
+                hal_debug_out(DEBUG_CAT_VD_HAVE_IR, sens->ir[vd->locals.sensor_id]);
                 vd->locals.counter_total += 1;
                 if (sens->ir[vd->locals.sensor_id]) {
                     vd->locals.counter_on += 1;

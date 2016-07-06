@@ -26,7 +26,7 @@ enum IR_Order {
     IR_135,
     IR_90,
     IR_45,
-    NUM_IR /* ?? */
+    NUM_IR
 };
 
 typedef struct LPS_Data {

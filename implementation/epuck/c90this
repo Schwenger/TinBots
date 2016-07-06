@@ -12,5 +12,7 @@ do
     fi
 done
 echo "Guessed include dirs: ${INCLUDE_DIRS}"
+GUESSED_FILE=$(echo -e "$1" | perl -lpe 's/^([^.]*)(.c?)?$/\1.c/')
+echo "Guessed file: ${GUESSED_FILE}"
 set -v
-clang -std=c90 -ansi -Weverything -pedantic -g -c -o "$1.o" "$1.c" ${INCLUDE_DIRS}
+clang -std=c90 -ansi -Weverything -pedantic -g -c -o /dev/null "${GUESSED_FILE}" ${INCLUDE_DIRS}
