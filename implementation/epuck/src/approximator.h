@@ -26,7 +26,6 @@ typedef struct ApproxState {
         double y;
         double phi;
     } current; /* output */
-    int state;
     int lps_initialized;
 } ApproxState;
 

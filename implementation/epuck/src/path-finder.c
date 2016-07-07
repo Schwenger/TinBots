@@ -32,7 +32,7 @@ static Position map_discretize(Map* map, double x, double y) {
 }
 
 void pf_reset(PathFinderState* pf) {
-    pf->state = PF_inactive;
+    pf->locals.state = PF_inactive;
     pf->next = INVALID_POS;
     pf->no_path = 0;
     pf->locals.path_index = 0;
@@ -42,7 +42,7 @@ void pf_reset(PathFinderState* pf) {
 
 static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
     Position dest, pos, next_wp;
-    pf->state = PF_running;
+    pf->locals.state = PF_running;
     dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
     pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
     pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
@@ -50,12 +50,12 @@ static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors*
     next_wp = pf->locals.path[pf->locals.path_index];
     if(eop(next_wp)) {
         pf->no_path = 1;
-        pf->state = PF_complete;
+        pf->locals.state = PF_complete;
     }
 }
 
 void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
-    switch(pf->state) {
+    switch(pf->locals.state) {
         case PF_inactive:
             if (inputs->compute) {
                compute_path(inputs, pf, sens);
@@ -68,7 +68,7 @@ void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
                 pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
                 next_wp = pf->locals.path[pf->locals.path_index];
                 if (eop(next_wp)) {
-                    pf->state = PF_inactive;
+                    pf->locals.state = PF_inactive;
                     pf->path_completed = 1;
                 } else {
                     /* Q: Why not check here for the position again?  Like this:
@@ -81,7 +81,7 @@ void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
                     pf->locals.path_index++;
                     next_wp = pf->locals.path[pf->locals.path_index];
                     if(eop(next_wp)) {
-                        pf->state = PF_complete;
+                        pf->locals.state = PF_complete;
                         pf->path_completed = 1;
                         pf->next = INVALID_POS;
                     }

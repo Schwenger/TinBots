@@ -21,6 +21,7 @@ typedef struct PathFinderLocals {
     Map* map;
     Position path[MAX_PATH_LENGTH + 1];
     int path_index;
+    int state;
 } PathFinderLocals;
 
 typedef struct PathFinderState {
@@ -28,7 +29,6 @@ typedef struct PathFinderState {
     Position next;
     int no_path;
     int path_completed;
-    int state;
 } PathFinderState;
 
 void pf_reset(PathFinderState* pf);

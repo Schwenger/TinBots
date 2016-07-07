@@ -5,6 +5,7 @@
 #include "sensors.h"
 
 typedef struct RhrState {
+    /* None of these are outputs. */
     int state;
     int wall_p;
     double wall_rot;
