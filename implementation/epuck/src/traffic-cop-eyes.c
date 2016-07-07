@@ -24,7 +24,7 @@ double ray_dist(double x, double y, double phi) {
 }
 
 void enter_wait_detect(TCEState* tce, Sensors* sens){
-    tce->state = TCE_waitdetect;
+    tce->locals.state = TCE_waitdetect;
     tce->locals.last_x = sens->current.x;
     tce->locals.last_y = sens->current.y;
     tce->locals.last_phi = sens->current.direction;
@@ -32,7 +32,7 @@ void enter_wait_detect(TCEState* tce, Sensors* sens){
 }
 
 void tce_reset(TCEState* tce){
-    tce->state = TCE_noidea;
+    tce->locals.state = TCE_noidea;
     tce->need_angle = 0;
 }
 
@@ -40,11 +40,11 @@ void tce_step(TCEInputs* inputs, TCEState* tce, Sensors* sens){
     double dist; /* according to matlab this is supposed to be an output, but I do not know, why */
 
     if(inputs->found_victim_xy) {
-        tce->state = TCE_done;
+        tce->locals.state = TCE_done;
         tce->need_angle = 0;
     }
 
-    switch(tce->state) {
+    switch(tce->locals.state) {
         case TCE_noidea:
             if(inputs->ir_stable) {
                 enter_wait_detect(tce, sens);
@@ -52,13 +52,13 @@ void tce_step(TCEInputs* inputs, TCEState* tce, Sensors* sens){
             break;
         case TCE_waitdetect:
             if(inputs->found_victim_phi) {
-                tce->state = TCE_waitoff;
+                tce->locals.state = TCE_waitoff;
                 tce->need_angle = 0;
             }
             break;
         case TCE_waitoff:
             if(inputs->found_victim_phi) {
-                tce->state = TCE_someidea;
+                tce->locals.state = TCE_someidea;
             }
             break;
         case TCE_someidea:

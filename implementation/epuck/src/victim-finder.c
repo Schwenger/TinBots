@@ -23,7 +23,7 @@ static ExactPosition compute_position(double* data);
 
 void vf_reset(VFState* vf) {
     int i;
-    vf->state = VF_noinfo;
+    vf->locals.state = VF_noinfo;
     vf->found_victim_xy = 0;
     vf->victim_x = -1;
     vf->victim_y = -1;
@@ -101,23 +101,23 @@ static ExactPosition compute_position(double* data) {
 
 void vf_step(VFInputs* inputs, VFState* vf, Sensors* sens) {
     ExactPosition computed_victim;
-    switch(vf->state) {
+    switch(vf->locals.state) {
         case VF_noinfo:
             if(inputs->found_victim_phi) {
                 vf->locals.data[X1]   = sens->current.x;
                 vf->locals.data[Y1]   = sens->current.y;
                 vf->locals.data[PHI1] = inputs->victim_angle;
-                vf->state = VF_someinfo;
+                vf->locals.state = VF_someinfo;
             }
             break;
         case VF_someinfo:
             if(inputs->found_victim_phi == 0) {
-                vf->state = VF_waitfornewinfo;
+                vf->locals.state = VF_waitfornewinfo;
             }
             break;
         case VF_waitfornewinfo:
             if(inputs->found_victim_phi) {
-                vf->state = VF_enoughinfo;
+                vf->locals.state = VF_enoughinfo;
                 vf->locals.data[X2]   = vf->locals.data[X1];
                 vf->locals.data[Y2]   = vf->locals.data[Y1];
                 vf->locals.data[PHI2] = vf->locals.data[PHI1];
@@ -135,7 +135,7 @@ void vf_step(VFInputs* inputs, VFState* vf, Sensors* sens) {
             break;
         case VF_enoughinfo:
             if(inputs->found_victim_phi == 0) {
-                vf->state = VF_waitfornewinfo;
+                vf->locals.state = VF_waitfornewinfo;
             }
             break;
         default:

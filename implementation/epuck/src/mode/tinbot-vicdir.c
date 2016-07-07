@@ -18,7 +18,7 @@ void loop(TinBot* tinbot) {
 
     if(tinbot->controller.approx.lps_initialized) {
         vd_step(&tinbot->controller.vic_dir, &tinbot->sens);
-        hal_debug_out(DEBUG_CAT_VD_STATE, tinbot->controller.vic_dir.state);
+        hal_debug_out(DEBUG_CAT_VD_STATE, tinbot->controller.vic_dir.locals.state);
         hal_debug_out(DEBUG_CAT_VD_VICTIM_FOUND, tinbot->controller.vic_dir.victim_found);
         hal_debug_out(DEBUG_CAT_VD_VICTIM_PHI, tinbot->controller.vic_dir.victim_phi);
         hal_debug_out(DEBUG_CAT_VD_GIVE_UP, tinbot->controller.vic_dir.give_up);

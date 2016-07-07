@@ -14,12 +14,12 @@ typedef struct TCELocals {
     double last_x;
     double last_y;
     double last_phi;
+    int state;
 } TCELocals;
 
 typedef struct TCEState {
     TCELocals locals;
-    int state;
-    int need_angle; /* output */
+    int need_angle;
 } TCEState;
 
 void tce_reset(TCEState* tce);

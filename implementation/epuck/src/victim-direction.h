@@ -11,12 +11,12 @@ typedef struct VDLocals {
     /* Here it is really important that we use double, not float. */
     double weighted_sum;
     int sensor_id;
+    int state;
 } VDLocals;
 
 typedef struct VDState {
     VDLocals locals;
     double victim_phi;
-    int state;
     int victim_found;
     int give_up;
 } VDState;

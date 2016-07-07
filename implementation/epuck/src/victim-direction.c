@@ -24,7 +24,7 @@ static void entry_start(VDState* vd, Sensors* sens);
 static double determine_victim_phi(double bound, double current_phi, int sensor);
 
 void vd_reset(VDState* vd){
-    vd->state = VD_off;
+    vd->locals.state = VD_off;
     vd->victim_found = 0;
     vd->victim_phi = 0;
     vd->give_up = 0;
@@ -35,7 +35,7 @@ void vd_reset(VDState* vd){
 
 static void entry_start(VDState* vd, Sensors* sens) {
     int i;
-    vd->state = VD_running;
+    vd->locals.state = VD_running;
     vd->locals.sensor_id = -1;
     for(i = 0; i < 6; ++i) {
         if(sens->ir[i] == 0){
@@ -43,7 +43,7 @@ static void entry_start(VDState* vd, Sensors* sens) {
         }
     }
     if (vd->locals.sensor_id == -1) {
-        vd->state = VD_done;
+        vd->locals.state = VD_done;
         vd->give_up = 1;
     } else {
         assert(sens->ir[vd->locals.sensor_id] == 0);
@@ -84,7 +84,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
         vd->give_up = 1;
         return;
     }
-    
+
     eff_angle = sens->current.direction /* FIXME: use sens->current.direction as soon as this is verified-working. */
         + vd->locals.weighted_sum / vd ->locals.counter_on;
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
@@ -95,7 +95,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
 }
 
 void vd_step(VDState* vd, Sensors* sens){
-    switch(vd->state) {
+    switch(vd->locals.state) {
         case VD_off:
             entry_start(vd, sens);
             break;
@@ -110,7 +110,7 @@ void vd_step(VDState* vd, Sensors* sens){
                     vd->locals.weighted_sum += angle;
                 }
                 if (angle >= 2 * M_PI) {
-                    vd->state = VD_done;
+                    vd->locals.state = VD_done;
                     smc_halt();
                     compute_result(vd, sens);
                 }

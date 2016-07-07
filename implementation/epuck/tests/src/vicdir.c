@@ -51,7 +51,7 @@ int main() {
         if (hal_get_time() % 4000 == 0) {
             printf("Debug data: @%5.3f state%1d IR%1d@%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
                 sens.current.direction,
-                vds.state,
+                vds.locals.state,
                 (int)(tests_stub_get_debug(DEBUG_CAT_VD_IR_ID)),
                 (int)(tests_stub_get_debug(DEBUG_CAT_VD_HAVE_IR)),
                 vds.victim_phi,

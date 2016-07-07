@@ -9,7 +9,7 @@ enum {
 };
 
 void irs_reset(IRSState* irs) {
-    irs->state = IRS_NOTHING;
+    irs->locals.state = IRS_NOTHING;
     irs->ir_stable = 0;
 }
 
@@ -19,25 +19,25 @@ void irs_step(IRSState* irs, Sensors* sens) {
     disjuctive_ir = 0;
     for(i = 0; i < 6; ++i)
         disjuctive_ir += sens->ir[i];
-    switch(irs->state) {
+    switch(irs->locals.state) {
         case IRS_NOTHING:
             if(disjuctive_ir) {
-                irs->state = IRS_SOMETHING;
+                irs->locals.state = IRS_SOMETHING;
                 irs->locals.entry = hal_get_time();
             }
             break;
         case IRS_SOMETHING:
             now = hal_get_time();
             if(!disjuctive_ir) {
-                irs->state = IRS_NOTHING;
+                irs->locals.state = IRS_NOTHING;
             } else if(now - irs->locals.entry >= 1000) {
-                irs->state = IRS_TEDDY;
+                irs->locals.state = IRS_TEDDY;
                 irs->ir_stable = 1;
             }
             break;
         case IRS_TEDDY:
             if(!disjuctive_ir) {
-                irs->state = IRS_NOTHING;
+                irs->locals.state = IRS_NOTHING;
                 irs->ir_stable = 0;
             }
             break;

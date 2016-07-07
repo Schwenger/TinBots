@@ -10,11 +10,11 @@ typedef struct VFInputs {
 
 typedef struct VFLocals {
     double data[6];
+    int state;
 } VFLocals;
 
 typedef struct {
     VFLocals locals;
-    int state;
     int found_victim_xy;
     double victim_x;
     double victim_y;

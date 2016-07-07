@@ -5,11 +5,11 @@
 
 typedef struct IRSLocals {
     hal_time entry;
+    int state;
 } IRSLocals;
 
 typedef struct IRSState {
     IRSLocals locals;
-    int state;
     int ir_stable;
 } IRSState;
 
