@@ -66,10 +66,13 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
         break;
     }
 
-    run_approx_step(&c->approx, sens);
-
     /* Update the internal map if necessary: */
-    /* FIXME: pf_update_map(&c->path_finder, sens) */
+    /* FIXME: pf_update_map(&c->path_finder, bluetooth_data) */
+
+    /* Update the to-be-sent map if necessary: */
+    /* FIXME: T2T_update_map(&c->path_finder, sens) */
+
+    run_approx_step(&c->approx, sens);
 }
 
 static void inquire_blind_decision(Controller* c, ControllerInput* in) {
@@ -116,17 +119,20 @@ static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, S
             break;
         case BLIND_RUN_CHOICE_path_finder:
             pf_reset(&c->path_finder);
+            pe_reset(&c->path_exec);
             break;
         default:
             /* Uhh, ignore that. */
-            hal_print("Invalid state in Controller: Unknown blind cop choice.");
+            hal_print("Invalid previous state in Controller: Unknown blind cop choice.");
             break;
     }
 }
 
 static void run_path_finder_executer(Controller* c, Sensors* sens) {
     if(c->path_exec.done) {
-        /* Alternatively, we could base the input on pf's state. */
+        /* Q: Why don't we base the input on pf's state?
+         * A: Because that's unnecessary coupling.  Only read fields declared
+         *    explicitely as output!  'state' is not an output. */
         PathFinderInputs inputs;
         inputs.compute = 1;
         inputs.dest_x = c->blind.dst_x;
