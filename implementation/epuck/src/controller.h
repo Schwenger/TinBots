@@ -1,6 +1,7 @@
 #ifndef SRC_CONTROLLER_H
 #define SRC_CONTROLLER_H
 
+#include "approximator.h"
 #include "blind-cop.h"
 #include "ir-stabilizer.h"
 #include "path-exec.h"
@@ -10,9 +11,9 @@
 #include "traffic-cop-eyes.h"
 #include "victim-direction.h"
 #include "victim-finder.h"
-#include "approximator.h"
 
 typedef struct Controller {
+    ApproxState approx;
     BlindState blind;
     PathExecState path_exec;
     PathFinderState path_finder;
@@ -21,7 +22,6 @@ typedef struct Controller {
     TCEState cop_eyes;
     VDState vic_dir;
     VFState vic_finder;
-    ApproxState approx;
 } Controller;
 
 typedef struct ControllerInput {

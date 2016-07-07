@@ -7,17 +7,15 @@
 #include "sensors.h"
 
 void controller_reset(Controller* c) {
+    approx_reset(&c->approx);
     blind_reset(&c->blind);
     pe_reset(&c->path_exec);
+    pf_reset(&c->path_finder);
     rhr_reset(&c->rhr);
     irs_reset(&c->ir_stab);
     tce_reset(&c->cop_eyes);
     vd_reset(&c->vic_dir);
     vf_reset(&c->vic_finder);
-
-    /* In the first iteration, we look at the "previous" run choice of
-     * the blind cop, so we simulate it. */
-    c->blind.run_choice = BLIND_RUN_CHOICE_none;
 }
 
 static void inquire_blind_decision(Controller* c, ControllerInput* in);
