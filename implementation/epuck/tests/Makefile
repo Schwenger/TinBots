@@ -64,13 +64,13 @@ ${RUNTARGETS}: run-%: ${BINDIR}/%
 
 # Object files
 
-${TBOBJS}: ${OBJDIR}/%_tb.o: ../src/%.c | ${TBHEADERS} dirs
+${TBOBJS}: ${OBJDIR}/%_tb.o: ../src/%.c ${TBHEADERS} | dirs
 	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
-${OBJDIR}/stub.o: stub.c | ${TBHEADERS} dirs
+${OBJDIR}/stub.o: stub.c ${TBHEADERS} | dirs
 	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
-${TESTOBJS}: ${OBJDIR}/%_test.o: src/%.c | ${TBHEADERS} dirs
+${TESTOBJS}: ${OBJDIR}/%_test.o: src/%.c ${TBHEADERS} | dirs
 	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 # Binaries
