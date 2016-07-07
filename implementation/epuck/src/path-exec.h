@@ -28,7 +28,7 @@ typedef struct PathExecState {
     int see_obstacle;
 } PathExecState;
 
-void pe_reset(PathExecState* rhr);
+void pe_reset(PathExecState* pe);
 void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens);
 
 #endif

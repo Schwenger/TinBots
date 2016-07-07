@@ -3,14 +3,14 @@
 #include <pi.h>
 #include "approximator.h"
 
-void approx_reset(ApproxState* tce) {
-    tce->locals.prev_motor_left = 0;
-    tce->locals.prev_motor_right = 0;
-    tce->locals.prev_t = hal_get_time();
-    tce->locals.x = 0;
-    tce->locals.y = 0;
-    tce->locals.phi = 0;
-    tce->lps_initialized = 0;
+void approx_reset(ApproxState* approx) {
+    approx->locals.prev_motor_left = 0;
+    approx->locals.prev_motor_right = 0;
+    approx->locals.prev_t = hal_get_time();
+    approx->locals.x = 0;
+    approx->locals.y = 0;
+    approx->locals.phi = 0;
+    approx->lps_initialized = 0;
 }
 
 static const double magic_number_1 = 2.0; /* please rename */
