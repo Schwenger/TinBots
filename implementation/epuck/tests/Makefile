@@ -13,6 +13,8 @@ BINDIR:=bin
 INCLUDE_FLAGS:=-I .. -I . -I ../src -I ../hal
 WARN_FLAGS:=-std=c90 -ansi -Weverything -Wno-padded -Wno-covered-switch-default -Wno-missing-noreturn -Wno-pointer-arith -pedantic
 CFLAGS?=-g -c -O2
+LFLAGS?=-Weverything -lm
+# For libubsan, add "-fsanitize=undefined" to CFLAGS, and "-lubsan" to LFLAGS
 
 TBSRCS:=$(wildcard ../src/*.c) $(wildcard ../src/astar/*.c)
 TBHEADERS:=$(wildcard ../src/*.h) $(wildcard ../src/astar/*.h) $(wildcard ../*.h) ../hal/hal.h stub.h
@@ -40,7 +42,11 @@ dirs:
 	@mkdir -p ${OBJDIR} ${BINDIR} ${OBJDIR}/astar
 
 .PHONY: run-all
-run-all: ${RUNTARGETS} | build
+run-all: ${RUNTARGETS}
+
+.PHONY: valgrind-all
+valgrind-all: ${VALGRINDTARGETS}
+
 
 # Debugging the makefile
 .PHONY: say
@@ -81,4 +87,4 @@ ${TESTOBJS}: ${OBJDIR}/%_test.o: src/%.c ${TBHEADERS} | dirs
 # Binaries
 
 ${TESTBINS}: ${BINDIR}/%: ${OBJDIR}/%_test.o ${OBJDIR}/stub.o ${TBOBJS} | dirs
-	clang ${LFLAGS} -Weverything -lm -o $@ $^
+	clang ${LFLAGS} -o $@ $^
