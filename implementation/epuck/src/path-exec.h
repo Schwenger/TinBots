@@ -6,13 +6,12 @@
 
 typedef struct PathExecInputs {
     int drive_p;
+    int backwards;
     double next_x;
     double next_y;
-    int backwards;
 } PathExecInputs;
 
 typedef struct PathExecLocals {
-    int state;
     hal_time time_entered;
     double start_x;
     double start_y;
@@ -20,11 +19,12 @@ typedef struct PathExecLocals {
     double need_dist;
     double normal_x;
     double normal_y;
+    int state;
 } PathExecLocals;
 
 typedef struct PathExecState {
-    int done;
     PathExecLocals locals;
+    int done;
 } PathExecState;
 
 void pe_reset(PathExecState* rhr);

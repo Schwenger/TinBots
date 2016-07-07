@@ -16,17 +16,17 @@ typedef struct PathFinderInputs {
 } PathFinderInputs;
 
 typedef struct PathFinderLocals {
+    Map* map;
     Position path[MAX_PATH_LENGTH + 1];
     int path_index;
-    Map* map;
 } PathFinderLocals;
 
 typedef struct PathFinderState {
-    int state;
     PathFinderLocals locals;
     Position next;
     int no_path;
     int path_completed;
+    int state;
 } PathFinderState;
 
 void pf_reset(PathFinderState* pf);

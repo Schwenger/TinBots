@@ -55,9 +55,9 @@ typedef struct {
     unsigned hasParent:1;
     unsigned hasEstimatedCost:1;
     float estimatedCost;
-    float cost;
     size_t openIndex;
     size_t parentIndex;
+    float cost;
     int8_t nodeKey[];
 } NodeRecord;
 

@@ -17,8 +17,8 @@ typedef struct TCELocals {
 } TCELocals;
 
 typedef struct TCEState {
-    int state;
     TCELocals locals;
+    int state;
     int need_angle; /* output */
 } TCEState;
 

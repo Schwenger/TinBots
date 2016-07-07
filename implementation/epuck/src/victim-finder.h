@@ -4,8 +4,8 @@
 #include "sensors.h"
 
 typedef struct VFInputs {
-    int found_victim_phi;
     double victim_angle;
+    int found_victim_phi;
 } VFInputs;
 
 typedef struct VFLocals {
@@ -13,8 +13,8 @@ typedef struct VFLocals {
 } VFLocals;
 
 typedef struct {
-    int state;
     VFLocals locals;
+    int state;
     int found_victim_xy;
     double victim_x;
     double victim_y;

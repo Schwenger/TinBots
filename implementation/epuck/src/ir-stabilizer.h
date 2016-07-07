@@ -8,8 +8,8 @@ typedef struct IRSLocals {
 } IRSLocals;
 
 typedef struct IRSState {
-    int state;
     IRSLocals locals;
+    int state;
     int ir_stable;
 } IRSState;
 

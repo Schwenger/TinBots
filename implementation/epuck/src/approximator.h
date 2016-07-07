@@ -20,13 +20,13 @@ typedef struct ApproxLocals {
 } ApproxLocals;
 
 typedef struct ApproxState {
-    int state;
     ApproxLocals locals;
     struct {
         double x;
         double y;
         double phi;
     } current; /* output */
+    int state;
     int lps_initialized;
 } ApproxState;
 

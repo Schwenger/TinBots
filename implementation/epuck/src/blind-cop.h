@@ -8,11 +8,11 @@ typedef struct BlindInputs {
     int found_victim_xy;
     int need_angle;
     int no_path;
-    int path_completed;
     double origin_x;
     double origin_y;
     double victim_x;
     double victim_y;
+    int path_completed;
 } BlindInputs;
 
 typedef struct BlindLocals {

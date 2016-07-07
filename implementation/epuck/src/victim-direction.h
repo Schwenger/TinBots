@@ -14,11 +14,11 @@ typedef struct VDLocals {
 } VDLocals;
 
 typedef struct VDState {
-    int state;
     VDLocals locals;
+    double victim_phi;
+    int state;
     int victim_found;
     int give_up;
-    double victim_phi;
 } VDState;
 
 void vd_reset(VDState* vd);
