@@ -2,9 +2,6 @@
 
 #include "controller.h"
 #include "hal.h"
-#include "victim-finder.h"
-#include "approximator.h"
-#include "sensors.h"
 
 void controller_reset(Controller* c) {
     approx_reset(&c->approx);
