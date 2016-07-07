@@ -14,7 +14,8 @@ typedef struct Context {
 
 enum {
     PF_inactive,
-    PF_running
+    PF_running,
+    PF_complete
 };
 
 extern const Position INVALID_POS; /* sigh. */
@@ -39,40 +40,61 @@ void pf_reset(PathFinderState* pf) {
     pf->path_completed = 0;
 }
 
-void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
+static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
     Position dest, pos, next_wp;
+    pf->state = PF_running;
+    dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
+    pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
+    pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
+    pf->locals.path_index = 0;
+    next_wp = pf->locals.path[pf->locals.path_index];
+    if(eop(next_wp)) {
+        pf->no_path = 1;
+        pf->state = PF_complete;
+    }
+}
+
+void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
     switch(pf->state) {
         case PF_inactive:
-            if(inputs->compute){
-                pf->state = PF_running;
-                dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
-                pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
-                pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
-                pf->locals.path_index = 0;
-                next_wp = pf->locals.path[pf->locals.path_index];
-                if(eop(next_wp)) {
-                    pf->no_path = 1;
-                }
+            if (inputs->compute) {
+               compute_path(inputs, pf, sens);
             }
             break;
         case PF_running:
-            pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
-            next_wp = pf->locals.path[pf->locals.path_index];
-            if(eop(next_wp)) {
-                pf->state = PF_inactive;
-                pf->path_completed = 1;
-            } else {
-                if(pos.x == pf->next.x && pos.y == pf->next.y) {
+            assert(!inputs->step_complete || !inputs->step_see_obstacle);
+            if (inputs->step_complete) {
+                Position pos, next_wp;
+                pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
+                next_wp = pf->locals.path[pf->locals.path_index];
+                if (eop(next_wp)) {
+                    pf->state = PF_inactive;
+                    pf->path_completed = 1;
+                } else {
+                    /* Q: Why not check here for the position again?  Like this:
+                     *    if(pos.x == pf->next.x && pos.y == pf->next.y)
+                     * A: What do you if that fails?
+                     *      (There's nothing meaningful one could do!)
+                     *    Why would this happen anyway?
+                     *      (PathExec already checks for stray!)
+                     */
                     pf->locals.path_index++;
                     next_wp = pf->locals.path[pf->locals.path_index];
                     if(eop(next_wp)) {
-                        pf->state = PF_inactive;
+                        pf->state = PF_complete;
                         pf->path_completed = 1;
                         pf->next = INVALID_POS;
                     }
                     pf->next = next_wp;
                 }
             }
+            if (inputs->step_see_obstacle) {
+                /* We ran into an obstacle -> internal map must be outdated. */
+                compute_path(inputs, pf, sens);
+            }
+            break;
+        case PF_complete:
+            /* Nothing to do here. */
             break;
         default:
             hal_print("PathFinder illegal state?!  Resetting ...");

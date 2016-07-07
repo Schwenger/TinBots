@@ -25,6 +25,7 @@ static const double PE_MAX_STRAY = 10;
 
 void pe_reset(PathExecState* pe) {
     pe->done = 0;
+    pe->see_obstacle = 0;
     pe->locals.state = PE_inactive;
     /* No further initialization needed because PE_inactive doesn't
        read from locals.time_entered or locals.start_* or locals.need_* */
@@ -95,6 +96,13 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
         }
         break;
     case PE_drive:
+        if (sens->proximity[PROXIMITY_M_20] < 1
+            || sens->proximity[PROXIMITY_P_20] < 1) {
+            smc_halt();
+            l->state = PE_profit;
+            pe->see_obstacle = 1;
+            break;
+        }
         {
             double stray;
             stray = 0;
@@ -105,11 +113,13 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
                 /* Whoopsie daisy. */
                 l->state = PE_compute;
                 smc_halt();
+                break;
             }
         }
         if (smc_time_passed_p(l->time_entered, l->need_dist)) {
             l->state = PE_profit;
             smc_halt();
+            pe->done = 1;
         }
         break;
     case PE_profit:

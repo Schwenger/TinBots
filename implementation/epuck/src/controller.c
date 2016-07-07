@@ -129,21 +129,24 @@ static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, S
 }
 
 static void run_path_finder_executer(Controller* c, Sensors* sens) {
-    if(c->path_exec.done) {
-        /* Q: Why don't we base the input on pf's state?
-         * A: Because that's unnecessary coupling.  Only read fields declared
-         *    explicitely as output!  'state' is not an output. */
-        PathFinderInputs inputs;
-        inputs.compute = 1;
-        inputs.dest_x = c->blind.dst_x;
-        inputs.dest_y = c->blind.dst_y;
-        pf_step(&inputs, &c->path_finder, sens);
-    } else {
-        PathExecInputs inputs;
-        inputs.drive_p = 1;
-        inputs.next_x = c->path_finder.next.x;
-        inputs.next_y = c->path_finder.next.y;
-        pe_step(&inputs, &c->path_exec, sens);
+    /* Q: Why don't we base the pf_input on pf's state?
+     * A: Because that's unnecessary coupling.  Only read fields declared
+     *    explicitely as output!  'state' is not an output. */
+    PathFinderInputs pf_inputs;
+    PathExecInputs pe_inputs;
+
+    pf_inputs.compute = 1;
+    pf_inputs.dest_x = c->blind.dst_x;
+    pf_inputs.dest_y = c->blind.dst_y;
+    pf_inputs.step_complete = c->path_exec.done;
+    pf_inputs.step_see_obstacle = c->path_exec.see_obstacle;
+    pf_step(&pf_inputs, &c->path_finder, sens);
+
+    if (!c->path_finder.no_path && !c->path_finder.path_completed) {
+        pe_inputs.drive_p = 1;
+        pe_inputs.next_x = c->path_finder.next.x;
+        pe_inputs.next_y = c->path_finder.next.y;
+        pe_step(&pe_inputs, &c->path_exec, sens);
     }
 }
 

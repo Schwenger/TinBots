@@ -25,6 +25,7 @@ typedef struct PathExecLocals {
 typedef struct PathExecState {
     PathExecLocals locals;
     int done;
+    int see_obstacle;
 } PathExecState;
 
 void pe_reset(PathExecState* rhr);

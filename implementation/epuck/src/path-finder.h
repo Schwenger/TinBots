@@ -13,6 +13,8 @@ typedef struct PathFinderInputs {
     double dest_x;
     double dest_y;
     int compute;
+    int step_complete;
+    int step_see_obstacle;
 } PathFinderInputs;
 
 typedef struct PathFinderLocals {
