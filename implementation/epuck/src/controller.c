@@ -97,6 +97,7 @@ static void inquire_eyes_decision(Controller* c, Sensors* sens) {
     inputs.found_victim_xy = c->vic_finder.found_victim_xy;
     inputs.ray_phi = c->vic_dir.victim_phi;
     inputs.ir_stable = c->ir_stab.ir_stable;
+    inputs.phi_give_up = c->vic_dir.give_up;
     tce_step(&inputs, &c->cop_eyes, sens);
 }
 

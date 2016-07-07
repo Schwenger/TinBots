@@ -8,6 +8,7 @@ typedef struct TCEInputs {
     int found_victim_xy;
     double ray_phi;
     int ir_stable;
+    int phi_give_up;
 } TCEInputs;
 
 typedef struct TCELocals {
