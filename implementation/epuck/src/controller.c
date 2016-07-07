@@ -10,6 +10,7 @@ void controller_reset(Controller* c) {
     blind_reset(&c->blind);
     pe_reset(&c->path_exec);
     rhr_reset(&c->rhr);
+    irs_reset(&c->ir_stab);
     tce_reset(&c->cop_eyes);
     vd_reset(&c->vic_dir);
     vf_reset(&c->vic_finder);
@@ -27,7 +28,6 @@ static void run_path_finder_executer(Controller* c, Sensors* sens);
 static void run_approx_step(ApproxState* approx, Sensors* sens);
 
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
-
     enum BlindRunChoice old_choice;
 
     /* First, the eyes decide whether we need an interrupt. */
@@ -89,9 +89,13 @@ static void inquire_blind_decision(Controller* c, ControllerInput* in) {
 
 static void inquire_eyes_decision(Controller* c, Sensors* sens) {
     TCEInputs inputs;
+
+    irs_step(&c->ir_stab, sens);
+
     inputs.found_victim_phi = c->vic_dir.victim_found;
     inputs.found_victim_xy = c->vic_finder.found_victim_xy;
-    /* FIXME: Other cop-eyes inputs? */
+    inputs.ray_phi = c->vic_dir.victim_phi;
+    inputs.ir_stable = c->ir_stab.ir_stable;
     tce_step(&inputs, &c->cop_eyes, sens);
 }
 

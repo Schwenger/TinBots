@@ -2,6 +2,7 @@
 #define SRC_CONTROLLER_H
 
 #include "blind-cop.h"
+#include "ir-stabilizer.h"
 #include "path-exec.h"
 #include "path-finder.h"
 #include "rhr.h"
@@ -17,6 +18,7 @@ typedef struct Controller {
     /* FIXME: path-finder results? (path, no_path_p, path_completed_p) */
     PathFinderState path_finder;
     RhrState rhr;
+    IRSState ir_stab;
     TCEState cop_eyes;
     VDState vic_dir;
     VFState vic_finder;
