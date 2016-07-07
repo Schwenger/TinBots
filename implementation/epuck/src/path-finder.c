@@ -146,13 +146,13 @@ void pf_find_path(Position position, Position goal, Map *map, Position *path) {
 	ASPathDestroy(as_path);
 }
 
-static const int MAX_NEIGHBOURS = 8;
+#define MAX_NEIGHBOURS 8
 
 /**
  * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 5
  */
 static void find_neighbours(ASNeighborList neighbours, void *node, void *context_p) {
-    double thetas[4];
+    double thetas[MAX_NEIGHBOURS];
     double cand_next_x, cand_next_y;
     double offset;
     int i;
