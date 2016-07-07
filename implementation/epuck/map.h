@@ -4,8 +4,8 @@
 #include "pi.h"
 
 typedef struct Map {
-    const int width; /* byte probably */
-    const int height;
+    int width;
+    int height;
     int** occupancy;
 } Map;
 

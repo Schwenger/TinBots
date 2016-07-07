@@ -34,4 +34,7 @@ typedef struct PathFinderState {
 void pf_reset(PathFinderState* pf);
 void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens);
 
+/* Only for testing */
+void pf_find_path(Position position, Position goal, Map *map, Position *path);
+
 #endif /*EPUCK_PATHFINDER_H*/

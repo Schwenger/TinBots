@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <math.h>
-#include <stdio.h>
 
 #include "astar/astar.h"
 
@@ -21,7 +20,6 @@ enum {
 extern const Position INVALID_POS; /* sigh. */
 const Position INVALID_POS = {-1, -1};
 
-static void pf_find_path(Position position, Position goal, Map *map, Position *path);
 static int eop(Position pos);
 
 static Position map_discretize(Map* map, double x, double y) {
@@ -232,38 +230,3 @@ static Position intersection(Position origin, Position goal, Map* map) {
 	}
 	return goal;
 }
-
-/*int main(void){
-	printf("Welcome to the A-Puckture Science Enrichment Center.\n");
-
-	const int size = 10;
-	int** occ = (int**) malloc(size * sizeof(int*));
-	int i, j;
-	for(i = 0; i < size; i++) {
-		occ[i] = (int *) malloc(size * sizeof(int));
-		for(j = 0; j < size; ++j)
-			occ[i][j] = 0;
-	}
-
-	for(i = 0; i < 8; ++i)
-		occ[3][i] = 1;
-
-	Position start = {0, 0};
-	Position goal = {9, 9};
-
-	Map map = {.width = size, .height = size, .occupancy = occ, .goal = goal};
-
-	Position* path = malloc(100 * sizeof(Position*));
-
-	printf("starting search\n");
-
-	find_path(start, goal, &map, path);
-
-	i = 0;
-	while(path[i].x != -1 && path[i].y != -1) {
-		printf("(%d, %d) -> ", path[i].x, path[i].y);
-		++i;
-	}
-	return 0;
-}
-*/
