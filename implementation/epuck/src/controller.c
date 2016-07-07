@@ -132,18 +132,18 @@ static void run_path_finder_executer(Controller* c, Sensors* sens) {
     PathExecInputs pe_inputs;
 
     pf_inputs.compute = 1;
+    pf_inputs.is_victim = c->blind.is_victim;
     pf_inputs.dest_x = c->blind.dst_x;
     pf_inputs.dest_y = c->blind.dst_y;
     pf_inputs.step_complete = c->path_exec.done;
     pf_inputs.step_see_obstacle = c->path_exec.see_obstacle;
     pf_step(&pf_inputs, &c->path_finder, sens);
 
-    if (!c->path_finder.no_path && !c->path_finder.path_completed) {
-        pe_inputs.drive_p = 1;
-        pe_inputs.next_x = c->path_finder.next.x;
-        pe_inputs.next_y = c->path_finder.next.y;
-        pe_step(&pe_inputs, &c->path_exec, sens);
-    }
+    pe_inputs.drive = c->path_finder.drive;
+    pe_inputs.backwards = c->path_finder.backwards;
+    pe_inputs.next_x = c->path_finder.next.x;
+    pe_inputs.next_y = c->path_finder.next.y;
+    pe_step(&pe_inputs, &c->path_exec, sens);
 }
 
 static void run_victim_finder(Controller* c, Sensors* sens) {

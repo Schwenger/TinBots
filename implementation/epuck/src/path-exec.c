@@ -38,7 +38,7 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
     l = &pe->locals;
     old_state = l->state;
 
-    if (!inputs->drive_p) {
+    if (!inputs->drive) {
         /* We just got notified that we shouldn't be running anymore. */
         l->state = PE_inactive;
         /* It's okay to 'halt()' many times per second. */
@@ -49,7 +49,7 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
 
     switch (l->state) {
     case PE_inactive:
-        if(inputs->drive_p) {
+        if(inputs->drive) {
             l->state = PE_compute;
         }
         break;

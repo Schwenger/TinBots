@@ -53,6 +53,7 @@ static int time_passed_p(const hal_time entered, const hal_time wait_secs) {
 void blind_reset(BlindState* blind) {
     blind->locals.state_big = BLIND_init_rhr;
     blind->locals.state_leaf = BLIND_LEAF_init_rhr;
+    blind->is_victim = 0;
     /* No further initialization needed because BLIND_init_rhr doesn't
      * read from blind->time_entered */
     blind->run_choice = BLIND_RUN_CHOICE_none;
@@ -77,6 +78,7 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
             blind->run_choice = BLIND_RUN_CHOICE_none;
             blind->dst_x = inputs->victim_x;
             blind->dst_y = inputs->victim_y;
+            blind->is_victim = 1;
         } else {
             switch (blind->locals.state_leaf) {
             case BLIND_LEAF_init_rhr:
@@ -122,12 +124,13 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
             case BLIND_LEAF_wait_path_zero:
                 if (!inputs->path_completed) {
                     blind->locals.state_leaf = BLIND_LEAF_outta_here;
+                    blind->dst_x = inputs->origin_x;
+                    blind->dst_y = inputs->origin_y;
+                    blind->is_victim = 0;
                 }
                 break;
             case BLIND_LEAF_outta_here:
                 blind->run_choice = BLIND_RUN_CHOICE_path_finder;
-                blind->dst_x = inputs->origin_x;
-                blind->dst_y = inputs->origin_y;
                 if (inputs->path_completed) {
                     blind->locals.state_big = BLIND_party;
                     blind->run_choice = BLIND_RUN_CHOICE_none;

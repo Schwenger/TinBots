@@ -33,6 +33,7 @@ typedef struct BlindState {
     double dst_x;
     double dst_y;
     enum BlindRunChoice run_choice;
+    int is_victim;
 } BlindState;
 
 void blind_reset(BlindState* blind);

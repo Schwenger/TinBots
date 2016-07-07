@@ -20,7 +20,7 @@ enum {
 extern const Position INVALID_POS; /* sigh. */
 const Position INVALID_POS = {-1, -1};
 
-static int eop(Position pos);
+static int end_of_path_p(Position pos);
 
 static Position map_discretize(Map* map, double x, double y) {
     Position res;
@@ -36,20 +36,17 @@ void pf_reset(PathFinderState* pf) {
     pf->locals.path_index = 0;
     pf->locals.path[0] = INVALID_POS;
     pf->path_completed = 0;
+    pf->drive = 0;
+    pf->backwards = 0;
 }
 
 static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
-    Position dest, pos, next_wp;
+    Position dest, pos;
     pf->locals.state = PF_running;
     dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
     pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
     pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
-    pf->locals.path_index = 0;
-    next_wp = pf->locals.path[pf->locals.path_index];
-    if(eop(next_wp)) {
-        pf->no_path = 1;
-        pf->locals.state = PF_complete;
-    }
+    pf->locals.path_index = -1;
 }
 
 void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
@@ -60,35 +57,35 @@ void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
             }
             break;
         case PF_running:
+            pf->drive = 1;
             assert(!inputs->step_complete || !inputs->step_see_obstacle);
-            if (inputs->step_complete) {
-                Position pos, next_wp;
-                pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
+            if (inputs->step_complete || pf->locals.path_index < 0) {
+                Position next_wp;
                 next_wp = pf->locals.path[pf->locals.path_index];
-                if (eop(next_wp)) {
-                    pf->locals.state = PF_inactive;
+                pf->drive = 0;
+                pf->backwards = 0;
+                /* Q: Why not check here for the position again?  Like this:
+                 *    if(pos.x == pf->next.x && pos.y == pf->next.y)
+                 * A: What do you if that fails?
+                 *      (There's nothing meaningful one could do!)
+                 *    Why would this happen anyway?
+                 *      (PathExec already checks for stray!)
+                 */
+                pf->locals.path_index++;
+                assert(pf->locals.path_index >= 0);
+                next_wp = pf->locals.path[pf->locals.path_index];
+                if (end_of_path_p(next_wp)) {
+                    pf->locals.state = PF_complete;
                     pf->path_completed = 1;
-                } else {
-                    /* Q: Why not check here for the position again?  Like this:
-                     *    if(pos.x == pf->next.x && pos.y == pf->next.y)
-                     * A: What do you if that fails?
-                     *      (There's nothing meaningful one could do!)
-                     *    Why would this happen anyway?
-                     *      (PathExec already checks for stray!)
-                     */
-                    pf->locals.path_index++;
-                    next_wp = pf->locals.path[pf->locals.path_index];
-                    if(eop(next_wp)) {
-                        pf->locals.state = PF_complete;
-                        pf->path_completed = 1;
-                        pf->next = INVALID_POS;
-                    }
-                    pf->next = next_wp;
+                } else if (end_of_path_p(pf->locals.path[pf->locals.path_index + 1])) {
+                    pf->backwards = inputs->is_victim;
                 }
+                pf->next = next_wp;
             }
             if (inputs->step_see_obstacle) {
                 /* We ran into an obstacle -> internal map must be outdated. */
                 compute_path(inputs, pf, sens);
+                pf->drive = 0;
             }
             break;
         case PF_complete:
@@ -102,7 +99,7 @@ void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
     }
 }
 
-static int eop(Position pos) {
+static int end_of_path_p(Position pos) {
     return pos.x == INVALID_POS.x && pos.y == INVALID_POS.y;
 }
 

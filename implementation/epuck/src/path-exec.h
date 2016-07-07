@@ -5,7 +5,7 @@
 #include "sensors.h"
 
 typedef struct PathExecInputs {
-    int drive_p;
+    int drive;
     int backwards;
     double next_x;
     double next_y;

@@ -15,12 +15,13 @@ typedef struct PathFinderInputs {
     int compute;
     int step_complete;
     int step_see_obstacle;
+    int is_victim;
 } PathFinderInputs;
 
 typedef struct PathFinderLocals {
     Map* map;
     Position path[MAX_PATH_LENGTH + 1];
-    int path_index;
+    int path_index; /* Must be signed */
     int state;
 } PathFinderLocals;
 
@@ -29,6 +30,8 @@ typedef struct PathFinderState {
     Position next;
     int no_path;
     int path_completed;
+    int drive;
+    int backwards;
 } PathFinderState;
 
 void pf_reset(PathFinderState* pf);
