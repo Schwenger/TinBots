@@ -18,8 +18,6 @@ enum Proximity_Order {
 };
 
 enum IR_Order {
-    /* If you change this, please also change:
-     * - victim-direction.c -> TODO (not pushed yet) */
     IR_315,
     IR_270,
     IR_225,

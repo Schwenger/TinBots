@@ -63,7 +63,7 @@ void hal_send_victim_phi(double phi) {
     static TinPackage package = {NULL, 0x00, 0x20, 0x00};
     static char buffer[32];
     memset(buffer, 0, 32);
-    sprintf(buffer, "%f", phi);
+    snprintf(buffer, 32 - 1, "%f", phi);
     package.data = buffer;
     package.length = strlen(buffer);
     tin_com_send(&package);

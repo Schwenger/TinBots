@@ -127,7 +127,7 @@ static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, S
 static void run_path_finder_executer(Controller* c, Sensors* sens) {
     /* Q: Why don't we base the pf_input on pf's state?
      * A: Because that's unnecessary coupling.  Only read fields declared
-     *    explicitely as output!  'state' is not an output. */
+     *    explicitly as output!  'state' is not an output. */
     PathFinderInputs pf_inputs;
     PathExecInputs pe_inputs;
 

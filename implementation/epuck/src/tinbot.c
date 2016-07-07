@@ -7,7 +7,7 @@
 
 #include "hal.h"
 #include "rhr.h"
-
+#include "sensors.h"
 #include "tinbot.h"
 
 /* BEGIN CHOICE BLOCK
@@ -20,24 +20,15 @@
  */
 
 #include "mode/tinbot-vicdir.c"
-#include "sensors.h"
-
 
 /* END CHOICE BLOCK */
-
-static double prox_to_cm(double measured) {
-    return measured; /* FIXME */
-}
 
 void update_proximity(TinBot* tinbot, double proximity[8]) {
     unsigned int number;
     for (number = 0; number < 8; number++) {
-        /*if (proximity[number] > 50) {
-            hal_set_led(number, 1);
-        } else {
-            hal_set_led(number, 0);
-        }*/
-        tinbot->sens.proximity[number] = prox_to_cm(proximity[number]);
+        /* Q: Why doesn't do this any conversion?
+         * A: Because the incoming values already are in cm. */
+        tinbot->sens.proximity[number] = proximity[number];
     }
 }
 

@@ -5,8 +5,9 @@
 #include <assert.h>
 
 #include "blind-cop.h"
+#include "state-machine-common.h"
 
-static const hal_time NO_PATH_TIMEOUT = 40;
+static const double NO_PATH_TIMEOUT_SECS = 40;
 
 enum BLIND_STATES {
     BLIND_init_rhr,
@@ -39,16 +40,6 @@ enum BLIND_LEAF_STATES {
  *               "Bad things"); */
 typedef char check_blind_state_leaf_size[
     (sizeof(enum BLIND_LEAF_STATES) == sizeof(int)) ? 1 : -1];
-
-static int time_passed_p(const hal_time entered, const hal_time wait_secs) {
-    /* TODO: Candidate for code duplication (similar function alread in RHR) */
-    const hal_time now = hal_get_time();
-    const hal_time wait_ticks = wait_secs * 1000;
-    /* If this assert fails, you only need to fix this part.
-     * Note that it won't fail for roughly 1193 hours (see e_time.h) */
-    assert(now >= entered);
-    return entered - now >= wait_ticks;
-}
 
 void blind_reset(BlindState* blind) {
     blind->locals.state_big = BLIND_init_rhr;
@@ -150,7 +141,7 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
         }
         break;
     case BLIND_no_path:
-        if (time_passed_p(blind->locals.time_entered, NO_PATH_TIMEOUT)) {
+        if (smc_time_passed_p(blind->locals.time_entered, NO_PATH_TIMEOUT_SECS)) {
             blind->locals.state_big = BLIND_follow_path;
             /* state_leaf should still be valid.
              * Since we don't know which driver to run, go for 'none',

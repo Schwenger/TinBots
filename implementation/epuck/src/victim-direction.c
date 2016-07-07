@@ -61,7 +61,6 @@ static double determine_victim_phi(double ir_start, double ir_end, int sensor) {
     assert(ir_end < ir_start + 2 * M_PI);
 
     look_phi = (ir_start + ir_end) / 2;
-    /* TODO: Adapt to real-life angles */
     victim_phi = look_phi + ir_sensor_angle[sensor];
     victim_phi = fmod(victim_phi, 2 * M_PI);
 
@@ -85,7 +84,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
         return;
     }
 
-    eff_angle = sens->current.direction /* FIXME: use sens->current.direction as soon as this is verified-working. */
+    eff_angle = sens->current.direction
         + vd->locals.weighted_sum / vd ->locals.counter_on;
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
