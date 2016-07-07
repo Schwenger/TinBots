@@ -20,7 +20,8 @@ TBOBJS:=$(patsubst ../src/%.c,${OBJDIR}/%_tb.o,${TBSRCS})
 TESTOBJS:=$(patsubst src/%.c,${OBJDIR}/%_test.o,${TESTS})
 TESTBINS:=$(patsubst src/%.c,${BINDIR}/%,${TESTS})
 RUNTARGETS:=$(patsubst src/%.c,run-%,${TESTS})
-# stub.c and stub.o will be built explicitely.
+VALGRINDTARGETS:=$(patsubst src/%.c,valgrind-%,${TESTS})
+# stub.c and stub.o will be built "by hand".
 
 
 # ===== Main entry point and abstract commands =====
@@ -57,7 +58,11 @@ say:
 .PHONY: ${RUNTARGETS}
 ${RUNTARGETS}: run-%: ${BINDIR}/%
 # This is magic:
-	$^
+	$<
+
+.PHONY: ${VALGRINDTARGETS}
+${VALGRINDTARGETS}: valgrind-%: ${BINDIR}/%
+	valgrind --leak-check=full $<
 
 
 # ===== Plumbing =====
