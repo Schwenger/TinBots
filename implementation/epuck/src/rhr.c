@@ -29,6 +29,7 @@ static const double RHR_CONF_CORNER_D = 9.5;
 static const double RHR_CONF_CORNER_X = 11;
 static const double RHR_CONF_WALL_THRESH = 2;
 static const double RHR_CONF_WALL_D = 1;
+static const double RHR_CONF_STROKE_THRESH = 1.1;
 
 void rhr_reset(RhrState* rhr) {
     rhr->state = RHR_check_wall;
@@ -71,6 +72,7 @@ static void find_wall(RhrState* rhr, Sensors* sens) {
 
 void rhr_step(RhrState* rhr, Sensors* sens) {
     const int old_state = rhr->state;
+    const int feel_stroke = sens->proximity[PROXIMITY_P_20] <= RHR_CONF_STROKE_THRESH;
     switch (rhr->state) {
     case RHR_check_wall:
         find_wall(rhr, sens);
@@ -104,7 +106,8 @@ void rhr_step(RhrState* rhr, Sensors* sens) {
         }
         break;
     case RHR_wall_orient:
-        if (sens->proximity[PROXIMITY_M_45] <= SMC_SENSE_TOL) {
+        if (sens->proximity[PROXIMITY_M_45] <= SMC_SENSE_TOL
+            || feel_stroke) {
             rhr->state = RHR_avoid_coll;
             smc_rot_left();
         }
@@ -117,11 +120,16 @@ void rhr_step(RhrState* rhr, Sensors* sens) {
                    && smc_time_passed_p(rhr->time_entered, 5 * SMC_SECS_PER_DEGREE)) {
             rhr->state = RHR_wall_orient;
             smc_move();
+        } else if (smc_time_passed_p(rhr->time_entered, 360 * SMC_SECS_PER_DEGREE)) {
+            /* After a whole turn, we have lost the wall apparently */
+            rhr->state = RHR_run_close;
+            smc_move();
         }
         break;
     case RHR_claustrophobia:
         if (sens->proximity[PROXIMITY_M_20] > SMC_SENSE_TOL
-            && smc_time_passed_p(rhr->time_entered, 5 * SMC_SECS_PER_DEGREE)) {
+            && smc_time_passed_p(rhr->time_entered, 5 * SMC_SECS_PER_DEGREE)
+            && !feel_stroke) {
             rhr->state = RHR_follow;
             smc_move();
         }
@@ -158,6 +166,9 @@ void rhr_step(RhrState* rhr, Sensors* sens) {
         if (smc_time_passed_p(rhr->time_entered, 70 * SMC_SECS_PER_DEGREE)) {
             rhr->state = RHR_run_close;
             smc_move();
+        } else if (feel_stroke) {
+            rhr->state = RHR_avoid_coll;
+            smc_rot_left();
         }
         break;
     case RHR_run_close:
@@ -168,6 +179,9 @@ void rhr_step(RhrState* rhr, Sensors* sens) {
                    && smc_time_passed_p(rhr->time_entered, RHR_CONF_CORNER_X / SMC_MV_PER_SEC)) {
             rhr->state = RHR_stay_close;
             smc_rot_right();
+        } else if (feel_stroke) {
+            rhr->state = RHR_avoid_coll;
+            smc_rot_left();
         }
         break;
     default:
