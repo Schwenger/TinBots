@@ -20,7 +20,6 @@
  */
 
 #include <assert.h>
-#include <time.h> /* timestamps in hal_print */
 #include <math.h> /* Only for "time feedback" */
 #include <stdlib.h>
 #include <stdio.h>
@@ -87,12 +86,13 @@ void hal_print(const char* message) {
 
     /* If it fails, prefer hanging over undefined behavior */
     while (!have_fp) {
-        /* Unusual filename -> to find the file
-         * FIXME: Make it a normal name. */
-        fp = fopen ("hal_print-skalarwellen.txt","w");
+        /* You will find this file in the same directory as "setup.m" */
+        fp = fopen ("hal_print.txt","w");
+        fputs("Open!\n", fp);
         have_fp = (fp != NULL);
     }
-    fprintf(fp, "[%ld]: %s\n", time(NULL), message);
+    fprintf(fp, "[%8.3f]: %s\n", current->raw_time, message);
+    fflush(fp);
 }
 
 void hal_debug_out(DebugCategory key, double value) {
@@ -118,6 +118,7 @@ long matlab_create_bot() {
     matlab_bot->tinbot = malloc(sizeof(TinBot));
     /* Essentially matlab_select_bot(), so that setup() can call hal_* functions: */
     current = matlab_bot;
+    matlab_bot->raw_time = 0;
     setup(matlab_bot->tinbot);
     for (i = 0; i < DEBUG_CAT_NUM; ++i) {
         matlab_bot->debug_info[i] = 0.0 / 0.0;
