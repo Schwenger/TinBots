@@ -84,11 +84,13 @@ void hal_send_msg(unsigned int address, char* message, unsigned int length) {
 void hal_print(const char* message) {
     static int have_fp = 0;
     static FILE* fp = 0;
-    if (!have_fp) {
+
+    /* If it fails, prefer hanging over undefined behavior */
+    while (!have_fp) {
         /* Unusual filename -> to find the file
          * FIXME: Make it a normal name. */
-        fopen ("hal_print-skalarwellen.txt","w");
-        have_fp = 1;
+        fp = fopen ("hal_print-skalarwellen.txt","w");
+        have_fp = (fp != NULL);
     }
     fprintf(fp, "[%ld]: %s\n", time(NULL), message);
 }
@@ -100,8 +102,9 @@ void hal_debug_out(DebugCategory key, double value) {
 }
 
 void hal_send_victim_phi(double phi) {
-    char[1000] msg;
-    snprintf(msg, 1000 - 1, "hal_send_victim_phi(%.2f)", phi);
+    char msg[1000];
+    /* snprintf is not available in C90 */
+    sprintf(msg, "hal_send_victim_phi(%.2f)", phi);
     hal_print(msg);
 }
 

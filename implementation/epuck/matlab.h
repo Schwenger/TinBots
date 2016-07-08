@@ -12,7 +12,7 @@ struct MatlabCom {
     MatlabBot* bots[16];
 };
 
-typedef struct MatlabBot {
+struct MatlabBot {
     double motor_left;
     double motor_right;
     double raw_time;
@@ -21,7 +21,7 @@ typedef struct MatlabBot {
     MatlabCom* com;
 
     TinBot* tinbot;
-} MatlabBot;
+};
 
 long matlab_create_bot(void);
 void matlab_destroy_bot(long matlab_bot);
