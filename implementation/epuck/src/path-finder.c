@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "astar/astar.h"
 
@@ -112,7 +113,7 @@ static int invalid_pos(Position pos, Map *map) {
     return pos.x >= map->width || pos.x < 0 || pos.y >= map->height || pos.y < 0;
 }
 static int occupied(Position *pos, Map *map) {
-    return map->occupancy[pos->x][pos->y] != FIELD_WALL;
+    return map->occupancy[pos->x][pos->y] == FIELD_WALL;
 }
 
 static const ASPathNodeSource path_node_source = {
@@ -130,6 +131,7 @@ void pf_find_path(Position position, Position goal, Map *map, Position *path) {
 
     context.map = map;
     context.goal = goal;
+
     as_path = ASPathCreate(&path_node_source, &context, &position, &goal);
     path_length = ASPathGetCount(as_path);
 
@@ -144,6 +146,7 @@ void pf_find_path(Position position, Position goal, Map *map, Position *path) {
 }
 
 #define MAX_NEIGHBOURS 8
+static const double theta_range = 2 * M_PI * (1.0 / MAX_NEIGHBOURS);
 
 /**
  * For static upper bounds on the memory consumption we guarantee that the branching factor is no greater than 5
@@ -152,31 +155,33 @@ static void find_neighbours(ASNeighborList neighbours, void *node, void *context
     double thetas[MAX_NEIGHBOURS];
     double cand_next_x, cand_next_y;
     double offset;
+    float sl_dist_to_goal;
     int i;
     Position next, cand_next;
 
 	Position *state = (Position *) node;
 	Context *context = (Context *) context_p;
 
-
-	if(heuristic(node, &context->goal, context->map) < STEP_DISTANCE){
+    sl_dist_to_goal = heuristic(node, &context->goal, context->map);
+	if(sl_dist_to_goal < STEP_DISTANCE){
 		/* in reach of goal */
 		Position special = intersection(*state, context->goal, context->map);
-		ASNeighborListAdd(neighbours, &special, 1);
+		ASNeighborListAdd(neighbours, &special, sl_dist_to_goal);
 	}
 
     for(i = 0; i < MAX_NEIGHBOURS; ++i) {
-        thetas[i] = rand() * (2 * M_PI * (1.0 / MAX_NEIGHBOURS));
+        thetas[i] = fmod(rand(), theta_range);
     }
 
 	for(i = 0; i < MAX_NEIGHBOURS; i++){
-        offset = i * 2 * M_PI * (1.0 / MAX_NEIGHBOURS);
+        offset = i * theta_range;
 		cand_next_x = state->x + STEP_DISTANCE * cos(thetas[i] + offset);
 		cand_next_y = state->y + STEP_DISTANCE * sin(thetas[i] + offset);
         cand_next.x = (int) (floor(cand_next_x));
         cand_next.y = (int) (floor(cand_next_y));
 		next = intersection(*state, cand_next, context->map);
-		ASNeighborListAdd(neighbours, &next, 1);
+        sl_dist_to_goal = heuristic(node, &next, NULL);
+        ASNeighborListAdd(neighbours, &next, sl_dist_to_goal);
 	}
 }
 
@@ -189,6 +194,9 @@ static float heuristic(void *node, void *goal_node, void *context) {
 
     float h = (float) sqrt(diff_x * diff_x + diff_y * diff_y);
     (void)context; /* We don't actually use the context. */
+    if(state->x == 1 && state->y == 1){
+        h += 10000.0;
+    }
 	return h;
 }
 
@@ -206,6 +214,7 @@ static Position intersection(Position origin, Position goal, Map* map) {
 	int delta_x = (goal.x > origin.x) - (goal.x < origin.x);
 	int delta_y = (goal.y > origin.y) - (goal.y < origin.y);
 
+
 	Position pos = origin;
 	Position old = origin;
 	while(pos.x != goal.x || pos.y != goal.y) {
@@ -218,10 +227,12 @@ static Position intersection(Position origin, Position goal, Map* map) {
 
 		pos.x = x;
         pos.y = y;
-		if(invalid_pos(pos, map))
-			return old;
-		if(occupied(&pos, map))
-			return old;
+		if(invalid_pos(pos, map)) {
+            return old;
+        }
+		if(occupied(&pos, map)) {
+            return old;
+        }
 
 		old = pos;
 	}
