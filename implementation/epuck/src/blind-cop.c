@@ -7,6 +7,8 @@
 #include "blind-cop.h"
 #include "state-machine-common.h"
 
+#define LOG_TRANSITIONS_BLIND_COP
+
 static const double NO_PATH_TIMEOUT_SECS = 40;
 
 enum BLIND_STATES {
@@ -44,6 +46,9 @@ typedef char check_blind_state_leaf_size[
 void blind_reset(BlindState* blind) {
     blind->locals.state_big = BLIND_init_rhr;
     blind->locals.state_leaf = BLIND_LEAF_init_rhr;
+    #ifdef LOG_TRANSITIONS_BLIND_COP
+    hal_print("BC: reset: ir/ir");
+    #endif
     blind->is_victim = 0;
     /* No further initialization needed because BLIND_init_rhr doesn't
      * read from blind->time_entered */
@@ -70,7 +75,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
             blind->dst_x = inputs->victim_x;
             blind->dst_y = inputs->victim_y;
             blind->is_victim = 1;
+            #ifdef LOG_TRANSITIONS_BLIND_COP
             hal_print("BC:ir/*->fp/rtv");
+            #endif
         } else {
             switch (blind->locals.state_leaf) {
             case BLIND_LEAF_init_rhr:
@@ -78,25 +85,30 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
                 if (inputs->need_angle) {
                     blind->locals.state_leaf = BLIND_LEAF_sense_angle;
                     blind->run_choice = BLIND_RUN_CHOICE_victim_finder;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
                     hal_print("BC:ir/ir->ir/sa");
+                    #endif
                 }
                 break;
             case BLIND_LEAF_sense_angle:
                 if (!inputs->need_angle) {
                     blind->locals.state_leaf = BLIND_LEAF_wait_angle_zero;
                     blind->run_choice = BLIND_RUN_CHOICE_none;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
                     hal_print("BC:ir/sa->ir/waz");
+                    #endif
                 }
                 break;
             case BLIND_LEAF_wait_angle_zero:
                 if (!inputs->need_angle) {
                     blind->locals.state_leaf = BLIND_LEAF_init_rhr;
                     blind->run_choice = BLIND_RUN_CHOICE_rhr;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
                     hal_print("BC:ir/waz->ir/ir");
+                    #endif
                 }
                 break;
             default:
-                hal_print("BC:ir/WTF");
                 switch_failed(blind, "BLIND/init_rhr illegal state?!  Resetting ...");
                 break;
             }
@@ -104,7 +116,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
         break;
     case BLIND_follow_path:
         if (inputs->no_path) {
+            #ifdef LOG_TRANSITIONS_BLIND_COP
             hal_print("BC:fp/*->pnp/_");
+            #endif
             blind->locals.state_big = BLIND_pre_no_path;
             /* From here on, state_leaf must stay intact, so we can come back! */
             blind->run_choice = BLIND_RUN_CHOICE_none;
@@ -116,7 +130,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
                 if (inputs->path_completed) {
                     blind->locals.state_leaf = BLIND_LEAF_wait_path_zero;
                     blind->run_choice = BLIND_RUN_CHOICE_none;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
                     hal_print("BC:fp/rtp->fp/wpz");
+                    #endif
                 }
                 break;
             case BLIND_LEAF_wait_path_zero:
@@ -125,7 +141,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
                     blind->dst_x = inputs->origin_x;
                     blind->dst_y = inputs->origin_y;
                     blind->is_victim = 0;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
                     hal_print("BC:fp/wpz->fp/oh");
+                    #endif
                 }
                 break;
             case BLIND_LEAF_outta_here:
@@ -133,7 +151,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
                 if (inputs->path_completed) {
                     blind->locals.state_big = BLIND_party;
                     blind->run_choice = BLIND_RUN_CHOICE_none;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
                     hal_print("BC:fp/oh->party/*");
+                    #endif
                 }
                 break;
             default:
@@ -147,7 +167,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
         if (!inputs->no_path) {
             blind->locals.state_big = BLIND_no_path;
             blind->run_choice = BLIND_RUN_CHOICE_rhr;
+            #ifdef LOG_TRANSITIONS_BLIND_COP
             hal_print("BC:pnp/*->np/_");
+            #endif
         }
         break;
     case BLIND_no_path:
@@ -157,7 +179,9 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
              * Since we don't know which driver to run, go for 'none',
              * and set it in the appropriate leaf state. */
             blind->run_choice = BLIND_RUN_CHOICE_none;
+            #ifdef LOG_TRANSITIONS_BLIND_COP
             hal_print("BC:np/*->fp/_");
+            #endif
         }
         break;
     case BLIND_party:
