@@ -1,8 +1,15 @@
+#include "controller.h"
+
 void setup(TinBot* tinbot) {
     hal_print("Tin Bot Setup: Alone");
-    /* FIXME: NOT IMPLEMENTED */
+    controller_reset(tinbot);
 }
 
 void loop(TinBot* tinbot) {
-    /* FIXME: NOT IMPLEMENTED */
+    ControllerInput input;
+    /* FIXME: Use actual initial lps data */
+    input.origin_x = 50;
+    input.origin_x = 50;
+
+    controller_step(&input, tinbot);
 }
