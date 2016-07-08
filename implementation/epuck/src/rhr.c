@@ -70,7 +70,6 @@ static void find_wall(RhrState* rhr, Sensors* sens) {
 }
 
 void rhr_step(RhrState* rhr, Sensors* sens) {
-    int deg20off, deg90off, waited_long_enough;
     const int old_state = rhr->state;
     switch (rhr->state) {
     case RHR_check_wall:
@@ -128,14 +127,18 @@ void rhr_step(RhrState* rhr, Sensors* sens) {
         }
         break;
     case RHR_follow:
-        deg20off = sens->proximity[PROXIMITY_M_20] <= SMC_SENSE_TOL;
-        deg90off = sens->proximity[PROXIMITY_M_90] <= RHR_CONF_WALL_THRESH;
-        waited_long_enough = smc_time_passed_p(rhr->time_entered, RHR_CONF_WALL_D / SMC_MV_PER_SEC);
-        if(deg20off || (deg90off && waited_long_enough)) {
-            rhr->state = RHR_claustrophobia;
-            smc_rot_left();
-        } else if (sens->proximity[PROXIMITY_M_45] > SMC_SENSE_TOL) {
-            rhr->state = RHR_go_on;
+        {
+            int waited_long_enough;
+            int have_20, have_90;
+            have_20 = sens->proximity[PROXIMITY_M_20] <= SMC_SENSE_TOL;
+            have_90 = sens->proximity[PROXIMITY_M_90] <= RHR_CONF_WALL_THRESH;
+            waited_long_enough = smc_time_passed_p(rhr->time_entered, RHR_CONF_WALL_D / SMC_MV_PER_SEC);
+            if(have_20 || (have_90 && waited_long_enough)) {
+                rhr->state = RHR_claustrophobia;
+                smc_rot_left();
+            } else if (sens->proximity[PROXIMITY_M_45] > SMC_SENSE_TOL) {
+                rhr->state = RHR_go_on;
+            }
         }
         break;
     case RHR_go_on:
