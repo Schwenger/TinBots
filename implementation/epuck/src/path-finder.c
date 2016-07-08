@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <math.h>
-#include <stdio.h>
 
 #include "astar/astar.h"
 
@@ -194,9 +193,6 @@ static float heuristic(void *node, void *goal_node, void *context) {
 
     float h = (float) sqrt(diff_x * diff_x + diff_y * diff_y);
     (void)context; /* We don't actually use the context. */
-    if(state->x == 1 && state->y == 1){
-        h += 10000.0;
-    }
 	return h;
 }
 
@@ -227,12 +223,10 @@ static Position intersection(Position origin, Position goal, Map* map) {
 
 		pos.x = x;
         pos.y = y;
-		if(invalid_pos(pos, map)) {
-            return old;
-        }
-		if(occupied(&pos, map)) {
-            return old;
-        }
+		if(invalid_pos(pos, map))
+			return old;
+		if(occupied(&pos, map))
+			return old;
 
 		old = pos;
 	}
