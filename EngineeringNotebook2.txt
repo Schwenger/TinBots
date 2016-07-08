@@ -291,8 +291,35 @@ scribe: Ben Wiederhake 29.06.2016 intermission
 
 Added two new amendments to the specification as discussed on slack.
 
+
+==============================
+
 scribe: Max Schwenger 06.07.2016
 
 Problem: Strut reflects IR-Signals, thus we need to shield/reflect in different angle, ...
 Solutions so far: Tested plastic, does not work, black paper does not work either.
 iPad Screens and Samsung OLED Screens do work if placed in right angle. iPad Screen works more robust. Shelfs do not pose a problem since moving the table had provided no significant improvements.
+
+
+==============================
+
+scribe: Ben Wiederhake 08.07.2016 14-16+ session
+
+We brought some "Acrylfarben", applied it on paper, and used it on the
+struts.  Doesn't work.
+Peter recommends to try the following:
+- black cloth (we already tried, we'll try again anyway)
+- Schwarzes moosgummi
+- "Valour Papier" (?)
+- Papier "riffeln" und hinstellen
+
+Problem:  we couldn't program the E-Pucks anymore, as the programming cable is defect.
+Solution:  in correspondance with Peter, cut off the current adapter and pop a new one.
+
+Problem:  well, "controller" runs now.  However, after the first
+measurement it does a lot of bullshit.
+Solution:  even more debugging.
+
+Problem:  the IR stuff is really annoying and feels like Yak Shaving.
+Solution:  Hazem said:  worst case, we can fall back to the Raspberry
+providing some feedback (e.g. "Nope, that angle is completely wrong.")
