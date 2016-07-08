@@ -37,6 +37,7 @@ class Debugger:
         self.controller.devices_visible += self.on_device_visible
         self.namespace = namespace
         self.cli = None
+        self.loop = asyncio.get_event_loop()
 
     def start(self):
         coroutine = embed(self.namespace, self.namespace, title='Tin Bot Console',
@@ -53,8 +54,7 @@ class Debugger:
         if self.cli:
             def printer():
                 print_tokens(tokens, style=style)
-
-            self.cli.run_in_terminal(printer)
+            self.loop.call_soon(self.cli.run_in_terminal, printer)
 
     def print_message(self, message, kind=SUCCESS):
         self.print_tokens([(kind, '<<< ' + message + os.linesep)])
