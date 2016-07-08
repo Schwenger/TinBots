@@ -4,7 +4,6 @@
 #include "hal.h"
 
 typedef struct BlindInputs {
-    int found_victim_phi;
     int found_victim_xy;
     int need_angle;
     int no_path;

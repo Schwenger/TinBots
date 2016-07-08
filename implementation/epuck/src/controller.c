@@ -72,7 +72,6 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
 
 static void inquire_blind_decision(Controller* c, ControllerInput* in) {
     BlindInputs inputs;
-    inputs.found_victim_phi = c->vic_dir.victim_found;
     inputs.found_victim_xy = c->vic_finder.found_victim_xy;
     inputs.need_angle = c->cop_eyes.need_angle;
     inputs.no_path = c->path_finder.no_path;

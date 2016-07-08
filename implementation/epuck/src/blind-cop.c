@@ -82,14 +82,14 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
                 }
                 break;
             case BLIND_LEAF_sense_angle:
-                if (inputs->found_victim_phi) {
+                if (!inputs->need_angle) {
                     blind->locals.state_leaf = BLIND_LEAF_wait_angle_zero;
                     blind->run_choice = BLIND_RUN_CHOICE_none;
                     hal_print("BC:ir/sa->ir/waz");
                 }
                 break;
             case BLIND_LEAF_wait_angle_zero:
-                if (!inputs->found_victim_phi) {
+                if (!inputs->need_angle) {
                     blind->locals.state_leaf = BLIND_LEAF_init_rhr;
                     blind->run_choice = BLIND_RUN_CHOICE_rhr;
                     hal_print("BC:ir/waz->ir/ir");
