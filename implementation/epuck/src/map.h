@@ -1,7 +1,10 @@
+
 #ifndef EPUCK_MAP_H
 #define EPUCK_MAP_H
 
-#include "pi.h"
+typedef char byte;
+
+static const int BIT_PER_FIELD = 2;
 
 typedef struct Map {
     int width;
@@ -24,6 +27,8 @@ enum {
     FIEL_UNKOWN
 };
 
-void send_map(Map* map, Position center, int radius);
+void map_serialize(int* data, byte* buffer, unsigned int num_fields);
+
+void map_deserialize(int* buffer, byte* data, unsigned int num_bytes);
 
 #endif /* EPUCK_MAP_H */

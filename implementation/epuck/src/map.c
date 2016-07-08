@@ -1,19 +1,18 @@
-#include <assert.h>
-#include <tinpuck.h>
+
 #include "map.h"
+#include <assert.h>
+#include "bluetooth.h"
 
-typedef unsigned char byte;
-
-static const int BIT_PER_FIELD = 2;
 static const int EOF_FLAG = 3;
 
-static void serialize(int* data, byte* buffer, int num_fields) {
+
+void map_serialize(int* data, byte* buffer, unsigned int num_fields) {
     byte value, next_value;
     int pos_in_byte = 0;
-    int field_cnt = 0;
-    int num_bytes = num_fields / BIT_PER_FIELD;
+    unsigned int field_cnt = 0;
+    unsigned int num_bytes = num_fields / BIT_PER_FIELD;
     int fields_per_byte = 8 / BIT_PER_FIELD;
-    int i;
+    unsigned int i;
 
     assert(num_bytes < TIN_PACKAGE_MAX_LENGTH);
 
@@ -36,10 +35,10 @@ static void serialize(int* data, byte* buffer, int num_fields) {
 /*
  * the buffer's length has to be GREATER than the number of bytes!!
  */
-static void deserialize(int* buffer, byte* data, int num_bytes) {
-    int byte_cnt, pos, pos_bar, field_cnt;
+void map_deserialize(int* buffer, byte* data, unsigned int num_bytes) {
+    unsigned int byte_cnt, field_cnt, pos, pos_bar;
     byte current, value;
-    int fields_per_byte = 8 / BIT_PER_FIELD;
+    unsigned int fields_per_byte = 8 / BIT_PER_FIELD;
 
     field_cnt = 0;
     for(byte_cnt = 0; byte_cnt < num_bytes; ++byte_cnt) {
@@ -59,43 +58,3 @@ static void deserialize(int* buffer, byte* data, int num_bytes) {
         }
     }
 }
-
-void send_map(Map* m, Position center, int radius) {
-    int diameter = 2 * radius;
-    int fields_to_transmit = diameter * diameter;
-    int bytes_needed = fields_to_transmit * BIT_PER_FIELD / 8;
-    int x, y;
-    int** map = m->occupancy;
-    int occ[TIN_PACKAGE_MAX_LENGTH];
-    byte data[TIN_PACKAGE_MAX_LENGTH];
-
-    for(x = 0; x < diameter; ++x) {
-        for(y = 0; y < diameter; ++y) {
-            occ[x * diameter + y] = map[center.x - radius + x][center.y - radius + y];
-        }
-    }
-    assert(bytes_needed < TIN_PACKAGE_MAX_LENGTH);
-    serialize(occ, data, fields_to_transmit);
-}
-
-#ifdef MAP_TEST
-int main(void) {
-    const int num_fields = 5;
-    const int num_bin_bytes = 2;
-    int data[num_fields];
-    byte buffer[num_bin_bytes];
-    data[0] = 1;
-    data[1] = 1;
-    data[2] = 2;
-    data[3] = 0;
-    data[4] = 1;
-    buffer[0] = CHAR_MAX;
-    buffer[1] = CHAR_MAX;
-
-    serialize(data, buffer, num_fields);
-    printf("Value: %d%d\n", buffer[0], buffer[1]);
-    printf("Hex: %02x%02x\n", buffer[0], buffer[1]);
-    deserialize(data, buffer, num_bin_bytes);
-    printf("Value: %d,%d,%d,%d,%d\n", data[0], data[1], data[2], data[3], data[4]);
-}
-#endif
