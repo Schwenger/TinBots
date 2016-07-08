@@ -20,8 +20,10 @@
  */
 
 #include <assert.h>
+#include <time.h> /* timestamps in hal_print */
 #include <math.h> /* Only for "time feedback" */
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "hal.h"
 
@@ -80,8 +82,15 @@ void hal_send_msg(unsigned int address, char* message, unsigned int length) {
 }
 
 void hal_print(const char* message) {
-    (void)message;
-    /* FIXME */
+    static int have_fp = 0;
+    static FILE* fp = 0;
+    if (!have_fp) {
+        /* Unusual filename -> to find the file
+         * FIXME: Make it a normal name. */
+        fopen ("hal_print-skalarwellen.txt","w");
+        have_fp = 1;
+    }
+    fprintf(fp, "[%ld]: %s\n", time(NULL), message);
 }
 
 void hal_debug_out(DebugCategory key, double value) {
@@ -91,7 +100,9 @@ void hal_debug_out(DebugCategory key, double value) {
 }
 
 void hal_send_victim_phi(double phi) {
-
+    char[1000] msg;
+    snprintf(msg, 1000 - 1, "hal_send_victim_phi(%.2f)", phi);
+    hal_print(msg);
 }
 
 
