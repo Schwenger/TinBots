@@ -62,7 +62,8 @@ class Debugger:
         if command in {0x01}:
             return
         if command == 0x20:
-            msg = '[{}] Victim Direction: {!r}'.format(device.color, payload)
+            phi = (payload[0] << 8 | payload[1]) / 1000
+            msg = '[{}] Victim Direction: {}'.format(device.color, phi)
             self.print_message(msg, INFO)
             return
         if command == 0x11:
