@@ -54,7 +54,7 @@ class Debugger:
         if self.cli:
             def printer():
                 print_tokens(tokens, style=style)
-            self.loop.call_soon(self.cli.run_in_terminal, printer)
+            self.loop.call_soon_threadsafe(self.cli.run_in_terminal, printer)
 
     def print_message(self, message, kind=SUCCESS):
         self.print_tokens([(kind, '<<< ' + message + os.linesep)])
