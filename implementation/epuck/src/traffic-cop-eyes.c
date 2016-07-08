@@ -53,7 +53,7 @@ void tce_step(TCEInputs* inputs, TCEState* tce, Sensors* sens){
                 if (inputs->found_victim_phi) {
                     tce->locals.last_x = sens->current.x;
                     tce->locals.last_y = sens->current.y;
-                    tce->locals.last_phi = sens->current.direction;
+                    tce->locals.last_phi = inputs->ray_phi;
                 }
             }
             break;
