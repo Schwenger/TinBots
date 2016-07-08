@@ -28,6 +28,8 @@ static volatile unsigned int state = STATE_STARTUP;
 static unsigned int proximity_raw[8] = {0};
 static double proximity[8] = {0};
 
+static unsigned int do_reset = 0;
+
 static TinBot bot;
 
 
@@ -44,6 +46,10 @@ static void com_on_update_lps(TinPackage* package) {
     lps_data[1] = y;
     lps_data[2] = phi;
     lps_updated = 1;
+}
+
+static void com_on_reset(TinPackage* package) {
+    do_reset = 1;
 }
 
 static void com_on_victim_phi(TinPackage* package) {
@@ -124,6 +130,7 @@ int main() {
     tin_com_register(0x02, com_on_update_lps);
     tin_com_register(0x03, com_on_start);
     tin_com_register(0x04, com_on_victim_phi);
+    tin_com_register(0x05, com_on_reset);
 
     tin_com_register(0x10, debug_led);
     tin_com_register(0x11, debug_set);
@@ -134,15 +141,23 @@ int main() {
 
     tin_calibrate_proximity();
 
-    while (state == STATE_STARTUP);
-    while (!lps_updated);
-
-    setup(&bot);
+    do_reset = 1;
 
     unsigned int index;
     double x, y, phi;
 
     while (1) {
+        if (do_reset) {
+            tin_set_speed(0, 0);
+            for (index = 0; index < 10; index++) {
+                tin_set_led(index, OFF);
+            }
+            state = STATE_STARTUP;
+            while (state == STATE_STARTUP);
+            while (!lps_updated);
+            setup(&bot);
+            do_reset = 0;
+        }
         tin_get_proximity(proximity_raw);
         for (index = 0; index < 8; index++) {
             // Empirically found function to convert proximity data into cm:

@@ -52,11 +52,16 @@ void hal_send_msg(unsigned int address, char* message, unsigned int length) {
     /* FIXME */
 }
 
+static void print_package_callback(TinPackage* package) {
+
+}
+
 void hal_print(const char* message) {
-    /* FIXME
-    e_send_uart1_char(message, strlen(message));
-    while (e_uart1_sending());
-    */
+    static TinPackage package = {NULL, 0x00, 0x21, 0x00};
+    package.data = (char*) message;
+    package.length = strlen(message);
+    tin_com_send(&package);
+    while (!package.completed);
 }
 
 void hal_send_victim_phi(double phi) {

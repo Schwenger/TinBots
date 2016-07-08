@@ -24,6 +24,7 @@ class TinBot:
         self.hue = None
         self.address = address
         self.controller = controller
+        self.position = None
 
         self.on_package = Event()
 
@@ -53,6 +54,7 @@ class TinBot:
         self.send(0x03)
 
     def cmd_lps_position(self, x, y, phi):
+        self.position = (x, y, phi)
         x = int(x * 100).to_bytes(2, 'big')
         y = int(y * 100).to_bytes(2, 'big')
         phi = int(phi * 1000).to_bytes(2, 'big')
@@ -68,6 +70,9 @@ class TinBot:
 
     def cmd_victim_phi(self, phi):
         self.send(0x04, int(phi * 1000).to_bytes(2, 'big'))
+
+    def cmd_reset(self):
+        self.send(0x05)
 
     def enable_debug(self):
         self.send(0x11, b'\x01')
@@ -104,6 +109,7 @@ class TinBot:
                     self.color, self.hue = COLOR_MAP[self.number]
                     self.controller.device_new.fire(self)
                 elif command == 0x20:
+                    # TODO: implement victim phi correction
                     pass
                 self.on_package.fire(self, source, target, command, payload)
         except bluetooth.btcommon.BluetoothError:

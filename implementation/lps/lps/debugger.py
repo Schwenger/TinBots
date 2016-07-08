@@ -4,6 +4,7 @@
 # https://github.com/koehlma/jaspy/blob/master/jaspy/interactive.py
 
 import asyncio
+import math
 import os
 
 from pygments.token import Token
@@ -62,8 +63,15 @@ class Debugger:
         if command in {0x01}:
             return
         if command == 0x20:
+            exact = math.atan2(device.controller.victim_position[1] - device.position[1],
+                               device.controller.victim_position[0] - device.position[0])
+            exact %= 2 * math.pi
             phi = (payload[0] << 8 | payload[1]) / 1000
-            msg = '[{}] Victim Direction: {}'.format(device.color, phi)
+            msg = '[{}] Victim Direction: {} ({})'.format(device.color, phi, exact)
+            self.print_message(msg, INFO)
+            return
+        if command == 0x21:
+            msg = '[{}] {}'.format(device.color, payload.decode('ascii'))
             self.print_message(msg, INFO)
             return
         if command == 0x11:
