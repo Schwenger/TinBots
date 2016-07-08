@@ -2,7 +2,7 @@
 
 void setup(TinBot* tinbot) {
     hal_print("Tin Bot Setup: Alone");
-    controller_reset(tinbot);
+    controller_reset(&tinbot->controller);
 }
 
 void loop(TinBot* tinbot) {
@@ -11,5 +11,5 @@ void loop(TinBot* tinbot) {
     input.origin_x = 50;
     input.origin_x = 50;
 
-    controller_step(&input, tinbot);
+    controller_step(&input, &tinbot->controller, &tinbot->sens);
 }
