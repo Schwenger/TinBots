@@ -33,6 +33,7 @@ class Debugger:
         self.controller = controller
         self.controller.device_new += self.on_device_new
         self.controller.device_deleted += self.on_device_deleted
+        self.controller.devices_visible += self.on_device_visible
         self.namespace = namespace
         self.cli = None
 
@@ -61,8 +62,7 @@ class Debugger:
         if command in {0x01}:
             return
         if command == 0x20:
-            msg = '[{}] Victim Direction: {}'.format(device.color,
-                                                     payload.decode('ascii'))
+            msg = '[{}] Victim Direction: {!r}'.format(device.color, payload)
             self.print_message(msg, INFO)
             return
         if command == 0x11:
@@ -87,6 +87,10 @@ class Debugger:
         device.on_package += self.on_package
         self.namespace['tin_bot_{}'.format(device.color)] = device
         self.print_message(msg, SUCCESS)
+
+    def on_device_visible(self, address):
+        msg = '[VISIBLE] E-Puck: {}'.format(address)
+        self.print_message(msg, INFO)
 
     def on_device_deleted(self, device):
         msg = '[DEL] Tin Bot: tin_bot_{} ({})'.format(device.color, device.address)

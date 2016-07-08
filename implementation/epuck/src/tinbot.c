@@ -49,6 +49,10 @@ void update_victim_pickup(TinBot* tinbot, unsigned int grabbed) {
 
 }
 
+void update_victim_phi(TinBot* tinbot, double phi) {
+
+}
+
 void update_lps(TinBot* tinbot, double x, double y, double direction) {
     tinbot->sens.lps.x = x;
     tinbot->sens.lps.y = y;

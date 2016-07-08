@@ -13,6 +13,8 @@ COLOR_MAP = {
     2: ('blue', 0.54)
 }
 
+VICTIM_HUE = 0.39
+
 
 class TinBot:
     def __init__(self, name, address, controller):
@@ -64,6 +66,9 @@ class TinBot:
     def cmd_debug_leds(self, bitmask):
         self.send(0x10, bytes([bitmask]))
 
+    def cmd_victim_phi(self, phi):
+        self.send(0x04, int(phi * 1000).to_bytes(2, 'big'))
+
     def enable_debug(self):
         self.send(0x11, b'\x01')
 
@@ -98,6 +103,8 @@ class TinBot:
                     self.number = source
                     self.color, self.hue = COLOR_MAP[self.number]
                     self.controller.device_new.fire(self)
+                elif command == 0x20:
+                    pass
                 self.on_package.fire(self, source, target, command, payload)
         except bluetooth.btcommon.BluetoothError:
             pass
@@ -116,13 +123,20 @@ class Controller(threading.Thread):
         self.device_new = Event()
         self.device_deleted = Event()
 
+        self.devices_visible = Event()
+
         self.devices = {}
+
+        self.victim_position = None
 
     def on_new_data(self, _, positions):
         for device in self.devices.values():
             if device.hue in positions:
                 position = positions[device.hue]
                 device.cmd_lps_position(position['x'], position['y'], position['phi'])
+        if VICTIM_HUE in positions:
+            position = positions[VICTIM_HUE]
+            self.victim_position = (position['x'], position['y'], position['phi'])
 
     def run(self):
         while True:
@@ -131,5 +145,6 @@ class Controller(threading.Thread):
                 name = bluetooth.lookup_name(address)
                 if name and name.startswith('e-puck_'):
                     if address not in self.devices:
+                        self.devices_visible.fire(address)
                         TinBot(name, address, self)
             time.sleep(10)

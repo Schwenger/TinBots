@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-#
-# Copyright (C) 2015, DFKI GmbH
-#
-# Author: Maximilian Köhl <maximilian.koehl@dfki.de>
+
+# Copyright (C) 2016, Maximilian Köhl <mail@koehlma.de>
 
 import asyncio
 import base64

@@ -60,12 +60,11 @@ void hal_print(const char* message) {
 }
 
 void hal_send_victim_phi(double phi) {
-    static TinPackage package = {NULL, 0x00, 0x20, 0x00};
-    static char buffer[32];
-    memset(buffer, 0, 32);
-    snprintf(buffer, 32 - 1, "%f", phi);
+    static TinPackage package = {NULL, 0x00, 0x20, 0x02};
+    static char buffer[2];
+    buffer[0] = (char) ((unsigned int) (1000 * phi) >> 8);
+    buffer[1] = (char) ((unsigned int) (1000 * phi) & 0xFF);
     package.data = buffer;
-    package.length = strlen(buffer);
     tin_com_send(&package);
 }
 

@@ -19,7 +19,7 @@ except ImportError:
 
 from lps.event import Event
 
-HUES = (0.95, 0.54)
+HUES = (0.95, 0.54, 0.39)
 
 
 class Analyzer:
@@ -153,10 +153,9 @@ class Detector(threading.Thread):
                             positions[target] = {
                                 'x': x / 5.8,
                                 'y': (480 - y) / 5.8,
-                                'phi': abs((angle + math.pi) % (2 * math.pi) - math.pi)
+                                'phi': -angle % (2 * math.pi)
                             }
                             render(output, target, x, y, angle, r)
-
                     self.new_data.fire(output, positions)
 
             time.sleep(2)

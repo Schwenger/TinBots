@@ -14,9 +14,14 @@
 #define STATE_RUNNING 1
 
 static volatile int ir_data[8] = {0};
+
 static volatile double lps_data[3] = {0};
 static volatile unsigned lps_updated = 0;
+
 static volatile unsigned int pickup_data;
+
+static volatile double victim_phi = -1;
+static volatile unsigned int victim_phi_updated = 0;
 
 static volatile unsigned int state = STATE_STARTUP;
 
@@ -32,19 +37,19 @@ static void com_on_hello(TinPackage* package) {
 }
 
 static void com_on_update_lps(TinPackage* package) {
-    // static TinPackage response = {NULL, 0x00, 0x01, 0x00};
-    // static char buffer[128];
     double x = (((unsigned int) package->data[0] << 8) | ((unsigned int) package->data[1] & 0xff)) / 100.0;
     double y = (((unsigned int) package->data[2] << 8) | ((unsigned int) package->data[3] & 0xff)) / 100.0;
     double phi = (((unsigned int) package->data[4] << 8) | ((unsigned int) package->data[5] & 0xff)) / 1000.0;
-    // sprintf(buffer, "%f %f %f", x, y, phi);
-    // response.data = buffer;
-    // response.length = strlen(buffer);
-    // tin_com_send(&response);
     lps_data[0] = x;
     lps_data[1] = y;
     lps_data[2] = phi;
     lps_updated = 1;
+}
+
+static void com_on_victim_phi(TinPackage* package) {
+    double phi = (((unsigned int) package->data[0] << 8) | ((unsigned int) package->data[1] & 0xff)) / 1000.0;
+    victim_phi = phi;
+    victim_phi_updated = 1;
 }
 
 static void com_on_start(TinPackage* package) {
@@ -108,10 +113,6 @@ int main() {
     tin_init_com();
     tin_init_rs232(9600UL);
 
-    tin_wait(2000);
-
-    tin_calibrate_proximity();
-
     tin_com_set_address(tin_get_selector());
 
     tin_task_register(&update_ext_data_task, update_ext_data, 500);
@@ -122,11 +123,16 @@ int main() {
     tin_com_register(0x01, com_on_hello);
     tin_com_register(0x02, com_on_update_lps);
     tin_com_register(0x03, com_on_start);
+    tin_com_register(0x04, com_on_victim_phi);
 
     tin_com_register(0x10, debug_led);
     tin_com_register(0x11, debug_set);
     tin_com_register(0x12, debug_oneshot);
     tin_com_register(0x13, debug_motors);
+
+    tin_wait(2000);
+
+    tin_calibrate_proximity();
 
     while (state == STATE_STARTUP);
     while (!lps_updated);
@@ -155,6 +161,15 @@ int main() {
             update_lps(&bot, x, y, phi);
             lps_updated = 0;
         }
+        if (victim_phi_updated) {
+            SYNCHRONIZED({
+                phi = victim_phi;
+            })
+            update_victim_phi(&bot, phi);
+            victim_phi_updated = 0;
+        }
+
+
         update_ir(&bot, (int*) ir_data);
         update_victim_pickup(&bot, pickup_data);
 
