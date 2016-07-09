@@ -21,6 +21,7 @@ extern const Position INVALID_POS; /* sigh. */
 const Position INVALID_POS = {-1, -1};
 
 static int end_of_path_p(Position pos);
+static int invalid_pos(Position pos, Map *map);
 
 static Position map_discretize(Map* map, double x, double y) {
     Position res;
@@ -40,13 +41,27 @@ void pf_reset(PathFinderState* pf) {
     pf->backwards = 0;
 }
 
+static void pathing_failed(PathFinderState* pf) {
+    pf->locals.state = PF_complete;
+    pf->no_path = 1;
+}
+
 static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
     Position dest, pos;
+    int success;
     pf->locals.state = PF_running;
-    dest = map_discretize(pf->locals.map, inputs->dest_x, inputs->dest_y);
-    pos = map_discretize(pf->locals.map, sens->current.x, sens->current.y);
-    pf_find_path(pos, dest, pf->locals.map, pf->locals.path);
+    dest = map_discretize(inputs->map, inputs->dest_x, inputs->dest_y);
+    pos = map_discretize(inputs->map, sens->current.x, sens->current.y);
+    if (invalid_pos(pos, inputs->map)) {
+        /* Uhh */
+        pathing_failed(pf);
+        return;
+    }
     pf->locals.path_index = -1;
+    success = pf_find_path(pos, dest, inputs->map, pf->locals.path);
+    if (!success) {
+        pathing_failed(pf);
+    }
 }
 
 void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens) {
@@ -123,7 +138,7 @@ static const ASPathNodeSource path_node_source = {
         &search_node_comparator
 };
 
-void pf_find_path(Position position, Position goal, Map *map, Position *path) {
+int pf_find_path(Position position, Position goal, Map *map, Position *path) {
     ASPath  as_path;
     size_t path_length, i;
     Context context;
@@ -142,6 +157,8 @@ void pf_find_path(Position position, Position goal, Map *map, Position *path) {
 	path[i] = INVALID_POS;
 
 	ASPathDestroy(as_path);
+
+    return 1; /* FIXME: What happens if A* fails? */
 }
 
 #define MAX_NEIGHBOURS 8

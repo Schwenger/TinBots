@@ -10,6 +10,7 @@
 /* Caller must allocate space for MAX_PATH_LENGTH+1 instances of Position. */
 
 typedef struct PathFinderInputs {
+    Map* map;
     double dest_x;
     double dest_y;
     int compute;
@@ -19,7 +20,6 @@ typedef struct PathFinderInputs {
 } PathFinderInputs;
 
 typedef struct PathFinderLocals {
-    Map* map;
     Position path[MAX_PATH_LENGTH + 1];
     int path_index; /* Must be signed */
     int state;
@@ -38,6 +38,6 @@ void pf_reset(PathFinderState* pf);
 void pf_step(PathFinderInputs* inputs, PathFinderState* pf, Sensors* sens);
 
 /* Only for testing */
-void pf_find_path(Position position, Position goal, Map *map, Position *path);
+int pf_find_path(Position position, Position goal, Map *map, Position *path);
 
 #endif /*EPUCK_PATHFINDER_H*/

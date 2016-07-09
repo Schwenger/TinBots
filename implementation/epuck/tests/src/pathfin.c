@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h> /* malloc, free */
 
@@ -6,6 +7,7 @@
 int main(void){
 	const int size = 10;
 	int i, j;
+    int success;
 	int** occ;
     Position start, goal;
     Map map;
@@ -31,7 +33,8 @@ int main(void){
 
 	printf("Starting search\n");
 	path = (Position*) malloc((MAX_PATH_LENGTH + 1) * sizeof(Position));
-	pf_find_path(start, goal, &map, path);
+	success = pf_find_path(start, goal, &map, path);
+    assert(success);
 
     printf("Found path:\n(%d, %d)", start.x, start.y);
     for (i = 0; i < MAX_PATH_LENGTH && path[i].x != -1 && path[i].y != -1; ++i) {
