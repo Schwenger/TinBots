@@ -11,7 +11,7 @@ int main(void) {
     int data_begin[num_fields] =        {1, 1, 2, 0, 1};
     int data_begin_sanity[num_fields] = {1, 1, 2, 0, 1};
     int data_end[num_fields] = {-1, -1, -1, -1, -1};
-    byte buffer[num_bin_bytes];
+    char buffer[num_bin_bytes];
     buffer[0] = CHAR_MAX;
     buffer[1] = CHAR_MAX;
 

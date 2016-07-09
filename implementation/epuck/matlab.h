@@ -2,14 +2,16 @@
 #define MATLAB_H
 
 #include "hal.h"
+#include "map_heap.h"
 #include "tinbot.h"
 
 typedef struct MatlabBot MatlabBot;
 typedef struct MatlabCom MatlabCom;
 
+#define NUM_COMMUNICATION_BOTS 16
 struct MatlabCom {
     unsigned int length;
-    MatlabBot* bots[16];
+    MatlabBot* bots[NUM_COMMUNICATION_BOTS];
 };
 
 struct MatlabBot {
@@ -17,6 +19,7 @@ struct MatlabBot {
     double motor_right;
     double raw_time;
     double debug_info[DEBUG_CAT_NUM];
+    MapContainer map_container;
 
     MatlabCom* com;
 

@@ -8,6 +8,9 @@
 #include "tinpuck.h"
 
 #include "hal.h"
+#include "map.h"
+
+typedef char check_map_proximity_size[(MAP_PROXIMITY_BUF_SIZE <= TIN_PACKAGE_MAX_LENGTH) ? 1 : -1];
 
 static struct {
     double left, right;

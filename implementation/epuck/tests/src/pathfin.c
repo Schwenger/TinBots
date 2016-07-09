@@ -2,38 +2,31 @@
 #include <stdio.h>
 #include <stdlib.h> /* malloc, free */
 
+#include "map_heap.h"
 #include "path-finder.h"
 
 int main(void){
 	const int size = 10;
-	int i, j;
+	int i;
     int success;
-	int** occ;
     Position start, goal;
-    Map map;
+    Map* map;
     Position* path;
 
     /* Build a map */
-    occ = (int**) malloc(size * sizeof(int*));
-	for(i = 0; i < size; i++) {
-		occ[i] = (int*) malloc(size * sizeof(int));
-		for(j = 0; j < size; ++j)
-			occ[i][j] = 0;
-	}
-	for(i = 0; i < 8; ++i)
-		occ[3][i] = 1;
+    map = map_heap_alloc(size, size);
+	for(i = 0; i < 8; ++i) {
+        map_set_field(map, 3, i, FIELD_WALL);
+    }
 
 	start.x = 0;
     start.y = 0;
 	goal.x = 9;
     goal.y = 9;
-	map.width = size;
-    map.height = size;
-    map.occupancy = occ;
 
 	printf("Starting search\n");
 	path = (Position*) malloc((MAX_PATH_LENGTH + 1) * sizeof(Position));
-	success = pf_find_path(start, goal, &map, path);
+	success = pf_find_path(start, goal, map, path);
     assert(success);
 
     printf("Found path:\n(%d, %d)", start.x, start.y);
@@ -46,11 +39,8 @@ int main(void){
 	}
     printf("\n\tEVALUATE BY HAND!\n");
 
-	for(i = 0; i < size; i++) {
-		free(occ[i]);
-	}
-    free(occ);
     free(path);
+    map_heap_free(map);
 
 	return 0;
 }

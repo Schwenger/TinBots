@@ -26,8 +26,8 @@
 
 #include "hal.h"
 
-#include "tinbot.h"
 #include "matlab.h"
+#include "tinbot.h"
 
 /* Currently, "TinBot Software > Chart > Explore > debug_info > size" is set to 10 */
 typedef char check_debug_array_length_against_matlab[(DEBUG_CAT_NUM <= 10) ? 1 : -1];
@@ -111,13 +111,18 @@ void hal_send_victim_phi(double phi) {
 
 /* Implementation of matlab.h */
 
+#define MAP_WIDTH 100
+#define MAP_HEIGHT 100
+
 long matlab_create_bot() {
     MatlabBot* matlab_bot = malloc(sizeof(MatlabBot));
     int i;
     matlab_bot->com = NULL;
     matlab_bot->tinbot = malloc(sizeof(TinBot));
-    /* Essentially matlab_select_bot(), so that setup() can call hal_* functions: */
-    current = matlab_bot;
+    matlab_bot->map_container.accu = map_heap_alloc(MAP_WIDTH, MAP_HEIGHT);
+    matlab_bot->map_container.prox = map_heap_alloc(MAP_PROXIMITY_SIZE, MAP_PROXIMITY_SIZE);
+    /* setup() must be able to call hal_* functions: */
+    matlab_select_bot((long)matlab_bot, 0);
     matlab_bot->raw_time = 0;
     setup(matlab_bot->tinbot);
     for (i = 0; i < DEBUG_CAT_NUM; ++i) {
@@ -127,14 +132,19 @@ long matlab_create_bot() {
 }
 
 void matlab_destroy_bot(long matlab_bot) {
-    free(((MatlabBot*) matlab_bot)->tinbot);
-    free((MatlabBot*) matlab_bot);
+    MatlabBot* bot = (MatlabBot*) matlab_bot;
+    map_heap_free(bot->map_container.accu);
+    map_heap_free(bot->map_container.prox);
+    free(bot->tinbot);
+    free(bot);
 }
 
 void matlab_select_bot(long matlab_bot, long matlab_com) {
     current = (MatlabBot*) matlab_bot;
-    if (!current->com && matlab_com > 0) {
+    map_heap_container = &(current->map_container);
+    if (!current->com && matlab_com != 0) {
         current->com = (MatlabCom*) matlab_com;
+        assert(current->com->length < NUM_COMMUNICATION_BOTS);
         current->com->bots[current->com->length] = current;
         current->com->length++;
     }

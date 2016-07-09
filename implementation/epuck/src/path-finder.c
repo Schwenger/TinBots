@@ -25,8 +25,8 @@ static int invalid_pos(Position pos, Map *map);
 
 static Position map_discretize(Map* map, double x, double y) {
     Position res;
-    res.x = (int) (floor(x / map->width));
-    res.y = (int) (floor(y / map->height));
+    res.x = (int) (floor(x / map_get_width(map)));
+    res.y = (int) (floor(y / map_get_height(map)));
     return res;
 }
 
@@ -124,10 +124,10 @@ static int search_node_comparator(void *node1, void *node2, void *map);
 static Position intersection(Position origin, Position goal, Map *map);
 
 static int invalid_pos(Position pos, Map *map) {
-    return pos.x >= map->width || pos.x < 0 || pos.y >= map->height || pos.y < 0;
+    return pos.x >= map_get_width(map) || pos.x < 0 || pos.y >= map_get_height(map) || pos.y < 0;
 }
 static int occupied(Position *pos, Map *map) {
-    return map->occupancy[pos->x][pos->y] == FIELD_WALL;
+    return map_get_field(map, pos->x, pos->y) == FIELD_WALL;
 }
 
 static const ASPathNodeSource path_node_source = {
