@@ -3,6 +3,14 @@
 
 set -e
 
+FILTERS=""
+if [ "$1" = "--pad" ]
+then
+    shift
+else
+    FILTERS="-Wno-padded ${FILTERS}"
+fi
+
 INCLUDE_DIRS="-I .. -I ."
 for d in src ../src hal ../hal
 do
@@ -14,5 +22,6 @@ done
 echo "Guessed include dirs: ${INCLUDE_DIRS}"
 GUESSED_FILE=$(echo -e "$1" | perl -lpe 's/^([^.]*)(.c?)?$/\1.c/')
 echo "Guessed file: ${GUESSED_FILE}"
-set -v
-clang -std=c90 -ansi -Weverything -pedantic -g -c -o /dev/null "${GUESSED_FILE}" ${INCLUDE_DIRS}
+echo "Guessed filters: ${FILTERS}"
+echo clang -std=c90 -ansi -Weverything ${FILTERS} -pedantic -g -c -o /dev/null "\"${GUESSED_FILE}\"" ${INCLUDE_DIRS}
+clang -std=c90 -ansi -Weverything ${FILTERS} -pedantic -g -c -o /dev/null "${GUESSED_FILE}" ${INCLUDE_DIRS}

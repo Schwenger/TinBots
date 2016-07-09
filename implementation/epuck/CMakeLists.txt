@@ -45,6 +45,8 @@ set(SOURCE_FILES
         src/astar/astar.c
         src/blind-cop.c
         src/controller.c
+        src/ir-stabilizer.c
+        src/map_common.c
         src/path-exec.c
         src/path-finder.c
         src/rhr.c
@@ -56,10 +58,7 @@ set(SOURCE_FILES
 
         hal/hal_epuck.c
         hal/map_static.c
-        src/map_common.c
-        src/ir-stabilizer.c
-        bluetooth.c
-        bluetooth.c)
+        )
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${SOURCE_FILES})
 
