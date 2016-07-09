@@ -29,7 +29,7 @@ class Power(Tree):
 class Battery(Tree):
     defect = P('primary battery defect', failure_rate=1e-8)
     not_charged = S('battery not charged')
-    switch = P('primary power switch failure', failure_rate=1e-6)
+    switch = P('primary power switch failure', failure_rate=0.5)
 
     # Q: Why don't we include 'wiring'?
     # A: Because that's already handled in things such as 'controller board' etc.

@@ -100,8 +100,13 @@ Red LEDs on E-Puck.
 \subsubsection{Power Switch}
 E-Puck's power switch.
 \begin{description}
-	\item[Failure Rate:] $\leq 10^{-6}$ per hour
-	\item[Source:] The failure rate is estimated to be low as the power switch is a simple standard component.
+	\item[Failure Rate:] $\approx 0.5$ per hour
+	\item[Source:] While developing the product, we noticed that this component is highly unreliable.
+    \item[Experiment:] We tried to turn the Tin Bot on several times,
+    and noted that about half the time, the power switch doesn't close
+    the circuit.  We expect that the power switch is only used
+    \enquote{once per hour}, so we deduced a failure rate of 0.5 per
+    hour.
 \end{description}
 
 \subsubsection{IR-Sensors}
@@ -448,6 +453,7 @@ here is a conversion table:
 
 %%%%%%  ROUNDED VALUES (same rounding as in the trees)
 \[\begin{array}{rr}
+0.5                 & 0.39347 \\
 0.1                 & 0.095163 \\
 1\times 10^{-2}     & 0.0099502 \\
 1\times 10^{-3}     & 0.0009995 \\
