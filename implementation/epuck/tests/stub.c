@@ -79,8 +79,3 @@ double tests_stub_get_debug(DebugCategory cat) {
     assert(cat < DEBUG_CAT_NUM);
     return debug_info[cat];
 }
-
-void hal_send_victim_phi(double phi) {
-    /* Nothing to do here. */
-    (void)phi;
-}

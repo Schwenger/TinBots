@@ -1,11 +1,14 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "hal/hal.h"
 #include "pi.h"
 #include "sensors.h"
 #include "state-machine-common.h"
 #include "victim-direction.h"
+
+#define LOG_TRANSITIONS_VICDIR
 
 /* Invariants:
  * state==VD_done \iff precisely one output flag is set
@@ -47,7 +50,9 @@ static void entry_start(VDState* vd, Sensors* sens) {
         vd->give_up = 1;
     } else {
         assert(sens->ir[vd->locals.sensor_id] == 0);
+        #ifdef LOG_TRANSITIONS_VICDIR
         hal_debug_out(DEBUG_CAT_VD_IR_ID, vd->locals.sensor_id);
+        #endif
         smc_rot_left();
         vd->locals.counter_on = 1;
         vd->locals.weighted_sum = M_PI;
@@ -89,7 +94,18 @@ static void compute_result(VDState* vd, Sensors* sens) {
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
                                           vd->locals.sensor_id);
-    hal_send_victim_phi(vd->victim_phi);
+    #ifdef LOG_TRANSITIONS_VICDIR
+    {
+        char buf[7 /* "VD:phi=" */ + 2 /* sign & magnitude */
+                 + 1 /* '.' */ + 3 /* decimals */ + 1 /* NUL */];
+        if (-9 < vd->victim_phi && vd->victim_phi < 99) {
+            sprintf(buf, "VD:phi=%.3f", vd->victim_phi);
+        } else {
+            sprintf(buf, "VD:phi=inf");
+        }
+        hal_print(buf);
+    }
+    #endif
     vd->victim_found = 1;
 }
 

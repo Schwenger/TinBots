@@ -66,11 +66,11 @@ double hal_get_speed_left(void) {
 void hal_set_led(unsigned int led, unsigned int value) {
     (void)led;
     (void)value;
-    /* FIXME */
+    /* Ignore */
 }
 void hal_set_front_led(unsigned int value) {
     (void)value;
-    /* FIXME */
+    /* Ignore */
 }
 
 void hal_send_msg(unsigned int address, char* message, unsigned int length) {
@@ -99,13 +99,6 @@ void hal_debug_out(DebugCategory key, double value) {
     assert(key < DEBUG_CAT_NUM);
     current->debug_info[key] = value;
     /* current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1); */
-}
-
-void hal_send_victim_phi(double phi) {
-    char msg[1000];
-    /* snprintf is not available in C90 */
-    sprintf(msg, "hal_send_victim_phi(%.2f)", phi);
-    hal_print(msg);
 }
 
 

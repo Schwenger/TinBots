@@ -55,25 +55,12 @@ void hal_send_msg(unsigned int address, char* message, unsigned int length) {
     /* FIXME */
 }
 
-static void print_package_callback(TinPackage* package) {
-
-}
-
 void hal_print(const char* message) {
     static TinPackage package = {NULL, 0x00, 0x21, 0x00};
     package.data = (char*) message;
     package.length = strlen(message);
     tin_com_send(&package);
     while (!package.completed);
-}
-
-void hal_send_victim_phi(double phi) {
-    static TinPackage package = {NULL, 0x00, 0x20, 0x02};
-    static char buffer[2];
-    buffer[0] = (char) ((unsigned int) (1000 * phi) >> 8);
-    buffer[1] = (char) ((unsigned int) (1000 * phi) & 0xFF);
-    package.data = buffer;
-    tin_com_send(&package);
 }
 
 void hal_debug_out(DebugCategory key, double value) {
