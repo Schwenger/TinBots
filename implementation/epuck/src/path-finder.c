@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h> /* Proper error messages if pathing is broken */
 
 #include "astar/astar.h"
 
@@ -54,6 +55,10 @@ static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors*
     pos = map_discretize(sens->current.x, sens->current.y);
     if (invalid_pos(pos, inputs->map)) {
         /* Uhh */
+        char buf[300];
+        sprintf(buf, "PF:Path((%d,%d)->(%d,%d)) failed: invalid coords",
+            pos.x, pos.y, dest.x, dest.y);
+        hal_print(buf);
         pathing_failed(pf);
         return;
     }
