@@ -135,6 +135,7 @@ static void run_path_finder_executer(Controller* c, Sensors* sens) {
     pf_inputs.dest_y = c->blind.dst_y;
     pf_inputs.step_complete = c->path_exec.done;
     pf_inputs.step_see_obstacle = c->path_exec.see_obstacle;
+    pf_inputs.map = map_get_accumulated();
     pf_step(&pf_inputs, &c->path_finder, sens);
 
     pe_inputs.drive = c->path_finder.drive;
