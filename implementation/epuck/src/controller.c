@@ -25,6 +25,8 @@ static void run_approx_step(ApproxState* approx, Sensors* sens);
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     enum BlindRunChoice old_choice;
 
+    approx_step(&c->approx, sens);
+
     /* First, the eyes decide whether we need an interrupt. */
     inquire_eyes_decision(c, sens);
 
@@ -66,8 +68,6 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
 
     /* Update the to-be-sent map if necessary: */
     /* FIXME: T2T_update_map(&c->path_finder, sens) */
-
-    approx_step(&c->approx, sens);
 }
 
 static void inquire_blind_decision(Controller* c, ControllerInput* in) {
