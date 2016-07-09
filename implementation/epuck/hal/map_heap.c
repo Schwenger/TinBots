@@ -42,7 +42,8 @@ Map* map_heap_alloc(int w, int h) {
     Map* map = malloc(sizeof(Map));
     map->data = malloc((unsigned long)MAP_INTERNAL_DATA_SIZE(w,h));
     assert(0 == FIELD_UNKNOWN);
-    memset(map->data, 0, (unsigned long)MAP_INTERNAL_DATA_SIZE(w,h));
+    /* In contrast to static memory, heap memory is not initially zero-ed out. */
+    map_clear(map);
     map->width = w;
     map->height = h;
     return map;

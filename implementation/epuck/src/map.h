@@ -44,6 +44,7 @@ typedef struct ExactPosition {
  * Also, don't call free. on the result. */
 unsigned char* map_serialize(Map* map);
 Map* map_deserialize(unsigned char* buffer);
+void map_clear(Map* buffer);
 
 
 /* For "internal" usage (by map_static.c and map_heap.c)

@@ -60,3 +60,7 @@ void map_set_field(Map* map, int x, int y, FieldType type) {
     /* Update array: */
     data[p >> 3] = raw_char;
 }
+
+void map_clear(Map* map) {
+    memset(map_serialize(map), 0, (unsigned long)MAP_INTERNAL_DATA_SIZE(map_get_width(map),map_get_height(map)));
+}
