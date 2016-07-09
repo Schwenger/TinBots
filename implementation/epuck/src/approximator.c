@@ -42,5 +42,5 @@ void approx_step(ApproxState* approx, Sensors* sens) {
     }
     approx->prev_t = next_t;
     approx->prev_motor_left = hal_get_speed_left();
-    approx->prev_motor_right = hal_get_speed_left();
+    approx->prev_motor_right = hal_get_speed_right();
 }
