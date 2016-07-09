@@ -29,7 +29,7 @@ typedef struct ControllerInput {
     double origin_y;
 } ControllerInput;
 
-void controller_reset(Controller* c);
+void controller_reset(Controller* c, Sensors* sens);
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens);
 
 #endif

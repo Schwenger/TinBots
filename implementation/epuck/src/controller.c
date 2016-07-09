@@ -3,8 +3,8 @@
 #include "controller.h"
 #include "hal.h"
 
-void controller_reset(Controller* c) {
-    approx_reset(&c->approx);
+void controller_reset(Controller* c, Sensors* sens) {
+    approx_reset(&c->approx, sens);
     blind_reset(&c->blind);
     pe_reset(&c->path_exec);
     pf_reset(&c->path_finder);
@@ -56,7 +56,7 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
         /* Uhh */
         hal_print("Controller illegal state?!  Resetting ...");
         assert(0);
-        controller_reset(c);
+        controller_reset(c, sens);
         hal_set_speed(0, 0);
         break;
     }

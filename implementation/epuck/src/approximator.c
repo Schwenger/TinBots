@@ -3,21 +3,18 @@
 #include <pi.h>
 #include "approximator.h"
 
-void approx_reset(ApproxState* approx) {
-    approx->locals.prev_motor_left = 0;
-    approx->locals.prev_motor_right = 0;
-    approx->locals.prev_t = hal_get_time();
-    approx->locals.x = 0;
-    approx->locals.y = 0;
-    approx->locals.phi = 0;
-    approx->lps_initialized = 0;
+void approx_reset(ApproxState* approx, Sensors* sens) {
+    approx->prev_motor_left = 0;
+    approx->prev_motor_right = 0;
+    approx->prev_t = hal_get_time();
+    sens->current.x = 0;
+    sens->current.y = 0;
+    sens->current.direction = 0;
 }
 
-static const double magic_number_1 = 2.0; /* please rename */
-static const double magic_number_2 = 5.3;
+static const double tinbot_diameter = 5.3;
 
 void approx_step(ApproxState* approx, Sensors* sens) {
-    ApproxLocals* loc = &approx->locals;
     hal_time next_t;
     double delta_t, delta_phi, v, p;
     static unsigned int status = 0;
@@ -25,29 +22,25 @@ void approx_step(ApproxState* approx, Sensors* sens) {
     if(sens->lps.x != -1){
         status ^= 1;
         hal_set_front_led(status);
-        loc->x = sens->lps.x;
-        loc->y = sens->lps.y;
-        loc->phi = sens->lps.phi;
+        sens->current.x = sens->lps.x;
+        sens->current.y = sens->lps.y;
+        sens->current.direction = sens->lps.phi;
         sens->lps.x = -1;
-        approx->lps_initialized = 1;
     } else {
-        v = (loc->prev_motor_left + loc->prev_motor_right) / magic_number_1;
-        p = (loc->prev_motor_right - loc->prev_motor_left) / magic_number_2;
-        delta_t = (next_t - loc->prev_t) / 1000.0;
+        v = (approx->prev_motor_left + approx->prev_motor_right) / 2;
+        p = (approx->prev_motor_right - approx->prev_motor_left) / tinbot_diameter;
+        delta_t = (next_t - approx->prev_t) / 1000.0;
         delta_phi = p * delta_t;
-        if(loc->prev_motor_right == loc->prev_motor_left){ /* i.e. p == 0 */
-            loc->x += v * cos(loc->phi) * delta_t;
-            loc->y += v * sin(loc->phi) * delta_t;
+        if(approx->prev_motor_right == approx->prev_motor_left){ /* i.e. p == 0 */
+            sens->current.x += v * cos(sens->current.direction) * delta_t;
+            sens->current.y += v * sin(sens->current.direction) * delta_t;
         } else {
-            loc->x += v * (sin(delta_phi + loc->phi) - sin(loc->phi)) / p;
-            loc->y += v * (cos(loc->phi) - cos(delta_phi + loc->phi)) / p;
+            sens->current.x += v * (sin(delta_phi + sens->current.direction) - sin(sens->current.direction)) / p;
+            sens->current.y += v * (cos(sens->current.direction) - cos(delta_phi + sens->current.direction)) / p;
         }
-        loc->phi = fmod(loc->phi + p * delta_t, 2 * M_PI);
+        sens->current.direction = fmod(sens->current.direction + p * delta_t, 2 * M_PI);
     }
-    loc->prev_t = next_t;
-    loc->prev_motor_left = hal_get_speed_left();
-    loc->prev_motor_right = hal_get_speed_left();
-    sens->current.x = loc->x;
-    sens->current.y = loc->y;
-    sens->current.direction = loc->phi;
+    approx->prev_t = next_t;
+    approx->prev_motor_left = hal_get_speed_left();
+    approx->prev_motor_right = hal_get_speed_left();
 }
