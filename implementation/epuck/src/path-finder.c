@@ -23,7 +23,7 @@ const Position INVALID_POS = {-1, -1};
 static int end_of_path_p(Position pos);
 static int invalid_pos(Position pos, Map *map);
 
-static Position map_discretize(Map* map, double x, double y) {
+static Position map_discretize(double x, double y) {
     Position res;
     res.x = (int) (floor(x));
     res.y = (int) (floor(y));
@@ -50,8 +50,8 @@ static void compute_path(PathFinderInputs* inputs, PathFinderState* pf, Sensors*
     Position dest, pos;
     int success;
     pf->locals.state = PF_running;
-    dest = map_discretize(inputs->map, inputs->dest_x, inputs->dest_y);
-    pos = map_discretize(inputs->map, sens->current.x, sens->current.y);
+    dest = map_discretize(inputs->dest_x, inputs->dest_y);
+    pos = map_discretize(sens->current.x, sens->current.y);
     if (invalid_pos(pos, inputs->map)) {
         /* Uhh */
         pathing_failed(pf);
