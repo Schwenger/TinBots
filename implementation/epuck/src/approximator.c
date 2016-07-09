@@ -9,7 +9,7 @@ void approx_reset(ApproxState* approx, Sensors* sens) {
     approx->prev_t = hal_get_time();
     sens->current.x = 0;
     sens->current.y = 0;
-    sens->current.direction = 0;
+    sens->current.phi = 0;
 }
 
 static const double tinbot_diameter = 5.3;
@@ -24,7 +24,7 @@ void approx_step(ApproxState* approx, Sensors* sens) {
         hal_set_front_led(status);
         sens->current.x = sens->lps.x;
         sens->current.y = sens->lps.y;
-        sens->current.direction = sens->lps.phi;
+        sens->current.phi = sens->lps.phi;
         sens->lps.x = -1;
     } else {
         v = (approx->prev_motor_left + approx->prev_motor_right) / 2;
@@ -32,13 +32,13 @@ void approx_step(ApproxState* approx, Sensors* sens) {
         delta_t = (next_t - approx->prev_t) / 1000.0;
         delta_phi = p * delta_t;
         if(approx->prev_motor_right == approx->prev_motor_left){ /* i.e. p == 0 */
-            sens->current.x += v * cos(sens->current.direction) * delta_t;
-            sens->current.y += v * sin(sens->current.direction) * delta_t;
+            sens->current.x += v * cos(sens->current.phi) * delta_t;
+            sens->current.y += v * sin(sens->current.phi) * delta_t;
         } else {
-            sens->current.x += v * (sin(delta_phi + sens->current.direction) - sin(sens->current.direction)) / p;
-            sens->current.y += v * (cos(sens->current.direction) - cos(delta_phi + sens->current.direction)) / p;
+            sens->current.x += v * (sin(delta_phi + sens->current.phi) - sin(sens->current.phi)) / p;
+            sens->current.y += v * (cos(sens->current.phi) - cos(delta_phi + sens->current.phi)) / p;
         }
-        sens->current.direction = fmod(sens->current.direction + p * delta_t, 2 * M_PI);
+        sens->current.phi = fmod(sens->current.phi + p * delta_t, 2 * M_PI);
     }
     approx->prev_t = next_t;
     approx->prev_motor_left = hal_get_speed_left();

@@ -53,8 +53,8 @@ void update_victim_phi(TinBot* tinbot, double phi) {
 
 }
 
-void update_lps(TinBot* tinbot, double x, double y, double direction) {
+void update_lps(TinBot* tinbot, double x, double y, double phi) {
     tinbot->sens.lps.x = x;
     tinbot->sens.lps.y = y;
-    tinbot->sens.lps.phi = direction;
+    tinbot->sens.lps.phi = phi;
 }

@@ -40,7 +40,7 @@ typedef struct Sensors {
     struct {
         double x;
         double y;
-        double direction;
+        double phi;
     } current;
     int victim_attached;
 } Sensors;

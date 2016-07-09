@@ -59,7 +59,7 @@ void pe_step(PathExecInputs* inputs, PathExecState* pe, Sensors* sens) {
             double target_dir;
             l->start_x = sens->current.x;
             l->start_y = sens->current.y;
-            start_dir = sens->current.direction;
+            start_dir = sens->current.phi;
             target_dir = atan2(inputs->next_y - l->start_y,
                                inputs->next_x - l->start_x);
             if(inputs->backwards) {

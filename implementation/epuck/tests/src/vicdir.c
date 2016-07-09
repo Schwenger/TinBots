@@ -31,7 +31,7 @@ int main() {
     vd_reset(&vds);
     sens.current.x = 0;
     sens.current.y = 0;
-    sens.current.direction = 0;
+    sens.current.phi = 0;
     for (i = 0; i < NUM_IR; ++i) {
         const double core_angle = true_victim_phi + 2 * M_PI - ir_sensor_angle[i];
         core_time[i] = (hal_time)( core_angle * IR_COMPLETION_TIME / (2 * M_PI) );
@@ -46,11 +46,11 @@ int main() {
         for (i = 0; i < NUM_IR; ++i) {
             sens.ir[i] = cyclic_within_p(core_time[i] - IR_PASS_TIME, hal_get_time(), core_time[i] + IR_PASS_TIME);
         }
-        sens.current.direction = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
+        sens.current.phi = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
         vd_step(&vds, &sens);
         if (hal_get_time() % 4000 == 0) {
             printf("Debug data: @%5.3f state%1d IR%1d@%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
-                sens.current.direction,
+                sens.current.phi,
                 vds.locals.state,
                 (int)(tests_stub_get_debug(DEBUG_CAT_VD_IR_ID)),
                 (int)(tests_stub_get_debug(DEBUG_CAT_VD_HAVE_IR)),

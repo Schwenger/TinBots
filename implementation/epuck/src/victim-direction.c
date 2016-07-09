@@ -84,7 +84,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
         return;
     }
 
-    eff_angle = sens->current.direction
+    eff_angle = sens->current.phi
         + vd->locals.weighted_sum / vd ->locals.counter_on;
     vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
                                           eff_angle + eff_opening / 2,
