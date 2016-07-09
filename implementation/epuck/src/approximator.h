@@ -4,12 +4,6 @@
 #include <hal/hal.h>
 #include "sensors.h"
 
-typedef struct ApproxInputs {
-    LPS_Data* lps;
-    double motor_left;
-    double motor_right;
-} ApproxInputs;
-
 typedef struct ApproxLocals {
     double x;
     double y;
@@ -30,6 +24,6 @@ typedef struct ApproxState {
 } ApproxState;
 
 void approx_reset(ApproxState* approx);
-void approx_step(ApproxInputs* inputs, ApproxState* approx);
+void approx_step(ApproxState* approx, Sensors* sens);
 
 #endif /* EPUCK_APPROXIMATOR_H */

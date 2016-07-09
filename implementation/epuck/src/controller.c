@@ -67,7 +67,7 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     /* Update the to-be-sent map if necessary: */
     /* FIXME: T2T_update_map(&c->path_finder, sens) */
 
-    run_approx_step(&c->approx, sens);
+    approx_step(&c->approx, sens);
 }
 
 static void inquire_blind_decision(Controller* c, ControllerInput* in) {
@@ -151,12 +151,4 @@ static void run_victim_finder(Controller* c, Sensors* sens) {
     inputs.found_victim_phi = c->vic_dir.victim_found;
     inputs.victim_angle = c->vic_dir.victim_phi;
     vf_step(&inputs, &c->vic_finder, sens);
-}
-
-static void run_approx_step(ApproxState* approx, Sensors* sens) {
-    ApproxInputs inputs;
-    inputs.lps = &sens->lps;
-    inputs.motor_left = (int) (hal_get_speed_left());
-    inputs.motor_left = (int) (hal_get_speed_right());
-    approx_step(&inputs, approx);
 }

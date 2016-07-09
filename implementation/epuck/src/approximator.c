@@ -16,19 +16,19 @@ void approx_reset(ApproxState* approx) {
 static const double magic_number_1 = 2.0; /* please rename */
 static const double magic_number_2 = 5.3;
 
-void approx_step(ApproxInputs* inputs, ApproxState* approx) {
+void approx_step(ApproxState* approx, Sensors* sens) {
     ApproxLocals* loc = &approx->locals;
     hal_time next_t;
     double delta_t, delta_phi, v, p;
     static unsigned int status = 0;
     next_t = hal_get_time();
-    if(inputs->lps->x != -1){
+    if(sens->lps.x != -1){
         status ^= 1;
         hal_set_front_led(status);
-        loc->x = inputs->lps->x;
-        loc->y = inputs->lps->y;
-        loc->phi = inputs->lps->phi;
-        inputs->lps->x = -1;
+        loc->x = sens->lps.x;
+        loc->y = sens->lps.y;
+        loc->phi = sens->lps.phi;
+        sens->lps.x = -1;
         approx->lps_initialized = 1;
     } else {
         v = (loc->prev_motor_left + loc->prev_motor_right) / magic_number_1;
@@ -45,9 +45,9 @@ void approx_step(ApproxInputs* inputs, ApproxState* approx) {
         loc->phi = fmod(loc->phi + p * delta_t, 2 * M_PI);
     }
     loc->prev_t = next_t;
-    loc->prev_motor_left = inputs->motor_left;
-    loc->prev_motor_right = inputs->motor_right;
-    approx->current.x = loc->x;
-    approx->current.y = loc->y;
-    approx->current.phi = loc->phi;
+    loc->prev_motor_left = hal_get_speed_left();
+    loc->prev_motor_right = hal_get_speed_left();
+    sens->current.x = loc->x;
+    sens->current.y = loc->y;
+    sens->current.direction = loc->phi;
 }
