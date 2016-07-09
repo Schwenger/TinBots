@@ -1,6 +1,7 @@
 #ifndef EPUCK_T2T_H
 #define EPUCK_T2T_H
 
+#include "map.h"
 #include "tinbot.h"
 
 /* All of the following function are intended to be run from withing an ISR.
@@ -23,7 +24,7 @@ void t2t_receive_found_xy(TinBot* bot, int is_ours, int x, int y, int iteration)
 /* 'Our' packages: MUST
  * 'Their' packages: MUST
  * Please set the 'is_ours' flag. */
-void t2t_receive_update_map(TinBot* bot, int is_ours, int x, int y, unsigned char* map_data);
+void t2t_receive_update_map(TinBot* bot, int is_ours, int x, int y, Map* map);
 
 /* 'Our' packages: MUST NOT
  * 'Their' packages: MUST */

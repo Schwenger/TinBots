@@ -22,7 +22,7 @@ void t2t_receive_found_xy(TinBot* bot, int is_ours, int x, int y, int iteration)
     (void)y;
 }
 
-void t2t_receive_update_map(TinBot* bot, int is_ours, int x, int y, unsigned char* map_data) {
+void t2t_receive_update_map(TinBot* bot, int is_ours, int x, int y, Map* map) {
     /* FIXME */
     (void)bot;
     (void)x;

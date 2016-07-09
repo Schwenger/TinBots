@@ -1,21 +1,22 @@
 #ifndef EPUCK_T2T_PARSE_H
 #define EPUCK_T2T_PARSE_H
 
+#include "map.h"
 #include "tinbot.h"
 
 /* ===== Sending ===== */
 
-void t2t_send_heartbeat(TinBot* bot);
+void t2t_send_heartbeat(void);
 
-void t2t_send_found_phi(TinBot* bot);
+void t2t_send_found_phi(int x, int y, double victim_phi);
 
-void t2t_send_found_xy(TinBot* bot);
+void t2t_send_found_xy(int x, int y, int iteration);
 
-void t2t_send_update_map(TinBot* bot);
+void t2t_send_update_map(int x, int y, Map* map);
 
-void t2t_send_docked(TinBot* bot);
+void t2t_send_docked(void);
 
-void t2t_send_completed(TinBot* bot);
+void t2t_send_completed(void);
 
 
 /* ===== Receiving =====

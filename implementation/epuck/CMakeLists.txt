@@ -51,6 +51,8 @@ set(SOURCE_FILES
         src/path-finder.c
         src/rhr.c
         src/state-machine-common.c
+        src/t2t.c
+        src/t2t-parse.c
         src/tinbot.c
         src/traffic-cop-eyes.c
         src/victim-direction.c
