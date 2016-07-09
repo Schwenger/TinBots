@@ -73,10 +73,7 @@ void hal_set_front_led(unsigned int value) {
     /* Ignore */
 }
 
-void hal_send_msg(unsigned int address, char* message, unsigned int length) {
-    (void)address;
-    (void)message;
-    (void)length;
+void hal_send_put(char* to_add, unsigned int length) {
     /* FIXME */
 }
 

@@ -51,7 +51,11 @@ hal_time hal_get_time() {
     return tin_get_time();
 }
 
-void hal_send_msg(unsigned int address, char* message, unsigned int length) {
+void hal_send_put(char* buf, unsigned int length) {
+    /* FIXME */
+}
+
+void hal_send_done(char command) {
     /* FIXME */
 }
 

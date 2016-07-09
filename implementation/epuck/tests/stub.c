@@ -57,11 +57,20 @@ void hal_set_front_led(unsigned int value) {
     (void)value;
 }
 
-void hal_send_msg(unsigned int address, char* message, unsigned int length) {
-    /* Nothing to do here. */
-    (void)address;
-    (void)message;
+void hal_send_put(char* buf, unsigned int length) {
+    /* FIXME */
+    assert(0);
+    (void)buf;
     (void)length;
+}
+
+void hal_send_done(char command) {
+    /* FIXME: properly stub out messages
+     * - how do tests interact with this?
+     * - tests can't switch modes (yet?)
+     *   (should call t2t_receive_* or something)
+     * - the call targets aren't implemented yet! */
+    assert(0);
 }
 
 void hal_print(const char* message) {
