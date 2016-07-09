@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <string.h> /* memcpy */
 
-#include "map_detail.h"
+#include "map.h"
 
 /* ===== Common implementation of map.h ===== */
 
