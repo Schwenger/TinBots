@@ -20,7 +20,6 @@ static void inquire_eyes_decision(Controller* c, Sensors* sens);
 static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, Sensors* sens);
 static void run_victim_finder(Controller* c, Sensors* sens);
 static void run_path_finder_executer(Controller* c, Sensors* sens);
-static void run_approx_step(ApproxState* approx, Sensors* sens);
 
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     enum BlindRunChoice old_choice;
