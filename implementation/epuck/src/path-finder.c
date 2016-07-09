@@ -25,8 +25,8 @@ static int invalid_pos(Position pos, Map *map);
 
 static Position map_discretize(Map* map, double x, double y) {
     Position res;
-    res.x = (int) (floor(x / map_get_width(map)));
-    res.y = (int) (floor(y / map_get_height(map)));
+    res.x = (int) (floor(x));
+    res.y = (int) (floor(y));
     return res;
 }
 
