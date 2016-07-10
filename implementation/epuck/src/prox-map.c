@@ -57,4 +57,5 @@ void proximity_step(ProxMapState* prox_map, Sensors* sens) {
 void proximity_send(ProxMapState* prox_map) {
     t2t_send_update_map(prox_map->lower_left.x, prox_map->lower_left.y,
         map_get_proximity());
+    map_clear(map_get_proximity());
 }
