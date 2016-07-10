@@ -53,9 +53,10 @@ hal_time hal_get_time(void) {
 }
 
 static TinPackage send_buf = {0}; /* init length = 0 */
-static int send_buf_sending = 0;
 
 static void send_buf_wait(void) {
+    static int send_buf_sending = 0;
+
     if (send_buf_sending) {
         while (!send_buf.completed)
             /* Not good, so do "active-waiting".
@@ -68,7 +69,10 @@ static void send_buf_wait(void) {
 }
 
 void hal_send_put(char* buf, unsigned int length) {
+    static char send_buf_buf[TIN_PACKAGE_MAX_LENGTH];
+
     send_buf_wait();
+    send_buf.data = (char*)send_buf_buf;
     /* Two checks in case of overflow. */
     assert(length <= TIN_PACKAGE_MAX_LENGTH);
     assert(send_buf.length + length <= TIN_PACKAGE_MAX_LENGTH);
@@ -77,6 +81,7 @@ void hal_send_put(char* buf, unsigned int length) {
 }
 
 void hal_send_done(char command) {
+    send_buf_wait();
     send_buf.source = NULL; /* FIXME */
     send_buf.target = 0x00; /* FIXME */
     send_buf.command = command;
