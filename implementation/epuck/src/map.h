@@ -3,8 +3,11 @@
 
 /* Beware: we probably have to copy this *during an ISR*,
  * so keep it as small as possible!
- * See map_deserialize() below. */
+ * There are multiple restrictions on this value (due to optimizations),
+ * so keep it a multiple of 4. */
 #define MAP_PROXIMITY_SIZE 16
+
+/* This is not configurable anymore, or you have to rewrite map_common.c */
 #define BIT_PER_FIELD 2
 
 typedef enum FieldType {
@@ -25,6 +28,8 @@ void map_set_field(Map* map, int x, int y, FieldType type);
 /* by_x must be a multiple of 4. */
 void map_move(Map* buffer, int by_x, int by_y);
 void map_clear(Map* buffer);
+/* Highly optimized, can be called inside an ISR: */
+void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch);
 
 typedef struct Position {
     int x;
