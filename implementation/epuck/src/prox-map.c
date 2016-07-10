@@ -4,16 +4,16 @@
 #include "prox-map.h"
 #include "t2t-parse.h"
 
-/* Invariant: lower_left.x%4==0
- *
- * This allows for an efficient implementation in t2t_receive_update_map. */
+/* Invariant: lower_left.x%4==0 && lower_left.y%2==0
+ * This allows for an efficient implementation in map_merge and map_move. */
 
 static const double HALF_SIZE = MAP_PROXIMITY_SIZE * 0.5;
 static const double FLICKER_INERTIA = 1;
 
 static void desired_position(Position* into, Sensors* from) {
     into->x = (int)((from->current.x - HALF_SIZE) / 4 + 0.5) * 4;
-    into->y = (int)((from->current.y - HALF_SIZE) + 0.5);
+    into->y = (int)((from->current.y - HALF_SIZE) / 2 + 0.5) * 2;
+    assert(into->x%4 == 0 && into->y%2 == 0);
 }
 
 void proximity_reset(ProxMapState* prox_map, Sensors* sens) {
@@ -24,7 +24,7 @@ void proximity_reset(ProxMapState* prox_map, Sensors* sens) {
 static void maybe_move(ProxMapState* prox_map, Sensors* sens) {
     Position next;
     if (fabs(prox_map->lower_left.x + HALF_SIZE - sens->current.x) < 2 + FLICKER_INERTIA
-        && fabs(prox_map->lower_left.y + HALF_SIZE - sens->current.y) < FLICKER_INERTIA) {
+        && fabs(prox_map->lower_left.y + HALF_SIZE - sens->current.y) < 1 + FLICKER_INERTIA) {
         return;
     }
 

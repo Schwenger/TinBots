@@ -7,7 +7,8 @@
  * so keep it a multiple of 4. */
 #define MAP_PROXIMITY_SIZE 16
 
-/* This is not configurable anymore, or you have to rewrite map_common.c */
+/* This is not configurable.
+ * Seriously, map_merge becomes impossible for higher values. */
 #define BIT_PER_FIELD 2
 
 typedef enum FieldType {
@@ -62,8 +63,8 @@ Map* map_deserialize(unsigned char* buffer);
  * - if w or h are not sane, require a length of -1, which should break compilation.
  * - otherwise, compute the number of bits and round up. */
 #define MAP_INTERNAL_DATA_SIZE(w,h) ( \
-    ((w) <= 0 || (h) <= 0 || (w) >= 256 || (h) >= 256) ? (long)-1 : \
+    ((w) <= 0 || (h) <= 0 || (w) >= 256 || (h) >= 256 || (w)%4 != 0 || (h)%2 != 0) ? (long)-1 : \
     (((long)(w)) * ((long)(h)) * (long)BIT_PER_FIELD + (long)7) / 8 \
-    )
+    ) /* (w*h*bits + 7)/8 */
 
 #endif /* EPUCK_MAP_H */

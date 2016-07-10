@@ -176,6 +176,7 @@ static char merge_byte(char previously, char input) {
  * so naturally we hope for the latter.) */
 void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     assert(low_left_x % 4 == 0);
+    assert(low_left_y % 2 == 0);
     assert(map_get_width(patch) % 4 == 0);
     assert(map_get_width(patch) <= map_get_width(dst));
     assert(map_get_height(patch) <= map_get_height(dst));

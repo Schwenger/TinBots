@@ -39,16 +39,20 @@ Map* map_deserialize(unsigned char* buffer) {
 MapContainer* map_heap_container;
 
 Map* map_heap_alloc(int w, int h) {
+    Map* map;
+    assert(w % 4 == 0);
+    assert(h % 2 == 0);
     /* This buffer will be read by other tinbots, and therefore "needs" to be
      * 2-byte aligned.  However, x86 is pretty permissive, meaning the access
      * will be a bit slower, in the unlikely event that malloc() gives us
      * a 2-bytes-unaligned address. */
-    Map* map = malloc(sizeof(Map));
+    map = malloc(sizeof(Map));
     map->data = malloc((unsigned long)MAP_INTERNAL_DATA_SIZE(w,h));
-    assert(0 == FIELD_UNKNOWN);
+    assert(map->data);
     map->width = w;
     map->height = h;
     /* In contrast to static memory, heap memory is not initially zero-ed out. */
+    assert(0 == FIELD_UNKNOWN);
     map_clear(map);
     return map;
 }
