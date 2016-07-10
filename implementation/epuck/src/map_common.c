@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdlib.h> /* abs */
 #include <string.h> /* memcpy */
 
 #include "map.h"
@@ -65,7 +66,81 @@ void map_clear(Map* map) {
     memset(map_serialize(map), 0, (unsigned long)MAP_INTERNAL_DATA_SIZE(map_get_width(map),map_get_height(map)));
 }
 
-void map_move(Map* buffer, int by_x, int by_y) {
+#define FIELDS_TO_BYTES1(f) (((f)*BIT_PER_FIELD)/8)
+/* FIXME: After there are clean tests for this, remove FIELDS_TO_BYTES2 */
+#define FIELDS_TO_BYTES2(f) ((int)MAP_INTERNAL_DATA_SIZE((f),1))
+
+void map_move(Map* map, int by_x, int by_y) {
+    int w, h, row_bytes;
+    unsigned char* data;
+
+    /* == Initialization.  Nothing fancy. == */
+    w = map_get_width(map);
+    h = map_get_height(map);
     assert(by_x % (8 / BIT_PER_FIELD) == 0);
-    /* FIXME */
+    assert(w % (8 / BIT_PER_FIELD) == 0);
+    row_bytes = FIELDS_TO_BYTES1(w);
+    assert(row_bytes == FIELDS_TO_BYTES2(w));
+    assert(row_bytes > 0);
+    data = map_serialize(map);
+
+    /* Do it in two separate steps, because that's easier,
+     * and should be only marginally slower.
+     * (And we don't actually care about performance here,
+     * I just wanted this algorithm to be simple, and there's
+     * not enough memory for a second buffer.) */
+
+    /* == shift along X-axis == */
+    assert(FIELD_UNKNOWN == 0);
+    if (abs(by_x) >= w) {
+        map_clear(map);
+        /* Returning early is just an optimization, and does not change behavior. */
+        return;
+    } else if (by_x < 0) {
+        int y;
+        const int by_x_bytes = FIELDS_TO_BYTES1(-by_x);
+        assert(by_x_bytes == FIELDS_TO_BYTES2(-by_x));
+        assert(by_x_bytes > 0);
+        assert(by_x_bytes < row_bytes);
+        for (y = 0; y < h; ++y) {
+            memmove(data + y * row_bytes,
+                    data + by_x_bytes + y * row_bytes,
+                    (unsigned int)(row_bytes - by_x_bytes));
+            memset(data + (y + 1) * row_bytes - by_x_bytes, 0, (unsigned int)by_x_bytes);
+        }
+    } else if (by_x > 0) {
+        int y;
+        const int by_x_bytes = FIELDS_TO_BYTES1(by_x);
+        assert(by_x_bytes == FIELDS_TO_BYTES2(by_x));
+        assert(by_x_bytes > 0);
+        assert(by_x_bytes < row_bytes);
+        for (y = 0; y < h; ++y) {
+            memmove(data + by_x_bytes + y * row_bytes,
+                    data + y * row_bytes,
+                    (unsigned int)(row_bytes - by_x_bytes));
+            memset(data + y * row_bytes,
+                   0,
+                   (unsigned int)by_x_bytes);
+        }
+    }
+
+    /* == shift along Y-axis == */
+    assert(FIELD_UNKNOWN == 0);
+    if (abs(by_y) >= h) {
+        map_clear(map);
+    } else if (by_y < 0) {
+        memmove(data,
+                data + (-by_y) * row_bytes,
+                (unsigned int)(row_bytes * (h - (-by_y))));
+        memset(data + row_bytes * (h - (-by_y)),
+               0,
+               (unsigned int)(row_bytes * (-by_y)));
+    } else if (by_y > 0) {
+        memmove(data + by_y * row_bytes,
+                data,
+                (unsigned int)(row_bytes * (h - by_y)));
+        memset(data,
+               0,
+               (unsigned int)(row_bytes * by_y));
+    }
 }
