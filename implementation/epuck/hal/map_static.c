@@ -5,8 +5,12 @@
 #define MAP_WIDTH 100
 #define MAP_HEIGHT 100
 
-static unsigned char map_accu[MAP_INTERNAL_DATA_SIZE(MAP_WIDTH,MAP_HEIGHT)];
-static unsigned char map_prox[MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)];
+/* These buffers will be accessed by map_move / map_merge, and therefore
+ * need to be 2-byte aligned. */
+static unsigned char map_accu[MAP_INTERNAL_DATA_SIZE(MAP_WIDTH,MAP_HEIGHT)]
+    __attribute__ ((aligned (2)));
+static unsigned char map_prox[MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)]
+    __attribute__ ((aligned (2)));
 
 /* struct Map;
  * THERE IS NO MAP */

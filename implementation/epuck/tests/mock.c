@@ -136,6 +136,10 @@ void tests_mock_expect_next(const ExpectPackage* pkg) {
     next->length = pkg->length;
     next->next = NULL;
     if (pkg->length) {
+        /* This buffer will be read by other tinbots, and therefore "needs" to be
+         * 2-byte aligned.  However, x86 is pretty permissive, meaning the access
+         * will be a bit slower, in the unlikely event that malloc() gives us
+         * a 2-bytes-unaligned address. */
         next->data_orig = malloc(pkg->length);
         assert(pkg->data);
         memcpy(next->data_orig, pkg->data, pkg->length);

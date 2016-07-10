@@ -196,6 +196,10 @@ long matlab_create_bot() {
     for (i = 0; i < DEBUG_CAT_NUM; ++i) {
         matlab_bot->debug_info[i] = 0.0 / 0.0;
     }
+    /* This buffer will be read by other tinbots, and therefore "needs" to be
+     * 2-byte aligned.  However, x86 is pretty permissive, meaning the access
+     * will be a bit slower, in the unlikely event that malloc() gives us
+     * a 2-bytes-unaligned address. */
     matlab_bot->com_buf = malloc(TIN_PACKAGE_MAX_LENGTH);
     return (long) matlab_bot;
 }
