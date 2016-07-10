@@ -21,13 +21,18 @@
 
 #include <assert.h>
 #include <math.h> /* Only for "time feedback" */
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "hal.h"
 
 #include "matlab.h"
 #include "tinbot.h"
+#include "t2t-parse.h"
+
+/* Should be the same to check package length during testing. */
+#define TIN_PACKAGE_MAX_LENGTH 128
 
 /* Currently, "TinBot Software > Chart > Explore > debug_info > size" is set to 10 */
 typedef char check_debug_array_length_against_matlab[(DEBUG_CAT_NUM <= 10) ? 1 : -1];
@@ -73,8 +78,78 @@ void hal_set_front_led(unsigned int value) {
     /* Ignore */
 }
 
-void hal_send_put(char* to_add, unsigned int length) {
-    /* FIXME */
+void hal_send_put(char* buf, unsigned int length) {
+    /* Two checks in case of overflow. */
+    assert(length <= TIN_PACKAGE_MAX_LENGTH);
+    assert(current->com_buf_used + length <= TIN_PACKAGE_MAX_LENGTH);
+    memcpy(current->com_buf + current->com_buf_used, buf, length);
+    current->com_buf_used += length;
+}
+
+static void tx_package(MatlabBot* sender, char command, MatlabBot* receiver) {
+    int is_ours = 1;
+    if (sender != receiver) {
+        is_ours = 0;
+        matlab_select_bot((long)receiver, 0);
+    }
+    switch (command) {
+        case T2T_COMMAND_HEARTBEAT:
+            assert(sender->com_buf_used == 0);
+            t2t_parse_heartbeat(receiver->tinbot);
+            break;
+        case T2T_COMMAND_FOUND_PHI:
+            assert(sender->com_buf_used == 4);
+            if (!is_ours) {
+                t2t_parse_found_phi(receiver->tinbot, sender->com_buf, sender->com_buf_used);
+            }
+            break;
+        case T2T_COMMAND_FOUND_XY:
+            assert(sender->com_buf_used == 3);
+            t2t_parse_found_xy(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
+            break;
+        case T2T_COMMAND_UPDATE_MAP:
+            assert(sender->com_buf_used == 66);
+            t2t_parse_update_map(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
+            break;
+        case T2T_COMMAND_DOCKED:
+            assert(sender->com_buf_used == 0);
+            if (!is_ours) {
+                t2t_parse_docked(receiver->tinbot);
+            }
+            break;
+        case T2T_COMMAND_COMPLETED:
+            assert(sender->com_buf_used == 0);
+            t2t_parse_completed(receiver->tinbot);
+            break;
+        default:
+            /* Ignore ... -ish. */
+            {
+                char buf[1000];
+                sprintf(buf, "hal_matlab.c: tx_package: stray command 0x%02x?!", command);
+                hal_print(buf);
+            }
+            break;
+    }
+}
+
+void hal_send_done(char command) {
+    MatlabBot* real_current;
+    MatlabCom* com;
+    unsigned int i;
+
+    while (!current->com)
+        /* Intentional infinite loop, as assert() is unreliable. */
+        ;
+    assert(current->com);
+
+    com = current->com;
+    real_current = current;
+    for (i = 0; i < com->length; ++i) {
+        tx_package(real_current, command, com->bots[i]);
+    }
+
+    matlab_select_bot((long)real_current, 0);
+    current->com_buf_used = 0;
 }
 
 void hal_print(const char* message) {
@@ -111,13 +186,17 @@ long matlab_create_bot() {
     matlab_bot->tinbot = malloc(sizeof(TinBot));
     matlab_bot->map_container.accu = map_heap_alloc(MAP_WIDTH, MAP_HEIGHT);
     matlab_bot->map_container.prox = map_heap_alloc(MAP_PROXIMITY_SIZE, MAP_PROXIMITY_SIZE);
-    /* setup() must be able to call hal_* functions: */
+    /* setup() must be able to call hal_* functions.
+     * (But not hal_send_* obviously.) */
+    matlab_bot->com_buf = NULL;
+    matlab_bot->com_buf_used = 0;
     matlab_select_bot((long)matlab_bot, 0);
     matlab_bot->raw_time = 0;
     setup(matlab_bot->tinbot);
     for (i = 0; i < DEBUG_CAT_NUM; ++i) {
         matlab_bot->debug_info[i] = 0.0 / 0.0;
     }
+    matlab_bot->com_buf = malloc(TIN_PACKAGE_MAX_LENGTH);
     return (long) matlab_bot;
 }
 
@@ -125,6 +204,7 @@ void matlab_destroy_bot(long matlab_bot) {
     MatlabBot* bot = (MatlabBot*) matlab_bot;
     map_heap_free(bot->map_container.accu);
     map_heap_free(bot->map_container.prox);
+    free(bot->com_buf);
     free(bot->tinbot);
     free(bot);
 }

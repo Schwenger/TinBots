@@ -22,6 +22,8 @@ struct MatlabBot {
     MapContainer map_container;
 
     MatlabCom* com;
+    char* com_buf;
+    unsigned int com_buf_used;
 
     TinBot* tinbot;
 };
