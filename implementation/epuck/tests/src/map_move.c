@@ -4,57 +4,60 @@
 
 #include "map_heap.h"
 
+/* Use '3' to detect 'direction' errors.
+ * Because 2-1 == 1 but 3-1 != 1. */
 #define data_width (4*3)
-#define data_height (3)
+#define data_height (2*3)
 
 static unsigned char data_init[] = {
-    0x11, 0x12, 0x13,
-    0x21, 0x22, 0x23,
-    0x31, 0x32, 0x33};
+    /* 'Named' according to their semantical position. */
+    0x11,0x21, 0x15,0x25, 0x19,0x29,
+    0x31,0x41, 0x35,0x45, 0x39,0x49,
+    0x51,0x61, 0x55,0x65, 0x59,0x69};
 typedef char check_length_data[(sizeof(data_init) / sizeof(data_init[0]) == (data_height * data_width / 4)) ? 1 : -1];
 
 static const size_t data_bytes = sizeof(data_init) / sizeof(data_init[0]);
 
 static unsigned char data_right[] = {
-    0x00, 0x11, 0x12,
-    0x00, 0x21, 0x22,
-    0x00, 0x31, 0x32};
+    0x00,0x00, 0x11,0x21, 0x15,0x25,
+    0x00,0x00, 0x31,0x41, 0x35,0x45,
+    0x00,0x00, 0x51,0x61, 0x55,0x65,};
 typedef char check_length_right[(sizeof(data_right) == sizeof(data_init)) ? 1 : -1];
 
 static unsigned char data_left[] = {
-    0x12, 0x13, 0x00,
-    0x22, 0x23, 0x00,
-    0x32, 0x33, 0x00};
+    0x15,0x25, 0x19,0x29, 0x00,0x00,
+    0x35,0x45, 0x39,0x49, 0x00,0x00,
+    0x55,0x65, 0x59,0x69, 0x00,0x00};
 typedef char check_length_left[(sizeof(data_left) == sizeof(data_init)) ? 1 : -1];
 
 static unsigned char data_up[] = {
     /* Textually, positive y (semantically "up") points to higher line
      * numbers (visually "down").  I'm sorry. */
-    0x00, 0x00, 0x00,
-    0x11, 0x12, 0x13,
-    0x21, 0x22, 0x23};
+    0x00,0x00, 0x00,0x00, 0x00,0x00,
+    0x11,0x21, 0x15,0x25, 0x19,0x29,
+    0x31,0x41, 0x35,0x45, 0x39,0x49};
 typedef char check_length_up[(sizeof(data_up) == sizeof(data_init)) ? 1 : -1];
 
 static unsigned char data_down[] = {
-    /* Textually, positive y (semantically "up") points to higher line
-     * numbers (visually "down").  I'm sorry. */
-    0x21, 0x22, 0x23,
-    0x31, 0x32, 0x33,
-    0x00, 0x00, 0x00};
+    /* Textually, positive y (semantically "down") points to higher line
+     * numbers (visually "up").  I'm sorry. */
+    0x31,0x41, 0x35,0x45, 0x39,0x49,
+    0x51,0x61, 0x55,0x65, 0x59,0x69,
+    0x00,0x00, 0x00,0x00, 0x00,0x00};
 typedef char check_length_down[(sizeof(data_down) == sizeof(data_init)) ? 1 : -1];
 
 static unsigned char data_empty[] = {
-    0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00};
+    0x00,0x00, 0x00,0x00, 0x00,0x00,
+    0x00,0x00, 0x00,0x00, 0x00,0x00,
+    0x00,0x00, 0x00,0x00, 0x00,0x00};
 typedef char check_length_empty[(sizeof(data_empty) == sizeof(data_init)) ? 1 : -1];
 
 static unsigned char data_p11[] = {
     /* Textually, positive y (semantically "up") points to higher line
      * numbers (visually "down").  I'm sorry. */
-    0x00, 0x00, 0x00,
-    0x00, 0x11, 0x12,
-    0x00, 0x21, 0x22};
+    0x00,0x00, 0x00,0x00, 0x00,0x00,
+    0x00,0x00, 0x11,0x21, 0x15,0x25,
+    0x00,0x00, 0x31,0x41, 0x35,0x45};
 typedef char check_length_p11[(sizeof(data_p11) == sizeof(data_init)) ? 1 : -1];
 
 static void check_movement(int by_x, int by_y, unsigned char* data_expect) {
@@ -92,17 +95,19 @@ int main(void) {
 
     check_movement(  4,  0, data_right);
     check_movement(- 4,  0, data_left);
-    check_movement(  0,  1, data_up);
-    check_movement(  0, -1, data_down);
-    check_movement(  4,  1, data_p11);
+    check_movement(  0,  2, data_up);
+    check_movement(  0, -2, data_down);
+    check_movement(  4,  2, data_p11);
 
-    check_movement( 12,  0, data_empty);
-    check_movement(-12,  0, data_empty);
-    check_movement(  0,  3, data_empty);
-    check_movement(  0, -3, data_empty);
+    check_movement( data_width,            0, data_empty);
+    check_movement(-data_width,            0, data_empty);
+    check_movement(          0,  data_height, data_empty);
+    check_movement(          0, -data_height, data_empty);
 
-    check_movement(  4,  4, data_empty);
-    check_movement(-16,  1, data_empty);
+    assert(4 < data_width);
+    check_movement(  4,  8, data_empty);
+    assert(2 < data_height);
+    check_movement(-16,  2, data_empty);
 
     printf("map_move: GOOD\n");
 

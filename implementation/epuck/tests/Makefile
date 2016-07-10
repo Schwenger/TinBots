@@ -11,7 +11,8 @@ OBJDIR:=obj
 BINDIR:=bin
 
 INCLUDE_FLAGS:=-I .. -I . -I ../src -I ../hal
-WARN_FLAGS:=-std=c90 -ansi -Weverything -Wno-padded -Wno-covered-switch-default -Wno-missing-noreturn -Wno-pointer-arith -pedantic
+WARN_FLAGS:=-std=c90 -ansi -Weverything -pedantic
+WARN_FLAGS+=-Wno-padded -Wno-covered-switch-default -Wno-missing-noreturn -Wno-pointer-arith -Wno-gnu-binary-literal 
 CFLAGS?=-g -c -O2
 LFLAGS?=-Weverything -lm
 # For libubsan, add "-fsanitize=undefined" to CFLAGS, and "-lubsan" to LFLAGS

@@ -67,4 +67,7 @@ Map* map_deserialize(unsigned char* buffer);
     (((long)(w)) * ((long)(h)) * (long)BIT_PER_FIELD + (long)7) / 8 \
     ) /* (w*h*bits + 7)/8 */
 
+/* For testing */
+unsigned long map_internal_locate(int x, int y, int w, int h);
+
 #endif /* EPUCK_MAP_H */
