@@ -2,6 +2,7 @@
  * E-Puck Hardware Abstraction Layer
  */
 
+#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 #include "sensors.h"
@@ -10,7 +11,7 @@
 #include "hal.h"
 #include "map.h"
 
-typedef char check_map_proximity_size[(MAP_PROXIMITY_BUF_SIZE <= TIN_PACKAGE_MAX_LENGTH) ? 1 : -1];
+typedef char check_map_proximity_size[(MAP_PROXIMITY_BUF_SIZE < TIN_PACKAGE_MAX_LENGTH) ? 1 : -1];
 
 static struct {
     double left, right;
@@ -47,16 +48,42 @@ void hal_set_front_led(unsigned int value) {
     tin_set_led(LED_FRONT, value);
 }
 
-hal_time hal_get_time() {
+hal_time hal_get_time(void) {
     return tin_get_time();
 }
 
+static TinPackage send_buf = {0}; /* init length = 0 */
+static int send_buf_sending = 0;
+
+static void send_buf_wait(void) {
+    if (send_buf_sending) {
+        while (!send_buf.completed)
+            /* Not good, so do "active-waiting".
+             * - hal_print() is a bad idea, as it worsens the problem.
+             * - hal_set_speed(0, 0) might interfere badly with some algorithms. */
+            ;
+        send_buf_sending = 0;
+        send_buf.length = 0;
+    }
+}
+
 void hal_send_put(char* buf, unsigned int length) {
-    /* FIXME */
+    send_buf_wait();
+    /* Two checks in case of overflow. */
+    assert(length <= TIN_PACKAGE_MAX_LENGTH);
+    assert(send_buf.length + length <= TIN_PACKAGE_MAX_LENGTH);
+    memcpy(send_buf.data + send_buf.length, buf, length);
+    send_buf.length += length;
 }
 
 void hal_send_done(char command) {
-    /* FIXME */
+    send_buf.source = NULL; /* FIXME */
+    send_buf.target = 0x00; /* FIXME */
+    send_buf.command = command;
+    send_buf.callback = NULL;
+    send_buf.completed = 0;
+    tin_com_send(&send_buf);
+    /* Not touching 'hal_send_buf.next' */
 }
 
 void hal_print(const char* message) {
