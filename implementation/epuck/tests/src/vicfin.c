@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include "pi.h"
-#include "stub.h"
 #include "victim-finder.h"
 
 typedef struct Measurement {

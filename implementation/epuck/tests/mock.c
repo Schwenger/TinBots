@@ -1,5 +1,5 @@
 /*
- * STUB Hardware Abstraction Layer
+ * MOCK Hardware Abstraction Layer
  *
  * The name of this file appears quite often in the Makefile.
  */
@@ -12,7 +12,7 @@
 #include "hal.h"
 #include "pi.h"
 #include "sensors.h" /* Want to define ir_sensors_angles */
-#include "stub.h"
+#include "mock.h"
 
 const double ir_sensor_angle[6] = {
     0*M_PI/3,
@@ -28,7 +28,7 @@ static double mot_r;
 
 static hal_time global_clock = 0;
 
-void tests_stub_tick(hal_time amount) {
+void tests_mock_tick(hal_time amount) {
     global_clock += amount;
 }
 
@@ -120,12 +120,12 @@ void hal_debug_out(DebugCategory key, double value) {
     debug_info[key] = value;
 }
 
-double tests_stub_get_debug(DebugCategory cat) {
+double tests_mock_get_debug(DebugCategory cat) {
     assert(cat < DEBUG_CAT_NUM);
     return debug_info[cat];
 }
 
-void tests_stub_expect_next(const ExpectPackage* pkg) {
+void tests_mock_expect_next(const ExpectPackage* pkg) {
     ExpectPackageList* last;
     ExpectPackageList* next;
 
@@ -156,6 +156,6 @@ void tests_stub_expect_next(const ExpectPackage* pkg) {
     }
 }
 
-void tests_stub_expect_assert_done(void) {
+void tests_mock_expect_assert_done(void) {
     assert(!expect_list);
 }

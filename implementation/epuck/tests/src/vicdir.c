@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "pi.h"
-#include "stub.h"
+#include "mock.h"
 #include "victim-direction.h"
 
 #define IR_COMPLETION_TIME (16651UL)
@@ -52,15 +52,15 @@ int main() {
             printf("Debug data: @%5.3f state%1d IR%1d@%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
                 sens.current.phi,
                 vds.locals.state,
-                (int)(tests_stub_get_debug(DEBUG_CAT_VD_IR_ID)),
-                (int)(tests_stub_get_debug(DEBUG_CAT_VD_HAVE_IR)),
+                (int)(tests_mock_get_debug(DEBUG_CAT_VD_IR_ID)),
+                (int)(tests_mock_get_debug(DEBUG_CAT_VD_HAVE_IR)),
                 vds.victim_phi,
                 vds.victim_found,
                 vds.give_up,
                 vds.locals.counter_on * 100.0 / vds.locals.counter_total,
                 vds.locals.weighted_sum / vds.locals.counter_on);
         }
-        tests_stub_tick(10);
+        tests_mock_tick(10);
     }
     printf("VICTIM DIRECTION END RESULT: true_phi=%5.3f v_phi=%5.3f have_phi=%1d give_up=%1d\n",
         true_victim_phi,

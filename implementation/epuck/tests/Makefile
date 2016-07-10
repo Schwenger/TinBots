@@ -17,13 +17,13 @@ LFLAGS?=-Weverything -lm
 # For libubsan, add "-fsanitize=undefined" to CFLAGS, and "-lubsan" to LFLAGS
 
 TBSRCS:=$(wildcard ../src/*.c) $(wildcard ../src/astar/*.c)
-TBHEADERS:=$(wildcard ../src/*.h) $(wildcard ../src/astar/*.h) $(wildcard ../*.h) ../hal/hal.h stub.h ../hal/map_heap.h
+TBHEADERS:=$(wildcard ../src/*.h) $(wildcard ../src/astar/*.h) $(wildcard ../*.h) ../hal/hal.h mock.h ../hal/map_heap.h
 TBOBJS:=$(patsubst ../src/%.c,${OBJDIR}/%_tb.o,${TBSRCS})
 TESTOBJS:=$(patsubst src/%.c,${OBJDIR}/%_test.o,${TESTS})
 TESTBINS:=$(patsubst src/%.c,${BINDIR}/%,${TESTS})
 RUNTARGETS:=$(patsubst src/%.c,run-%,${TESTS})
 VALGRINDTARGETS:=$(patsubst src/%.c,valgrind-%,${TESTS})
-# stub.o and map_heap.o will be built "by hand".
+# mock.o and map_heap.o will be built "by hand".
 
 
 # ===== Main entry point and abstract commands =====
@@ -78,7 +78,7 @@ ${VALGRINDTARGETS}: valgrind-%: ${BINDIR}/%
 ${TBOBJS}: ${OBJDIR}/%_tb.o: ../src/%.c ${TBHEADERS} | dirs
 	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
-${OBJDIR}/stub.o: stub.c ${TBHEADERS} | dirs
+${OBJDIR}/mock.o: mock.c ${TBHEADERS} | dirs
 	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 ${OBJDIR}/map_heap.o: ../hal/map_heap.c ${TBHEADERS} | dirs
@@ -89,5 +89,5 @@ ${TESTOBJS}: ${OBJDIR}/%_test.o: src/%.c ${TBHEADERS} | dirs
 
 # Binaries
 
-${TESTBINS}: ${BINDIR}/%: ${OBJDIR}/%_test.o ${OBJDIR}/stub.o ${OBJDIR}/map_heap.o ${TBOBJS} | dirs
+${TESTBINS}: ${BINDIR}/%: ${OBJDIR}/%_test.o ${OBJDIR}/mock.o ${OBJDIR}/map_heap.o ${TBOBJS} | dirs
 	clang ${LFLAGS} -o $@ $^
