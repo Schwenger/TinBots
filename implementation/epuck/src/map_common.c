@@ -66,9 +66,7 @@ void map_clear(Map* map) {
     memset(map_serialize(map), 0, (unsigned long)MAP_INTERNAL_DATA_SIZE(map_get_width(map),map_get_height(map)));
 }
 
-#define FIELDS_TO_BYTES1(f) (((f)*BIT_PER_FIELD)/8)
-/* FIXME: After there are clean tests for this, remove FIELDS_TO_BYTES2 */
-#define FIELDS_TO_BYTES2(f) ((int)MAP_INTERNAL_DATA_SIZE((f),1))
+#define FIELDS_TO_BYTES(f) (((f)*BIT_PER_FIELD)/8)
 
 void map_move(Map* map, int by_x, int by_y) {
     int w, h, row_bytes;
@@ -79,8 +77,7 @@ void map_move(Map* map, int by_x, int by_y) {
     h = map_get_height(map);
     assert(by_x % (8 / BIT_PER_FIELD) == 0);
     assert(w % (8 / BIT_PER_FIELD) == 0);
-    row_bytes = FIELDS_TO_BYTES1(w);
-    assert(row_bytes == FIELDS_TO_BYTES2(w));
+    row_bytes = FIELDS_TO_BYTES(w);
     assert(row_bytes > 0);
     data = map_serialize(map);
 
@@ -98,8 +95,7 @@ void map_move(Map* map, int by_x, int by_y) {
         return;
     } else if (by_x < 0) {
         int y;
-        const int by_x_bytes = FIELDS_TO_BYTES1(-by_x);
-        assert(by_x_bytes == FIELDS_TO_BYTES2(-by_x));
+        const int by_x_bytes = FIELDS_TO_BYTES(-by_x);
         assert(by_x_bytes > 0);
         assert(by_x_bytes < row_bytes);
         for (y = 0; y < h; ++y) {
@@ -110,8 +106,7 @@ void map_move(Map* map, int by_x, int by_y) {
         }
     } else if (by_x > 0) {
         int y;
-        const int by_x_bytes = FIELDS_TO_BYTES1(by_x);
-        assert(by_x_bytes == FIELDS_TO_BYTES2(by_x));
+        const int by_x_bytes = FIELDS_TO_BYTES(by_x);
         assert(by_x_bytes > 0);
         assert(by_x_bytes < row_bytes);
         for (y = 0; y < h; ++y) {
