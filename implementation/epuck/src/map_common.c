@@ -64,3 +64,8 @@ void map_set_field(Map* map, int x, int y, FieldType type) {
 void map_clear(Map* map) {
     memset(map_serialize(map), 0, (unsigned long)MAP_INTERNAL_DATA_SIZE(map_get_width(map),map_get_height(map)));
 }
+
+void map_move(Map* buffer, int by_x, int by_y) {
+    assert(by_x % (8 / BIT_PER_FIELD) == 0);
+    /* FIXME */
+}

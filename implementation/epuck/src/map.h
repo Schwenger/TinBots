@@ -22,8 +22,9 @@ int map_get_width(Map* map);
 int map_get_height(Map* map);
 FieldType map_get_field(Map* map, int x, int y);
 void map_set_field(Map* map, int x, int y, FieldType type);
-
-/* TODO: If clearing a map by hand is too slow: void map_reset(Map* map); */
+/* by_x must be a multiple of 4. */
+void map_move(Map* buffer, int by_x, int by_y);
+void map_clear(Map* buffer);
 
 typedef struct Position {
     int x;
@@ -44,7 +45,6 @@ typedef struct ExactPosition {
  * Also, don't call free. on the result. */
 unsigned char* map_serialize(Map* map);
 Map* map_deserialize(unsigned char* buffer);
-void map_clear(Map* buffer);
 
 
 /* For "internal" usage (by map_static.c and map_heap.c)
