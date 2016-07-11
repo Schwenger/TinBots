@@ -15,6 +15,8 @@
 \usepackage{microtype}
 \usepackage{datetime}
 
+\usepackage{todonotes}
+
 \usepackage[normalem]{ulem}
 \usepackage{enumerate}
 \usepackage{hyperref}
@@ -25,6 +27,8 @@
 \setlength{\footnotemargin}{3mm}
 
 \usepackage{enumitem}
+
+\usepackage{color}
 
 \usepackage[export]{adjustbox}
 
@@ -47,7 +51,7 @@
 	Maximilian Köhl, s8makoeh@stud.uni-saarland.de, 2553525 \\
 	Maximilian Schwenger, schwenger@stud.uni-saarland.de, 2542438\\
 	Ben Wiederhake, s9bewied@stud.uni-saarland.de, 2541266}
-\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Risk Document, Group 6, Page {\thepage}/{\pageref*{LastPage}}}
+\rohead{\includegraphics[height=36pt, right]{../logo/logo.png} \newline ES16, Verification Document, Group 6, Page {\thepage}/{\pageref*{LastPage}}}
 
 \newtimeformat{mytime}{\twodigit{\THEHOUR}\twodigit{\THEMINUTE}\twodigit{\THESECOND}}
 \settimeformat{mytime}
@@ -70,617 +74,167 @@
 
 \newcommand{\incomplete}[1]{\textless{} #1 \textgreater{}}
 
+\newcommand{\teststrat}[5]{
+	\textbf{Component:} #1 \\
+	\noindent\textbf{What should be tested?} \\
+    \noindent #2 \\
+	\noindent\textbf{How can it be tested?} \\
+    \noindent\textcolor{blue}{Setup:} #3 \\
+    \noindent\textcolor{blue}{Applicable Techniques:} #4 \\
+	\noindent\textbf{What cannot be tested? Why?} \\
+    \noindent #5
+}
+
+\newcommand{\ie}{i.e.}
+
 \begin{document}
 
-\section{Basic Components}
+\section{Overview}
 
-\subsection{Tin Bot} % ===================================
+On a grand scheme the software is divided into the following subcomponents:
 
-\subsubsection{Power LED}
-Indicator LED for power.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] Luminaire Lifetime report\footnote{\url{http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf}}
-\end{description}
+\begin{itemize}
+	\item Controller
+	\item Traffic Cop Eyes
+	\item Blind Traffic Cop 
+	\item RHR
+	\item Victim Direction
+	\item Victim Finder
+	\item Path Finder
+	\item Path Executor
+	\item Pickup Artist
+\end{itemize}
 
-\subsubsection{Front LED}
-Front LED on E-Puck.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] Luminaire Lifetime report
-\end{description}
+Each of those components is subject of one or more test strategies either for
+the whole component at once, or their subcomponents separately.
+\subsection{Controller}
+\subsubsection{Purpose}
+	Connects each component's inputs and outputs. 
+Implementation: Done. 
+Testing: On Demand. Whenever another subcomponent is finished and ready to be tested in an integration test, the respective part of the controller is tested extensively as well.
 
-\subsubsection{Victim Indicator LEDs}
-Red LEDs on E-Puck.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] Luminaire Lifetime report
-\end{description}
+Traffic Cop Eyes:
+Connects sensor data with remaining components. Issues requests for other components to start their work.
+Implementation: Done.
+Testing: Implicit. Successfully used in MatLab, on E-Puck tested in terms of other unit's tests.
 
-\subsubsection{Power Switch}
-E-Puck's power switch.
-\begin{description}
-	\item[Failure Rate:] $\approx 0.5$ per hour
-	\item[Source:] While developing the product, we noticed that this component is highly unreliable.
-    \item[Experiment:] We tried to turn the Tin Bot on several times,
-    and noted that about half the time, the power switch doesn't close
-    the circuit.  We expect that the power switch is only used
-    \enquote{once per hour}, so we deduced a failure rate of 0.5 per
-    hour.
-\end{description}
+Blind Traffic Cop:
+Basically an arbiter for the subcomponents.
+Implementation: Done.
+Testing: Implicit. Closely related to controller, a bug becomes very obvious based on the E-Puck's reacting which is a direct result of the logic-free controller.
 
-\subsubsection{IR-Sensors}
-IR-sensors on the extension board.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] Estimated to be similar to the LEDs.
-\end{description}
+RHR:
+Implementation of the right hand rule.
+Implementation: Done. Addendum: In addition to the virtual prototype, we also cured a stroke, i.e., the faulty behavior that the E-Puck's left half was ignored.
+Testing: Done. Extensive integration tests. Tin Bot ran in circles around the maze for hours straight. Problematic factor is lighting conditions. Taken path visualized in web interface.
 
-\subsubsection{Proximity Sensors}
-The E-Puck's proximity sensors.
-\begin{description}
-	\item[Failure Rate:] $\infty$
-	\item[Source:] The proximity sensors do not seem to work as advertised.
-	\item[Experiment Setup:] We sent the raw proximity sensor data via Bluetooth to a smartphone and saw that it clearly does not follow the specification: the sensor values decrease with the increasing distance and not even the operating range applies.
-	\item[Desired Failure Rate:] $\leq 10^{-1}$ per hour
-	\item[Source:] We have to do some more experiments and hope to achieve a better failure rate. For now we estimate a high failure rate of $\leq 10^{-1}$ to be able to give a result.
-\end{description}
+Victim Direction:
+Turns the E-Puck and computes angle/position to the victim.
+Implementation: Done.
+Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems: Reflecting caused by the struts. Very prone to reflections by nearby gazers or changing lighting conditions. Solution: Using cellular rubber (thanks to Peter!) to absorb rather than reflect the signal. Solution is tested in parts.
 
-\subsubsection{ATmega328}
-Processor controlling the signals picked up from the victim.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-12}$ per hour
-	\item[Source:] Atmel datasheet\footnote{\href{http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf}{\texttt{http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller \\ -ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf}}}
-\end{description}
+Victim Finder: 
+Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
+Implementation: Done / in debug phase. 
+Testing: Unit tests done, MatLab running, on actual E-Puck unknown, assumed to be fine, though.
 
-\subsubsection{E-Puck Controller Board}
-The E-Puck's controller.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-10}$ per hour
-	\item[Source:] The failure rate is estimated to be slightly higher than the one of ATmega328 because it has more components.
-\end{description}
+Path Finder: 
+Computes a path from the current position to the victim based on the internal map consisting of data gathered via proximity sensors and other Tin Bot's broadcasts.
+Implementation: State Machine done, search algorithm will be changed from A* to Bellman-Ford.
+Testing: State Machine and A* are tested via unit tests, Bellman-Ford is about to be implemented and will be subject to appropriate unit tests. Memory overhead has been considered for both algorithms and static guarantees allow us to deem the algorithm correct in this respect. On MatLab: causes simulation to crash.
 
-\subsubsection{E-Puck Motors and Driver Board}
-The E-Puck's motors and motor controller.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] The failure rate of the E-Puck's motors and motor controller is estimated to be low as it is a standard component and the E-Pucks are not assumed to be worn out.
-\end{description}
+Path Executor:
+Executes path given by path finder.
+Implementation: done.
+Testing: Untested.
 
-\subsubsection{E-Puck Memory}
-The E-Puck's memory.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-11}$ per hour
-	\item[Source:] We assume that the E-Puck's memory is comparable to the ATmega328's memory\footnote{\href{http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf}{\texttt{http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller \\ -ATmega48A-48PA-88A-88PA-168A-168PA-328-328P\_datasheet\_Complete.pdf}}} \footnote{\url{https://www.wolframalpha.com/input/?i=\%281+hour\%29\%2F\%282e7+years\%29}}.
-\end{description}
+Pickup Artist:
+New component. Activated after path executor reports that the victim has been reached. Decides what actions to take to assure that we can pick up the victim securely and initialize the motion outwards.
+Implementation: Not yet.
+Testing: Untested.
 
-\subsubsection{I2C Bus}
-Cable connecting the controlling E-Puck and the E-Puck's extension board.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] The failure rate is estimated to be low due to the simple construction.
-\end{description}
+Moreover, regarding communication, the data (de-)serialization is fully implemented and tested, both for communication with the LPS, and T2T.
 
-\subsubsection{Magnets}
-The magnets attached to the E-Puck.
-    % Both positive and negative failures
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-    \item[Source:] The chance that the magnets unintentionally make
-    contact, i.e. through a wall, is low since the Tin Bot has to drive
-    close to a section of a wall while the victim's location
-    coincidentally is close to this very wall.
-\end{description}
+\section{Hardware} 
+The hardware is divides into two parts: The environment, and the connection
+between the main components, \ie, the Raspberry Pi, and the E-Puck. 
+The connection between the components and their respective sensors and actuators
+is verified using the following test strategies.
 
-\subsubsection{Bluetooth Module}
-The E-Puck's Bluetooth module.
-\begin{description}
-	\item[Failure Rate:] $\leq 10^{-5}$ per hour
-	\item[Source:] The failure rate of the Bluetooth module is estimated to be low as it is a standard component and the distances between the connected participants are small%
-    \footnote{Example report about Bluetooth being reliable:
-    \url{http://www.connectblue.com/fileadmin/Connectblue/Web2006/Documents/White\_papers/Bluetooth\_Reliability.pdf}}.
-\end{description}
+\subsection{Connection Extension Board to E-Puck}
 
-\subsection{Tin Bot Software} % ===================================
+\teststrat{Custom Extension Board Connection Frequency}{
+    We guarantee a real time upper bound on the frequency in which sensor data
+    is received and can then be processed. The time between two received
+    sensor data packages is \todo[inline]{FREQUENCY}ms.
 
-\subsubsection{Victim Recognition}
-Module that determines whether we are carrying the victim.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-3}$ per hour
- %
-\item[Source:] As this component uses an educated guess about angles,
-size, and sensor sensitivity, this is estimated to be comparatively
-unreliable.
- %
-\end{description}
+    We test the frequency in which data is received and computed the maximal
+    time needed for all interrupt service routine to run through, such that the
+    stated frequency can be guaranteed.
+}{
+    Oscilloscope, custom extension board, E-Puck.
+}{
+    We directly measure the signals from the extension board sent using the
+    i\textsuperscript{2}c protocol. We send signals to an IR-Sensor to see
+    whether the received signal is correct.
+}{
+   We do not measure whether an amplitude is registered only if the signal is
+   strong enough. The reason for this is that we regulate the signals stability
+   on with software, therefore we do not mind the actual intensity. Moreover, we
+   designed the IR-Sensors in a way that the sensitivity fits our needs based on
+   empirical results.
+}
 
-\subsubsection{Victim Triangulation}
- %
-Module that triangulates the victim's position based on two or more
-previous measurements.
- %
-\begin{description}
-\item[Failure Rate:] 0
- %
-\item[Source:] Assuming correct implementation and correct automatic translation
-to target hardware, the module works as intended.
- %
-\end{description}
+\subsection{Connection between the Raspberry Pi as LPS and the E-Puck as Tin Bot
+via Bluetooth}
 
-\subsubsection{Avoidance Watchdog}
- %
-Module that shall interrupt the movement when we are about to crash into a wall.
- %
-\begin{description}
-\item[Failure Rate:] 0
- %
-\item[Source:] Since the watchdog is a very simple component we assume a correct implementation and correct automatic translation to target hardware, therefore the module works as intended.
- %
-\end{description}
+\teststrat{LPS Update Frequency}{
+    If the initial setup is completed, the LPS is supposed to send location data
+    to the Tin Bot approximately every two seconds without any hard guarantees.
+    However, the process of receiving and processing the data should not take
+    more than three seconds. Progress in this regard is supposed to be signaled
+    by toggling a designated LED.
+}{
+    LPS, debug monitor, Tin Bot with a designated LED.
+}{
+    Make sure the initial setup is completed, \ie, the debug monitor indicates a
+    Bluetooth connection and the LPS has recognized the Tin Bot. Now, the time
+    between toggles is measured and should not exceed three seconds.
+}{
+    The correctness of the LPS data is not tested. We assured that the data is
+    correct in separate tests, though. Moreover, the location data has to be
+    correct relative to the measured location data of other Tin Bots, which
+    depends on the camera and is robust by construction.
+}
 
-\subsubsection{Crash Watchdog: Right-Hand Follower}
- %
-The part of the Right-Hand Follower that tries to avoid crashing into obstacles.
- %
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-1}$ per hour
- %
-\item[Source:] We ran our virtual prototype of the Right-Hand Follower
-for one simulated hour and did not observe any crash.
- %
-\end{description}
+\subsection{Victim}
 
-\subsubsection{Crash Watchdog: Path Finder/Executor}
- %
-The part of the Path Finder/Executor that tries to avoid crashing into obstacles.
- %
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-2}$ per hour
- %
-\item[Source:] We ran our virtual prototype of the Path Finder/Executor
-for one simulated hour (with hand-chosen destinations upon completion) and
-did not observe any crash.  We assume that the failure rate is less
-than the one of the Right-Hand Follower as the update and check
-mechanism is more sophisticated.
- %
-\end{description}
-
-\subsubsection{Path Pruning}
- %
-Module that shall detect and determine when Right-Hand Follower is about to walk in circles.
- %
-\begin{description}
-\item[Failure Rate:] 0
- %
-\item[Source:] Assuming correct implementation and correct automatic translation
-to target hardware, the implementation is correct.
- %
-\end{description}
-
-\subsubsection{Software Bug (e.g., unhandled edge case)}
-Generalization for any kind of software failure.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-2}$ per hour
- %
-\item[Source:] By the end of the course, we will have tested and detected any software bug that appears too frequently, thus we estimate the failure rate to be somewhat low.
- %
-\end{description}
-
-\subsubsection{T2T protocol design}
-As the T2T protocol will be a protocol of non-trivial complexity, we need to include it in the risk ananlysis.
-\begin{description}
-\item[Failure Rate:] 0
- %
-\item[Source:] We hope to be able to prove the T2T protocol correct.
- %
-\end{description}
-
-\subsubsection{Hard-Coded Constants (\enquote{Magic Numbers})}
-Insufficient fine-tuning of these constants might lead to faulty behavior.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-4}$ per hour
- %
-\item[Source:] We hope that given enough time, we can find out good parameters that lead to reliable behavior.
- %
-\end{description}
-
-\subsection{LPS} % ===================================
-
-\subsubsection{Raspberry}
-General Raspberry Pi module.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-6}$ per hour
-\item[Source:] We approximate the reliability lower than the one of an FPGA ($10^{-8}$)\footnote{\url{http://www.xilinx.com/support/documentation/user_guides/ug116.pdf}}, but greater than the one of a Camera ($10^{-4}$).
-\end{description}
-
-\subsubsection{Camera}
-Takes photo and converts it into the RAW format.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-4}$ per hour
-\item[Source:] Educated guess based on the component's complexity.
-\end{description}
-
-\subsubsection{LPS Software (Ours)}
-\begin{description}
-\item[Failure Rate:] $0$
-\item[Source:] Based on the fact that the software is only a loop
-executing very simple code, we assume the code is correct.
-\end{description}
-
-\subsubsection{LPS Software (External Module)}
-\begin{description}
-\item[Failure Rate:] $0$
-\item[Source:] We want to use well established libraries and perform rather simple computations, thus we assume this to be correct.
-\end{description}
-
-\subsubsection{LPS Operating System (Linux)}
-The Raspberry Pi runs a Linux kernel and performs communications, as well as image processing tasks.
-\begin{description}
-\item[Failure Rate:] $\leq 2.94 \times 10^{-5}$ per hour
-\item[Source:] The IBM Linux Technology Center conducted a 30 day stress test resulting in a success rate of 97.88\%\footnote{\url{https://www.ibm.com/developerworks/library/l-rel/}}.
-\end{description}
-
-\subsubsection{Power Supply}
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-6}$
-\item[Source:] Since the Raspberry Pi is widely used for long running processes such as server installation, we can safely assume that the power supply is rather reliable, thus we guess the failure rate educatedly.
-\end{description}
-
-\subsubsection{Electricity Grid}
-\begin{description}
-\item[Failure Rate:] $\leq 2.25 \times 10^{-5}$ %0,00002492389658
-\item[Source:] Based on data by the Verband der Elektrotechnik Elektronik Informationstechnik (VDE) in 2014\footnote{\href{http://www.energiezukunft.eu/netze/netzausbau/deutsches-stromnetz-ist-aeusserst-zuverlaessig-gn103605/}{\texttt{http://www.energiezukunft.eu/netze/netzausbau/ \\ deutsches-stromnetz-ist-aeusserst-zuverlaessig-gn103605/}}}. 
-We cannot assume that at the point of deployment there is no major environmental catastrophe taking place since we simulate a rescue team.
-\end{description}
-
-\subsection{Victim} % ===================================
-
-\subsubsection{Battery}
-The victim's main power source.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-8}$ per hour
-\item[Source:] Based on the fact that this is a very simple component, the failure rate was estimated.
-\end{description}
-
-\subsubsection{ATtiny2313}
-Processor controlling light emission of the victim.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-12}$ per hour
-\item[Source:] Atmel datasheet for this microcontroller\footnote{\url{http://www.atmel.com/images/doc8246.pdf}}
-\end{description}
-
-\subsubsection{MOS-FET (IRLZ44N)}
-Power amplification for IR-diodes.
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-12}$ per hour
-\item[Source:] Based on the fact that this is a very simple component, the failure rate was estimated.
-\end{description}
-
-\subsubsection{Resistor(s)}
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-9}$ per hour
-\item[Source:] Resistor Failure Rate model \footnote{\url{http://www.sqconline.com/resistor-failure-rate-model-mil-hdbk-217-rev-f-noetice-2}}.
-\end{description}
-
-\subsubsection{IR-LEDs}
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-5}$ per hour
-\item[Source:] Luminaire Lifetime report\footnote{\url{http://apps1.eere.energy.gov/buildings/publications/pdfs/ssl/led\_luminaire-lifetime-guide\_june2011.pdf}}, as it is assumed that IR LEDs (which use the same mechanism to emit photons) exhibit the same fault rate.
-\end{description}
-
-\subsubsection{Controller Software}
-\begin{description}
-\item[Failure Rate:] $0$
-\item[Source:] Based on the fact that the software is only a loop
-executing very simple code, we assume the code is correct.
-\end{description}
-
-\subsubsection{Magnet Belt}
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-1}$ per hour
-\item[Source:] Unreliable construction.
-\end{description}
+\teststrat{Victim Actuators}{
+    The victim shall send IR-Signals and a LED shall be on after turning the
+    victim on. The signals shall be in agreement with the SOS-protocol.
+}{
+    Oscilloscope, Victim, Victim's power LED, IR-Sensors.
+}{
+    Turn on the victim and check the LED using visual feedback. Make sure that
+    there is a clear sight between the victim and the IR-Sensors. Check the
+    received signal using the oscilloscope and compare against the expected
+    pattern.
+}{
+    We cannot test whether the signal originates at the victim or any other
+    source, e.g.\ a malevolent agent turning on or off a nearby device using a
+    similar signal.
+}
 
 
-\subsection{Environment} % ===================================
+All hardware
+components are built. Communication protocols are
+implemented and extensively tested. Empirical tests in terms of any other E-Puck
+based test. - Communication frequency:    + I2C: Test case lighting LEDs after a
+poll has been taken place.   + Bluetooth (to LPS): LED indicates when new data
+has been received and processed.   + Bluetooth (T2T): Actual communication
+untested.
 
-\subsubsection{IR Medium}
- %
-Measures how well the environment permits or perturbs an IR signal.
-This also cares about noise and background \enquote{luminosity}.
- %
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-4}$ per hour
- %
-\item[Source:] As we assume that there is not much noise and background
-luminosity, this should be reasonably small, and the IR signal of the
-victim should remain mostly undisturbed by the environment.
- %
-\end{description}
-
-\subsubsection{Bluetooth Medium}
- %
-Measures how well the environment permits or perturbs Bluetooth communication.
-This also cares about noise and background \enquote{luminosity}.
- %
-\begin{description}
-\item[Failure Rate:] $\leq 10^{-3}$ per hour
- %
-\item[Source:] As we assume that there is not much noise and background
-luminosity, this should be reasonably small, and Bluetooth communication
-of the victim should remain mostly undisturbed by the environment.
- %
-\end{description}
-
- \pagebreak
-\subsection*{Computed Failure Probabilities}
-
-We chose $t = 1h$ for the computation of the failure probabilities, so
-we have $F = 1-e^{-\lambda}$.  As many failure rates are repeated,
-here is a conversion table:
-
-%%%%%%  RAW VALUES
-%0: 0.0
-%0.1: 0.09516258196404043
-%0.01: 0.009950166250831947
-%1e-3: 0.0009995001666250085
-%1e-4: 9.999500016666251e-05
-%1e-05: 9.999950000166666e-06
-%2.25e-05: 2.2499746876898428e-05
-%2.94e-05: 2.9399567824235332e-05
-%1e-06: 9.999995000001667e-07
-%1e-09: 9.999999995e-10
-%1e-10: 9.999999999500001e-11
-%1e-11: 9.999999999949999e-12
-%1e-12: 9.999999999995e-13
-
-%%%%%%  UNTRUCATED/UNROUNDED VALUES
-%\[\begin{array}{rr}
-%0 & 0.0 \\
-%0.1 & 0.09516258196404043 \\
-%1\times 10^{-2} & 0.009950166250831947 \\
-%1\times 10^{-3} & 0.0009995001666250085 \\
-%1\times 10^{-4} & 9.999500016666251\times 10^{-5} \\
-%1\times 10^{-5} & 9.999950000166666\times 10^{-6} \\
-%2.25\times 10^{-5} & 2.2499746876898428\times 10^{-5} \\
-%2.94\times 10^{-5} & 2.9399567824235332\times 10^{-5} \\
-%1\times 10^{-6} & 9.999995000001667\times 10^{-7} \\
-%1\times 10^{-9} & 9.999999995\times 10^{-10} \\
-%1\times 10^{-10} & 9.999999999500001\times 10^{-11} \\
-%1\times 10^{-11} & 9.999999999949999\times 10^{-12} \\
-%1\times 10^{-12} & 9.999999999995\times 10^{-13} \\
-%\end{array}\]
-
-%%%%%%  ROUNDED VALUES (same rounding as in the trees)
-\[\begin{array}{rr}
-0.5                 & 0.39347 \\
-0.1                 & 0.095163 \\
-1\times 10^{-2}     & 0.0099502 \\
-1\times 10^{-3}     & 0.0009995 \\
-1\times 10^{-4}     & 9.9995\times 10^{-5} \\
-1\times 10^{-5}     & 1\times 10^{-5} \\
-2.25\times 10^{-5}  & 2.25\times 10^{-5} \\
-2.94\times 10^{-5}  & 2.94\times 10^{-5} \\
-1\times 10^{-6}     & 1\times 10^{-6} \\
-1\times 10^{-8}     & 1\times 10^{-8} \\
-1\times 10^{-9}     & 1\times 10^{-9} \\
-1\times 10^{-10}     & 1\times 10^{-10} \\
-1\times 10^{-11}     & 1\times 10^{-11} \\
-1\times 10^{-12}     & 1\times 10^{-12} \\
-0                   & 0.0
-\end{array}\]
-
-Note that we used the built-in function \texttt{expm1} of Python to get more accurate
-results than the naive approach.
-
-
-\section{Fault Trees and Computed Failure Probabilities}
-
-\subsection*{Top-Level Failures}
-
-Note that you can click on the the node's pdf-file's name to open the respective fault tree.
-
-Note that MR2, MR4, MR6, MR16, MR18, and MR19 do
-not have fault trees, as this concept does not apply here.  Also note
-that MR11 has been removed.
-
-\newcommand{\refpdf}[1]{(\texttt{\href{trees/#1.pdf}{\texttt{#1.pdf}}})}
-
-\begin{description}
-\item[\texttt{power LED is off} \refpdf{nopowerled}:]
-    The power LED is not lit. \\
-    This means that either there is a failure in the E-Puck, or the power LED is faulty.
-\item[\texttt{E-Puck failure}:]
-    There is a problem with the E-Puck. 
-    Either the user forgot to turn on the E-Puck or there is a problem with the hardware, such as a problem with the power, the board, or the memory.
-\item[\texttt{power failure}:]
-    The battery can be faulty, e.g. due to a leakage, or not charged. Additionally, the connection between the battery and its \enquote{consumer} might be impaired since a problem with the power switch prevents a connection.
-\item[\texttt{uncooperative} \refpdf{uncooperative}:]
-    The fault tree of behavior that appears to be uncooperative (MR3, MR22). \\
-    The reason for such behavior is that the E-Puck does not know that there are other E-Puck or it did not receive any data to take into account because there was a problem with the communication protocol (T2T). 
-    Alternatively, the transportation medium might prevent a meaningful communication.
-
-    A problem with the receiver or the sender can also be the culprit, caused by a software bug, or a problem with the Bluetooth module. % we do not describe the subtrees separately, in regard to BW's and MS's conversation with HT
-\item[\texttt{not using information about the victim} \refpdf{ignorevictim}:]
-    The E-Puck ignores gathered information about the victim (MR5, MR13). \\
-    Potential reasons for this behavior is that the extension board is faulty (see below), the triangulation failed, meaning that we effectively do not have meaningful data about the victim, there are inconsistencies in the data about the victim, or the E-Puck does not consume received information fast enough, such that it gets overwritten.
-\item[\texttt{triangulation fails}:]
-    Unless there is a software failure due to an unhandled edge case, the triangulation does not provide data because the E-Puck needs to travel a certain distance until a triangulation is triggered. 
-    This distance is an empirically determined value and can be inappropriate. 
-    Note that this distance is the length of a straight line orthogonal to the line of measure of older triangulations.
-\item[\texttt{conflicting data about victim}:]
-    Conflicting data about the victim can be the result of an unexpected movement by the victim, i.e. it is moved by the user. 
-    Alternatively, uncooperative behavior might lead to conflicting data, since Tin Bots trust other Tin Bots unconditionally even if they send wrong data. 
-    Additionally, faulty memory causes the same behavior.
-\item[\texttt{run into walls} \refpdf{runintowall}:]
-    A Tin Bot runs into a wall.\\
-    The problem is either bad firmware, including that the wrong program has been uploaded to the E-Puck, or that the collision avoidance failed.
-\item[\texttt{collision with obstacle}:]
-    A collision can be the result of a problem in collision avoidance, or a failure to detect the obstacle.
-\item[\texttt{obstacle not detected}:]
-    Undetected obstacles are a result of walls that are not in conformity to the specification, e.g. hovering in the air or being too small. 
-    Otherwise, a software failure or faulty proximity sensors can result in ignoring obstacles.
-\item[\texttt{avoidance system fails}:]
-    The avoidance system can only fail if any of the drivers fails to avoid a collision on its own \emph{and} the dedicated collision avoidance watchdog fails, too.
-\item[\texttt{victim lost while escorting} \refpdf{victimlost}:]
-    The fault tree of losing the victim during escort (MR7, MR8).\\
-    This can happen if the victim was dropped since it was not grabbed properly, or the grabbing process failed entirely. Other than that, the victim might be pulled away by another Tin Bot.
-\item[\texttt{victim dropped / unable to grab}:]
-    For this to happen, the magnets can be too weak to properly grab and hold the victim. Alternatively, the belt might have fallen off.
-\item[\texttt{pulled away by another Tin Bot}:]
-    This can be a result of uncooperative behavior, e.g. one Tin Bot works overzealous or has not been informed, that the victim was already found. Moreover, the victim might have been picked up accidentally.
-\item[\texttt{picking up the victim was accidental}:]
-    Either the Tin Bot picked up the victim through a wall, which can happen since the walls do not shield the magnetic field, or there was actual physical contact involved.
-\item[\texttt{picked up victim with physical contact}:]
-    For this to happen, three events have to take place at the same
-    time: The escort recognition fails, the Tin Bot did not detect an
-    obstacle, and the magnets made contact\footnote{as in: the victim
-    got picked up} unintentionally. This can only happen if the Tin Bot
-    and the victim stood in an appropriate angle to each other by
-    chance.
-\item[\texttt{escort recognition fails}:]
-    Either there is a problem in the SOS-Protocol, meaning the victim's signal was not sent or perceived properly, or the recognition method failed, e.g. the victim is in a blind spot during the escort.
-\item[\texttt{SOS failure}:]
-    If there is a signal, either the extension board failed, so the Tin Bot cannot pick up IR signals anymore, or the medium interferes with the signal transmission. If there is no signal, there is a failure in the victim.
-\item[\texttt{obstacle not detected}:]
-    Either the proximity sensor is faulty such that an obstacle cannot be recognized, or the walls do not meet the specification, e.g. they are not tall enough, or there is a software failure leading to signals being ignored.
-\item[\texttt{not moving the victim out; at least not on the shortest known path} \refpdf{noescort}:]
-    The fault tree of (apparently) not escorting the victim properly
-    (MR8, MR17).\\
-    There are three potential reasons for this: Firstly, the victim could have been picked up unintentionally (see respective tree's description). Secondly, the Tin Bot actually takes a detour during the escort. Lastly, the Tin Bot does not move at all.
-\item[\texttt{taking a detour during escort}:]
-    A detour can be a consequence of uncooperative behavior, e.g. another Tin Bot did not inform the escorting Tin Bot about potential shortcuts. Other than that, there might be a primary motor fault leading to unintentional movements. Lastly, a memory fault can trick a Tin Bot into talking suboptimal or even nonsensical paths.
-\item[\texttt{escorting, but no LED indication} \refpdf{escortnoled}:]
-    The fault tree of not flashing properly during escort (MR9). 
-    Reasons for this behavior is that the Tin Bot is not aware of the fact that it is escorting the victim, the LED is faulty, or there is a software bug preventing the LED to be turned on.
-\item[\texttt{not aware of escorting}:]
-    Either the Tin Bot forgot about the victim due to a memory fault, or it picked up the victim unintentionally.
-\item[\texttt{victim not found} \refpdf{victim404}:]
-    Fault tree of not finding the victim (MR10).
-     \\
-    Unless the maze is outside the specified conditions (victim not in
-    maze; unsolvable maze), the only reasons for which a Tin Bot can
-    fail to find the victim (ignoring the low-level causes that are
-    already handled elsewhere) are extension board failure (see below),
-    victim signal failure (see below), losing orientation (see below),
-    and driving in a circle (see next).
-\item[\texttt{Right-Hand Follower drives in circles}:]
-    A Tin Bot can only end up driving in a circle if the
-    path-pruning\footnote{This is the module responsible for detecting
-    and avoiding driving in circles.} fails, and the maze permits it
-    (and is thus not 1-outerplanar, contrary to our requirement).  Note
-    that the Right-Hand Follower itself does not contain logic that
-    prevents it from driving in circles, thus its failure probability
-    is 1.
-\item[\texttt{Tin Bot lost orientation}:]
-    In order to make a Tin Bot lose its orientation, first the LPS must
-    be failing (see below), \emph{and} the approximation algorithm
-    (including choice of all hard-coded constants) needs to be
-    sufficiently far off, \emph{and} the drift\footnote{difference
-    between real and perceived orientation and position} must not
-    stabilize.
-\item[\texttt{victim silent} \refpdf{victimsilent}:]
-    Fault tree of the victim not sending any signal (MR22).
-      \\
-    The victim can only fail to send the specified signal if there is a
-    hardware failure (see next), or a software bug.
-\item[\texttt{victim hardware failure}:]
-    Unless the victim's battery is not charged, this must be caused by
-    some primary hardware failure (transistors, resistors, IR LEDs,
-    battery).
-\item[\texttt{clear line of sight, but no LED indication} \refpdf{seenoled}:]
-    The fault tree of missing IR visualization (MR12, MR20, MR21).
-     \\
-    Unless the user did not turn on the E-Puck, the only causes for
-    this are software bugs, hardware failure of the LED, extension
-    board failure (see below), or a failure of the victim to send any
-    signal (see previous).
-\item[\texttt{standing still} \refpdf{standingstill}:]
-    The fault tree of standing still (MR13).
-     \\
-    Unless the setup is bad (e.g.\ wrong firmware), this is either
-    caused by a severe software failure (bug), picking up the victim
-    through a wall (see above, \enquote{accidental pickup}),
-    having run into a wall (see below),
-    inability to turn wheels (see below), general E-Puck failure (see
-    below), or a failure to poll the initial position from the LPS.
-\item[\texttt{wheels do not turn}:]
-    Unless the wheels are blocked (secondary failure), this can only be
-    due to a primary motor fault. (Note that faults like battery faults etc.\
-    are handled in the general E-Puck failure.)
-\item[\texttt{E-Puck failure}:]
-    This can be due to hardware failures (memory, controller board,
-    controller), user errors (not switched on), or a power failure.
-\item[\texttt{E-Puck power failure}:]
-    A power failure can only be due to hardware faults (power switch,
-    battery) or user error (battery not charged).
-\item[\texttt{no initial position from LPS}:]
-    Unless the user did not enable the LPS as specified, this 
-    failure is either due to the Bluetooth link being down, or the LPS
-    sending no data.
-\item[\texttt{LPP link down}:]
-    The only faults that can take down the LPP (Local Positioning Protocol) link are hardware
-    failures in the receiver or the medium, or a simulated LPS outage.
-    Note that a sender failure is already handled in the more general
-    failure of not getting an initial position from the LPS (see
-    previous).
-\item[\texttt{no initial position from LPS}:]
-    This can only happen if there is a general LPS failure from the beginning.
-\item[\texttt{LPS failure}:]
-    The LPS only sends no data if there was a failure in the Color Blob
-    Protocol (which is either due to a camera fault, or
-    outside-specification conditions), or the Raspberry Pi is failing.
-    The only causes for this are hardware failures (e.g.\ power)
-    and software failures (bug in any of OS, external module, or
-    our module).
-\item[\texttt{moving to the \enquote{gathered position}} \refpdf{gowrong}:]
-    The fault tree of going to the wrong location at a specific step
-    during the rescue action (MR14).
-     \\
-    This can only happen if there was a grave misunderstanding about
-    MR14 \emph{and} this misunderstanding was not discovered during
-    peer review.
-\item[\texttt{run into walls} \refpdf{runintowall}:]
-    The fault tree of colliding with a wall or unintentionally with a
-    victim (MR15).
-     \\
-    We can only run into a wall if the wrong firmware was uploaded to
-    the E-Puck, the wall (generalized: obstacle) was not detected (see
-    next), or the avoidance system failed (see above).
-\item[\texttt{obstacle not detected}:]
-    Unless the obstacle/wall was outside our specification, the only
-    reasons to fail at detecting an obstacle are faulty proximity
-    sensors, and primary software fault (e.g.\ the module that should
-    ignore the victim's proximity data accidentally ignores a wall).
-\item[\texttt{spurious movements} \refpdf{spuriousmovements}:]
-    The fault tree of spurious or unreasonable movements (MR23 and
-    several others).
-     \\
-    There are several possible causes for spurious movements.  It could
-    be caused by a software bug, or a primary proximity sensor fault.
-    It can also be due to a secondary setup failure: having the wrong
-    color on top of the Tin Bot leads to mis-identification.  The
-    previously mentioned LPS failure and uncooperative behavior (see
-    above each) are also possible reasons. Finally, this is also a way
-    to describe the failure to stop turning.
-\item[\texttt{does not stop turning}:]
-    This can be due to the victim not sending a valid signal (see
-    above) or due to an extension board failure (see next).
-\item[\texttt{extension board failure}:]
-    This is the generalization of any failure in the microcontroller,
-    IR sensor, I2C bus, or extension board circuit.
-\item[\texttt{system failure} \refpdf{systemfailure}:]
-    The overall fault tree of the victim not being moved out.  Note
-    that this can only happen if \emph{all} Tin Bots fail to move the
-    victim out, and is thus a disjunction of the following, previously
-    mentioned top-level failures that are fatal to the Tin Bot's
-    ability to operate:
-     \\
-    Victim cannot be found, not using information
-    about the victim, not moving the victim out, and
-    victim lost while escorting.
-\end{description}
-
+The border has to be coated in cellular rubber, other than that, no further actions have to be applied.
 
 
 \end{document}
