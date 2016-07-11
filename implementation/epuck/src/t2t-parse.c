@@ -16,8 +16,8 @@ void t2t_send_heartbeat(void) {
 }
 
 static void put_uint16(unsigned int i, char* buf) {
-    buf[0] = (char)((i >> 8) & 0xFF);
-    buf[1] = (char)(i & 0xFF);
+    buf[1] = (char)((i >> 8) & 0xFF);
+    buf[0] = (char)(i & 0xFF);
 }
 
 static char cap_char(int i) {
