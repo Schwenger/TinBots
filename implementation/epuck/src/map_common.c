@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h> /* abs */
 #include <string.h> /* memcpy */
@@ -171,16 +172,17 @@ void map_move(Map* map, int by_x, int by_y) {
  *
  * This function should take 9 instructions.
  * FIXME: Can someone verify that with a disassembler?
+ * FIXME: Inline flags?  ('inline' is not C90, so need some clever matlab-checking)
  *
- * DO NOT attempt to modify multiple bytes at once!
- * The PIC chips throw an exception on unaligned data access! */
+ * The PIC chips throw an exception on unaligned data access!
+ * The reads and writes (done by the caller) *must* be properly aligned! */
 typedef char check_map_merge_byte_bitlength[(BIT_PER_FIELD == 2) ? 1 : -1];
-static char merge_byte(char previously, char input) {
+static uint16_t merge_u16(uint16_t previously, uint16_t input) {
     /* Create a mask of all 'fields' that "are not unknown",
      * which is equivalent to "are not 0b00". */
-    char mask = input;
-    mask |= (input & 0xAA) >> 1;
-    mask |= (input & 0x55) << 1;
+    uint16_t mask = input;
+    mask |= (input & 0xAAAA) >> 1;
+    mask |= (input & 0x5555) << 1;
     /* Remove information that shall be overwritten. */
     previously &= ~mask;
     /* "or"-in all new bits. */
@@ -188,16 +190,74 @@ static char merge_byte(char previously, char input) {
 }
 
 /* This implementation, too, is highly optimized.
- * Most importantly, it is optimized for the common case where the patch
- * fits wholly* in the map, and that would mean a lot of unnecessary branches.
- * (Each row is either 4 calls to merge_byte(), or 1 call to merge_long,
- * so naturally we hope for the latter.) */
+ * Hard requirements (if any of these is not met, then this doesn't work):
+ * - the lower-left corner of the patch is in a "nice" spot (assert)
+ *      -> guaranteed by prox_map.c
+ * - the patch must fit *wholly* in the map (assert)
+ *      -> guaranteed by prox_map.c (t2t.c should assert this, too)
+ * - the patch must be a proximity map (assert)
+ * - the internal map must be 2-byte aligned (attempted assert)
+ *      -> guaranteed by map_stack.c, map_heap.c
+ * - the patch (incoming packet buffer) must be 2-byte aligned (attempted assert)
+ *      -> guaranteed by tinpuck/com.c
+ *      -> guaranteed by hal/hal_matlab.c
+ *      -> guaranteed by tests/mock.c
+ * - BIT_PER_FIELD==2 (previous typedef-checks in the file) */
 void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
+    int y, dst_two_rows_bytes, dst_offset;
+    uint16_t* dst_data;
+    uint16_t* patch_data;
+
+    /* == Assert all assumptions == */
+    assert(map_get_width(patch) % 4 == 0);
+    /* Lower-left in "nice spot" */
     assert(low_left_x % 4 == 0);
     assert(low_left_y % 2 == 0);
-    assert(map_get_width(patch) % 4 == 0);
+    /* Fit wholly in map: */
     assert(map_get_width(patch) <= map_get_width(dst));
     assert(map_get_height(patch) <= map_get_height(dst));
+    assert(low_left_x >= 0);
+    assert(low_left_y >= 0);
+    assert(low_left_x + map_get_width(patch) >= map_get_width(dst));
+    assert(low_left_y + map_get_height(patch) >= map_get_height(dst));
+    /* Is proximity map: */
+    assert(map_get_width(patch) == MAP_PROXIMITY_SIZE);
+    assert(map_get_height(patch) == MAP_PROXIMITY_SIZE);
+    /* "Alignedness": */
+    assert((((ptrdiff_t)(map_serialize(patch))) & 1) == 0);
+    assert((((ptrdiff_t)(map_serialize(dst))) & 1) == 0);
 
-    /* FIXME */
+    /* == Initialize == */
+    #define PROX_TWO_ROWS_BYTES (MAP_PROXIMITY_SIZE/2)
+    assert(PROX_TWO_ROWS_BYTES % 2 == 0);
+    assert(MAP_PROXIMITY_SIZE * PROX_TWO_ROWS_BYTES / 2 == MAP_PROXIMITY_BUF_SIZE);
+    dst_two_rows_bytes = map_get_width(dst) / 2;
+    assert(dst_two_rows_bytes % 2 == 0);
+    assert(map_get_height(dst) * dst_two_rows_bytes / 2 == MAP_INTERNAL_DATA_SIZE(map_get_width(dst),map_get_height(dst)));
+
+    /* == Finally, the actual code == */
+    /* We establish a view where the map consists of "blocks" that are precisely
+     * 4 fields wide and 2 fields high, and fit precisely into a uin16_t.
+     * In this view, *_data behave like "normally" indexed maps, i.e., x+y*w */
+    #define PROX_CELL_ROW_U16S (PROX_TWO_ROWS_BYTES/2)
+    dst_two_rows_bytes /= 2;
+    /* Old name is now misleading, so us a macro instead: */
+    #define DST_CELL_ROW_U16S dst_two_rows_bytes
+    low_left_x /= 2;
+    low_left_y /= 2;
+    dst_data = (uint16_t*)map_serialize(dst);
+    patch_data = (uint16_t*)map_serialize(patch);
+    dst_data += low_left_x + low_left_y * PROX_CELL_ROW_U16S;
+    for (y = 0; y < MAP_PROXIMITY_SIZE / 2; ++y) {
+        /* Manually unroll inner loop because I expect xc16 to be
+         * too dumb for that. */
+        dst_data[0 + y * DST_CELL_ROW_U16S] = merge_u16(
+            dst_data[0 + y * DST_CELL_ROW_U16S], patch_data[0 + y * PROX_CELL_ROW_U16S]);
+        dst_data[1 + y * DST_CELL_ROW_U16S] = merge_u16(
+            dst_data[1 + y * DST_CELL_ROW_U16S], patch_data[1 + y * PROX_CELL_ROW_U16S]);
+        dst_data[2 + y * DST_CELL_ROW_U16S] = merge_u16(
+            dst_data[2 + y * DST_CELL_ROW_U16S], patch_data[2 + y * PROX_CELL_ROW_U16S]);
+        dst_data[3 + y * DST_CELL_ROW_U16S] = merge_u16(
+            dst_data[3 + y * DST_CELL_ROW_U16S], patch_data[3 + y * PROX_CELL_ROW_U16S]);
+    }
 }
