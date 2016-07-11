@@ -14,6 +14,8 @@ from prompt_toolkit.shortcuts import print_tokens
 
 from ptpython.repl import embed
 
+from lps.commands import Commands
+
 INFO = Token.Info
 SUCCESS = Token.Success
 WARNING = Token.Warning
@@ -60,9 +62,9 @@ class Debugger:
         self.print_tokens([(kind, '<<< ' + message + os.linesep)])
 
     def on_package(self, device, source, target, command, payload):
-        if command in {0x01}:
+        if command in {Commands.HELLO.number}:
             return
-        if command == 0x20:
+        '''if command == 0x20:
             exact = math.atan2(device.controller.victim_position[1] - device.position[1],
                                device.controller.victim_position[0] - device.position[0])
             exact %= 2 * math.pi
@@ -86,7 +88,7 @@ class Debugger:
             msg = '[{}] GRABBED  : {}'.format(device.color, data[17])
             self.print_message(msg, INFO)
             return
-
+        '''
         msg = '[{}] {} -> {} | {} | {!r}'.format(device.color, source, target,
                                                  command, payload)
         self.print_message(msg, INFO)

@@ -11,6 +11,8 @@
 #include "hal.h"
 #include "map.h"
 
+#include "commands.h"
+
 typedef char check_map_proximity_size[(MAP_PROXIMITY_BUF_SIZE < TIN_PACKAGE_MAX_LENGTH) ? 1 : -1];
 
 static struct {
@@ -92,7 +94,7 @@ void hal_send_done(char command) {
 }
 
 void hal_print(const char* message) {
-    static TinPackage package = {0, 0, 0x21, 0, NULL, NULL, 0, NULL};
+    static TinPackage package = {0, 0, CMD_PRINT, 0, NULL, NULL, 0, NULL};
     package.data = (char*) message;
     package.length = strlen(message);
     tin_com_send(&package);

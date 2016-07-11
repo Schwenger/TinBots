@@ -1,7 +1,3 @@
-/*
- * E-Puck Main Entry Point
- */
-
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -9,6 +5,8 @@
 #include "tinpuck.h"
 
 #include "tinbot.h"
+
+#include "commands.h"
 
 #define STATE_STARTUP 0
 #define STATE_RUNNING 1
@@ -30,24 +28,37 @@ static double proximity[8] = {0};
 
 static unsigned int do_reset = 0;
 
-static Mode mode = ALONE;
-
 static TinBot bot;
 
 
+/* default mode executed on start command */
+static Mode mode = ALONE;
+
+
+/* periodically check for new data from extension board */
+static TinTask update_ext_data_task;
+
+void update_ext_data(void) {
+    I2CCONbits.SEN = 1;
+}
+
+
+/* control commands */
 static void com_on_hello(TinPackage* package) {
-    static TinPackage response = {0, 0, 0x01, 0, NULL, NULL, 0, NULL};
+    static TinPackage response = {NULL, NULL, CMD_HELLO, 0, NULL, NULL};
+    static char data[4 + 2 + 2] __attribute__ ((aligned (4)));
+    ((float*) data)[0] = 3.1415;
+    ((int*) data)[2] = -42;
+    ((unsigned int*) data)[3] = 4255;
+    response.target = package->source;
+    response.data = data;
+    response.length = sizeof(data);
     tin_com_send(&response);
 }
 
-static void com_on_update_lps(TinPackage* package) {
-    double x = (((unsigned int) package->data[0] << 8) | ((unsigned int) package->data[1] & 0xff)) / 100.0;
-    double y = (((unsigned int) package->data[2] << 8) | ((unsigned int) package->data[3] & 0xff)) / 100.0;
-    double phi = (((unsigned int) package->data[4] << 8) | ((unsigned int) package->data[5] & 0xff)) / 1000.0;
-    lps_data[0] = x;
-    lps_data[1] = y;
-    lps_data[2] = phi;
-    lps_updated = 1;
+static void com_on_start(TinPackage* package) {
+    lps_updated = 0;
+    state = STATE_RUNNING;
 }
 
 static void com_on_reset(TinPackage* package) {
@@ -59,67 +70,48 @@ static void com_on_set_mode(TinPackage* package) {
     mode = (Mode) package->data[0];
 }
 
-
-static void com_on_victim_phi(TinPackage* package) {
-    double phi = (((unsigned int) package->data[0] << 8) | ((unsigned int) package->data[1] & 0xff)) / 1000.0;
-    victim_phi = phi;
-    victim_phi_updated = 1;
+static void com_on_update_lps(TinPackage* package) {
+    lps_data[0] = ((float*) package->data)[0];
+    lps_data[1] = ((float*) package->data)[1];
+    lps_data[2] = ((float*) package->data)[2];
+    lps_updated = 1;
 }
 
-static void com_on_start(TinPackage* package) {
-    lps_updated = 0;
-    state = STATE_RUNNING;
-}
 
-static void debug_led(TinPackage *package) {
+/* debug commands */
+static void debug_on_info(TinPackage* package) {
+    static TinPackage response = {NULL, NULL, CMD_DEBUG_INFO, 0, NULL, NULL};
+    static char data[4 * 11 + 6] __attribute__ ((aligned (4)));
     unsigned int number;
-    tin_set_led(0, ON);
     for (number = 0; number < 8; number++) {
-        tin_set_led(number, (((unsigned int) package->data[0]) >> number) & 1);
+        ((float*) data)[number] = proximity[number];
+    }
+    for (number = 0; number < 3; number++) {
+        ((float*) data)[number + 8] = lps_data[number];
+    }
+    for (number = 0; number < 6; number++) {
+        data[4 * 11 + number] = (char) ir_data[number];
+    }
+    response.target = package->source;
+    response.data = data;
+    response.length = sizeof(data);
+    tin_com_send(&response);
+}
+
+static void debug_on_led(TinPackage *package) {
+    unsigned int number;
+    unsigned int mask = ((unsigned int*) package->data)[0];
+    for (number = 0; number < 10; number++) {
+        tin_set_led(number, ((mask >> number) & 1));
     }
 }
 
-static void debug_motors(TinPackage *package) {
-    unsigned long speed_left = ((unsigned long) package->data[0] << 8) | package->data[1] - 32768;
-    unsigned long speed_right = ((unsigned long) package->data[2] << 8) | package->data[3] - 32768;
-    tin_set_speed(speed_left / 1000.0, speed_right / 1000.0);
+static void debug_on_motors(TinPackage *package) {
+    double speed_left = ((float*) package->data)[0];
+    double speed_right = ((float*) package->data)[1];
+    tin_set_speed(speed_left, speed_right);
 }
 
-static TinTask update_ext_data_task;
-
-void update_ext_data(void) {
-    I2CCONbits.SEN = 1;
-}
-
-static TinTask com_debug_task;
-
-static void com_debug(void) {
-    static TinPackage package = {0, 0, 0x11, 0, NULL, NULL, 0, NULL};
-    static char buffer[255];
-    memset(buffer, 0, 255);
-    sprintf(buffer, "%d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %f %d",
-            ir_data[0], ir_data[1], ir_data[2],
-            ir_data[3], ir_data[4], ir_data[5],
-            lps_data[0], lps_data[1], lps_data[2],
-            proximity[0], proximity[1], proximity[2], proximity[3],
-            proximity[4], proximity[5], proximity[6], proximity[7],
-            pickup_data);
-    package.data = buffer;
-    package.length = strlen(buffer);
-    tin_com_send(&package);
-}
-
-static void debug_set(TinPackage* package) {
-    if (package->data[0]) {
-        tin_task_activate(&com_debug_task);
-    } else {
-        tin_task_deactivate(&com_debug_task);
-    }
-}
-
-static void debug_oneshot(TinPackage* package) {
-    com_debug();
-}
 
 int main() {
     tin_init();
@@ -132,19 +124,16 @@ int main() {
     tin_task_register(&update_ext_data_task, update_ext_data, 500);
     tin_task_activate(&update_ext_data_task);
 
-    tin_task_register(&com_debug_task, com_debug, 5000);
+    tin_com_register(CMD_HELLO, com_on_hello);
+    tin_com_register(CMD_START, com_on_start);
+    tin_com_register(CMD_RESET, com_on_reset);
 
-    tin_com_register(0x01, com_on_hello);
-    tin_com_register(0x02, com_on_update_lps);
-    tin_com_register(0x03, com_on_start);
-    tin_com_register(0x04, com_on_victim_phi);
-    tin_com_register(0x05, com_on_reset);
-    tin_com_register(0x06, com_on_set_mode);
+    tin_com_register(CMD_SET_MODE, com_on_set_mode);
+    tin_com_register(CMD_UPDATE_LPS, com_on_update_lps);
 
-    tin_com_register(0x10, debug_led);
-    tin_com_register(0x11, debug_set);
-    tin_com_register(0x12, debug_oneshot);
-    tin_com_register(0x13, debug_motors);
+    tin_com_register(CMD_DEBUG_INFO, debug_on_info);
+    tin_com_register(CMD_DEBUG_LED, debug_on_led);
+    tin_com_register(CMD_DEBUG_MOTORS, debug_on_motors);
 
     tin_wait(2000);
 
@@ -202,6 +191,8 @@ int main() {
     }
 }
 
+
+/* I2C receive interrupt */
 ISR(_MI2CInterrupt) {
     IFS0bits.MI2CIF=0;
 
@@ -233,7 +224,6 @@ ISR(_MI2CInterrupt) {
             state = 4;
             break;
         case 4:
-            //I2CCONbits.SEN = 1;
             state = 0;
             break;
     }

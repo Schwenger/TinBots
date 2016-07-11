@@ -4,13 +4,15 @@
 #include "hal.h"
 #include "pi.h"
 
+#include "commands.h"
+
 #include "t2t.h"
 #include "t2t-parse.h"
 
 /* ===== Sending ===== */
 
 void t2t_send_heartbeat(void) {
-    hal_send_done(T2T_COMMAND_HEARTBEAT);
+    hal_send_done(CMD_T2T_HEARTBEAT);
 }
 
 static void put_uint16(unsigned int i, char* buf) {
@@ -40,7 +42,7 @@ void t2t_send_found_phi(int x, int y, double victim_phi) {
     long_angle = (long)(victim_phi * 1000);
     put_uint16(cap_int(long_angle), buf + 2);
     hal_send_put(buf, sizeof(buf));
-    hal_send_done(T2T_COMMAND_FOUND_PHI);
+    hal_send_done(CMD_T2T_VICTIM_PHI);
 }
 
 void t2t_send_found_xy(int x, int y, int iteration) {
@@ -49,7 +51,7 @@ void t2t_send_found_xy(int x, int y, int iteration) {
     buf[1] = cap_char(y);
     buf[2] = cap_char(iteration);
     hal_send_put(buf, sizeof(buf));
-    hal_send_done(T2T_COMMAND_FOUND_XY);
+    hal_send_done(CMD_T2T_VICTIM_XY);
 }
 
 void t2t_send_update_map(int x, int y, Map* map) {
@@ -58,15 +60,15 @@ void t2t_send_update_map(int x, int y, Map* map) {
     buf[1] = cap_char(y);
     hal_send_put(buf, sizeof(buf));
     hal_send_put((char*)map_serialize(map), MAP_PROXIMITY_BUF_SIZE);
-    hal_send_done(T2T_COMMAND_UPDATE_MAP);
+    hal_send_done(CMD_T2T_UPDATE_MAP);
 }
 
 void t2t_send_docked(void) {
-    hal_send_done(T2T_COMMAND_DOCKED);
+    hal_send_done(CMD_T2T_DOCKED);
 }
 
 void t2t_send_completed(void) {
-    hal_send_done(T2T_COMMAND_COMPLETED);
+    hal_send_done(CMD_T2T_COMPLETED);
 }
 
 

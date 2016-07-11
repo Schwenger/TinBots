@@ -15,7 +15,7 @@
 
 import asyncio
 
-from lps.com import Controller
+from lps.com import Controller, MODE_ALONE, MODE_FULL, MODE_RHR, MODE_VICDIR
 from lps.debugger import Debugger, INFO
 from lps.detector import Detector
 from lps.server import Server

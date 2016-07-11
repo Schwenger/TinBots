@@ -4,26 +4,6 @@
 #include "map.h"
 #include "tinbot.h"
 
-enum {
-    /* Documentation at https://piratenpad.de/p/ZuCsUfLZOdj0ua */
-    T2T_COMMAND_HEARTBEAT = 0x08,
-    T2T_COMMAND_FOUND_PHI = 0x0A,
-    T2T_COMMAND_FOUND_XY = 0x0B,
-    T2T_COMMAND_UPDATE_MAP = 0x0C,
-    T2T_COMMAND_DOCKED = 0x0D,
-    T2T_COMMAND_COMPLETED = 0x0E,
-    /* Use the reserved numbers so that clang complains in the event of a clash: */
-    ZZZ_RESERVED_PRINT = 0x00, /* Also, SCAN */
-    ZZZ_RESERVED_HELLO = 0x01,
-    ZZZ_RESERVED_PHI_DEPRECATED = 0x02,
-    ZZZ_RESERVED_LPS = 0x04,
-    ZZZ_RESERVED_XY_DEPRECATED = 0x09,
-    ZZZ_RESERVED_SET_LED = 0x80,
-    ZZZ_RESERVED_SET_MOTOR = 0x81,
-    ZZZ_RESERVED_TX_AMBIENT = 0x82,
-    ZZZ_RESERVED_TX_REFLECTION = 0x83
-};
-
 /* ===== Sending ===== */
 
 void t2t_send_heartbeat(void);
