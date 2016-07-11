@@ -1,6 +1,8 @@
 #ifndef SRC_STATE_MACHINE_COMMON_H
 #define SRC_STATE_MACHINE_COMMON_H
 
+#include "hal.h"
+
 /* Some of these must be a macro, as xc16 is too dumb. */
 
 extern const double SMC_SENSE_TOL;
