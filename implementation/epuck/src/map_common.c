@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h> /* FIXME: remove this */
 #include <stdlib.h> /* abs */
 #include <string.h> /* memcpy */
 
@@ -239,25 +240,28 @@ void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     /* We establish a view where the map consists of "blocks" that are precisely
      * 4 fields wide and 2 fields high, and fit precisely into a uin16_t.
      * In this view, *_data behave like "normally" indexed maps, i.e., x+y*w */
-    #define PROX_CELL_ROW_U16S (PROX_TWO_ROWS_BYTES/2)
+    #define PROX_CELL_TWO_ROWS_U16S (PROX_TWO_ROWS_BYTES/2)
+    assert(4 == PROX_CELL_TWO_ROWS_U16S);
     dst_two_rows_bytes /= 2;
     /* Old name is now misleading, so us a macro instead: */
-    #define DST_CELL_ROW_U16S dst_two_rows_bytes
+    #define DST_CELL_TWO_ROWS_U16S dst_two_rows_bytes
+    printf("DST_CELL_TWO_ROWS_U16S is actually %d\n", DST_CELL_TWO_ROWS_U16S);
+    assert(5 == DST_CELL_TWO_ROWS_U16S);
     low_left_x /= 4;
     low_left_y /= 2;
     dst_data = (uint16_t*)map_serialize(dst); /* BLESSED CAST */
     patch_data = (uint16_t*)map_serialize(patch); /* BLESSED CAST */
-    dst_data += low_left_x + low_left_y * DST_CELL_ROW_U16S;
+    dst_data += low_left_x + low_left_y * DST_CELL_TWO_ROWS_U16S;
     for (y = 0; y < MAP_PROXIMITY_SIZE / 2; ++y) {
         /* Manually unroll inner loop because I expect xc16 to be
          * too dumb for that. */
-        dst_data[0 + y * DST_CELL_ROW_U16S] = merge_u16(
-            dst_data[0 + y * DST_CELL_ROW_U16S], patch_data[0 + y * PROX_CELL_ROW_U16S]);
-        dst_data[1 + y * DST_CELL_ROW_U16S] = merge_u16(
-            dst_data[1 + y * DST_CELL_ROW_U16S], patch_data[1 + y * PROX_CELL_ROW_U16S]);
-        dst_data[2 + y * DST_CELL_ROW_U16S] = merge_u16(
-            dst_data[2 + y * DST_CELL_ROW_U16S], patch_data[2 + y * PROX_CELL_ROW_U16S]);
-        dst_data[3 + y * DST_CELL_ROW_U16S] = merge_u16(
-            dst_data[3 + y * DST_CELL_ROW_U16S], patch_data[3 + y * PROX_CELL_ROW_U16S]);
+        dst_data[0 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+            dst_data[0 + y * DST_CELL_TWO_ROWS_U16S], patch_data[0 + y * PROX_CELL_TWO_ROWS_U16S]);
+        dst_data[1 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+            dst_data[1 + y * DST_CELL_TWO_ROWS_U16S], patch_data[1 + y * PROX_CELL_TWO_ROWS_U16S]);
+        dst_data[2 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+            dst_data[2 + y * DST_CELL_TWO_ROWS_U16S], patch_data[2 + y * PROX_CELL_TWO_ROWS_U16S]);
+        dst_data[3 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+            dst_data[3 + y * DST_CELL_TWO_ROWS_U16S], patch_data[3 + y * PROX_CELL_TWO_ROWS_U16S]);
     }
 }
