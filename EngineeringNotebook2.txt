@@ -323,3 +323,78 @@ Solution:  even more debugging.
 Problem:  the IR stuff is really annoying and feels like Yak Shaving.
 Solution:  Hazem said:  worst case, we can fall back to the Raspberry
 providing some feedback (e.g. "Nope, that angle is completely wrong.")
+
+
+==============================
+
+scribe: Maximilian Schwenger 11.07.2016 16-18 session
+
+Overview over the current progress, securing the volatile white boards' data:
+
+On a grand scheme the software is divided into the following subcomponents:
+
+* Controller
+* Traffic Cop Eyes
+* Blind Traffic Cop 
+* RHR
+* Victim Direction
+* Victim Finder
+* Path Finder
+* Path Executor
+* Pickup Artist
+
+Controller:
+Connects each component's inputs and outputs. 
+Implementation: Done. 
+Testing: On Demand. Whenever another subcomponent is finished and ready to be tested in an integration test, the respective part of the controller is tested extensively as well.
+
+Traffic Cop Eyes:
+Connects sensor data with remaining components. Issues requests for other components to start their work.
+Implementation: Done.
+Testing: Implicit. Successfully used in MatLab, on E-Puck tested in terms of other unit's tests.
+
+Blind Traffic Cop:
+Basically an arbiter for the subcomponents.
+Implementation: Done.
+Testing: Implicit. Closely related to controller, a bug becomes very obvious based on the E-Puck's reacting which is a direct result of the logic-free controller.
+
+RHR:
+Implementation of the right hand rule.
+Implementation: Done. Addendum: In addition to the virtual prototype, we also cured a stroke, i.e., the faulty behavior that the E-Puck's left half was ignored.
+Testing: Done. Extensive integration tests. Tin Bot ran in circles around the maze for hours straight. Problematic factor is lighting conditions. Taken path visualized in web interface.
+
+Victim Direction:
+Turns the E-Puck and computes angle/position to the victim.
+Implementation: Done.
+Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems: Reflecting caused by the struts. Very prone to reflections by nearby gazers or changing lighting conditions. Solution: Using cellular rubber (thanks to Peter!) to absorb rather than reflect the signal. Solution is tested in parts.
+
+Victim Finder: 
+Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
+Implementation: Done / in debug phase. 
+Testing: Unit tests done, MatLab running, on actual E-Puck unknown, assumed to be fine, though.
+
+Path Finder: 
+Computes a path from the current position to the victim based on the internal map consisting of data gathered via proximity sensors and other Tin Bot's broadcasts.
+Implementation: State Machine done, search algorithm will be changed from A* to Bellman-Ford.
+Testing: State Machine and A* are tested via unit tests, Bellman-Ford is about to be implemented and will be subject to appropriate unit tests. Memory overhead has been considered for both algorithms and static guarantees allow us to deem the algorithm correct in this respect. On MatLab: causes simulation to crash.
+
+Path Executor:
+Executes path given by path finder.
+Implementation: done.
+Testing: Untested.
+
+Pickup Artist:
+New component. Activated after path executor reports that the victim has been reached. Decides what actions to take to assure that we can pick up the victim securely and initialize the motion outwards.
+Implementation: Not yet.
+Testing: Untested.
+
+Moreover, regarding communication, the data (de-)serialization is fully implemented and tested, both for communication with the LPS, and T2T.
+
+All hardware components are built.
+Communication protocols are implemented and extensively tested. Empirical tests in terms of any other E-Puck based test.
+- Communication frequency: 
+  + I2C: Test case lighting LEDs after a poll has been taken place.
+  + Bluetooth (to LPS): LED indicates when new data has been received and processed.
+  + Bluetooth (T2T): Actual communication untested.
+
+The border has to be coated in cellular rubber, other than that, no further actions have to be applied.
