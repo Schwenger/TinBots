@@ -6,7 +6,7 @@
 #include "path-finder.h"
 
 int main(void){
-	const int size = 10;
+	const int size = 12;
 	int i;
     int success;
     Position start, goal;
@@ -15,7 +15,7 @@ int main(void){
 
     /* Build a map */
     map = map_heap_alloc(size, size);
-	for(i = 0; i < 8; ++i) {
+	for(i = 0; i < 9; ++i) {
         map_set_field(map, 3, i, FIELD_WALL);
     }
 

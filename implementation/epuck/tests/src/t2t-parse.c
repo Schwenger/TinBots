@@ -56,12 +56,13 @@ static void test_update_map(void) {
 
     data[0] = 99;
     data[1] = 3;
-    data[2 + ((4/4) + 2 * 4)] = (char)0x89; /* 0b10 00 10 01 */
+    /* Positions (4,3)-(7,3) are stored in the byte at offset 11 of the map. */
+    data[2 + 11] = (char)0x89; /* 0b10 00 10 01 */
     m = map_heap_alloc(MAP_PROXIMITY_SIZE, MAP_PROXIMITY_SIZE);
-    map_set_field(m, 4 + 0, 2, 1);
-    map_set_field(m, 4 + 1, 2, 2);
-    map_set_field(m, 4 + 2, 2, 0);
-    map_set_field(m, 4 + 3, 2, 2);
+    map_set_field(m, 4 + 0, 3, 1);
+    map_set_field(m, 4 + 1, 3, 2);
+    map_set_field(m, 4 + 2, 3, 0);
+    map_set_field(m, 4 + 3, 3, 2);
 
     tests_mock_expect_next(&pkg);
     t2t_send_update_map(99, 3, m);
