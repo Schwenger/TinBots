@@ -16,13 +16,13 @@ from lps.victim import Victim
 class Controller:
     def __init__(self, detector):
         self.detector = detector
-        self.detector.new_data += self.on_new_data
+        self.detector.data_event += self.on_data
 
-        self.device_new = Event()
-        self.device_new += self.on_device_new
-        self.device_deleted = Event()
+        self.device_new_event = Event()
+        self.device_new_event += self.on_device_new
+        self.device_deleted_event = Event()
 
-        self.devices_visible = Event()
+        self.devices_visible_event = Event()
 
         self.devices = {}
 
@@ -48,18 +48,18 @@ class Controller:
                 name = bluetooth.lookup_name(address)
                 if name and name.startswith('e-puck_'):
                     if address not in self.devices:
-                        self.devices_visible.fire(address)
+                        self.devices_visible_event.fire(address)
                         TinBot(name, address, self)
 
     # event handlers
     def on_device_new(self, device):
-        device.on_package += self.on_package
+        device.package_event += self.on_package
 
     def on_package(self, device, source, target, command, payload):
         if target == BROADCAST_ADDRESS:
             self.broadcast(command, payload, source, target)
 
-    def on_new_data(self, _, positions):
+    def on_data(self, _, positions):
         for device in self.devices.values():
             if device.hue in positions:
                 position = positions[device.hue]

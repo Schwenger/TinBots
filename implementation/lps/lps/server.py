@@ -65,7 +65,7 @@ default_index_file = os.path.join(default_data_path, 'index.html')
 class Server:
     def __init__(self, detector, loop=None, host=None, port=None):
         self.detector = detector
-        self.detector.new_data += self.new_data
+        self.detector.data_event += self.on_data
 
         self.host = host or '0.0.0.0'
         self.port = port or 8080
@@ -102,7 +102,7 @@ class Server:
         except KeyError:
             print('unable to unregister for event ' + event)
 
-    def new_data(self, output, positions):
+    def on_data(self, output, positions):
         buffer = io.BytesIO()
         output.save(buffer, format="JPEG")
         image = base64.b64encode(buffer.getvalue())

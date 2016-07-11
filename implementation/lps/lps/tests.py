@@ -19,7 +19,7 @@ from lps.commands import Commands
 class VictimDirectionTest:
     def __init__(self, tinbot):
         self.tinbot = tinbot
-        self.tinbot.on_package += self.on_package
+        self.tinbot.package_event += self.on_package
 
     def start(self):
         self.tinbot.cmd_set_mode(3)

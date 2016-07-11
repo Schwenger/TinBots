@@ -23,7 +23,7 @@ class TinBot:
 
         self._position = None
 
-        self.on_package = Event()
+        self.package_event = Event()
 
         self.socket = bluetooth.BluetoothSocket()
         try:
@@ -118,7 +118,7 @@ class TinBot:
                     self.number = source
                     self.color, self.hue = COLOR_MAP[self.number]
                     self.controller.device_new.fire(self)
-                self.on_package.fire(self, source, target, command, payload)
+                self.package_event.fire(self, source, target, command, payload)
         except bluetooth.btcommon.BluetoothError:
             pass
         finally:

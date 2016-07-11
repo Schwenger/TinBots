@@ -120,7 +120,7 @@ def render(image, hue, x, y, angle, r):
 class Detector(threading.Thread):
     def __init__(self):
         super().__init__()
-        self.new_data = Event()
+        self.data_event = Event()
 
     def run(self):
         with picamera.camera.PiCamera() as camera:
@@ -156,7 +156,7 @@ class Detector(threading.Thread):
                                 'phi': -angle % (2 * math.pi)
                             }
                             render(output, target, x, y, angle, r)
-                    self.new_data.fire(output, positions)
+                    self.data_event.fire(output, positions)
 
             time.sleep(2)
 

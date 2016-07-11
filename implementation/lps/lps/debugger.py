@@ -33,9 +33,9 @@ style = style_from_dict({
 class Debugger:
     def __init__(self, controller, namespace=None):
         self.controller = controller
-        self.controller.device_new += self.on_device_new
-        self.controller.device_deleted += self.on_device_deleted
-        self.controller.devices_visible += self.on_device_visible
+        self.controller.device_new_event += self.on_device_new
+        self.controller.device_deleted_event += self.on_device_deleted
+        self.controller.devices_visible_event += self.on_device_visible
 
         self.namespace = namespace
         self.cli = None
@@ -96,7 +96,7 @@ class Debugger:
 
     def on_device_new(self, device):
         msg = '[NEW] Tin Bot: tin_bot_{} ({})'.format(device.color, device.address)
-        device.on_package += self.on_package
+        device.package_event += self.on_package
         self.namespace['tin_bot_{}'.format(device.color)] = device
         self.print_message(msg, SUCCESS)
 
