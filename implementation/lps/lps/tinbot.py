@@ -47,7 +47,8 @@ class TinBot:
     def send(self, command, payload=b'', source=None, target=None):
         if isinstance(command, Commands):
             command = command.number
-        self.queue.put((command, payload, source or 0, target or 0))
+        target = self.number if target is None else target
+        self.queue.put((command, payload, source or 0, target))
 
     @property
     def victim_phi(self):
