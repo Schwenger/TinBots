@@ -15,6 +15,11 @@ COLOR_MAP = {
 
 VICTIM_HUE = 0.39
 
+MODE_ALONE = 0
+MODE_FULL = 1
+MODE_RHR = 2
+MODE_VICDIR = 3
+
 
 class TinBot:
     def __init__(self, name, address, controller):
@@ -73,6 +78,10 @@ class TinBot:
 
     def cmd_reset(self):
         self.send(0x05)
+
+    def cmd_set_mode(self, mode):
+        assert 0 <= mode <= 3
+        self.send(0x06, bytes([mode]))
 
     def enable_debug(self):
         self.send(0x11, b'\x01')

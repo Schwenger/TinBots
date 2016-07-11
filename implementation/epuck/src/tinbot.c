@@ -10,19 +10,6 @@
 #include "sensors.h"
 #include "tinbot.h"
 
-/* BEGIN CHOICE BLOCK
- * This is the actual implementation that will be executed.
- * Choose any of:
- * - mode/tinbot-rhr.c (works in matlab, works in reality)
- * - mode/tinbot-vicdir.c (not implemented)
- * - mode/tinbot-alone.c (not implemented)
- * - mode/tinbot-full.c (not implemented)
- */
-
-#include "mode/tinbot-alone.c"
-
-/* END CHOICE BLOCK */
-
 void update_proximity(TinBot* tinbot, double proximity[8]) {
     unsigned int number;
     for (number = 0; number < 8; number++) {
@@ -57,4 +44,84 @@ void update_lps(TinBot* tinbot, double x, double y, double phi) {
     tinbot->sens.lps.x = x;
     tinbot->sens.lps.y = y;
     tinbot->sens.lps.phi = phi;
+}
+
+
+/* Mode - Alone */
+static void setup_alone(TinBot* tinbot) {
+    hal_print("Tin Bot Setup: Alone");
+    controller_reset(&tinbot->controller, &tinbot->sens);
+}
+
+static void loop_alone(TinBot* tinbot) {
+    ControllerInput input;
+    /* FIXME: Use actual initial lps data */
+    input.origin_x = 50;
+    input.origin_x = 50;
+
+    controller_step(&input, &tinbot->controller, &tinbot->sens);
+}
+
+
+/* Mode - Full */
+static void setup_full(TinBot* tinbot) {
+    hal_print("Tin Bot Setup: Full");
+    /* FIXME: NOT IMPLEMENTED */
+}
+
+static void loop_full(TinBot* tinbot) {
+    /* FIXME: NOT IMPLEMENTED */
+}
+
+
+/* Mode - RHR */
+static void setup_rhr(TinBot* tinbot) {
+    hal_print("Tin Bot Setup: RHR");
+    approx_reset(&tinbot->controller.approx, &tinbot->sens);
+    rhr_reset(&tinbot->controller.rhr);
+}
+
+static void loop_rhr(TinBot* tinbot) {
+    rhr_step(&tinbot->controller.rhr, &tinbot->sens);
+}
+
+
+/* Mode - VICDIR */
+static void setup_vicdir(TinBot* tinbot) {
+    hal_print("Tin Bot Setup: VicDir");
+    vd_reset(&tinbot->controller.vic_dir);
+    approx_reset(&tinbot->controller.approx, &tinbot->sens);
+}
+
+static void loop_vicdir(TinBot* tinbot) {
+    approx_step(&tinbot->controller.approx, &tinbot->sens);
+
+    vd_step(&tinbot->controller.vic_dir, &tinbot->sens);
+    hal_debug_out(DEBUG_CAT_VD_STATE, tinbot->controller.vic_dir.locals.state);
+    hal_debug_out(DEBUG_CAT_VD_VICTIM_FOUND, tinbot->controller.vic_dir.victim_found);
+    hal_debug_out(DEBUG_CAT_VD_VICTIM_PHI, tinbot->controller.vic_dir.victim_phi);
+    hal_debug_out(DEBUG_CAT_VD_GIVE_UP, tinbot->controller.vic_dir.give_up);
+    hal_debug_out(DEBUG_CAT_VD_ON_PERCENTAGE, tinbot->controller.vic_dir.locals.counter_on * 1.0 /
+                                              tinbot->controller.vic_dir.locals.counter_total);
+    hal_debug_out(DEBUG_CAT_VD_AVG_ANGLE,
+                  tinbot->controller.vic_dir.locals.weighted_sum / tinbot->controller.vic_dir.locals.counter_on);
+}
+
+static TinMode modes[] = {
+        {setup_alone, loop_alone},
+        {setup_full, loop_full},
+        {setup_rhr, loop_rhr},
+        {setup_vicdir, loop_vicdir}
+};
+
+void setup(TinBot* tinbot) {
+    modes[tinbot->mode].setup(tinbot);
+}
+
+void loop(TinBot* tinbot) {
+    modes[tinbot->mode].loop(tinbot);
+}
+
+void set_mode(TinBot* tinbot, Mode mode) {
+    tinbot->mode = mode;
 }

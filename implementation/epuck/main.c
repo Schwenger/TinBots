@@ -30,6 +30,8 @@ static double proximity[8] = {0};
 
 static unsigned int do_reset = 0;
 
+static Mode mode = ALONE;
+
 static TinBot bot;
 
 
@@ -51,6 +53,12 @@ static void com_on_update_lps(TinPackage* package) {
 static void com_on_reset(TinPackage* package) {
     do_reset = 1;
 }
+
+static void com_on_set_mode(TinPackage* package) {
+    do_reset = 1;
+    mode = (Mode) package->data[0];
+}
+
 
 static void com_on_victim_phi(TinPackage* package) {
     double phi = (((unsigned int) package->data[0] << 8) | ((unsigned int) package->data[1] & 0xff)) / 1000.0;
@@ -131,6 +139,7 @@ int main() {
     tin_com_register(0x03, com_on_start);
     tin_com_register(0x04, com_on_victim_phi);
     tin_com_register(0x05, com_on_reset);
+    tin_com_register(0x06, com_on_set_mode);
 
     tin_com_register(0x10, debug_led);
     tin_com_register(0x11, debug_set);
@@ -155,6 +164,7 @@ int main() {
             state = STATE_STARTUP;
             while (state == STATE_STARTUP);
             while (!lps_updated);
+            set_mode(&bot, mode);
             setup(&bot);
             do_reset = 0;
         }
