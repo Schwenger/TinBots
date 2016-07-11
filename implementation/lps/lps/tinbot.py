@@ -50,7 +50,7 @@ class TinBot:
         self.thread_sending = threading.Thread(target=self.sending)
         self.thread_sending.start()
 
-        # say hello
+        # send hello
         self.send(Commands.HELLO)
 
     def send(self, command, payload=b'', source=None, target=None):

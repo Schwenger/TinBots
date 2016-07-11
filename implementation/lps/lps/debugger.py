@@ -37,8 +37,15 @@ class Debugger:
         self.controller.device_new += self.on_device_new
         self.controller.device_deleted += self.on_device_deleted
         self.controller.devices_visible += self.on_device_visible
+
         self.namespace = namespace
         self.cli = None
+
+        self.handles = {
+            Commands.PRINT: self.on_print,
+            Commands.DEBUG_INFO: self.on_debug_info
+        }
+
         self.loop = asyncio.get_event_loop()
 
     def start(self):
@@ -61,9 +68,26 @@ class Debugger:
     def print_message(self, message, kind=SUCCESS):
         self.print_tokens([(kind, '<<< ' + message + os.linesep)])
 
+    def on_print(self, device, source, target, payload):
+        msg = '[{}] {}'.format(device.color, payload.decode('ascii'))
+        self.print_message(msg, INFO)
+
+    def on_debug_info(self, device, source, target, payload):
+        info = Commands.DEBUG_INFO.decode(payload)
+        msg = '[{}] PROXIMITY: {} {} {} {} {} {} {} {}'.format(device.color, *info[:8])
+        self.print_message(msg, INFO)
+        msg = '[{}] LPS      : {} {} {}'.format(device.color, *info[8:11])
+        self.print_message(msg, INFO)
+        msg = '[{}] IR       : {} {} {} {} {} {}'.format(device.color, *info[11:17])
+        self.print_message(msg, INFO)
+        msg = '[{}] GRABBED  : {}'.format(device.color, info[17])
+        self.print_message(msg, INFO)
+
     def on_package(self, device, source, target, command, payload):
         if command in {Commands.HELLO.number}:
             return
+        if command in self.handles:
+            self.handles[command](device, source, target, payload)
         '''if command == 0x20:
             exact = math.atan2(device.controller.victim_position[1] - device.position[1],
                                device.controller.victim_position[0] - device.position[0])

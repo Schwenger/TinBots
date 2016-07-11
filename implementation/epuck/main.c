@@ -81,7 +81,7 @@ static void com_on_update_lps(TinPackage* package) {
 /* debug commands */
 static void debug_on_info(TinPackage* package) {
     static TinPackage response = {NULL, NULL, CMD_DEBUG_INFO, 0, NULL, NULL};
-    static char data[4 * 11 + 6] __attribute__ ((aligned (4)));
+    static char data[4 * 11 + 6 + 1] __attribute__ ((aligned (4)));
     unsigned int number;
     for (number = 0; number < 8; number++) {
         ((float*) data)[number] = proximity[number];
@@ -92,6 +92,7 @@ static void debug_on_info(TinPackage* package) {
     for (number = 0; number < 6; number++) {
         data[4 * 11 + number] = (char) ir_data[number];
     }
+    data[4 * 11 + 6] = (char) pickup_data;
     response.target = package->source;
     response.data = data;
     response.length = sizeof(data);

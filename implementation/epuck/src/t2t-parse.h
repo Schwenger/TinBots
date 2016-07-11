@@ -8,7 +8,7 @@
 
 void t2t_send_heartbeat(void);
 
-void t2t_send_found_phi(int x, int y, double victim_phi);
+void t2t_send_found_phi(double x, double y, double victim_phi);
 
 void t2t_send_found_xy(int x, int y, int iteration);
 

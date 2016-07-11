@@ -24,6 +24,15 @@ class Command:
         self.send_spec = struct.Struct('<' + (spec or ''))
         self.recv_spec = struct.Struct('<' + (recv_spec or spec or ''))
 
+    def __eq__(self, other):
+        return self.number == other
+
+    def __ne__(self, other):
+        return self.number != other
+
+    def __hash__(self):
+        return hash(self.number)
+
     def encode(self, *arguments):
         return self.send_spec.pack(*arguments)
 
@@ -41,13 +50,13 @@ class Commands(Command, enum.Enum):
     UPDATE_LPS = 0x11, '3f'
 
     T2T_HEARTBEAT = 0x30
-    T2T_VICTIM_PHI = 0x31, 'HHf'
+    T2T_VICTIM_PHI = 0x31, 'fff'
     T2T_VICTIM_XY = 0x32, 'HHH'
     T2T_UPDATE_MAP = 0x33, 'BB64B'
     T2T_DOCKED = 0x34
     T2T_COMPLETED = 0x35
 
-    DEBUG_INFO = 0x60, '11f6B'
+    DEBUG_INFO = 0x60, '11f7B'
     DEBUG_MOTORS = 0x61, 'ff'
     DEBUG_LED = 0x62, 'H'
 

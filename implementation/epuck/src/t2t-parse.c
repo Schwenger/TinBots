@@ -30,18 +30,12 @@ static unsigned int cap_int(long l) {
     return (unsigned int)l;
 }
 
-void t2t_send_found_phi(int x, int y, double victim_phi) {
-    char buf[4];
-    long long_angle;
-    buf[0] = cap_char(x);
-    buf[1] = cap_char(y);
-    victim_phi = fmod(victim_phi, 2 * M_PI);
-    if (victim_phi < 0) {
-        victim_phi += 2 * M_PI;
-    }
-    long_angle = (long)(victim_phi * 1000);
-    put_uint16(cap_int(long_angle), buf + 2);
-    hal_send_put(buf, sizeof(buf));
+void t2t_send_found_phi(double x, double y, double victim_phi) {
+    char buffer[4 * 3] __attribute__ ((aligned (4)));
+    ((float*) buffer)[0] = x;
+    ((float*) buffer)[1] = y;
+    ((float*) buffer)[2] = victim_phi;
+    hal_send_put(buffer, sizeof(buffer));
     hal_send_done(CMD_T2T_VICTIM_PHI);
 }
 

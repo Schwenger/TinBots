@@ -7,6 +7,7 @@
 #include "sensors.h"
 #include "state-machine-common.h"
 #include "victim-direction.h"
+#include "t2t-parse.h"
 
 #define LOG_TRANSITIONS_VICDIR
 
@@ -106,6 +107,7 @@ static void compute_result(VDState* vd, Sensors* sens) {
         hal_print(buf);
     }
     #endif
+    t2t_send_found_phi(sens->current.x, sens->current.y, vd->victim_phi);
     vd->victim_found = 1;
 }
 
