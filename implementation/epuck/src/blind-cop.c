@@ -31,7 +31,7 @@ enum BLIND_LEAF_STATES {
     /* BLIND_follow_path */
     BLIND_LEAF_run_to_victim,
     BLIND_LEAF_wait_path_zero,
-        /* No 'docking' state (yet?) */
+    BLIND_LEAF_docking,
     BLIND_LEAF_outta_here
     /* BLIND_no_path */
         /* No sub states here */
@@ -68,7 +68,15 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
     const int old_state = blind->locals.state_big;
     switch (blind->locals.state_big) {
     case BLIND_init_rhr:
-        if (inputs->found_victim_xy) {
+        if (inputs->victim_attached) {
+            /* Whee! */
+            blind->locals.state_big = BLIND_follow_path;
+            blind->locals.state_leaf = BLIND_LEAF_wait_path_zero;
+            blind->run_choice = BLIND_RUN_CHOICE_none;
+            #ifdef LOG_TRANSITIONS_BLIND_COP
+            hal_print("BC:ir/*-v->fp/wpz");
+            #endif
+        } else if (inputs->found_victim_xy) {
             blind->locals.state_big = BLIND_follow_path;
             blind->locals.state_leaf = BLIND_LEAF_run_to_victim;
             blind->run_choice = BLIND_RUN_CHOICE_none;
@@ -127,22 +135,44 @@ void blind_step(BlindInputs* inputs, BlindState* blind) {
             case BLIND_LEAF_run_to_victim:
                 /* Might be coming back from no_path */
                 blind->run_choice = BLIND_RUN_CHOICE_path_finder;
-                if (inputs->path_completed) {
+                if (inputs->victim_attached) {
+                    /* Whee! */
+                    blind->locals.state_big = BLIND_follow_path;
                     blind->locals.state_leaf = BLIND_LEAF_wait_path_zero;
                     blind->run_choice = BLIND_RUN_CHOICE_none;
                     #ifdef LOG_TRANSITIONS_BLIND_COP
-                    hal_print("BC:fp/rtp->fp/wpz");
+                    hal_print("BC:fp/rtv-v->fp/wpz");
+                    #endif
+                } else if (inputs->path_completed) {
+                    blind->locals.state_leaf = BLIND_LEAF_wait_path_zero;
+                    blind->run_choice = BLIND_RUN_CHOICE_none;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
+                    hal_print("BC:fp/rtv->fp/wpz");
                     #endif
                 }
                 break;
             case BLIND_LEAF_wait_path_zero:
                 if (!inputs->path_completed) {
+                    blind->locals.state_leaf = BLIND_LEAF_docking;
+                    blind->dst_x = inputs->origin_x;
+                    blind->dst_y = inputs->origin_y;
+                    blind->is_victim = 0;
+                    #ifdef LOG_TRANSITIONS_BLIND_COP
+                    hal_print("BC:fp/wpz->fp/do");
+                    #endif
+                }
+                break;
+            case BLIND_LEAF_docking:
+                if (!inputs->victim_attached) {
+                    /* Really?  Aww, shucks. */
+                    blind->run_choice = BLIND_RUN_CHOICE_pickup_artist;
+                } else {
                     blind->locals.state_leaf = BLIND_LEAF_outta_here;
                     blind->dst_x = inputs->origin_x;
                     blind->dst_y = inputs->origin_y;
                     blind->is_victim = 0;
                     #ifdef LOG_TRANSITIONS_BLIND_COP
-                    hal_print("BC:fp/wpz->fp/oh");
+                    hal_print("BC:fp/do->fp/oh");
                     #endif
                 }
                 break;

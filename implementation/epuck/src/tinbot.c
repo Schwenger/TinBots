@@ -33,7 +33,7 @@ void update_ir(TinBot* tinbot, int ir[6]) {
 }
 
 void update_victim_pickup(TinBot* tinbot, unsigned int grabbed) {
-
+    tinbot->sens.victim_attached = !!grabbed;
 }
 
 void update_victim_phi(TinBot* tinbot, double phi) {
@@ -115,6 +115,7 @@ static TinMode modes[] = {
 };
 
 void setup(TinBot* tinbot) {
+    tinbot->sens.victim_attached = 0;
     modes[tinbot->mode].setup(tinbot);
 }
 

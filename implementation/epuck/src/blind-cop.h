@@ -12,6 +12,7 @@ typedef struct BlindInputs {
     double victim_x;
     double victim_y;
     int path_completed;
+    int victim_attached;
 } BlindInputs;
 
 typedef struct BlindLocals {
@@ -22,9 +23,10 @@ typedef struct BlindLocals {
 
 enum BlindRunChoice {
     BLIND_RUN_CHOICE_none,
-    BLIND_RUN_CHOICE_path_finder,
     BLIND_RUN_CHOICE_rhr,
-    BLIND_RUN_CHOICE_victim_finder
+    BLIND_RUN_CHOICE_victim_finder,
+    BLIND_RUN_CHOICE_pickup_artist,
+    BLIND_RUN_CHOICE_path_finder
 };
 
 typedef struct BlindState {

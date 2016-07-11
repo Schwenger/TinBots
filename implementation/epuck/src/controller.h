@@ -6,6 +6,7 @@
 #include "ir-stabilizer.h"
 #include "path-exec.h"
 #include "path-finder.h"
+#include "pickup-artist.h"
 #include "rhr.h"
 #include "sensors.h"
 #include "traffic-cop-eyes.h"
@@ -17,11 +18,13 @@ typedef struct Controller {
     BlindState blind;
     PathExecState path_exec;
     PathFinderState path_finder;
+    PickupState pickup_artist;
     RhrState rhr;
     IRSState ir_stab;
     TCEState cop_eyes;
     VDState vic_dir;
     VFState vic_finder;
+    int is_dead;
 } Controller;
 
 typedef struct ControllerInput {

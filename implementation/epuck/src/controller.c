@@ -6,6 +6,7 @@
 void controller_reset(Controller* c, Sensors* sens) {
     approx_reset(&c->approx, sens);
     blind_reset(&c->blind);
+    pa_reset(&c->pickup_artist);
     pe_reset(&c->path_exec);
     pf_reset(&c->path_finder);
     rhr_reset(&c->rhr);
@@ -13,9 +14,10 @@ void controller_reset(Controller* c, Sensors* sens) {
     tce_reset(&c->cop_eyes);
     vd_reset(&c->vic_dir);
     vf_reset(&c->vic_finder);
+    c->is_dead = 0;
 }
 
-static void inquire_blind_decision(Controller* c, ControllerInput* in);
+static void inquire_blind_decision(Controller* c, ControllerInput* in, Sensors* sens);
 static void inquire_eyes_decision(Controller* c, Sensors* sens);
 static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, Sensors* sens);
 static void run_victim_finder(Controller* c, Sensors* sens);
@@ -24,6 +26,10 @@ static void run_path_finder_executer(Controller* c, Sensors* sens);
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     enum BlindRunChoice old_choice;
 
+    if (c->is_dead) {
+        /* Nope, totally dead. */
+        return;
+    }
     approx_step(&c->approx, sens);
 
     /* First, the eyes decide whether we need an interrupt. */
@@ -31,7 +37,7 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
 
     /* Now the traffic cop decides "who is allowed to drive". */
     old_choice = c->blind.run_choice;
-    inquire_blind_decision(c, in);
+    inquire_blind_decision(c, in, sens);
 
     /* Do we need to reset any of the state machines? */
     if (old_choice != c->blind.run_choice) {
@@ -48,6 +54,9 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
         break;
     case BLIND_RUN_CHOICE_victim_finder:
         run_victim_finder(c, sens);
+        break;
+    case BLIND_RUN_CHOICE_pickup_artist:
+        pa_step(&c->pickup_artist);
         break;
     case BLIND_RUN_CHOICE_path_finder:
         assert(!c->path_finder.no_path && !c->path_finder.path_completed);
@@ -69,13 +78,13 @@ void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     /* FIXME: T2T_update_map(&c->path_finder, sens) */
 }
 
-static void inquire_blind_decision(Controller* c, ControllerInput* in) {
+static void inquire_blind_decision(Controller* c, ControllerInput* in, Sensors* sens) {
     BlindInputs inputs;
     inputs.found_victim_xy = c->vic_finder.found_victim_xy;
     inputs.need_angle = c->cop_eyes.need_angle;
     inputs.no_path = c->path_finder.no_path;
     inputs.path_completed = c->path_finder.path_completed;
-
+    inputs.victim_attached = sens->victim_attached;
     inputs.origin_x = in->origin_x;
     inputs.origin_y = in->origin_y;
     inputs.victim_x = c->vic_finder.victim_x;
@@ -110,6 +119,10 @@ static void reset_appropriately(enum BlindRunChoice old_choice, Controller* c, S
             /* Make sure that Victim Finder is *definitely* deactivated. */
             inputs.found_victim_phi = 0;
             vf_step(&inputs, &c->vic_finder, sens);
+            break;
+        case BLIND_RUN_CHOICE_pickup_artist:
+            /* It will/should never run twice, but reset it anyways. */
+            pa_reset(&c->pickup_artist);
             break;
         case BLIND_RUN_CHOICE_path_finder:
             pf_reset(&c->path_finder);
