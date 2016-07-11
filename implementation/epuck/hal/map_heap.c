@@ -40,6 +40,7 @@ MapContainer* map_heap_container;
 
 Map* map_heap_alloc(int w, int h) {
     Map* map;
+    assert(w <= MAP_MAX_WIDTH && h <= MAP_MAX_HEIGHT);
     assert(w % 4 == 0);
     assert(h % 2 == 0);
     /* This buffer will be read by other tinbots, and therefore "needs" to be

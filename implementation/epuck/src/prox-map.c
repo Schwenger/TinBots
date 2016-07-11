@@ -6,13 +6,25 @@
 
 /* Invariant: lower_left.x%4==0 && lower_left.y%2==0
  * This allows for an efficient implementation in map_merge and map_move. */
-
-static const double HALF_SIZE = MAP_PROXIMITY_SIZE * 0.5;
-static const double FLICKER_INERTIA = 1;
+ 
+#define HALF_SIZE (MAP_PROXIMITY_SIZE * 0.5)
+#define FLICKER_INERTIA 1
+#define MIN_STEP_X 4
+#define MIN_STEP_Y 2
+typedef char check_minstep_is_valid[(0 < MAP_INTERNAL_DATA_SIZE(MIN_STEP_X,MIN_STEP_Y)) ? 1 : -1];
 
 static void desired_position(Position* into, Sensors* from) {
     into->x = (int)((from->current.x - HALF_SIZE) / 4 + 0.5) * 4;
     into->y = (int)((from->current.y - HALF_SIZE) / 2 + 0.5) * 2;
+/* I hate doing this. */
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+    into->x = MAX(into->x, 0);
+    into->y = MAX(into->y, 0);
+    into->x = MIN(into->x, MAP_MAX_WIDTH - MIN_STEP_X);
+    into->y = MIN(into->y, MAP_MAX_HEIGHT - MIN_STEP_Y);
+#undef MIN
+#undef MAX
     assert(into->x%4 == 0 && into->y%2 == 0);
 }
 

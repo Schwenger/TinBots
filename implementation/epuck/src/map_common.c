@@ -16,15 +16,23 @@
  * positive y, then to the end in positive x direction, then to the
  * end in positive y direction. */
 
-/* Check that constant in map-h */
+/* Check the constants in map.h */
 typedef char check_neighborhood_map_length[(MAP_PROXIMITY_BUF_SIZE == MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)) ? 1 : -1];
+typedef char check_bit_length[(NUM_FIELD <= (1 << BIT_PER_FIELD)) ? 1 : -1];
+typedef char check_max_is_valid[(0 < MAP_INTERNAL_DATA_SIZE(MAP_MAX_WIDTH,MAP_MAX_HEIGHT)) ? 1 : -1];
+/* We don't have space for a 256x256 map (16 KiB).
+ * In case you're from the future and need larger maps:
+ * - I *think* no code uses the 256-constraint though.
+ * - Do the E-Pucks finally have sanely-sized memory? :D
+ * - MAP_MAX_WIDTH and MAP_MAX_HEIGHT are still necessary for fast
+ *   interaction between map_merge/prox_map, so don't overdo it. */
+typedef char check_max_width[(MAP_MAX_WIDTH < 256) ? 1 : -1];
+typedef char check_max_height[(MAP_MAX_HEIGHT < 256) ? 1 : -1];
 
 unsigned long map_internal_locate(int x, int y, int w, int h) {
     unsigned long bit_offset;
-
     assert(w >= 1 && h >= 1);
-    /* I don't see why this should ever be violated */
-    assert(w <= 256 && h <= 256);
+    assert(w <= MAP_MAX_WIDTH && h <= MAP_MAX_HEIGHT);
     assert(x >= 0 && y >= 0 && x < w && y < h);
     assert(w % 4 == 0);
     assert(h % 2 == 0);
@@ -35,7 +43,7 @@ unsigned long map_internal_locate(int x, int y, int w, int h) {
 }
 
 /* Assume that a field always fits wholly into a byte: */
-typedef char check_bit_length[((8 / BIT_PER_FIELD) * BIT_PER_FIELD == 8) ? 1 : -1];
+typedef char check_fields_fit_byte[((8 / BIT_PER_FIELD) * BIT_PER_FIELD == 8) ? 1 : -1];
 
 static const unsigned int FIELD_MASK = (1 << BIT_PER_FIELD) - 1;
 

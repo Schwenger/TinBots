@@ -2,12 +2,9 @@
 
 /* ===== Implementation of map.h, using the static section (.bss) ===== */
 
-#define MAP_WIDTH 100
-#define MAP_HEIGHT 100
-
 /* These buffers will be accessed by map_move / map_merge, and therefore
  * need to be 2-byte aligned. */
-static unsigned char map_accu[MAP_INTERNAL_DATA_SIZE(MAP_WIDTH,MAP_HEIGHT)]
+static unsigned char map_accu[MAP_INTERNAL_DATA_SIZE(MAP_MAX_WIDTH,MAP_MAX_HEIGHT)]
     __attribute__ ((aligned (2)));
 static unsigned char map_prox[MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)]
     __attribute__ ((aligned (2)));
@@ -28,11 +25,11 @@ Map* map_get_proximity() {
 }
 
 int map_get_width(Map* map) {
-    return map == map_get_accumulated() ? MAP_WIDTH : MAP_PROXIMITY_SIZE;
+    return map == map_get_accumulated() ? MAP_MAX_WIDTH : MAP_PROXIMITY_SIZE;
 }
 
 int map_get_height(Map* map) {
-    return map == map_get_accumulated() ? MAP_HEIGHT : MAP_PROXIMITY_SIZE;
+    return map == map_get_accumulated() ? MAP_MAX_HEIGHT : MAP_PROXIMITY_SIZE;
 }
 
 Map* map_deserialize(unsigned char* buffer) {
