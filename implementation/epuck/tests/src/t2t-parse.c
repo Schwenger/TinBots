@@ -1,12 +1,13 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include "commands.h"
 #include "map_heap.h"
 #include "mock.h"
 #include "t2t-parse.h"
 
 static void test_heartbeat(void) {
-    ExpectPackage pkg = {T2T_COMMAND_HEARTBEAT, 0, NULL};
+    ExpectPackage pkg = {CMD_T2T_HEARTBEAT, 0, NULL};
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
@@ -16,7 +17,7 @@ static void test_heartbeat(void) {
 
 static void test_found_phi1(void) {
     char data[4] = {42, 7, 0, 0};
-    ExpectPackage pkg = {T2T_COMMAND_FOUND_PHI, 4, NULL};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -27,7 +28,7 @@ static void test_found_phi1(void) {
 
 static void test_found_phi2(void) {
     char data[4] = {0, 99, 1, 0};
-    ExpectPackage pkg = {T2T_COMMAND_FOUND_PHI, 4, NULL};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -38,7 +39,7 @@ static void test_found_phi2(void) {
 
 static void test_found_xy(void) {
     char data[4] = {12, 34, 56};
-    ExpectPackage pkg = {T2T_COMMAND_FOUND_XY, 3, NULL};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_XY, 3, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -50,7 +51,7 @@ static void test_found_xy(void) {
 static void test_update_map(void) {
     Map* m;
     char data[2 + MAP_PROXIMITY_BUF_SIZE] = {0};
-    ExpectPackage pkg = {T2T_COMMAND_UPDATE_MAP, 2 + MAP_PROXIMITY_BUF_SIZE, NULL};
+    ExpectPackage pkg = {CMD_T2T_UPDATE_MAP, 2 + MAP_PROXIMITY_BUF_SIZE, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -72,7 +73,7 @@ static void test_update_map(void) {
 }
 
 static void test_docked(void) {
-    ExpectPackage pkg = {T2T_COMMAND_DOCKED, 0, NULL};
+    ExpectPackage pkg = {CMD_T2T_DOCKED, 0, NULL};
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
@@ -81,7 +82,7 @@ static void test_docked(void) {
 }
 
 static void test_completed(void) {
-    ExpectPackage pkg = {T2T_COMMAND_COMPLETED, 0, NULL};
+    ExpectPackage pkg = {CMD_T2T_COMPLETED, 0, NULL};
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
