@@ -62,7 +62,7 @@ int main() {
         }
         tests_mock_tick(10);
     }
-    printf("VICTIM DIRECTION END RESULT: true_phi=%5.3f v_phi=%5.3f have_phi=%1d give_up=%1d\n",
+    printf("result: true_phi=%5.3f v_phi=%5.3f have_phi=%1d give_up=%1d\n",
         true_victim_phi,
         vds.victim_phi,
         vds.victim_found,

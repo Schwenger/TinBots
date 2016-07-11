@@ -64,8 +64,9 @@ say:
 
 .PHONY: ${RUNTARGETS}
 ${RUNTARGETS}: run-%: ${BINDIR}/%
+	@echo "[TEST] Running $@ test ..."
 # This is magic:
-	$<
+	@$<
 
 .PHONY: ${VALGRINDTARGETS}
 ${VALGRINDTARGETS}: valgrind-%: ${BINDIR}/%
@@ -77,18 +78,23 @@ ${VALGRINDTARGETS}: valgrind-%: ${BINDIR}/%
 # Object files
 
 ${TBOBJS}: ${OBJDIR}/%_tb.o: ../src/%.c ${TBHEADERS} | dirs
-	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
+	@echo "[ CC ] -o $@ $<"
+	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 ${OBJDIR}/mock.o: mock.c ${TBHEADERS} | dirs
-	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
+	@echo "[ CC ] -o $@ $<"
+	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 ${OBJDIR}/map_heap.o: ../hal/map_heap.c ${TBHEADERS} | dirs
-	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
+	@echo "[ CC ] -o $@ $<"
+	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 ${TESTOBJS}: ${OBJDIR}/%_test.o: src/%.c ${TBHEADERS} | dirs
-	clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
+	@echo "[ CC ] -o $@ $<"
+	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 # Binaries
 
 ${TESTBINS}: ${BINDIR}/%: ${OBJDIR}/%_test.o ${OBJDIR}/mock.o ${OBJDIR}/map_heap.o ${TBOBJS} | dirs
-	clang ${LFLAGS} -o $@ $^
+	@echo "[LINK] -o $@"
+	@clang ${LFLAGS} -o $@ $^
