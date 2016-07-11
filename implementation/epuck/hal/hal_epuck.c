@@ -52,7 +52,7 @@ hal_time hal_get_time(void) {
     return tin_get_time();
 }
 
-static TinPackage send_buf = {0}; /* init length = 0 */
+static TinPackage send_buf = {0, 0, 0, 0, NULL, NULL, 0, NULL};
 
 static void send_buf_wait(void) {
     static int send_buf_sending = 0;
@@ -92,7 +92,7 @@ void hal_send_done(char command) {
 }
 
 void hal_print(const char* message) {
-    static TinPackage package = {NULL, 0x00, 0x21, 0x00};
+    static TinPackage package = {0, 0, 0x21, 0, NULL, NULL, 0, NULL};
     package.data = (char*) message;
     package.length = strlen(message);
     tin_com_send(&package);

@@ -36,7 +36,7 @@ static TinBot bot;
 
 
 static void com_on_hello(TinPackage* package) {
-    static TinPackage response = {NULL, 0x00, 0x01, 0x00};
+    static TinPackage response = {0, 0, 0x01, 0, NULL, NULL, 0, NULL};
     tin_com_send(&response);
 }
 
@@ -94,7 +94,7 @@ void update_ext_data(void) {
 static TinTask com_debug_task;
 
 static void com_debug(void) {
-    static TinPackage package = {NULL, 0x00, 0x11, 0x00};
+    static TinPackage package = {0, 0, 0x11, 0, NULL, NULL, 0, NULL};
     static char buffer[255];
     memset(buffer, 0, 255);
     sprintf(buffer, "%d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %f %d",
