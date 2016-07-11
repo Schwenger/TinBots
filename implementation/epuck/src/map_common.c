@@ -7,19 +7,29 @@
 
 /* ===== Common implementation of map.h ===== */
 
+/* Layout in memory:
+ *
+ * ABCDIJKLQRST..
+ * EFGHMNOPUVWX..
+ *
+ * Or in words: groups of four to positive x, then groups of 2 to
+ * positive y, then to the end in positive x direction, then to the
+ * end in positive y direction. */
+
 /* Check that constant in map-h */
 typedef char check_neighborhood_map_length[(MAP_PROXIMITY_BUF_SIZE == MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)) ? 1 : -1];
 
-typedef unsigned long FieldPtr;
-
-static FieldPtr locate(int x, int y, int w, int h) {
-    FieldPtr bit_offset;
+unsigned long map_internal_locate(int x, int y, int w, int h) {
+    unsigned long bit_offset;
 
     assert(w >= 1 && h >= 1);
     /* I don't see why this should ever be violated */
     assert(w <= 256 && h <= 256);
     assert(x >= 0 && y >= 0 && x < w && y < h);
-    bit_offset = (FieldPtr)(x + y * w);
+    assert(w % 4 == 0);
+    assert(h % 2 == 0);
+    x = (int)((unsigned int)(x & ~0x3) << 1) + (x & 0x3);
+    bit_offset = (unsigned long)(x + (y >> 1) * 2 * w + (y & 1) * 4);
     bit_offset *= BIT_PER_FIELD;
     return bit_offset;
 }
@@ -31,12 +41,12 @@ static const unsigned int FIELD_MASK = (1 << BIT_PER_FIELD) - 1;
 
 FieldType map_get_field(Map* map, int x, int y) {
     unsigned char* data;
-    FieldPtr p;
+    unsigned long p;
     unsigned char raw_char;
     unsigned int bit_idx;
     FieldType result;
     data = map_serialize(map);
-    p = locate(x, y, map_get_width(map), map_get_height(map));
+    p = map_internal_locate(x, y, map_get_width(map), map_get_height(map));
     raw_char = data[p >> 3];
     bit_idx = p & 0x7; /* 0b111 */
     assert((bit_idx % BIT_PER_FIELD) == 0);
@@ -46,12 +56,12 @@ FieldType map_get_field(Map* map, int x, int y) {
 
 void map_set_field(Map* map, int x, int y, FieldType type) {
     unsigned char* data;
-    FieldPtr p;
+    unsigned long p;
     unsigned char raw_char;
     unsigned int bit_idx;
     assert((type & ~FIELD_MASK) == 0);
     data = map_serialize(map);
-    p = locate(x, y, map_get_width(map), map_get_height(map));
+    p = map_internal_locate(x, y, map_get_width(map), map_get_height(map));
     raw_char = data[p >> 3];
     bit_idx = p & 0x7; /* 0b111 */
     assert((bit_idx % BIT_PER_FIELD) == 0);
@@ -67,23 +77,30 @@ void map_clear(Map* map) {
     memset(map_serialize(map), 0, (unsigned long)MAP_INTERNAL_DATA_SIZE(map_get_width(map),map_get_height(map)));
 }
 
-#define FIELDS_TO_BYTES(f) (((f)*BIT_PER_FIELD)/8)
+/* ===== map_move ===== */
+
+/* map_move and map_merge have to be hard-coded: */
+typedef char check_bit_per_field[(BIT_PER_FIELD == 2) ? 1 : -1];
 
 void map_move(Map* map, int by_x, int by_y) {
-    int w, h, row_bytes;
+    int w, h, two_rows_bytes;
     unsigned char* data;
 
     /* == Initialization.  Nothing fancy. == */
     w = map_get_width(map);
     h = map_get_height(map);
-    assert(by_x % (8 / BIT_PER_FIELD) == 0);
-    assert(w % (8 / BIT_PER_FIELD) == 0);
-    row_bytes = FIELDS_TO_BYTES(w);
-    assert(row_bytes > 0);
+    assert(by_x % 4 == 0);
+    assert(by_y % 2 == 0);
+    assert(w % 4 == 0);
+    assert(h % 2 == 0);
+    two_rows_bytes = w / 2;
+    assert(two_rows_bytes > 0);
+    assert(two_rows_bytes % 2 == 0);
+    assert(h * two_rows_bytes / 2 == MAP_INTERNAL_DATA_SIZE(w,h));
     data = map_serialize(map);
 
     /* Do it in two separate steps, because that's easier,
-     * and should be only marginally slower.
+     * and should be only marginally slower than combined action.
      * (And we don't actually care about performance here,
      * I just wanted this algorithm to be simple, and there's
      * not enough memory for a second buffer.) */
@@ -92,31 +109,24 @@ void map_move(Map* map, int by_x, int by_y) {
     assert(FIELD_UNKNOWN == 0);
     if (abs(by_x) >= w) {
         map_clear(map);
-        /* Returning early is just an optimization, and does not change behavior. */
+        /* Returning early is just an optimization,
+         * and does not change behavior: */
         return;
     } else if (by_x < 0) {
         int y;
-        const int by_x_bytes = FIELDS_TO_BYTES(-by_x);
-        assert(by_x_bytes > 0);
-        assert(by_x_bytes < row_bytes);
-        for (y = 0; y < h; ++y) {
-            memmove(data + y * row_bytes,
-                    data + by_x_bytes + y * row_bytes,
-                    (unsigned int)(row_bytes - by_x_bytes));
-            memset(data + (y + 1) * row_bytes - by_x_bytes, 0, (unsigned int)by_x_bytes);
+        const unsigned int by_x_bytes = (unsigned int)(-by_x/2);
+        assert(by_x_bytes < (unsigned int)two_rows_bytes);
+        memmove(data, data + by_x_bytes, (unsigned int)(h * two_rows_bytes / 2) - by_x_bytes);
+        for (y = 0; y < h; y += 2) {
+            memset(data + (y / 2 + 1) * two_rows_bytes - by_x_bytes, 0, by_x_bytes);
         }
     } else if (by_x > 0) {
         int y;
-        const int by_x_bytes = FIELDS_TO_BYTES(by_x);
-        assert(by_x_bytes > 0);
-        assert(by_x_bytes < row_bytes);
-        for (y = 0; y < h; ++y) {
-            memmove(data + by_x_bytes + y * row_bytes,
-                    data + y * row_bytes,
-                    (unsigned int)(row_bytes - by_x_bytes));
-            memset(data + y * row_bytes,
-                   0,
-                   (unsigned int)by_x_bytes);
+        const unsigned int by_x_bytes = (unsigned int)(by_x/2);
+        assert(by_x_bytes < (unsigned int)two_rows_bytes);
+        memmove(data + by_x_bytes, data, (unsigned int)(h * two_rows_bytes / 2) - by_x_bytes);
+        for (y = 0; y < h; y += 2) {
+            memset(data + (y / 2) * two_rows_bytes, 0, by_x_bytes);
         }
     }
 
@@ -126,18 +136,18 @@ void map_move(Map* map, int by_x, int by_y) {
         map_clear(map);
     } else if (by_y < 0) {
         memmove(data,
-                data + (-by_y) * row_bytes,
-                (unsigned int)(row_bytes * (h - (-by_y))));
-        memset(data + row_bytes * (h - (-by_y)),
+                data + two_rows_bytes * (-by_y) / 2,
+                (unsigned int)((h - (-by_y)) * two_rows_bytes / 2));
+        memset(data + (h - (-by_y)) * two_rows_bytes / 2,
                0,
-               (unsigned int)(row_bytes * (-by_y)));
+               (unsigned int)(-by_y * two_rows_bytes / 2));
     } else if (by_y > 0) {
-        memmove(data + by_y * row_bytes,
+        memmove(data + two_rows_bytes * by_y / 2,
                 data,
-                (unsigned int)(row_bytes * (h - by_y)));
+                (unsigned int)((h - by_y) * two_rows_bytes / 2));
         memset(data,
                0,
-               (unsigned int)(row_bytes * by_y));
+               (unsigned int)(by_y * two_rows_bytes / 2));
     }
 }
 
