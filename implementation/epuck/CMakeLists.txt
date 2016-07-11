@@ -49,6 +49,7 @@ set(SOURCE_FILES
         src/map_common.c
         src/path-exec.c
         src/path-finder.c
+        src/pickup-artist.c
         src/prox-map.c
         src/rhr.c
         src/state-machine-common.c
