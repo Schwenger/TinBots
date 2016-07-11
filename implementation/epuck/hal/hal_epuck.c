@@ -53,10 +53,9 @@ hal_time hal_get_time(void) {
 }
 
 static TinPackage send_buf = {0, 0, 0, 0, NULL, NULL, 0, NULL};
+static int send_buf_sending = 0;
 
 static void send_buf_wait(void) {
-    static int send_buf_sending = 0;
-
     if (send_buf_sending) {
         while (!send_buf.completed)
             /* Not good, so do "active-waiting".
@@ -89,6 +88,7 @@ void hal_send_done(char command) {
     send_buf.completed = 0;
     tin_com_send(&send_buf);
     /* Not touching 'hal_send_buf.next' */
+    send_buf_sending = 1;
 }
 
 void hal_print(const char* message) {
