@@ -15,7 +15,8 @@
 
 import asyncio
 
-from lps.tinbot import Controller, MODE_ALONE, MODE_FULL, MODE_RHR, MODE_VICDIR
+from lps.constants import Modes
+from lps.controller import Controller
 from lps.debugger import Debugger, INFO
 from lps.detector import Detector
 from lps.server import Server
@@ -38,7 +39,14 @@ if __name__ == '__main__':
 
     loop.run_until_complete(server.setup())
 
-    debugger = Debugger(controller, {'controller': controller, 'detector': detector})
+    namespace = {
+        'controller': controller,
+        'detector': detector,
+        'Modes': Modes
+    }
+
+    debugger = Debugger(controller, namespace)
+
     future = debugger.start()
     future.add_done_callback(lambda _: raise_keyboard_interrupt())
 

@@ -1,25 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import math
 import threading
 import time
 import queue
 
 import bluetooth
 
+from lps.constants import COLOR_MAP, Modes
 from lps.commands import Commands
 from lps.event import Event
-
-COLOR_MAP = {
-    1: ('red', 0.95),
-    2: ('blue', 0.54)
-}
-
-VICTIM_HUE = 0.39
-
-MODE_ALONE = 0
-MODE_FULL = 1
-MODE_RHR = 2
-MODE_VICDIR = 3
 
 
 class TinBot:
@@ -30,7 +20,8 @@ class TinBot:
         self.hue = None
         self.address = address
         self.controller = controller
-        self.position = None
+
+        self._position = None
 
         self.on_package = Event()
 
@@ -44,10 +35,10 @@ class TinBot:
 
         self.queue = queue.Queue()
 
-        self.thread_receive = threading.Thread(target=self.receive)
+        self.thread_receive = threading.Thread(target=self._receive_loop)
         self.thread_receive.start()
 
-        self.thread_sending = threading.Thread(target=self.sending)
+        self.thread_sending = threading.Thread(target=self._sending_loop)
         self.thread_sending.start()
 
         # send hello
@@ -58,45 +49,59 @@ class TinBot:
             command = command.number
         self.queue.put((command, payload, source or 0, target or 0))
 
-    def cmd_start(self):
+    @property
+    def victim_phi(self):
+        phi = math.atan2(self.controller.victim.position[1] - self.position[1],
+                         self.controller.victim_position[0] - self.position[0])
+        return phi % (2 * math.pi)
+
+    # commands
+    def start(self):
         self.send(Commands.START)
 
-    def cmd_lps_position(self, x, y, phi):
-        self.position = (x, y, phi)
-        payload = Commands.UPDATE_LPS.encode(x, y, phi)
-        self.send(Commands.UPDATE_LPS, payload)
-
-    def cmd_debug_motors(self, left_speed, right_speed):
-        payload = Commands.DEBUG_MOTORS.encode(left_speed, right_speed)
-        self.send(Commands.DEBUG_MOTORS, payload)
-
-    def cmd_debug_leds(self, bitmask):
-        payload = Commands.DEBUG_LED.encode(bitmask)
-        self.send(Commands.DEBUG_LED, payload)
-
-    def cmd_victim_phi(self, phi, source=None):
-        payload = Commands.T2T_VICTIM_PHI.encode(phi)
-        self.send(Commands.T2T_VICTIM_PHI, payload, source)
-
-    def cmd_reset(self):
+    def reset(self):
         self.send(Commands.RESET)
 
-    def cmd_set_mode(self, mode):
-        assert 0 <= mode <= 3
+    def set_mode(self, mode):
+        assert min(Modes) <= mode <= max(Modes)
         payload = Commands.SET_MODE.encode(mode)
         self.send(Commands.SET_MODE, payload)
 
-    def request_debug(self):
+    def request_info(self):
         self.send(Commands.DEBUG_INFO)
 
-    def sending(self):
+    @property
+    def position(self):
+        return self._position
+
+    @position.setter
+    def position(self, position):
+        self._position = position
+        payload = Commands.UPDATE_LPS.encode(*position)
+        self.send(Commands.UPDATE_LPS, payload)
+
+    def set_speed(self, left_speed, right_speed):
+        payload = Commands.DEBUG_MOTORS.encode(left_speed, right_speed)
+        self.send(Commands.DEBUG_MOTORS, payload)
+
+    def set_leds(self, bitmask):
+        payload = Commands.DEBUG_LED.encode(bitmask)
+        self.send(Commands.DEBUG_LED, payload)
+
+    # FIXME
+    # def cmd_victim_phi(self, phi, source=None):
+    #     payload = Commands.T2T_VICTIM_PHI.encode(phi)
+    #     self.send(Commands.T2T_VICTIM_PHI, payload, source)
+
+    # sending and receive loop
+    def _sending_loop(self):
         time.sleep(2)
         while True:
             command, payload, source, target = self.queue.get()
             packet = bytes([source, target, command, len(payload)]) + payload
             self.socket.send(packet)
 
-    def receive(self):
+    def _receive_loop(self):
         time.sleep(2)
         buffer = b''
         try:
@@ -109,14 +114,10 @@ class TinBot:
                     buffer += self.socket.recv(1024)
                 payload = buffer[:length]
                 buffer = buffer[length:]
-                if command == Commands.HELLO.number:
+                if command == Commands.HELLO:
                     self.number = source
                     self.color, self.hue = COLOR_MAP[self.number]
                     self.controller.device_new.fire(self)
-                elif command == 0x20:
-                    # TODO: implement victim phi correction
-                    pass
-                #print(source, target, command, length, payload)
                 self.on_package.fire(self, source, target, command, payload)
         except bluetooth.btcommon.BluetoothError:
             pass
@@ -124,39 +125,3 @@ class TinBot:
             del self.controller.devices[self.address]
             if self.color:
                 self.controller.device_deleted.fire(self)
-
-
-class Controller(threading.Thread):
-    def __init__(self, detector):
-        super().__init__()
-        self.detector = detector
-        self.detector.new_data += self.on_new_data
-
-        self.device_new = Event()
-        self.device_deleted = Event()
-
-        self.devices_visible = Event()
-
-        self.devices = {}
-
-        self.victim_position = None
-
-    def on_new_data(self, _, positions):
-        for device in self.devices.values():
-            if device.hue in positions:
-                position = positions[device.hue]
-                device.cmd_lps_position(position['x'], position['y'], position['phi'])
-        if VICTIM_HUE in positions:
-            position = positions[VICTIM_HUE]
-            self.victim_position = (position['x'], position['y'], position['phi'])
-
-    def run(self):
-        while True:
-            devices = bluetooth.discover_devices()
-            for address in devices:
-                name = bluetooth.lookup_name(address)
-                if name and name.startswith('e-puck_'):
-                    if address not in self.devices:
-                        self.devices_visible.fire(address)
-                        TinBot(name, address, self)
-            time.sleep(10)

@@ -4,6 +4,7 @@
 import colorsys
 import math
 import threading
+import time
 
 import numpy
 
@@ -17,9 +18,8 @@ try:
 except ImportError:
     print('Waring: Unable to import PiCamera.')
 
+from lps.constants import HUES
 from lps.event import Event
-
-HUES = (0.95, 0.54, 0.39)
 
 
 class Analyzer:
@@ -181,12 +181,12 @@ def main():
     from PIL import Image, ImageEnhance
 
     output = Image.open('../../../heavy/raspberry.jpg')
-    # converter = ImageEnhance.Color(output)
-    # output = converter.enhance(0)
+    converter = ImageEnhance.Color(output)
+    output = converter.enhance(0)
 
     prepared = analyzer.prepare(saturation, value)
 
-    for target in (0.55, 0.60, 0.65, 0.85, 0.90, 0.95):
+    for target in HUES:
         x, y, angle, r = analyzer.analyze(hue, saturation, value, target, prepared)
         if r != 0:
             render(output, target, x, y, angle, r)

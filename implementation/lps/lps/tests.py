@@ -25,7 +25,7 @@ class VictimDirectionTest:
         self.tinbot.cmd_set_mode(3)
         import time
         time.sleep(0.5)
-        self.tinbot.cmd_start()
+        self.tinbot.start()
 
     def on_package(self, device, source, target, command, payload):
         if command != Commands.T2T_VICTIM_PHI:

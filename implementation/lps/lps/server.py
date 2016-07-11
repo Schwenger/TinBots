@@ -4,12 +4,10 @@
 
 import asyncio
 import base64
-import concurrent.futures
 import functools
 import io
 import json
 import os
-import re
 import traceback
 
 import aiohttp
@@ -18,8 +16,6 @@ from aiohttp import web
 from aiohttp import streams
 
 streams.DEFAULT_LIMIT = 1024 * 1024 * 200
-
-import numpy
 
 __path__ = os.path.dirname(__file__)
 

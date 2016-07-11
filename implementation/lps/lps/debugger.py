@@ -4,7 +4,6 @@
 # https://github.com/koehlma/jaspy/blob/master/jaspy/interactive.py
 
 import asyncio
-import math
 import os
 
 from pygments.token import Token
@@ -41,7 +40,7 @@ class Debugger:
         self.namespace = namespace
         self.cli = None
 
-        self.handles = {
+        self.handlers = {
             Commands.PRINT: self.on_print,
             Commands.DEBUG_INFO: self.on_debug_info
         }
@@ -68,6 +67,7 @@ class Debugger:
     def print_message(self, message, kind=SUCCESS):
         self.print_tokens([(kind, '<<< ' + message + os.linesep)])
 
+    # command handles
     def on_print(self, device, source, target, payload):
         msg = '[{}] {}'.format(device.color, payload.decode('ascii'))
         self.print_message(msg, INFO)
@@ -83,38 +83,15 @@ class Debugger:
         msg = '[{}] GRABBED  : {}'.format(device.color, info[17])
         self.print_message(msg, INFO)
 
+    # event handlers
     def on_package(self, device, source, target, command, payload):
-        if command in {Commands.HELLO.number}:
+        if command in {Commands.HELLO}:
             return
-        if command in self.handles:
-            self.handles[command](device, source, target, payload)
-        '''if command == 0x20:
-            exact = math.atan2(device.controller.victim_position[1] - device.position[1],
-                               device.controller.victim_position[0] - device.position[0])
-            exact %= 2 * math.pi
-            phi = (payload[0] << 8 | payload[1]) / 1000
-            msg = '[{}] Victim Direction: {} ({})'.format(device.color, phi, exact)
-            self.print_message(msg, INFO)
+        if command in self.handlers:
+            self.handlers[command](device, source, target, payload)
             return
-        if command == 0x21:
-            msg = '[{}] {}'.format(device.color, payload.decode('ascii'))
-            self.print_message(msg, INFO)
-            return
-        if command == 0x11:
-            data = payload.decode('ascii').split()
-            msg = '[{}] IR       : {} {} {} {} {} {}'.format(device.color, *data[:6])
-            self.print_message(msg, INFO)
-            msg = '[{}] LPS      : {} {} {}'.format(device.color, *data[6:9])
-            self.print_message(msg, INFO)
-            msg = '[{}] PROXIMITY: {} {} {} {} {} {} {} {}'.format(device.color,
-                                                                   *data[9:17])
-            self.print_message(msg, INFO)
-            msg = '[{}] GRABBED  : {}'.format(device.color, data[17])
-            self.print_message(msg, INFO)
-            return
-        '''
-        msg = '[{}] {} -> {} | {} | {!r}'.format(device.color, source, target,
-                                                 command, payload)
+        color = device.color
+        msg = '[{}] {} -> {} | {} | {!r}'.format(color, source, target, command, payload)
         self.print_message(msg, INFO)
 
     def on_device_new(self, device):
