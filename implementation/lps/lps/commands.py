@@ -62,14 +62,14 @@ enum Commands {
 EPILOG = '''
 };
 
-void register_commands(void);
-
 #endif
 '''
 
 
 if __name__ == '__main__':
     print(PROLOG)
+    fields = []
     for command in Commands:
-        print('    CMD_{} = {},'.format(command.name, command.number))
+        fields.append('    CMD_{} = {}'.format(command.name, command.number))
+    print(',\n'.join(fields))
     print(EPILOG)

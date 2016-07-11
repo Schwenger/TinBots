@@ -17,10 +17,8 @@ enum Commands {
     CMD_T2T_COMPLETED = 53,
     CMD_DEBUG_INFO = 96,
     CMD_DEBUG_MOTORS = 97,
-    CMD_DEBUG_LED = 98,
+    CMD_DEBUG_LED = 98
 
 };
-
-void register_commands(void);
 
 #endif
