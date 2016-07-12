@@ -171,16 +171,16 @@ int main() {
                 x= lps_data[0];
                 y = lps_data[1];
                 phi = lps_data[2];
+                lps_updated = 0;
             })
             update_lps(&bot, x, y, phi);
-            lps_updated = 0;
         }
         if (victim_phi_updated) {
             SYNCHRONIZED({
                 phi = victim_phi;
+                victim_phi_updated = 0;
             })
             update_victim_phi(&bot, phi);
-            victim_phi_updated = 0;
         }
 
 
