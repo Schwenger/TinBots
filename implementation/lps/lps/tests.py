@@ -13,23 +13,47 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import threading
+import time
+
 from lps.commands import Commands
+from lps.constants import Modes
+from lps.debugger import Debugger, INFO
 
 
 class VictimDirectionTest:
-    def __init__(self, tinbot):
-        self.tinbot = tinbot
-        self.tinbot.package_event += self.on_package
+    def __init__(self, tinbot, debugger=None):
+        self.debugger = debugger or Debugger.current
 
-    def start(self):
-        self.tinbot.cmd_set_mode(3)
-        import time
-        time.sleep(0.5)
-        self.tinbot.start()
+        self.tinbot = tinbot
+
+        self.thread = None
+        self.iterations = None
+        self.result = None
+        self.done = threading.Event()
+
+    def start(self, iterations=50):
+        self.iterations = iterations
+        self.result = []
+
+        self.thread = threading.Thread(target=self.run)
+        self.thread.start()
+
+    def run(self):
+        self.tinbot.package_event += self.on_package
+        self.debugger.print_message('Starting Victim Direction Test', INFO)
+        self.tinbot.set_mode(Modes.VICDIR)
+        for iteration in range(self.iterations):
+            time.sleep(0.5)
+            self.done.clear()
+            self.tinbot.start()
+            self.done.wait()
+            self.tinbot.reset()
+        self.tinbot.package_event -= self.on_package
 
     def on_package(self, device, source, target, command, payload):
-        if command != Commands.T2T_VICTIM_PHI:
+        if command != Commands.VICTIM_PHI:
             return
-        x, y, phi = Commands.T2T_VICTIM_PHI.decode(payload)
-        print(x, y, phi)
-
+        x, y, phi = Commands.VICTIM_PHI.decode(payload)
+        self.result.append((phi, self.tinbot.victim_phi))
+        self.done.set()

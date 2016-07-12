@@ -20,6 +20,8 @@ void t2t_send_docked(void);
 
 void t2t_send_completed(void);
 
+void send_found_phi(double x, double y, double victim_phi);
+
 
 /* ===== Receiving =====
  * Same calling convention as in t2t.h, as this calls those functions */

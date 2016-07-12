@@ -9,6 +9,7 @@ enum Commands {
     CMD_PRINT = 4,
     CMD_SET_MODE = 16,
     CMD_UPDATE_LPS = 17,
+    CMD_VICTIM_PHI = 18,
     CMD_T2T_HEARTBEAT = 48,
     CMD_T2T_VICTIM_PHI = 49,
     CMD_T2T_VICTIM_XY = 50,

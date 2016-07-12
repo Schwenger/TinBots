@@ -31,6 +31,8 @@ style = style_from_dict({
 
 
 class Debugger:
+    current = None
+
     def __init__(self, controller, namespace=None):
         self.controller = controller
         self.controller.device_new_event += self.on_device_new
@@ -42,10 +44,13 @@ class Debugger:
 
         self.handlers = {
             Commands.PRINT: self.on_print,
-            Commands.DEBUG_INFO: self.on_debug_info
+            Commands.DEBUG_INFO: self.on_debug_info,
+            Commands.VICTIM_PHI: self.on_victim_phi
         }
 
         self.loop = asyncio.get_event_loop()
+
+        Debugger.current = self
 
     def start(self):
         coroutine = embed(self.namespace, self.namespace, title='Tin Bot Console',
@@ -83,6 +88,11 @@ class Debugger:
         msg = '[{}] IR       : {} {} {} {} {} {}'.format(device.color, *info[12:18])
         self.print_message(msg, INFO)
         msg = '[{}] GRABBED  : {}'.format(device.color, info[18])
+        self.print_message(msg, INFO)
+
+    def on_victim_phi(self, device, source, target, payload):
+        data = Commands.VICTIM_PHI.decode(payload)
+        msg = '[{}] Victim Phi: {} {} {}'.format(device.color, *data)
         self.print_message(msg, INFO)
 
     # event handlers

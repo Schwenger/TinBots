@@ -40,6 +40,15 @@ void t2t_send_found_phi(double x, double y, double victim_phi) {
     hal_send_done(CMD_T2T_VICTIM_PHI);
 }
 
+void send_found_phi(double x, double y, double victim_phi) {
+    char buffer[4 * 3] BUFFER_ALIGN;
+    ((float*) buffer)[0] = x;
+    ((float*) buffer)[1] = y;
+    ((float*) buffer)[2] = victim_phi;
+    hal_send_put(buffer, sizeof(buffer));
+    hal_send_done(CMD_VICTIM_PHI);
+}
+
 void t2t_send_found_xy(int x, int y, int iteration) {
     char buffer[2 * 3] BUFFER_ALIGN;
     ((int16_t*) buffer)[0] = x;

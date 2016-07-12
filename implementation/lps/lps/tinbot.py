@@ -53,7 +53,7 @@ class TinBot:
     @property
     def victim_phi(self):
         phi = math.atan2(self.controller.victim.position[1] - self.position[1],
-                         self.controller.victim_position[0] - self.position[0])
+                         self.controller.victim.position[0] - self.position[0])
         return phi % (2 * math.pi)
 
     # commands
