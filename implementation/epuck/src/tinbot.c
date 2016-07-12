@@ -3,9 +3,11 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 
 #include "hal.h"
+#include "map.h"
 #include "rhr.h"
 #include "sensors.h"
 #include "tinbot.h"
@@ -107,10 +109,34 @@ static void loop_vicdir(TinBot* tinbot) {
                   tinbot->controller.vic_dir.locals.weighted_sum / tinbot->controller.vic_dir.locals.counter_on);
 }
 
+
+/* mergeonly - Full */
+static void setup_mergeonly(TinBot* tinbot) {
+    hal_print("Tin Bot Setup: mergeonly");
+}
+
+static char mergeonly_printbuf[100];
+
+static void loop_mergeonly(TinBot* tinbot) {
+    static const long iterations = 10000;
+    long i = 0;
+    hal_time time = hal_get_time();
+    do {
+        map_merge(map_get_accumulated(), 4, 2, map_get_proximity());
+    } while (++i < iterations);
+    time = hal_get_time() - time;
+    sprintf(mergeonly_printbuf, "merge_only: avg over %ld iter: %.3f us/iter",
+        iterations,
+        i * 1000.0 /* 1000 us/s */ / iterations);
+    hal_print(mergeonly_printbuf);
+}
+
+
 static TinMode modes[] = {
         {setup_alone, loop_alone},
         {setup_full, loop_full},
         {setup_rhr, loop_rhr},
+        {setup_mergeonly, loop_mergeonly},
         {setup_vicdir, loop_vicdir}
 };
 
