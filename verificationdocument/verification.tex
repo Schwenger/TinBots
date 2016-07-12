@@ -32,6 +32,8 @@
 
 \usepackage[export]{adjustbox}
 
+\newcommand*{\rom}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
 % \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{graphics}
@@ -75,6 +77,7 @@
 \newcommand{\incomplete}[1]{\textless{} #1 \textgreater{}}
 
 \newcommand{\teststrat}[5]{
+    \subsubsection{Test Strategy}
 	\textbf{Component:} #1 \\
 	\noindent\textbf{What should be tested?} \\
     \noindent #2 \\
@@ -109,29 +112,128 @@ Each of those components is subject of one or more test strategies either for
 the whole component at once, or their subcomponents separately.
 \subsection{Controller}
 \subsubsection{Purpose}
-	Connects each component's inputs and outputs. 
-Implementation: Done. 
-Testing: On Demand. Whenever another subcomponent is finished and ready to be tested in an integration test, the respective part of the controller is tested extensively as well.
-
-Traffic Cop Eyes:
+	Connects each component's inputs and outputs. \todo[inline]{a little more}
+\teststrat{Controller}{
+    The correct connection between the Tin Bot's different subcomponents, \ie,
+    the correct overall behavior for a single Tin Bot without taking any T2T
+    connection into account.
+}{
+    Maze, Victim, one Tin Bot including all LEDs, LPS, debug monitor.
+}{
+    Setup the maze. Place the victim and the Tin Bot inside appropriately. Setup
+    the LPS and make sure that a Bluetooth connection between the LPS, the Tin
+    Bot, and the debug monitor is established. Turn on the E-Puck and evaluate
+    the behavior based on movements and visual feedback by the LEDs.
+}{
+    Correctness of subcomponents separately is not tested, because they are
+    covered in other, more appropriate test cases. Moreover, the T2T connection
+    is not tested for the same reasoning.
+}
+%
+\subsection{Traffic Cop Eyes}
+\subsubsection{Purpose}
 Connects sensor data with remaining components. Issues requests for other components to start their work.
-Implementation: Done.
-Testing: Implicit. Successfully used in MatLab, on E-Puck tested in terms of other unit's tests.
+\todo[inline]{elaborate a bit}
+\teststrat{Traffic Cop Eyes}{
+    Correct behavior based on given sensor data.
+}{
+    Part \rom{1}: MatLab, compiled code. Part \rom{2}: Full Setup, \ie, LPS,
+    victim, Tin Bot(s), debug monitor, maze.
+}{
+    Part \rom{1}: Run the test cases from the virtual prototype, but use actual
+    compiled code instead of the Simulink model. Check for correctness based
+    on the output. \\
+    Part \rom{2}: Run full process, check for ignorance towards incoming signals
+    even though the intended behavior dictates a reaction. 
+}{
+    There are no unit tests for this component due to its importance and
+    simplicity. So bugs are unlikely and close to impossible to remain
+    unnoticed.
+}
+%
+\subsection{Blind Traffic Cop:}
+\subsubsection{Purpose}
+An arbiter for the subcomponents.
+\teststrat{Blind Traffic Cop}{
+    Correct arbitration of the access to the motors.
+}{
+    Full Setup.
+}{
+    In terms of an integration test. Each component has a signature behavior and
+    their distinction is clear, so a conflict or an incorrect arbitration can be
+    spotted easily.
+}{
+    It is not tested, whether the controller actually uses the Blind Cop's
+    output or decides on its own. If it were so the Tin Bot's behavior would be
+    spurious, or correct. In the latter case, we would assume the Blind Cop to
+    be correct, even though it is not used at all.
+}
+%
+\subsection{Right-Hand Rule}
+\subsubsection{Purpose}
+Implementation of the right-hand rule.
+\teststrat{Right-Hand-Rule Obedience}{
+    The Tin Bot is supposed to walk straight until sensing a wall. Then, it
+    should follow it having the wall on its right-hand side.
+}{
+    Tin Bot, LPS, debug monitor, maze.
+}{
+    Setup the LPS and the maze. Place a single Tin Bot in the maze and turn it
+    on. Start the Tin Bot and wait an appropriate amount of time based on the
+    maze's layout.
 
-Blind Traffic Cop:
-Basically an arbiter for the subcomponents.
-Implementation: Done.
-Testing: Implicit. Closely related to controller, a bug becomes very obvious based on the E-Puck's reacting which is a direct result of the logic-free controller.
-
-RHR:
-Implementation of the right hand rule.
-Implementation: Done. Addendum: In addition to the virtual prototype, we also cured a stroke, i.e., the faulty behavior that the E-Puck's left half was ignored.
-Testing: Done. Extensive integration tests. Tin Bot ran in circles around the maze for hours straight. Problematic factor is lighting conditions. Taken path visualized in web interface.
-
-Victim Direction:
+    Check debug data for disagreements with the intended behavior.
+}{
+    Collision avoidance is not tested on a detailed level, i.e. scraping along
+    the wall will not be detectable. This, however, is subject of a dedicated
+    test.
+}
+%
+\subsection{Victim Direction}
+\subsubsection{Purpose}
 Turns the E-Puck and computes angle/position to the victim.
-Implementation: Done.
+\teststrat{Victim Directing toggling}{
+    When a signal from the victim is received, the victim direction components
+    is supposed to be toggled. Only after having traveled an appropriate amount
+    of time, another measurement should be initiated.
+}{
+    Victim, maze, LPS, Tin Bot.
+}{
+    Setup the maze as well as the LPS. Place the victim and the
+    Tin Bot in the
+    maze and turn them on. Wait for the Tin Bot to receive a signal and check
+    for the component's signature movement, \ie, turning a full circle.
+
+    Wait for the second measurement to be fully performed, then turn off the Tin
+    Bot and measure the traveled distance.
+}{
+    The correctness of the signals and the output are not tested, because they
+    are subject of their own test cases.
+}
 Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems: Reflecting caused by the struts. Very prone to reflections by nearby gazers or changing lighting conditions. Solution: Using cellular rubber (thanks to Peter!) to absorb rather than reflect the signal. Solution is tested in parts.
+
+\teststrat{Victim Direction Computation}{
+    Victim direction is supposed to approximate the normalized angle from its
+    current position to the victim. The computation's correctness is tested
+    here.
+}{
+    Part \rom{1}: MatLab, compiled code.
+    Part \rom{2}: LPS, debug monitor, Tin Bot, victim.
+}{
+    Part \rom{1}: Start test case from virtual prototype in MatLab, but use
+    compiled code
+    instead of Simulink model. Check the output.
+    Part \rom{2}: Setup the LPS, place and turn on the Tin Bot as well as the
+    victim. Make sure a Bluetooth connection between the debug monitor, the Tin
+    Bot, and the LPS has been established. 
+
+    Run the Tin Bot, wait until a measurement has been completed, and the result
+    has been sent to the debug monitor. Check for approximative correctness.
+}{
+    Bluetooth connection and correctness of signals are not tested. The former
+    one is assumed to be correct, the latter one is subject to its own test
+    cases.
+}
 
 Victim Finder: 
 Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
