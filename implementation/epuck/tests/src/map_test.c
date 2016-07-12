@@ -84,6 +84,7 @@ int main(void) {
             assert(types[x + y * data_width] == map_get_field(mc.prox, x, y));
         }
     }
+    map_heap_free(mc.prox);
     printf(" GOOD (done)\n");
 
     return 0;

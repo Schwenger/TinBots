@@ -109,6 +109,7 @@ int main(void) {
     assert(2 < data_height);
     check_movement(-16,  2, data_empty);
 
+    map_heap_free(mc.prox);
     printf("map_move: GOOD\n");
 
     return 0;
