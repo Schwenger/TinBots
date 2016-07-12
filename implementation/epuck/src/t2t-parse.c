@@ -1,5 +1,7 @@
 #include <assert.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "hal.h"
 #include "pi.h"
@@ -8,6 +10,21 @@
 
 #include "t2t.h"
 #include "t2t-parse.h"
+
+#define BUFFER_ALIGN __attribute__ ((aligned(8)))
+
+/* run this function to ensure correct encoding */
+void t2t_check_types(void) {
+    /* check type sizes */
+    assert(sizeof(t2t_int) == 2);
+    assert(sizeof(t2t_uint) == 2);
+    assert(sizeof(t2t_float) == 4);
+    /* check for little endian encoding */
+    unsigned char buffer[8] BUFFER_ALIGN;
+    ((t2t_uint*) buffer)[0] = 0xFF42;
+    assert(buffer[0] == 0x42);
+    assert(buffer[1] == 0xFF);
+}
 
 /* ===== Sending ===== */
 
@@ -31,10 +48,10 @@ static unsigned int cap_int(long l) {
 }
 
 void t2t_send_found_phi(double x, double y, double victim_phi) {
-    char buffer[4 * 3] __attribute__ ((aligned (4)));
-    ((float*) buffer)[0] = x;
-    ((float*) buffer)[1] = y;
-    ((float*) buffer)[2] = victim_phi;
+    char buffer[4 * 3] BUFFER_ALIGN;
+    ((t2t_float*) buffer)[0] = x;
+    ((t2t_float*) buffer)[1] = y;
+    ((t2t_float*) buffer)[2] = victim_phi;
     hal_send_put(buffer, sizeof(buffer));
     hal_send_done(CMD_T2T_VICTIM_PHI);
 }

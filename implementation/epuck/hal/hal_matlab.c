@@ -212,6 +212,10 @@ long matlab_create_bot() {
      * will be a bit slower, in the unlikely event that malloc() gives us
      * a 2-bytes-unaligned address. */
     matlab_bot->com_buf = malloc(TIN_PACKAGE_MAX_LENGTH);
+
+    /* check T2T types */
+    t2t_check_types();
+
     return (long) matlab_bot;
 }
 
