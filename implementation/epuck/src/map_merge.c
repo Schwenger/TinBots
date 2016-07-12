@@ -9,6 +9,13 @@
 #  define assert(x) (void)sizeof(x)
 #endif
 
+/* Incomplete optimizations:
+ * - check whether xc16-from-assembly has any intentional obstacles (binaries differ!)
+ * - there doesn't seem to be SCEE:
+ * - there's two loads instead of one in merge_u16 for:
+ *      const uint16_t mask = input | ((input >> 1) & 0x5555) | (input & 0x5555) << 1;
+ *   Can I hand-craft some assembly for this? */
+
 typedef char check_neighborhood_map_length[(MAP_PROXIMITY_BUF_SIZE == MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)) ? 1 : -1];
 typedef char check_max_is_valid[(0 < MAP_INTERNAL_DATA_SIZE(MAP_MAX_WIDTH,MAP_MAX_HEIGHT)) ? 1 : -1];
 
