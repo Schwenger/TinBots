@@ -127,7 +127,7 @@ static void loop_mergeonly(TinBot* tinbot) {
     time = hal_get_time() - time;
     sprintf(mergeonly_printbuf, "merge_only: avg over %ld iter: %.3f us/iter",
         iterations,
-        i * 1000.0 /* 1000 us/s */ / iterations);
+        time * 1000.0 /* 1000 us/s */ / iterations);
     hal_print(mergeonly_printbuf);
 }
 
