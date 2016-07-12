@@ -92,11 +92,9 @@ void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     #define DST_CELL_TWO_ROWS_U16S (MAP_MAX_WIDTH/4)
     /* If fails in testing, check whether you used a different map size: */
     assert(5 == DST_CELL_TWO_ROWS_U16S || 25 == DST_CELL_TWO_ROWS_U16S);
-    low_left_x /= 4;
-    low_left_y /= 2;
     dst_data = (uint16_t*)map_serialize(dst); /* BLESSED CAST */
     patch_data = (uint16_t*)map_serialize(patch); /* BLESSED CAST */
-    dst_data += low_left_x + low_left_y * DST_CELL_TWO_ROWS_U16S;
+    dst_data += (low_left_x / 4) + (low_left_y / 2) * DST_CELL_TWO_ROWS_U16S;
 
     /* Manually unroll LITERALLY EVERYTHING because I expect xc16 to be
      * too dumb for that. */
