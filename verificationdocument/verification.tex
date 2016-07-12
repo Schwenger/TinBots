@@ -189,9 +189,10 @@ Implementation of the right-hand rule.
     test.
 }
 %
-\subsection{Victim Direction}
+\subsection{Victim Finder}
 \subsubsection{Purpose}
-Turns the E-Puck and computes angle/position to the victim.
+Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
+
 \teststrat{Victim Directing toggling}{
     When a signal from the victim is received, the victim direction components
     is supposed to be toggled. Only after having traveled an appropriate amount
@@ -212,6 +213,9 @@ Turns the E-Puck and computes angle/position to the victim.
 }
 Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems: Reflecting caused by the struts. Very prone to reflections by nearby gazers or changing lighting conditions. Solution: Using cellular rubber (thanks to Peter!) to absorb rather than reflect the signal. Solution is tested in parts.
 
+\subsection{Victim Direction}
+\subsubsection{Purpose}
+Turns the E-Puck and computes angle/position to the victim.
 \teststrat{Victim Direction Computation}{
     Victim direction is supposed to approximate the normalized angle from its
     current position to the victim. The computation's correctness is tested
@@ -235,27 +239,95 @@ Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems:
     cases.
 }
 
-Victim Finder: 
-Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
-Implementation: Done / in debug phase. 
-Testing: Unit tests done, MatLab running, on actual E-Puck unknown, assumed to be fine, though.
-
-Path Finder: 
+\subsection{Path Finder}
+\subsubsection{Purpose}
 Computes a path from the current position to the victim based on the internal map consisting of data gathered via proximity sensors and other Tin Bot's broadcasts.
-Implementation: State Machine done, search algorithm will be changed from A* to Bellman-Ford.
-Testing: State Machine and A* are tested via unit tests, Bellman-Ford is about to be implemented and will be subject to appropriate unit tests. Memory overhead has been considered for both algorithms and static guarantees allow us to deem the algorithm correct in this respect. On MatLab: causes simulation to crash.
+\teststrat{Path Finder State Machine}{
+    The path finder should output a given solution path in the correct order and
+    raise flags for the last and penultimate waypoint appropriately.
+}{
+    MatLab, compiled code.
+}{
+    Start respective MatLab test case from the virtual prototype using the
+    compiled code instead of the Simulink model. Check the outputs.
 
-Path Executor:
-Executes path given by path finder.
-Implementation: done.
-Testing: Untested.
+    Additionally, run the unit tests and check for failing assignments.
+}{
+    Sanity of given path and especially the finiteness of thereof is not tested.
+    This is part of a different test.
+}
 
-Pickup Artist:
-New component. Activated after path executor reports that the victim has been reached. Decides what actions to take to assure that we can pick up the victim securely and initialize the motion outwards.
-Implementation: Not yet.
-Testing: Untested.
+\teststrat{Path Finder Search Algorithm}{
+    An optimal path based on the internal map should be found while the memory
+    needed should be bounded statically.
+}{
+    Compiled code.
+}{
+    Unit tests check optimality and correctness. Static checks ensure memory
+    bound.
+}{
+    Invalid input maps.
+}
 
-Moreover, regarding communication, the data (de-)serialization is fully implemented and tested, both for communication with the LPS, and T2T.
+\subsection{Path Executor}
+Moves the Tin Bot to a given position minding the walls.
+\teststrat{Path Executor}{
+    A given waypoint should be reached by the Tin Bot using a straight line
+    path. If there is an obstacle blocking the way, the Tin Bot should stop.
+    Additionally, if the appropriate flag is set, the path executor should turn
+    the Tin Bot by $180\deg$ and reach the way point in the reverse gear.
+}{
+    Tin Bot, LPS, walls.
+}{
+    Integration test. After receiving any valid waypoint, the Tin Bot should
+    only stop if the waypoint or a wall is reached. Turn sequence should be
+    initiated if the flag is set.
+}{
+    The invalidity of a waypoint is not checked explicitly, if the point is
+    unreachable, the Tin Bot will stop in front of the boundary as if it was a
+    wall.
+}
+
+\subsection{Pickup Artist}
+\subsubsection{Purpose}
+Allows robustness against inaccuracies in the victim's computed position by
+initiating a small scale search after reaching the expected position.
+\teststrat{Pickup Artist}{
+    If the victim's position differs from the computed one, the Tin Bot is
+    supposed to continue driving towards it until the victim is picked up. If
+    the difference is too large, the Tin Bot is supposed to shut down.
+}{
+    LPS, TB, victim, compiled code.
+}{
+    Integration test: Setup LPS, turn on the Tin Bot and the victim. Give the
+    \emph{last} waypoint which is differing slightly from the victim's actual
+    position. The waypoint has to be the last one to ensure that the Tin Bot
+    will be in the right position to initiate the pick up process. Check if the
+    pickup succeeds.
+
+    Afterwards, the last waypoint is sent while the victim is entirely out of
+    reach. 15 seconds after reaching the waypoint, a full shutdown is expected.
+
+    The unit test ensures that state transitions are taken appropriately.
+}{
+    Walls behind the victim's expected position will not be detected. Therefore,
+    there is no point in testing for such a behavior.
+}
+
+\subsection{Collision Avoidance}
+When the Tin Bot moves too close to a wall, independent of the current mode, it
+should stop before any collision takes place.
+\teststrat{Collision Avoidance}{
+    No wall, neither formerly known ones, no newly added ones, must be knocked
+    over.
+}{
+    Maze, LPS, Tin Bot.
+}{
+    Integration test: Run different modes in different settings and make sure no
+    wall is knocked over.
+}{
+    Correct overall behavior, because this is subject of own test strategies.
+}
 
 \section{Hardware} 
 The hardware is divides into two parts: The environment, and the connection
@@ -327,16 +399,91 @@ via Bluetooth}
     similar signal.
 }
 
+\section{Environment}
 
-All hardware
-components are built. Communication protocols are
-implemented and extensively tested. Empirical tests in terms of any other E-Puck
-based test. - Communication frequency:    + I2C: Test case lighting LEDs after a
-poll has been taken place.   + Bluetooth (to LPS): LED indicates when new data
-has been received and processed.   + Bluetooth (T2T): Actual communication
-untested.
+Certain invariants appear throughout the whole project. We assure their validity
+with the following test strategies.
 
-The border has to be coated in cellular rubber, other than that, no further actions have to be applied.
+\subsection{IR-Signals}
+We assume that the IR-Signals are stable and originate from the victim only.
 
+\teststrat{IR-Stabilization}{
+    The IR-Signal recognition should be robust against minor disturbances, e.g.
+    due interferences with distant reflections or similar.
+    Those unwanted peaks are supposed to be filtered out.
+}{
+    Tin Bot, LPS, Victim.
+}{
+    Integration test: When there is no clear line of sight between the Tin Bot
+    and the victim, no LED should light up.
+}{
+    Correct overall behavior, because this is subject of own test strategies.
+}
+
+\teststrat{IR Anti Reflection}{
+    There are not supposed to be elements around the maze reflecting the IR
+    signals unwantedly. Therefore, we coated the borders in cellular rubber
+    absorbing signals rather than reflecting them. This behavior is tested.
+}{
+    Tin Bot, maze, spectators, borders.
+}{
+    Integration Test: 
+    The Tin Bot is placed in the maze and turned on, but not
+    started. In this mode, it reports incoming and deemed-valid signals using
+    its LEDs. 
+
+    The victim is turned on and moved around in the maze. There should not be
+    any lighting LEDs other than the expected ones.
+}{
+    Correct overall behavior, because this is subject of own test strategies.
+}
+
+Moreover, since the Tin Bots do not have access to ground sensors, we tested the
+environment to be a safe playground regardless.
+
+\teststrat{Fence}{
+    The fences have to make sure that the Tin Bot will not fall off the table.
+}{
+    Tin Bot, Maze, LPS.
+}{
+    Unit test: Send move signal to Tin Bot and let it run towards the table's
+    edge. \textbf{Caution:} Make sure the Tin Bot will be caught if the test
+    fails.
+}{
+    Correct overall behavior, because this is subject of own test strategies.
+}
+
+\section{Actuators}
+
+The actuators are tested in a most isolated environment.
+
+\teststrat{Motors}{
+    When setting the appropriate register values, the E-Puck is supposed to
+    start driving.
+}{
+    Tin Bot, LPS, debug monitor.
+}{
+    Unit Test: Turn on the Tin Bot, setup the LPS. Make sure, a connection
+    between all components is established. Send a signal to the E-Puck setting
+    the respective registers values. Ensure that the E-Puck starts moving.
+}{
+    Loss of packets due to Bluetooth problems are not tested, neither are faulty
+    registers and memory. Such faults, however, become evident very quickly.
+}
+
+\teststrat{LEDs}{
+    When setting the appropriate register values, the E-Puck is supposed to
+    trigger the LEDs.
+}{
+    Tin Bot, LPS, debug monitor.
+}{
+    Unit Test: Turn on the Tin Bot, setup the LPS. Make sure, a connection
+    between all components is established. Send a signal to the E-Puck setting
+    the respective registers values. Ensure that the E-Puck starts triggering
+    the LEDs.
+}{
+    Loss of packets due to Bluetooth problems are not tested, neither are faulty
+    registers and memory. Such faults, however, become evident very quickly.
+}
 
 \end{document}

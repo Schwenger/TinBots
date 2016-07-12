@@ -398,3 +398,13 @@ Communication protocols are implemented and extensively tested. Empirical tests 
   + Bluetooth (T2T): Actual communication untested.
 
 The border has to be coated in cellular rubber, other than that, no further actions have to be applied.
+
+==============================
+
+scribe: Maximilian Schwenger 12.07.2016 10-18 session
+
+Continued work on 
+* verification document
+* gathering data from victim direction tests
+* arguing about pointer casting with the result that we cast disregarding alignment warnings iff we are certain that it will work. This is due to convenience when coupling Python code and E-Puck data
+* Bug Fixes
