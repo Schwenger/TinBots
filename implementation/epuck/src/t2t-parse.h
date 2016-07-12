@@ -1,13 +1,8 @@
 #ifndef EPUCK_T2T_PARSE_H
 #define EPUCK_T2T_PARSE_H
 
-#include <stdint.h>
 #include "map.h"
 #include "tinbot.h"
-
-typedef float t2t_float;
-typedef uint16_t t2t_uint;
-typedef int16_t t2t_int;
 
 void t2t_check_types(void);
 
