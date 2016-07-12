@@ -44,4 +44,9 @@ typedef enum DebugCategory {
 
 void hal_debug_out(DebugCategory key, double value);
 
+void __assert_hal(const char *msg, const char *file, int line);
+
+#undef assert
+#define assert(EX) (void)((EX) || (__assert_hal(#EX, __FILE__, __LINE__), 0))
+
 #endif

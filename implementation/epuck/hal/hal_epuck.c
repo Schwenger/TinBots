@@ -106,3 +106,10 @@ void hal_debug_out(DebugCategory key, double value) {
     (void)key;
     (void)value;
 }
+
+void __assert_hal(const char *msg, const char *file, int line) {
+    char buffer[255];
+    memset(buffer, 0, 255);
+    sprintf(buffer, "Failure: %s (%s:%d)", msg, file, line);
+    hal_print(buffer);
+}

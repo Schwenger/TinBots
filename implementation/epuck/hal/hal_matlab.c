@@ -30,6 +30,7 @@
 #include "matlab.h"
 #include "tinbot.h"
 #include "t2t-parse.h"
+#include "commands.h"
 
 /* Should be the same to check package length during testing. */
 #define TIN_PACKAGE_MAX_LENGTH 128
@@ -95,31 +96,31 @@ static void tx_package(MatlabBot* sender, char command, MatlabBot* receiver) {
         matlab_select_bot((long)receiver, 0);
     }
     switch (command) {
-        case T2T_COMMAND_HEARTBEAT:
+        case CMD_T2T_HEARTBEAT:
             assert(sender->com_buf_used == 0);
             t2t_parse_heartbeat(receiver->tinbot);
             break;
-        case T2T_COMMAND_FOUND_PHI:
+        case CMD_T2T_VICTIM_PHI:
             assert(sender->com_buf_used == 4);
             if (!is_ours) {
                 t2t_parse_found_phi(receiver->tinbot, sender->com_buf, sender->com_buf_used);
             }
             break;
-        case T2T_COMMAND_FOUND_XY:
+        case CMD_T2T_VICTIM_XY:
             assert(sender->com_buf_used == 3);
             t2t_parse_found_xy(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
             break;
-        case T2T_COMMAND_UPDATE_MAP:
+        case CMD_T2T_UPDATE_MAP:
             assert(sender->com_buf_used == 66);
             t2t_parse_update_map(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
             break;
-        case T2T_COMMAND_DOCKED:
+        case CMD_T2T_DOCKED:
             assert(sender->com_buf_used == 0);
             if (!is_ours) {
                 t2t_parse_docked(receiver->tinbot);
             }
             break;
-        case T2T_COMMAND_COMPLETED:
+        case CMD_T2T_COMPLETED:
             assert(sender->com_buf_used == 0);
             t2t_parse_completed(receiver->tinbot);
             break;
@@ -173,6 +174,13 @@ void hal_debug_out(DebugCategory key, double value) {
     assert(key < DEBUG_CAT_NUM);
     current->debug_info[key] = value;
     /* current->debug_info[DEBUG_CAT_OWN_TIME] = fmod(current->raw_time, 1); */
+}
+
+void __assert_hal(const char *msg, const char *file, int line) {
+    char buffer[255];
+    memset(buffer, 0, 255);
+    sprintf(buffer, "Failure: %s (%s:%d)", msg, file, line);
+    hal_print(buffer);
 }
 
 
