@@ -4,6 +4,11 @@
 #include "hal.h" /* assert */
 #include "map.h"
 
+#ifndef CONFIG_MAP_ASSERT_ANYWAY
+#  undef assert
+#  define assert(x) (void)sizeof(x)
+#endif
+
 typedef char check_neighborhood_map_length[(MAP_PROXIMITY_BUF_SIZE == MAP_INTERNAL_DATA_SIZE(MAP_PROXIMITY_SIZE,MAP_PROXIMITY_SIZE)) ? 1 : -1];
 typedef char check_max_is_valid[(0 < MAP_INTERNAL_DATA_SIZE(MAP_MAX_WIDTH,MAP_MAX_HEIGHT)) ? 1 : -1];
 
@@ -43,6 +48,7 @@ static uint16_t merge_u16(uint16_t previously, uint16_t input) {
  *      -> guaranteed by prox_map.c
  * - the patch must fit *wholly* in the map (assert)
  *      -> guaranteed by prox_map.c (t2t.c should assert this, too)
+ * - the internal map must be of MAP_MAX_* size (assert)
  * - the patch must be a proximity map (assert)
  * - the internal map must be 2-byte aligned (attempted assert)
  *      -> guaranteed by map_stack.c, map_heap.c
@@ -52,7 +58,7 @@ static uint16_t merge_u16(uint16_t previously, uint16_t input) {
  *      -> guaranteed by tests/mock.c
  * - BIT_PER_FIELD==2 (previous typedef-checks in the file) */
 void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
-    int y, dst_two_rows_bytes;
+    int y;
     uint16_t* dst_data;
     uint16_t* patch_data;
 
@@ -68,6 +74,9 @@ void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     assert(low_left_y >= 0);
     assert(low_left_x + map_get_width(patch) <= map_get_width(dst));
     assert(low_left_y + map_get_height(patch) <= map_get_height(dst));
+    /* Is *the* map: */
+    assert(map_get_width(dst) == MAP_MAX_WIDTH);
+    assert(map_get_height(dst) == MAP_MAX_HEIGHT);
     /* Is proximity map: */
     assert(map_get_width(patch) == MAP_PROXIMITY_SIZE);
     assert(map_get_height(patch) == MAP_PROXIMITY_SIZE);
@@ -75,23 +84,15 @@ void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     assert((((ptrdiff_t)(map_serialize(patch))) & 1) == 0);
     assert((((ptrdiff_t)(map_serialize(dst))) & 1) == 0);
 
-    /* == Initialize == */
-    #define PROX_TWO_ROWS_BYTES (MAP_PROXIMITY_SIZE/2)
-    assert(PROX_TWO_ROWS_BYTES % 2 == 0);
-    assert(MAP_PROXIMITY_SIZE * PROX_TWO_ROWS_BYTES / 2 == MAP_PROXIMITY_BUF_SIZE);
-    dst_two_rows_bytes = map_get_width(dst) / 2;
-    assert(dst_two_rows_bytes % 2 == 0);
-    assert(map_get_height(dst) * dst_two_rows_bytes / 2 == MAP_INTERNAL_DATA_SIZE(map_get_width(dst),map_get_height(dst)));
-
     /* == Finally, the actual code == */
     /* We establish a view where the map consists of "blocks" that are precisely
      * 4 fields wide and 2 fields high, and fit precisely into a uin16_t.
      * In this view, *_data behave like "normally" indexed maps, i.e., x+y*w */
-    #define PROX_CELL_TWO_ROWS_U16S (PROX_TWO_ROWS_BYTES/2)
+    #define PROX_CELL_TWO_ROWS_U16S (MAP_PROXIMITY_SIZE/4)
     assert(4 == PROX_CELL_TWO_ROWS_U16S);
-    dst_two_rows_bytes /= 2;
-    /* Old name is now misleading, so us a macro instead: */
-    #define DST_CELL_TWO_ROWS_U16S dst_two_rows_bytes
+    #define DST_CELL_TWO_ROWS_U16S (MAP_MAX_WIDTH/4)
+    /* If fails in testing, check whether you used a different map size: */
+    assert(5 == DST_CELL_TWO_ROWS_U16S || 25 == DST_CELL_TWO_ROWS_U16S);
     low_left_x /= 4;
     low_left_y /= 2;
     dst_data = (uint16_t*)map_serialize(dst); /* BLESSED CAST */

@@ -6,8 +6,18 @@
  * There are multiple restrictions on this value (due to optimizations),
  * so keep it a multiple of 4. */
 #define MAP_PROXIMITY_SIZE 16
-#define MAP_MAX_WIDTH 100
-#define MAP_MAX_HEIGHT 100
+#ifdef MAP_MAX_WIDTH
+#  ifndef MAP_MAX_HEIGHT
+#    error "Only MAP_MAX_WIDTH defined.  Use -DMAP_MAX_HEIGHT=123456 for the other."
+#  endif
+#else
+#  ifdef MAP_MAX_HEIGHT
+#    error "Only MAP_MAX_HEIGHT defined.  Use -DMAP_MAX_WIDTH=123456 for the other."
+#  else
+#    define MAP_MAX_WIDTH 100
+#    define MAP_MAX_HEIGHT 100
+#  endif
+#endif
 
 /* This is not configurable.
  * Seriously, map_merge becomes impossible for higher values. */
