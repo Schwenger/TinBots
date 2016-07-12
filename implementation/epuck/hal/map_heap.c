@@ -1,7 +1,7 @@
-#include <assert.h>
 #include <stdlib.h> /* malloc, free */
 #include <string.h> /* memset */
 
+#include "hal.h"
 #include "map_heap.h"
 
 /* ===== Implementation of map.h, using the heap ===== */

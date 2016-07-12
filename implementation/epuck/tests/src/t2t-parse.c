@@ -1,7 +1,7 @@
-#include <assert.h>
 #include <stdio.h>
 
 #include "commands.h"
+#include "hal.h"
 #include "map_heap.h"
 #include "mock.h"
 #include "t2t-parse.h"

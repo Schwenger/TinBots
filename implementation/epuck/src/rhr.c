@@ -2,8 +2,7 @@
  * Right-Hand Follower (Right Hand Rule)
  */
 
-#include <assert.h>
-
+#include "hal.h"
 #include "pi.h" /* M_PI */
 #include "rhr.h"
 #include "state-machine-common.h"

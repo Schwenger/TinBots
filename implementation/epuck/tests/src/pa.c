@@ -1,9 +1,8 @@
-#include <assert.h>
 #include <stdio.h>
 
-#include "pickup-artist.h"
-
+#include "hal.h"
 #include "mock.h"
+#include "pickup-artist.h"
 
 int main() {
     PickupState ps;

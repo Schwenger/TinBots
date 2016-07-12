@@ -1,8 +1,8 @@
-#include <assert.h>
 #include <stdio.h>
 
-#include "pi.h"
+#include "hal.h"
 #include "mock.h"
+#include "pi.h"
 #include "victim-direction.h"
 
 #define IR_COMPLETION_TIME (16651UL)

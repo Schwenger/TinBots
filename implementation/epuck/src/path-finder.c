@@ -1,8 +1,8 @@
-#include <assert.h>
 #include <math.h>
 
 #include "astar/astar.h"
 
+#include "hal.h"
 #include "path-finder.h"
 #include "pi.h"
 

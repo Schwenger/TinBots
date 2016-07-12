@@ -1,6 +1,5 @@
-#include <hal/hal.h>
-#include <assert.h>
-#include <pi.h>
+#include "hal.h"
+#include "pi.h"
 #include "traffic-cop-eyes.h"
 
 /* #define LOG_TRANSITIONS_COP_EYES */

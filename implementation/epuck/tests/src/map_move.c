@@ -1,7 +1,7 @@
-#include <assert.h>
 #include <stdio.h>
 #include <string.h> /* memcmp */
 
+#include "hal.h"
 #include "map_heap.h"
 
 /* Use '3' to detect 'direction' errors.

@@ -1,5 +1,4 @@
-#include <assert.h>
-#include <hal/hal.h>
+#include "hal.h"
 #include "ir-stabilizer.h"
 
 enum {

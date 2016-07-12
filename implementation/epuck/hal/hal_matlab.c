@@ -19,14 +19,12 @@
  *  }
  */
 
-#include <assert.h>
 #include <math.h> /* Only for "time feedback" */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "hal.h"
-
 #include "matlab.h"
 #include "tinbot.h"
 #include "t2t-parse.h"

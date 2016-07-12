@@ -2,7 +2,6 @@
  * E-Puck Hardware Abstraction Layer
  */
 
-#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 #include "sensors.h"

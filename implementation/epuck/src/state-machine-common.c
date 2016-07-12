@@ -1,5 +1,3 @@
-#include <assert.h>
-
 #include "hal.h"
 #include "pi.h"
 #include "state-machine-common.h"

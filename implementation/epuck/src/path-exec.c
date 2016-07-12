@@ -2,9 +2,9 @@
  * Right-Hand Follower (Right Hand Rule)
  */
 
-#include <assert.h>
 #include <math.h>
 
+#include "hal.h"
 #include "pi.h" /* M_PI */
 #include "path-exec.h"
 #include "state-machine-common.h"

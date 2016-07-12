@@ -1,5 +1,3 @@
-#include <assert.h>
-
 #include "controller.h"
 #include "hal.h"
 

@@ -1,6 +1,6 @@
-#include <assert.h>
 #include <stdio.h>
 
+#include "hal.h"
 #include "map.h"
 
 static int report(unsigned long rhs_val) {

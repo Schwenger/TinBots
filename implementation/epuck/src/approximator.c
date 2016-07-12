@@ -1,7 +1,6 @@
-#include <assert.h>
-#include <hal/hal.h>
-#include <pi.h>
 #include "approximator.h"
+#include "hal.h"
+#include "pi.h"
 
 void approx_reset(ApproxState* approx, Sensors* sens) {
     approx->prev_motor_left = 0;

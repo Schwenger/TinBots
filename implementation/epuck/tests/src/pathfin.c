@@ -1,7 +1,7 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h> /* malloc, free */
 
+#include "hal.h"
 #include "map_heap.h"
 #include "path-finder.h"
 

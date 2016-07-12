@@ -1,12 +1,12 @@
-#include <assert.h>
 #include <math.h>
 
+#include "hal.h"
 #include "prox-map.h"
 #include "t2t-parse.h"
 
 /* Invariant: lower_left.x%4==0 && lower_left.y%2==0
  * This allows for an efficient implementation in map_merge and map_move. */
- 
+
 #define HALF_SIZE (MAP_PROXIMITY_SIZE * 0.5)
 #define FLICKER_INERTIA 1
 #define MIN_STEP_X 4

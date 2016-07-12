@@ -1,6 +1,6 @@
-#include <assert.h>
 #include <stdio.h>
 
+#include "hal.h"
 #include "pi.h"
 #include "victim-finder.h"
 

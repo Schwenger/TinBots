@@ -2,9 +2,8 @@
  * Right-Hand Follower (Right Hand Rule)
  */
 
-#include <assert.h>
-
 #include "blind-cop.h"
+#include "hal.h"
 #include "state-machine-common.h"
 
 #define LOG_TRANSITIONS_BLIND_COP

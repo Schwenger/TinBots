@@ -4,7 +4,6 @@
  * The name of this file appears quite often in the Makefile.
  */
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> /* memcpy */

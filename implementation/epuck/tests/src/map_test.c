@@ -1,6 +1,6 @@
-#include <assert.h>
 #include <stdio.h>
 
+#include "hal.h"
 #include "map_heap.h"
 
 #define data_width 8
