@@ -1,0 +1,13 @@
+map-orig-xc16.S
+map-orig-xc16.o
+map-direct-xc16.o
+map-orig-gcc0.S
+map-orig-gcc0.o
+map-direct-gcc0.o
+bench-gcc0.o
+bench-gcc0
+map-orig-gcc3.S
+map-orig-gcc3.o
+map-direct-gcc3.o
+bench-gcc3.o
+bench-gcc3
