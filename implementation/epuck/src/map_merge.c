@@ -58,7 +58,6 @@ static uint16_t merge_u16(uint16_t previously, uint16_t input) {
  *      -> guaranteed by tests/mock.c
  * - BIT_PER_FIELD==2 (previous typedef-checks in the file) */
 void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
-    int y;
     uint16_t* dst_data;
     uint16_t* patch_data;
 
@@ -98,16 +97,78 @@ void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     dst_data = (uint16_t*)map_serialize(dst); /* BLESSED CAST */
     patch_data = (uint16_t*)map_serialize(patch); /* BLESSED CAST */
     dst_data += low_left_x + low_left_y * DST_CELL_TWO_ROWS_U16S;
-    for (y = 0; y < MAP_PROXIMITY_SIZE / 2; ++y) {
-        /* Manually unroll inner loop because I expect xc16 to be
-         * too dumb for that. */
-        dst_data[0 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
-            dst_data[0 + y * DST_CELL_TWO_ROWS_U16S], patch_data[0 + y * PROX_CELL_TWO_ROWS_U16S]);
-        dst_data[1 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
-            dst_data[1 + y * DST_CELL_TWO_ROWS_U16S], patch_data[1 + y * PROX_CELL_TWO_ROWS_U16S]);
-        dst_data[2 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
-            dst_data[2 + y * DST_CELL_TWO_ROWS_U16S], patch_data[2 + y * PROX_CELL_TWO_ROWS_U16S]);
-        dst_data[3 + y * DST_CELL_TWO_ROWS_U16S] = merge_u16(
-            dst_data[3 + y * DST_CELL_TWO_ROWS_U16S], patch_data[3 + y * PROX_CELL_TWO_ROWS_U16S]);
-    }
+
+    /* Manually unroll LITERALLY EVERYTHING because I expect xc16 to be
+     * too dumb for that. */
+    dst_data[0 + 0 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 0 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 0 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 0 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 0 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 0 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 0 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 0 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 0 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 0 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 0 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 0 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 1 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 1 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 1 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 1 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 1 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 1 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 1 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 1 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 1 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 1 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 1 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 1 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 2 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 2 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 2 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 2 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 2 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 2 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 2 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 2 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 2 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 2 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 2 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 2 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 3 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 3 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 3 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 3 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 3 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 3 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 3 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 3 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 3 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 3 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 3 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 3 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 4 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 4 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 4 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 4 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 4 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 4 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 4 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 4 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 4 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 4 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 4 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 4 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 5 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 5 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 5 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 5 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 5 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 5 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 5 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 5 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 5 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 5 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 5 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 5 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 6 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 6 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 6 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 6 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 6 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 6 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 6 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 6 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 6 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 6 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 6 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 6 * PROX_CELL_TWO_ROWS_U16S]);
+
+    dst_data[0 + 7 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[0 + 7 * DST_CELL_TWO_ROWS_U16S], patch_data[0 + 7 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[1 + 7 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[1 + 7 * DST_CELL_TWO_ROWS_U16S], patch_data[1 + 7 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[2 + 7 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[2 + 7 * DST_CELL_TWO_ROWS_U16S], patch_data[2 + 7 * PROX_CELL_TWO_ROWS_U16S]);
+    dst_data[3 + 7 * DST_CELL_TWO_ROWS_U16S] = merge_u16(
+        dst_data[3 + 7 * DST_CELL_TWO_ROWS_U16S], patch_data[3 + 7 * PROX_CELL_TWO_ROWS_U16S]);
 }
