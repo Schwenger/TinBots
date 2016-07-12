@@ -29,6 +29,8 @@ static unsigned int do_reset = 0;
 
 static TinBot bot;
 
+static char my_com_addr;
+
 
 /* default mode executed on start command */
 static Mode mode = ALONE;
@@ -113,13 +115,53 @@ static void debug_on_motors(TinPackage *package) {
 }
 
 
+/* Forwarding to T2T handlers */
+static void com_on_t2t_heartbeat(TinPackage *package) {
+    (void)package;
+    t2t_parse_heartbeat(&bot);
+}
+
+static void com_on_t2t_victim_phi(TinPackage *package) {
+    t2t_parse_found_phi(&bot, package->data, package->length);
+}
+
+static void com_on_t2t_victim_xy(TinPackage *package) {
+    t2t_parse_found_xy(&bot, package->source == my_com_addr, package->data, package->length);
+}
+
+static void com_on_t2t_update_map(TinPackage *package) {
+    t2t_parse_update_map(&bot, package->source == my_com_addr, package->data, package->length);
+}
+
+static void com_on_t2t_docked(TinPackage *package) {
+    (void)package;
+    t2t_parse_docked(&bot);
+}
+
+static void com_on_t2t_completed(TinPackage *package) {
+    (void)package;
+    t2t_parse_completed(&bot);
+}
+
+static void com_register_t2t() {
+    tin_com_register(CMD_T2T_HEARTBEAT, com_on_t2t_heartbeat);
+    tin_com_register(CMD_T2T_VICTIM_PHI, com_on_t2t_victim_phi);
+    tin_com_register(CMD_T2T_VICTIM_XY, com_on_t2t_victim_xy);
+    tin_com_register(CMD_T2T_UPDATE_MAP, com_on_t2t_update_map);
+    tin_com_register(CMD_T2T_DOCKED, com_on_t2t_docked);
+    tin_com_register(CMD_T2T_COMPLETED, com_on_t2t_completed);
+}
+
+
+/* main loop */
 int main() {
     tin_init();
 
     tin_init_com();
     tin_init_rs232(9600UL);
 
-    tin_com_set_address(tin_get_selector());
+    my_com_addr = (char)tin_get_selector(); /* FIXME: Should be char */
+    tin_com_set_address(my_com_addr);
 
     tin_task_register(&update_ext_data_task, update_ext_data, 500);
     tin_task_activate(&update_ext_data_task);
@@ -155,6 +197,7 @@ int main() {
             while (!lps_updated);
             set_mode(&bot, mode);
             setup(&bot);
+            com_register_t2t();
             do_reset = 0;
         }
         tin_get_proximity(proximity_raw);
