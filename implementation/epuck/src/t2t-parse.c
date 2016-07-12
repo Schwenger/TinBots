@@ -76,7 +76,7 @@ void t2t_parse_heartbeat(TinBot* bot) {
 
 void t2t_parse_found_phi(TinBot* bot, char* data, unsigned int length) {
     assert(length == 4 * 3);
-    t2t_receive_found_phi(bot, ((t2t_float*) data)[0], ((t2t_float*) data)[0], ((t2t_float*) data)[0]);
+    t2t_receive_found_phi(bot, ((t2t_float*) data)[0], ((t2t_float*) data)[1], ((t2t_float*) data)[2]);
 }
 
 void t2t_parse_found_xy(TinBot* bot, int is_ours, char* data, unsigned int length) {
