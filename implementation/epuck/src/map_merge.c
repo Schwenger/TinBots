@@ -33,9 +33,7 @@ typedef char check_map_merge_byte_bitlength[(BIT_PER_FIELD == 2) ? 1 : -1];
 static uint16_t merge_u16(uint16_t previously, uint16_t input) {
     /* Create a mask of all 'fields' that "are not unknown",
      * which is equivalent to "are not 0b00". */
-    uint16_t mask = input;
-    mask |= (input & 0xAAAA) >> 1;
-    mask |= (input & 0x5555) << 1;
+    const uint16_t mask = input | (input & 0xAAAA) >> 1 | (input & 0x5555) << 1;
     /* Remove information that shall be overwritten. */
     previously &= ~mask;
     /* "or"-in all new bits. */
