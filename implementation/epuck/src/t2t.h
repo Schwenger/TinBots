@@ -14,7 +14,7 @@ void t2t_receive_heartbeat(TinBot* bot);
 
 /* 'Our' packages: MUST NOT
  * 'Their' packages: MUST */
-void t2t_receive_found_phi(TinBot* bot, int x, int y, double phi);
+void t2t_receive_found_phi(TinBot* bot, double x, double y, double phi);
 
 /* 'Our' packages: MUST
  * 'Their' packages: MUST

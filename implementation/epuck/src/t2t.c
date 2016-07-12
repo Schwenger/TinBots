@@ -8,7 +8,7 @@ void t2t_receive_heartbeat(TinBot* bot) {
     (void)bot;
 }
 
-void t2t_receive_found_phi(TinBot* bot, int x, int y, double phi) {
+void t2t_receive_found_phi(TinBot* bot, double x, double y, double phi) {
     /* FIXME */
     (void)bot;
     (void)x;
