@@ -179,6 +179,7 @@ void __assert_hal(const char *msg, const char *file, int line) {
     memset(buffer, 0, 255);
     sprintf(buffer, "Failure: %s (%s:%d)", msg, file, line);
     hal_print(buffer);
+    abort();
 }
 
 

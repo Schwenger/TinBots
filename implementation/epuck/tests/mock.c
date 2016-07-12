@@ -164,5 +164,6 @@ void tests_mock_expect_assert_done(void) {
 }
 
 void __assert_hal(const char *msg, const char *file, int line) {
-    printf("Failure: %s (%s:%d)", msg, file, line);
+    printf("%s:%d: Assertion failed: %s\n", file, line, msg);
+    abort();
 }
