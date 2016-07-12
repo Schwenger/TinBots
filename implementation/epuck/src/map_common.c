@@ -1,10 +1,8 @@
-#include <assert.h>
-#include <stddef.h>
 #include <stdint.h>
-#include <stdio.h> /* FIXME: remove this */
 #include <stdlib.h> /* abs */
-#include <string.h> /* memcpy */
+#include <string.h> /* memset */
 
+#include "hal.h" /* assert */
 #include "map.h"
 
 /* ===== Common implementation of map.h ===== */
@@ -89,7 +87,7 @@ void map_clear(Map* map) {
 
 /* ===== map_move ===== */
 
-/* map_move and map_merge have to be hard-coded: */
+/* map_move is hard-coded: */
 typedef char check_bit_per_field[(BIT_PER_FIELD == 2) ? 1 : -1];
 
 void map_move(Map* map, int by_x, int by_y) {
@@ -245,8 +243,6 @@ void map_merge(Map* dst, int low_left_x, int low_left_y, Map* patch) {
     dst_two_rows_bytes /= 2;
     /* Old name is now misleading, so us a macro instead: */
     #define DST_CELL_TWO_ROWS_U16S dst_two_rows_bytes
-    printf("DST_CELL_TWO_ROWS_U16S is actually %d\n", DST_CELL_TWO_ROWS_U16S);
-    assert(5 == DST_CELL_TWO_ROWS_U16S);
     low_left_x /= 4;
     low_left_y /= 2;
     dst_data = (uint16_t*)map_serialize(dst); /* BLESSED CAST */
