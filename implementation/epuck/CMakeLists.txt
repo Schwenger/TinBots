@@ -47,6 +47,7 @@ set(SOURCE_FILES
         src/controller.c
         src/ir-stabilizer.c
         src/map_common.c
+        src/map_merge.c
         src/path-exec.c
         src/path-finder.c
         src/pickup-artist.c
