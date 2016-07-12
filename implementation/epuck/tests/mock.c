@@ -163,3 +163,7 @@ void tests_mock_expect_next(const ExpectPackage* pkg) {
 void tests_mock_expect_assert_done(void) {
     assert(!expect_list);
 }
+
+void __assert_hal(const char *msg, const char *file, int line) {
+    printf("Failure: %s (%s:%d)", msg, file, line);
+}

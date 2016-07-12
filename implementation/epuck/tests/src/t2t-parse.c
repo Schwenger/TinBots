@@ -15,21 +15,28 @@ static void test_heartbeat(void) {
     tests_mock_expect_assert_done();
 }
 
-/* Untestable due to new format
 static void test_found_phi1(void) {
-    char data[4] = {42, 7, 0, 0};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4, NULL};
+    /*
+     * >>> Commands.T2T_VICTIM_PHI.encode(3.1415, 42.24, -10.22)
+     * b'V\x0eI@\xc3\xf5(B\x1f\x85#\xc1'
+     */
+    unsigned char data[] = {86, 14, 73, 64, 195, 245, 40, 66, 31, 133, 35, 193};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
-    t2t_send_found_phi(42, 7, 0);
+    t2t_send_found_phi(3.1415, 42.24, -10.22);
     tests_mock_expect_assert_done();
 }
 
 static void test_found_phi2(void) {
-    char data[4] = {0, 99, 0, 1};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4, NULL};
+    /*
+     * >>> Commands.T2T_VICTIM_PHI.encode(0, 99, 256.001 / 1000.0)
+     * b'\x00\x00\x00\x00\x00\x00\xc6B\x90\x12\x83>'
+     */
+    unsigned char data[] = {0, 0, 0, 0, 0, 0, 198, 66, 144, 18, 131, 62};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -37,7 +44,6 @@ static void test_found_phi2(void) {
     t2t_send_found_phi(0, 99, 256.001 / 1000.0);
     tests_mock_expect_assert_done();
 }
-*/
 
 static void test_found_xy(void) {
     char data[4] = {12, 34, 56};
@@ -96,10 +102,8 @@ static void test_completed(void) {
 
 int main() {
     RUN(test_heartbeat);
-    /*
     RUN(test_found_phi1);
     RUN(test_found_phi2);
-    */
     RUN(test_found_xy);
     RUN(test_update_map);
     RUN(test_docked);
