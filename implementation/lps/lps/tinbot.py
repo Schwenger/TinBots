@@ -42,7 +42,7 @@ class TinBot:
         self.thread_sending.start()
 
         # send hello
-        self.send(Commands.HELLO)
+        self.send(Commands.HELLO, b'', target=0xFF)
 
     def send(self, command, payload=b'', source=None, target=None):
         if isinstance(command, Commands):
@@ -118,11 +118,11 @@ class TinBot:
                 if command == Commands.HELLO:
                     self.number = source
                     self.color, self.hue = COLOR_MAP[self.number]
-                    self.controller.device_new.fire(self)
+                    self.controller.device_new_event.fire(self)
                 self.package_event.fire(self, source, target, command, payload)
         except bluetooth.btcommon.BluetoothError:
             pass
         finally:
             del self.controller.devices[self.address]
             if self.color:
-                self.controller.device_deleted.fire(self)
+                self.controller.device_deleted_event.fire(self)

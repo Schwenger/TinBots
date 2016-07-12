@@ -20,11 +20,6 @@ void update_proximity(TinBot* tinbot, double proximity[8]) {
 }
 
 void update_ir(TinBot* tinbot, int ir[6]) {
-    /* toggle led for frequency test */
-    static unsigned int state = 0;
-    state ^= 1;
-    hal_set_led(4, state);
-    
     unsigned int i;
     for (i = 0; i < 6; ++i) {
         tinbot->sens.ir[i] = ir[i];

@@ -78,9 +78,11 @@ class Debugger:
         self.print_message(msg, INFO)
         msg = '[{}] LPS      : {} {} {}'.format(device.color, *info[8:11])
         self.print_message(msg, INFO)
-        msg = '[{}] IR       : {} {} {} {} {} {}'.format(device.color, *info[11:17])
+        msg = '[{}] FREQ     : {} '.format(device.color, info[11])
         self.print_message(msg, INFO)
-        msg = '[{}] GRABBED  : {}'.format(device.color, info[17])
+        msg = '[{}] IR       : {} {} {} {} {} {}'.format(device.color, *info[12:18])
+        self.print_message(msg, INFO)
+        msg = '[{}] GRABBED  : {}'.format(device.color, info[18])
         self.print_message(msg, INFO)
 
     # event handlers

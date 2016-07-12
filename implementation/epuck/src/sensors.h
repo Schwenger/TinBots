@@ -35,14 +35,14 @@ extern const double ir_sensor_angle[6];
 
 typedef struct Sensors {
     double proximity[NUM_PROXIMITY];
-    int ir[NUM_IR];
+    volatile int ir[NUM_IR];
     LPS_Data lps;
     struct {
         double x;
         double y;
         double phi;
     } current;
-    int victim_attached;
+    volatile int victim_attached;
 } Sensors;
 
 #endif

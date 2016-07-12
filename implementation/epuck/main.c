@@ -22,6 +22,9 @@ static volatile unsigned int victim_phi_updated = 0;
 
 static volatile unsigned int state = STATE_STARTUP;
 
+static volatile unsigned int loop_counter = 0;
+static volatile unsigned int loop_freq = 0;
+
 static unsigned int proximity_raw[8] = {0};
 static double proximity[8] = {0};
 
@@ -41,6 +44,15 @@ static TinTask update_ext_data_task;
 
 void update_ext_data(void) {
     I2CCONbits.SEN = 1;
+}
+
+
+/* reset loop counter */
+static TinTask reset_loop_counter_task;
+
+void reset_loop_counter(void) {
+    loop_freq = loop_counter;
+    loop_counter = 0;
 }
 
 
@@ -82,7 +94,7 @@ static void com_on_update_lps(TinPackage* package) {
 /* debug commands */
 static void debug_on_info(TinPackage* package) {
     static TinPackage response = {NULL, NULL, CMD_DEBUG_INFO, 0, NULL, NULL};
-    static char data[4 * 11 + 6 + 1] __attribute__ ((aligned (4)));
+    static char data[4 * 11 + 2 + 6 + 1] __attribute__ ((aligned (4)));
     unsigned int number;
     for (number = 0; number < 8; number++) {
         ((float*) data)[number] = proximity[number];
@@ -90,10 +102,11 @@ static void debug_on_info(TinPackage* package) {
     for (number = 0; number < 3; number++) {
         ((float*) data)[number + 8] = lps_data[number];
     }
+    ((unsigned int*) data)[2 * 11] = loop_freq;
     for (number = 0; number < 6; number++) {
-        data[4 * 11 + number] = (char) ir_data[number];
+        data[4 * 11 + 2 + number] = (char) ir_data[number];
     }
-    data[4 * 11 + 6] = (char) pickup_data;
+    data[4 * 11 + 2 + 6] = (char) pickup_data;
     response.target = package->source;
     response.data = data;
     response.length = sizeof(data);
@@ -166,6 +179,9 @@ int main() {
     tin_task_register(&update_ext_data_task, update_ext_data, 500);
     tin_task_activate(&update_ext_data_task);
 
+    tin_task_register(&reset_loop_counter_task, reset_loop_counter, 10000);
+    tin_task_activate(&reset_loop_counter_task);
+
     tin_com_register(CMD_HELLO, com_on_hello);
     tin_com_register(CMD_START, com_on_start);
     tin_com_register(CMD_RESET, com_on_reset);
@@ -226,9 +242,7 @@ int main() {
             update_victim_phi(&bot, phi);
         }
 
-
-        update_ir(&bot, (int*) ir_data);
-        update_victim_pickup(&bot, pickup_data);
+        loop_counter++;
 
         loop(&bot);
     }
@@ -258,6 +272,10 @@ ISR(_MI2CInterrupt) {
                 ir_data[index] = (data >> index) & 1;
             }
             pickup_data = (data >> 6) & 1;
+
+            update_ir(&bot, (int*) ir_data);
+            update_victim_pickup(&bot, pickup_data);
+
             I2CCONbits.ACKDT=1;
             I2CCONbits.ACKEN=1;
             state = 3;
