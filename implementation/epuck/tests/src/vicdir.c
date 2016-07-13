@@ -40,6 +40,7 @@ int main() {
     printf("Core times: %07lu %07lu %07lu %07lu %07lu %07lu\n",
         core_time[0], core_time[1], core_time[2], core_time[3], core_time[4], core_time[5]);
     printf("Pass time:  %07lu\n", IR_PASS_TIME);
+    tests_mock_expect_set_enabled(0);
 
     /* Running */
     while (hal_get_time() < 20000) {

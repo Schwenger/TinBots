@@ -15,14 +15,41 @@ static void test_heartbeat(void) {
     tests_mock_expect_assert_done();
 }
 
+/*
+ * >>> Commands.T2T_VICTIM_PHI.encode(3.1415, 42.24, -10.22)
+ * b'V\x0eI@\xc3\xf5(B\x1f\x85#\xc1'
+ */
+static unsigned char phi_data1[] = {86, 14, 73, 64, 195, 245, 40, 66, 31, 133, 35, 193};
+
+/*
+ * >>> Commands.T2T_VICTIM_PHI.encode(0, 99, 256.001 / 1000.0)
+ * b'\x00\x00\x00\x00\x00\x00\xc6B\x90\x12\x83>'
+ */
+static unsigned char phi_data2[] = {0, 0, 0, 0, 0, 0, 198, 66, 144, 18, 131, 62};
+
+static void test_check_phi1(void) {
+    ExpectPackage pkg = {CMD_VICTIM_PHI, sizeof(phi_data1), NULL, 0};
+    pkg.data = phi_data1;
+    tests_mock_expect_assert_done();
+
+    tests_mock_expect_next(&pkg);
+    send_found_phi(3.1415, 42.24, -10.22);
+    tests_mock_expect_assert_done();
+}
+
+static void test_check_phi2(void) {
+    ExpectPackage pkg = {CMD_VICTIM_PHI, sizeof(phi_data2), NULL, 0};
+    pkg.data = phi_data2;
+    tests_mock_expect_assert_done();
+
+    tests_mock_expect_next(&pkg);
+    send_found_phi(0, 99, 256.001 / 1000.0);
+    tests_mock_expect_assert_done();
+}
+
 static void test_found_phi1(void) {
-    /*
-     * >>> Commands.T2T_VICTIM_PHI.encode(3.1415, 42.24, -10.22)
-     * b'V\x0eI@\xc3\xf5(B\x1f\x85#\xc1'
-     */
-    unsigned char data[] = {86, 14, 73, 64, 195, 245, 40, 66, 31, 133, 35, 193};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL, 0};
-    pkg.data = data;
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, sizeof(phi_data1), NULL, 1};
+    pkg.data = phi_data1;
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
@@ -31,13 +58,8 @@ static void test_found_phi1(void) {
 }
 
 static void test_found_phi2(void) {
-    /*
-     * >>> Commands.T2T_VICTIM_PHI.encode(0, 99, 256.001 / 1000.0)
-     * b'\x00\x00\x00\x00\x00\x00\xc6B\x90\x12\x83>'
-     */
-    unsigned char data[] = {0, 0, 0, 0, 0, 0, 198, 66, 144, 18, 131, 62};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL, 0};
-    pkg.data = data;
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, sizeof(phi_data2), NULL, 1};
+    pkg.data = phi_data2;
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
@@ -46,20 +68,20 @@ static void test_found_phi2(void) {
 }
 
 static void test_found_xy(void) {
-    unsigned char data[4] = {12, 34, 56};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_XY, 3, NULL, 1};
+    unsigned char data[6] = {12, 0, 34, 0, 0, 1};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_XY, sizeof(data), NULL, 1};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
-    t2t_send_found_xy(12, 34, 56);
+    t2t_send_found_xy(12, 34, 256);
     tests_mock_expect_assert_done();
 }
 
 static void test_update_map(void) {
     Map* m;
     unsigned char data[4 + MAP_PROXIMITY_BUF_SIZE] = {0};
-    ExpectPackage pkg = {CMD_T2T_UPDATE_MAP, 2 + MAP_PROXIMITY_BUF_SIZE, NULL, 1};
+    ExpectPackage pkg = {CMD_T2T_UPDATE_MAP, sizeof(data), NULL, 1};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -104,6 +126,8 @@ static void test_completed(void) {
 
 int main() {
     RUN(test_heartbeat);
+    RUN(test_check_phi1);
+    RUN(test_check_phi2);
     RUN(test_found_phi1);
     RUN(test_found_phi2);
     RUN(test_found_xy);
