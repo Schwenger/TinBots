@@ -67,12 +67,18 @@ typedef struct ExpectPackageList {
     int is_broadcast;
 } ExpectPackageList;
 
+static int expect_enabled = 1;
 /* Needs to be a deep copy */
 static ExpectPackageList* expect_list;
 
 void hal_send_put(char* buf, unsigned int length) {
     int cmp;
     unsigned int i;
+
+    if (!expect_enabled) {
+        return;
+    }
+
     assert(expect_list);
     assert(expect_list->length >= length);
     assert(length > 0);
@@ -99,6 +105,10 @@ void hal_send_put(char* buf, unsigned int length) {
 
 void hal_send_done(char command, int is_broadcast) {
     ExpectPackageList* next;
+
+    if (!expect_enabled) {
+        return;
+    }
 
     assert(expect_list);
     assert(expect_list->length == 0); /* Remaining data size */
@@ -130,9 +140,11 @@ void tests_mock_expect_next(const ExpectPackage* pkg) {
     ExpectPackageList* last;
     ExpectPackageList* next;
 
+    assert(expect_enabled);
     /* Use malloc everywhere so that valgrind can find errors. */
     next = malloc(sizeof(ExpectPackageList));
     next->command = pkg->command;
+    next->is_broadcast = pkg->is_broadcast;
     assert(pkg->length < 128); /* TIN_PACKAGE_MAX_LENGTH */
     next->length = pkg->length;
     next->next = NULL;
@@ -159,6 +171,12 @@ void tests_mock_expect_next(const ExpectPackage* pkg) {
         }
         last->next = next;
     }
+}
+
+void tests_mock_expect_set_enabled(int is_enabled) {
+    assert(expect_enabled != is_enabled);
+    tests_mock_expect_assert_done();
+    expect_enabled = is_enabled;
 }
 
 void tests_mock_expect_assert_done(void) {
