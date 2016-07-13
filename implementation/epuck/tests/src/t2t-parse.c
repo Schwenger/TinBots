@@ -46,7 +46,7 @@ static void test_found_phi2(void) {
 }
 
 static void test_found_xy(void) {
-    char data[4] = {12, 34, 56};
+    unsigned char data[4] = {12, 34, 56};
     ExpectPackage pkg = {CMD_T2T_VICTIM_XY, 3, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
@@ -58,7 +58,7 @@ static void test_found_xy(void) {
 
 static void test_update_map(void) {
     Map* m;
-    char data[2 + MAP_PROXIMITY_BUF_SIZE] = {0};
+    unsigned char data[2 + MAP_PROXIMITY_BUF_SIZE] = {0};
     ExpectPackage pkg = {CMD_T2T_UPDATE_MAP, 2 + MAP_PROXIMITY_BUF_SIZE, NULL};
     pkg.data = data;
     tests_mock_expect_assert_done();
@@ -66,7 +66,7 @@ static void test_update_map(void) {
     data[0] = 99;
     data[1] = 3;
     /* Positions (4,3)-(7,3) are stored in the byte at offset 11 of the map. */
-    data[2 + 11] = (char)0x89; /* 0b10 00 10 01 */
+    data[2 + 11] = 0x89; /* 0b10 00 10 01 */
     m = map_heap_alloc(MAP_PROXIMITY_SIZE, MAP_PROXIMITY_SIZE);
     map_set_field(m, 4 + 0, 3, 1);
     map_set_field(m, 4 + 1, 3, 2);

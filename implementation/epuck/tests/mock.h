@@ -10,7 +10,7 @@ double tests_mock_get_debug(DebugCategory cat);
 typedef struct ExpectPackage {
     char command;
     unsigned int length;
-    char* data;
+    unsigned char* data;
 } ExpectPackage;
 
 /* Can be called multiple times, even with static const things. */

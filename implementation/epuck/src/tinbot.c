@@ -69,10 +69,12 @@ static void loop_alone(TinBot* tinbot) {
 static void setup_full(TinBot* tinbot) {
     hal_print("Tin Bot Setup: Full");
     /* FIXME: NOT IMPLEMENTED */
+    (void)tinbot;
 }
 
 static void loop_full(TinBot* tinbot) {
     /* FIXME: NOT IMPLEMENTED */
+    (void)tinbot;
 }
 
 
@@ -112,6 +114,7 @@ static void loop_vicdir(TinBot* tinbot) {
 
 /* mergeonly - Full */
 static void setup_mergeonly(TinBot* tinbot) {
+    (void)tinbot;
     hal_print("Tin Bot Setup: mergeonly");
 }
 
@@ -121,6 +124,7 @@ static void loop_mergeonly(TinBot* tinbot) {
     static const long iterations = 10000;
     long i = 0;
     hal_time time = hal_get_time();
+    (void)tinbot;
     do {
         map_merge(map_get_accumulated(), 4, 2, map_get_proximity());
     } while (++i < iterations);

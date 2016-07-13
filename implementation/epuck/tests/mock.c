@@ -59,8 +59,8 @@ void hal_set_front_led(unsigned int value) {
 }
 
 typedef struct ExpectPackageList {
-    char* data;
-    char* data_orig;
+    unsigned char* data;
+    unsigned char* data_orig;
     struct ExpectPackageList* next;
     unsigned int length;
     char command;
