@@ -34,6 +34,9 @@ void t2t_parse_heartbeat(TinBot* bot);
  * 'Their' packages: MUST */
 void t2t_parse_found_phi(TinBot* bot, char* data, unsigned int length);
 
+/* 'response' from RPi */
+void t2t_parse_phi_correction(TinBot* bot, char* data, unsigned int length);
+
 /* 'Our' packages: MUST
  * 'Their' packages: MUST
  * Please set the 'is_ours' flag. */

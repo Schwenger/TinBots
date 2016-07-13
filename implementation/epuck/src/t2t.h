@@ -20,6 +20,9 @@ void t2t_receive_heartbeat(struct TinBot* bot);
  * 'Their' packages: MUST */
 void t2t_receive_found_phi(struct TinBot* bot, double x, double y, double phi);
 
+/* Response of RPi */
+void t2t_receive_phi_correction(struct TinBot* bot, double phi_correct, unsigned int acceptable);
+
 /* 'Our' packages: MUST
  * 'Their' packages: MUST
  * Please set the 'is_ours' flag. */

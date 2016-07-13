@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "t2t.h"
 #include "tinbot.h"
 
@@ -5,7 +7,7 @@
  * copying these things into bot->* structures! */
 
 void t2t_receive_heartbeat(TinBot* bot) {
-    /* FIXME bot->sens.saw_heartbeat = 1; */
+    bot->rx_buffer.newest_beat = hal_get_time();
 }
 
 void t2t_receive_found_phi(TinBot* bot, double x, double y, double phi) {
@@ -13,6 +15,13 @@ void t2t_receive_found_phi(TinBot* bot, double x, double y, double phi) {
     (void)bot;
     (void)x;
     (void)y;
+}
+
+void t2t_receive_phi_correction(struct TinBot* bot, double phi_correct, unsigned int acceptable) {
+    /* FIXME */
+    (void)bot;
+    (void)phi_correct;
+    (void)acceptable;
 }
 
 void t2t_receive_found_xy(TinBot* bot, int is_ours, int x, int y, int iteration) {
@@ -23,6 +32,7 @@ void t2t_receive_found_xy(TinBot* bot, int is_ours, int x, int y, int iteration)
 }
 
 void t2t_receive_update_map(TinBot* bot, int x, int y, Map* map) {
+    /* The only one allowed to bypass the "t2t_pump" stuff. */
     (void)bot;
     map_merge(map_get_accumulated(), x, y, map);
 }
@@ -38,5 +48,5 @@ void t2t_receive_completed(TinBot* bot) {
 }
 
 void t2t_pump(TinBot* bot) {
-    /* FIXME */
+    memcpy(&bot->sens.t2t, &bot->rx_buffer, sizeof(T2TData));
 }

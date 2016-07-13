@@ -86,6 +86,11 @@ void t2t_parse_found_phi(TinBot* bot, char* data, unsigned int length) {
     t2t_receive_found_phi(bot, ((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
 }
 
+void t2t_parse_phi_correction(TinBot* bot, char* data, unsigned int length) {
+    assert(length == 4 + 2);
+    t2t_receive_phi_correction(bot, ((float*) data)[0], ((uint16_t*) (data + 4))[1]);
+}
+
 void t2t_parse_found_xy(TinBot* bot, int is_ours, char* data, unsigned int length) {
     assert(length == 3);
     t2t_receive_found_xy(bot, is_ours, data[0], data[1], data[2]);
