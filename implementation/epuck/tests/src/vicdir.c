@@ -50,15 +50,13 @@ int main() {
         sens.current.phi = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
         vd_step(&vds, &sens);
         if (hal_get_time() % 4000 == 0) {
-            printf("Debug data: @%5.3f state%1d IR%1d@%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
+            printf("Debug data: @%5.3f state%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
                 sens.current.phi,
                 vds.locals.state,
-                (int)(tests_mock_get_debug(DEBUG_CAT_VD_IR_ID)),
-                (int)(tests_mock_get_debug(DEBUG_CAT_VD_HAVE_IR)),
                 vds.victim_phi,
                 vds.victim_found,
                 vds.give_up,
-                vds.locals.counter_on * 100.0 / vds.locals.counter_total,
+                vds.locals.counter_on * 100.0 / (NUM_IR * vds.locals.counter_total),
                 vds.locals.weighted_sum / vds.locals.counter_on);
         }
         tests_mock_tick(10);

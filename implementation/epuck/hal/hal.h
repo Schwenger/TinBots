@@ -38,8 +38,6 @@ typedef enum DebugCategory {
     DEBUG_CAT_VD_GIVE_UP,
     DEBUG_CAT_VD_ON_PERCENTAGE,
     DEBUG_CAT_VD_AVG_ANGLE,
-    DEBUG_CAT_VD_HAVE_IR,
-    DEBUG_CAT_VD_IR_ID,
     /* DEBUG_CAT_OWN_TIME, */
     DEBUG_CAT_NUM
 } DebugCategory;

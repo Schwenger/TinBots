@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -23,9 +24,6 @@ enum {
  * have a sensibility of this many degrees. */
 static const double VD_MIN_ON = 9.0 / 360.0;
 
-static void entry_start(VDState* vd, Sensors* sens);
-static double determine_victim_phi(double bound, double current_phi, int sensor);
-
 void vd_reset(VDState* vd){
     vd->locals.state = VD_off;
     vd->victim_found = 0;
@@ -34,25 +32,27 @@ void vd_reset(VDState* vd){
     vd->locals.counter_total = 1;
     vd->locals.counter_on = 0;
     vd->locals.weighted_sum = 0;
+    vd->locals.gap_phi = -1;
 }
 
+typedef char check_num_ir_even[(NUM_IR % 2 == 0) ? 1 : -1];
+
 static void entry_start(VDState* vd, Sensors* sens) {
-    int i;
+    int i, have_id;
     vd->locals.state = VD_running;
-    vd->locals.sensor_id = -1;
-    for(i = 0; i < 6; ++i) {
-        if(sens->ir[i] == 0){
-            vd->locals.sensor_id = i;
+    have_id = 0;
+    for(i = 0; i < NUM_IR; ++i) {
+        if (sens->ir[i]) {
+            int sensor_id = (i + NUM_IR / 2) % NUM_IR;
+            have_id = 1;
+            vd->locals.gap_phi = ir_sensor_angle[sensor_id];
+            break;
         }
     }
-    if (vd->locals.sensor_id == -1) {
+    if (have_id == 0) {
         vd->locals.state = VD_done;
         vd->give_up = 1;
     } else {
-        assert(sens->ir[vd->locals.sensor_id] == 0);
-        #ifdef LOG_TRANSITIONS_VICDIR
-        hal_debug_out(DEBUG_CAT_VD_IR_ID, vd->locals.sensor_id);
-        #endif
         smc_rot_left();
         vd->locals.counter_on = 1;
         vd->locals.weighted_sum = M_PI;
@@ -60,40 +60,26 @@ static void entry_start(VDState* vd, Sensors* sens) {
     }
 }
 
-static double determine_victim_phi(double ir_start, double ir_end, int sensor) {
-    double look_phi, victim_phi;
-    assert(ir_end > ir_start);
-    assert(ir_end < ir_start + 2 * M_PI);
-
-    look_phi = (ir_start + ir_end) / 2;
-    victim_phi = look_phi + ir_sensor_angle[sensor];
-    victim_phi = fmod(victim_phi, 2 * M_PI);
-
-    return victim_phi;
-}
-
 static void compute_result(VDState* vd, Sensors* sens) {
-    double eff_angle;
     double eff_opening;
 
-    if (vd->locals.counter_total < 100) {
+    if (vd->locals.counter_total < 100 * NUM_IR) {
         /* Wat. */
         vd->give_up = 1;
         return;
     }
 
-    eff_opening = vd->locals.counter_on * 1.0 / vd->locals.counter_total;
+    eff_opening = vd->locals.counter_on * 1.0 / (NUM_IR * vd->locals.counter_total);
     if (eff_opening < VD_MIN_ON) {
         /* There is no spoon.  And no VICTOR. */
         vd->give_up = 1;
         return;
     }
 
-    eff_angle = sens->current.phi
-        + vd->locals.weighted_sum / vd ->locals.counter_on;
-    vd->victim_phi = determine_victim_phi(eff_angle - eff_opening / 2,
-                                          eff_angle + eff_opening / 2,
-                                          vd->locals.sensor_id);
+    vd->victim_phi = sens->current.phi + vd->locals.gap_phi
+        + (2 * M_PI + vd->locals.weighted_sum / vd ->locals.counter_on);
+    vd->victim_phi = fmod(vd->victim_phi + 2 * M_PI, 2 * M_PI);
+
     #ifdef LOG_TRANSITIONS_VICDIR
     {
         char buf[7 /* "VD:phi=" */ + 2 /* sign & magnitude */
@@ -117,15 +103,18 @@ void vd_step(VDState* vd, Sensors* sens){
             break;
         case VD_running:
             {
-                const double angle = (hal_get_time() - vd->locals.time_begin)
+                const double rot_angle = (hal_get_time() - vd->locals.time_begin)
                                      * SMC_ROT_PER_SEC / 1000.0;
-                hal_debug_out(DEBUG_CAT_VD_HAVE_IR, sens->ir[vd->locals.sensor_id]);
+                int i;
                 vd->locals.counter_total += 1;
-                if (sens->ir[vd->locals.sensor_id]) {
-                    vd->locals.counter_on += 1;
-                    vd->locals.weighted_sum += angle;
+                for (i = 0; i < NUM_IR; ++i) {
+                    if (sens->ir[i]) {
+                        vd->locals.counter_on += 1;
+                        vd->locals.weighted_sum +=
+                            fmod(rot_angle + ir_sensor_angle[i] - vd->locals.gap_phi + 2 * M_PI, 2 * M_PI);
+                    }
                 }
-                if (angle >= 2 * M_PI) {
+                if (rot_angle >= 2 * M_PI) {
                     vd->locals.state = VD_done;
                     smc_halt();
                     compute_result(vd, sens);
