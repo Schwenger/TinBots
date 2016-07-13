@@ -189,6 +189,18 @@ static void com_register_t2t() {
 
 /* main loop */
 int main() {
+    /*
+     * Set interrupt priorities:
+     * Timer, RX, I2C, ADC, TX
+     */
+
+    // timer 2 used in scheduler
+    IPC1bits.T2IP = 7;
+    // RX and I2C priority
+    IPC2bits.U1RXIP = 6;
+    IPC3bits.MI2CIP = 6;
+    IPC3bits.SI2CIP = 6;
+
     tin_init();
 
     tin_init_com();
