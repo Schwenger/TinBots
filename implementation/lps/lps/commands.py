@@ -47,7 +47,7 @@ class Commands(Command, enum.Enum):
 
     SET_MODE = 0x10, 'B'
     UPDATE_LPS = 0x11, '3f'
-    VICTIM_PHI = 0x12, '3f'
+    VICTIM_PHI = 0x12, 'fH', '3f'
     PROXIMITY_CALIBRATE = 0x13
 
     T2T_HEARTBEAT = 0x30

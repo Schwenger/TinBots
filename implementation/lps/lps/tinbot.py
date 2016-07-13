@@ -92,10 +92,9 @@ class TinBot:
     def calibrate_proximity(self):
         self.send(Commands.PROXIMITY_CALIBRATE)
 
-    # FIXME
-    # def cmd_victim_phi(self, phi, source=None):
-    #     payload = Commands.T2T_VICTIM_PHI.encode(phi)
-    #     self.send(Commands.T2T_VICTIM_PHI, payload, source)
+    def correct_victim_phi(self, phi, valid, source=None):
+        payload = Commands.VICTIM_PHI.encode(phi, valid)
+        self.send(Commands.VICTIM_PHI, payload, source)
 
     # sending and receive loop
     def _sending_loop(self):
@@ -122,6 +121,17 @@ class TinBot:
                     self.number = source
                     self.color, self.hue = COLOR_MAP[self.number]
                     self.controller.device_new_event.fire(self)
+                elif command == Commands.VICTIM_PHI:
+                    x, y, phi = Commands.VICTIM_PHI.decode(payload)
+                    n_x = -math.sin(phi)
+                    n_y = math.cos(phi)
+                    d = (n_x * (x - self.controller.victim.position[0]) +
+                         n_y * (y - self.controller.victim.position[1]))
+                    valid = d <= 2.6
+                    corrected_phi = math.atan2(self.controller.victim.position[1] - y,
+                                               self.controller.victim.position[0] - x)
+                    corrected_phi %= 2 * math.pi
+                    self.correct_victim_phi(corrected_phi, valid)
                 self.package_event.fire(self, source, target, command, payload)
         except bluetooth.btcommon.BluetoothError:
             pass
