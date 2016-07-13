@@ -335,7 +335,7 @@ On a grand scheme the software is divided into the following subcomponents:
 
 * Controller
 * Traffic Cop Eyes
-* Blind Traffic Cop 
+* Blind Traffic Cop
 * RHR
 * Victim Direction
 * Victim Finder
@@ -344,8 +344,8 @@ On a grand scheme the software is divided into the following subcomponents:
 * Pickup Artist
 
 Controller:
-Connects each component's inputs and outputs. 
-Implementation: Done. 
+Connects each component's inputs and outputs.
+Implementation: Done.
 Testing: On Demand. Whenever another subcomponent is finished and ready to be tested in an integration test, the respective part of the controller is tested extensively as well.
 
 Traffic Cop Eyes:
@@ -368,12 +368,12 @@ Turns the E-Puck and computes angle/position to the victim.
 Implementation: Done.
 Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems: Reflecting caused by the struts. Very prone to reflections by nearby gazers or changing lighting conditions. Solution: Using cellular rubber (thanks to Peter!) to absorb rather than reflect the signal. Solution is tested in parts.
 
-Victim Finder: 
+Victim Finder:
 Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
-Implementation: Done / in debug phase. 
+Implementation: Done / in debug phase.
 Testing: Unit tests done, MatLab running, on actual E-Puck unknown, assumed to be fine, though.
 
-Path Finder: 
+Path Finder:
 Computes a path from the current position to the victim based on the internal map consisting of data gathered via proximity sensors and other Tin Bot's broadcasts.
 Implementation: State Machine done, search algorithm will be changed from A* to Bellman-Ford.
 Testing: State Machine and A* are tested via unit tests, Bellman-Ford is about to be implemented and will be subject to appropriate unit tests. Memory overhead has been considered for both algorithms and static guarantees allow us to deem the algorithm correct in this respect. On MatLab: causes simulation to crash.
@@ -392,19 +392,49 @@ Moreover, regarding communication, the data (de-)serialization is fully implemen
 
 All hardware components are built.
 Communication protocols are implemented and extensively tested. Empirical tests in terms of any other E-Puck based test.
-- Communication frequency: 
+- Communication frequency:
   + I2C: Test case lighting LEDs after a poll has been taken place.
   + Bluetooth (to LPS): LED indicates when new data has been received and processed.
   + Bluetooth (T2T): Actual communication untested.
 
 The border has to be coated in cellular rubber, other than that, no further actions have to be applied.
 
+
 ==============================
 
 scribe: Maximilian Schwenger 12.07.2016 10-18 session
 
-Continued work on 
+Continued work on
 * verification document
 * gathering data from victim direction tests
 * arguing about pointer casting with the result that we cast disregarding alignment warnings iff we are certain that it will work. This is due to convenience when coupling Python code and E-Puck data
 * Bug Fixes
+
+
+==============================
+
+scribe: Ben Wiederhake 13.07.2016 12-?? session
+
+Resultate:
+- Neue Platform für VICTOR -> Whee :D
+- Hazem (oder wen?) fragen, weil: "sind unsere Magnete"
+- VicDir 50-mal *ohne* Moosgummi ausgeführt: ${results, siehe @schwenger}
+- VicDir 50-mal *mit* Moosgummi ausgeführt: ${results, siehe @schwenger}
+
+map_merge Optimierungen:
+	asserts & O0 -> 225 us/iter
+	asserts & O1 -> N/A, funktioniert nicht
+	asserts & O2, O3 -> N/A, "license key required"
+	no asserts & O0 -> 163 us/iter
+	after optimizations -> 110 us/iter
+		Dude!  Das ist gut genug! :D
+
+"Drehen wie ein Auto":
+- Neue Plattform ist prima!
+- Tin Bot kann sich aber noch nicht drehen, Räder drehen durch
+	=> Kraft ist da, aber "Reibung" nicht
+- "Beschwerter Tin Bot" (mit alter Plattform plus einer Batterie)
+	hat genau das richtige Gewicht
+=> Wir brauchen etwas, das:
+	- ungefähr so schwer wie "alte Plattform" plus Batterie
+	- Idee, um das am Tin Bot zu befestigen
