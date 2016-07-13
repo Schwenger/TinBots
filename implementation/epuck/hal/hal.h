@@ -25,6 +25,8 @@ void hal_set_front_led(unsigned int value);
 
 void hal_send_put(char* buf, unsigned int length);
 
+void hal_set_heartbeat(unsigned int enabled);
+
 void hal_send_done(char command, int is_broadcast);
 
 void hal_print(const char *message);

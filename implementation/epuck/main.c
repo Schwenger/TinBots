@@ -28,7 +28,8 @@ static volatile unsigned int loop_freq = 0;
 static unsigned int proximity_raw[8] = {0};
 static double proximity[8] = {0};
 
-static unsigned int do_reset = 0;
+static volatile unsigned int do_reset = 0;
+static volatile unsigned int do_calibration = 0;
 
 static TinBot bot;
 
@@ -53,6 +54,23 @@ static TinTask reset_loop_counter_task;
 void reset_loop_counter(void) {
     loop_freq = loop_counter;
     loop_counter = 0;
+}
+
+
+/* send heartbeat */
+static TinTask send_heartbeat_task;
+
+void send_heartbeat(void) {
+    static TinPackage package = {NULL, (char) 0xFF, CMD_T2T_HEARTBEAT, 0, NULL, NULL};
+    tin_com_send(&package);
+}
+
+void hal_set_heartbeat(unsigned int enabled) {
+    if (enabled) {
+        tin_task_activate(&send_heartbeat_task);
+    } else {
+        tin_task_deactivate(&send_heartbeat_task);
+    }
 }
 
 
@@ -90,6 +108,9 @@ static void com_on_update_lps(TinPackage* package) {
     lps_updated = 1;
 }
 
+static void com_on_proximity_calibrate(TinPackage* package) {
+    do_calibration = 1;
+}
 
 /* debug commands */
 static void debug_on_info(TinPackage* package) {
@@ -182,12 +203,15 @@ int main() {
     tin_task_register(&reset_loop_counter_task, reset_loop_counter, 10000);
     tin_task_activate(&reset_loop_counter_task);
 
+    tin_task_register(&send_heartbeat_task, send_heartbeat, 50000);
+
     tin_com_register(CMD_HELLO, com_on_hello);
     tin_com_register(CMD_START, com_on_start);
     tin_com_register(CMD_RESET, com_on_reset);
 
     tin_com_register(CMD_SET_MODE, com_on_set_mode);
     tin_com_register(CMD_UPDATE_LPS, com_on_update_lps);
+    tin_com_register(CMD_PROXIMITY_CALIBRATE, com_on_proximity_calibrate);
 
     tin_com_register(CMD_DEBUG_INFO, debug_on_info);
     tin_com_register(CMD_DEBUG_LED, debug_on_led);
@@ -216,6 +240,12 @@ int main() {
             com_register_t2t();
             do_reset = 0;
         }
+        if (do_calibration) {
+            hal_print("Calibrating Proximity Sensors");
+            tin_calibrate_proximity();
+            do_calibration = 0;
+        }
+
         tin_get_proximity(proximity_raw);
         for (index = 0; index < 8; index++) {
             // Empirically found function to convert proximity data into cm:
