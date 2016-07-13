@@ -103,6 +103,7 @@ class TinBot:
             command, payload, source, target = self.queue.get()
             packet = bytes([source, target, command, len(payload)]) + payload
             self.socket.send(packet)
+            time.sleep(0.005)
 
     def _receive_loop(self):
         time.sleep(2)
