@@ -33,7 +33,7 @@ VALGRINDTARGETS:=$(patsubst src/%.c,valgrind-%,${TESTS})
 all: run-all
 
 .PHONY: build
-build: ${TESTBINS}
+build: ${TESTBINS} ${OBJDIR}/matlab.o
 
 .PHONY: clean
 clean:
@@ -44,10 +44,10 @@ dirs:
 	@mkdir -p ${OBJDIR} ${BINDIR} ${OBJDIR}/astar
 
 .PHONY: run-all
-run-all: ${RUNTARGETS}
+run-all: ${RUNTARGETS} ${OBJDIR}/matlab.o
 
 .PHONY: valgrind-all
-valgrind-all: ${VALGRINDTARGETS}
+valgrind-all: ${VALGRINDTARGETS} ${OBJDIR}/matlab.o
 
 
 # Debugging the makefile
@@ -87,6 +87,10 @@ ${OBJDIR}/mock.o: mock.c ${TBHEADERS} | dirs
 	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
 ${OBJDIR}/map_heap.o: ../hal/map_heap.c ${TBHEADERS} | dirs
+	@echo "[ CC ] -o $@ $<"
+	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
+
+${OBJDIR}/matlab.o: ../hal/hal_matlab.c ../matlab.h ${TBHEADERS} | dirs
 	@echo "[ CC ] -o $@ $<"
 	@clang ${INCLUDE_FLAGS} ${WARN_FLAGS} ${CFLAGS} -o $@ $<
 
