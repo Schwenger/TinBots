@@ -89,6 +89,9 @@ class TinBot:
         payload = Commands.DEBUG_LED.encode(bitmask)
         self.send(Commands.DEBUG_LED, payload)
 
+    def calibrate_proximity(self):
+        self.send(Commands.PROXIMITY_CALIBRATE)
+
     # FIXME
     # def cmd_victim_phi(self, phi, source=None):
     #     payload = Commands.T2T_VICTIM_PHI.encode(phi)

@@ -26,4 +26,5 @@ class Modes(enum.IntEnum):
     ALONE = 0
     FULL = 1
     RHR = 2
-    VICDIR = 3
+    MERGEONLY = 3
+    VICDIR = 4
