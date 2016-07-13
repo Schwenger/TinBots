@@ -11,6 +11,7 @@ typedef struct ExpectPackage {
     char command;
     unsigned int length;
     unsigned char* data;
+    int is_broadcast;
 } ExpectPackage;
 
 /* Can be called multiple times, even with static const things. */

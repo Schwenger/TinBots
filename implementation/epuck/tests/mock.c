@@ -64,6 +64,7 @@ typedef struct ExpectPackageList {
     struct ExpectPackageList* next;
     unsigned int length;
     char command;
+    int is_broadcast;
 } ExpectPackageList;
 
 /* Needs to be a deep copy */
@@ -96,12 +97,13 @@ void hal_send_put(char* buf, unsigned int length) {
     expect_list->length -= length;
 }
 
-void hal_send_done(char command) {
+void hal_send_done(char command, int is_broadcast) {
     ExpectPackageList* next;
 
     assert(expect_list);
     assert(expect_list->length == 0); /* Remaining data size */
     assert(expect_list->command == command);
+    assert(expect_list->is_broadcast == is_broadcast);
     free(expect_list->data_orig);
     next = expect_list->next;
     free(expect_list);

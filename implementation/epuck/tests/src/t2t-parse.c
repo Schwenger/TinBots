@@ -7,7 +7,7 @@
 #include "t2t-parse.h"
 
 static void test_heartbeat(void) {
-    ExpectPackage pkg = {CMD_T2T_HEARTBEAT, 0, NULL};
+    ExpectPackage pkg = {CMD_T2T_HEARTBEAT, 0, NULL, 1};
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
@@ -21,7 +21,7 @@ static void test_found_phi1(void) {
      * b'V\x0eI@\xc3\xf5(B\x1f\x85#\xc1'
      */
     unsigned char data[] = {86, 14, 73, 64, 195, 245, 40, 66, 31, 133, 35, 193};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL, 0};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -36,7 +36,7 @@ static void test_found_phi2(void) {
      * b'\x00\x00\x00\x00\x00\x00\xc6B\x90\x12\x83>'
      */
     unsigned char data[] = {0, 0, 0, 0, 0, 0, 198, 66, 144, 18, 131, 62};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_PHI, 4 * 3, NULL, 0};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -47,7 +47,7 @@ static void test_found_phi2(void) {
 
 static void test_found_xy(void) {
     unsigned char data[4] = {12, 34, 56};
-    ExpectPackage pkg = {CMD_T2T_VICTIM_XY, 3, NULL};
+    ExpectPackage pkg = {CMD_T2T_VICTIM_XY, 3, NULL, 1};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -59,7 +59,7 @@ static void test_found_xy(void) {
 static void test_update_map(void) {
     Map* m;
     unsigned char data[2 + MAP_PROXIMITY_BUF_SIZE] = {0};
-    ExpectPackage pkg = {CMD_T2T_UPDATE_MAP, 2 + MAP_PROXIMITY_BUF_SIZE, NULL};
+    ExpectPackage pkg = {CMD_T2T_UPDATE_MAP, 2 + MAP_PROXIMITY_BUF_SIZE, NULL, 1};
     pkg.data = data;
     tests_mock_expect_assert_done();
 
@@ -81,7 +81,7 @@ static void test_update_map(void) {
 }
 
 static void test_docked(void) {
-    ExpectPackage pkg = {CMD_T2T_DOCKED, 0, NULL};
+    ExpectPackage pkg = {CMD_T2T_DOCKED, 0, NULL, 1};
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);
@@ -90,7 +90,7 @@ static void test_docked(void) {
 }
 
 static void test_completed(void) {
-    ExpectPackage pkg = {CMD_T2T_COMPLETED, 0, NULL};
+    ExpectPackage pkg = {CMD_T2T_COMPLETED, 0, NULL, 1};
     tests_mock_expect_assert_done();
 
     tests_mock_expect_next(&pkg);

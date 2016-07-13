@@ -80,10 +80,11 @@ void hal_send_put(char* buf, unsigned int length) {
     send_buf.length += length;
 }
 
-void hal_send_done(char command) {
+void hal_send_done(char command, int is_broadcast) {
     send_buf_wait();
     send_buf.source = NULL; /* FIXME */
-    send_buf.target = 0x00; /* FIXME */
+    /* All T2T packages are broadcast. */
+    send_buf.target = is_broadcast ? 0xFF : 0x00;
     send_buf.command = command;
     send_buf.callback = NULL;
     send_buf.completed = 0;

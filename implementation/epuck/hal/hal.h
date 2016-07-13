@@ -25,7 +25,7 @@ void hal_set_front_led(unsigned int value);
 
 void hal_send_put(char* buf, unsigned int length);
 
-void hal_send_done(char command);
+void hal_send_done(char command, int is_broadcast);
 
 void hal_print(const char *message);
 

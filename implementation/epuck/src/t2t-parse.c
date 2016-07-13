@@ -27,7 +27,7 @@ void t2t_check_types(void) {
 /* ===== Sending ===== */
 
 void t2t_send_heartbeat(void) {
-    hal_send_done(CMD_T2T_HEARTBEAT);
+    hal_send_done(CMD_T2T_HEARTBEAT, 1);
 }
 
 void t2t_send_found_phi(double x, double y, double victim_phi) {
@@ -36,7 +36,7 @@ void t2t_send_found_phi(double x, double y, double victim_phi) {
     ((float*) buffer)[1] = (float)y;
     ((float*) buffer)[2] = (float)victim_phi;
     hal_send_put(buffer, sizeof(buffer));
-    hal_send_done(CMD_T2T_VICTIM_PHI);
+    hal_send_done(CMD_T2T_VICTIM_PHI, 1);
 }
 
 void send_found_phi(double x, double y, double victim_phi) {
@@ -45,7 +45,7 @@ void send_found_phi(double x, double y, double victim_phi) {
     ((float*) buffer)[1] = (float)y;
     ((float*) buffer)[2] = (float)victim_phi;
     hal_send_put(buffer, sizeof(buffer));
-    hal_send_done(CMD_VICTIM_PHI);
+    hal_send_done(CMD_VICTIM_PHI, 0);
 }
 
 void t2t_send_found_xy(int x, int y, int iteration) {
@@ -54,7 +54,7 @@ void t2t_send_found_xy(int x, int y, int iteration) {
     ((int16_t*) buffer)[1] = (int16_t)y;
     ((int16_t*) buffer)[2] = (int16_t)iteration;
     hal_send_put(buffer, sizeof(buffer));
-    hal_send_done(CMD_T2T_VICTIM_XY);
+    hal_send_done(CMD_T2T_VICTIM_XY, 1);
 }
 
 void t2t_send_update_map(int x, int y, Map* map) {
@@ -63,15 +63,15 @@ void t2t_send_update_map(int x, int y, Map* map) {
     ((int16_t*) buffer)[1] = (int16_t)y;
     hal_send_put(buffer, sizeof(buffer));
     hal_send_put((char*)map_serialize(map), MAP_PROXIMITY_BUF_SIZE);
-    hal_send_done(CMD_T2T_UPDATE_MAP);
+    hal_send_done(CMD_T2T_UPDATE_MAP, 1);
 }
 
 void t2t_send_docked(void) {
-    hal_send_done(CMD_T2T_DOCKED);
+    hal_send_done(CMD_T2T_DOCKED, 1);
 }
 
 void t2t_send_completed(void) {
-    hal_send_done(CMD_T2T_COMPLETED);
+    hal_send_done(CMD_T2T_COMPLETED, 1);
 }
 
 

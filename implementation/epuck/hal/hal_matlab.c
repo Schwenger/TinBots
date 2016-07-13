@@ -98,6 +98,12 @@ static void tx_package(MatlabBot* sender, char command, MatlabBot* receiver) {
             assert(sender->com_buf_used == 0);
             t2t_parse_heartbeat(receiver->tinbot);
             break;
+        case CMD_VICTIM_PHI:
+            if (is_ours) {
+                /* "Yeah, it's totally the right one, little Bot." */
+                update_victim_phi(receiver->tinbot, ((float*)sender->com_buf)[2]);
+            }
+            break;
         case CMD_T2T_VICTIM_PHI:
             assert(sender->com_buf_used == 4);
             if (!is_ours) {
@@ -133,12 +139,13 @@ static void tx_package(MatlabBot* sender, char command, MatlabBot* receiver) {
     }
 }
 
-void hal_send_done(char command) {
+void hal_send_done(char command, int is_broadcast) {
     MatlabBot* real_current;
     MatlabCom* com;
     unsigned int i;
 
-    while (!current->com)
+    assert((command == CMD_VICTIM_PHI) == !is_broadcast);
+        while (!current->com)
         /* Intentional infinite loop, as assert() is unreliable. */
         ;
     assert(current->com);
