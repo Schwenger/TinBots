@@ -7,13 +7,18 @@
 
 #define IR_COMPLETION_TIME (16651UL)
 #define IR_PASS_TIME ((hal_time)((IR_COMPLETION_TIME*40)/360))
+/* Half the "IR pause time", plus the full I2C delay: */
+#define IR_DELAY_TIME ((hal_time)(150 / 2 + 50))
 
 static const double true_victim_phi = 350 * M_PI / 180;
 
 static int cyclic_within_p(hal_time begin, hal_time now, hal_time end) {
-    /* while (end < begin) {
-        end += IR_COMPLETION_TIME;
-    } */
+    /* Victim-direction reads "old" data. */
+    if (now < IR_DELAY_TIME) {
+        now += IR_COMPLETION_TIME - IR_DELAY_TIME;
+    } else {
+        now -= IR_DELAY_TIME;
+    }
     while (now < begin) {
         /* 'mod' might be faster, but whatever. */
         now += IR_COMPLETION_TIME;
@@ -50,8 +55,9 @@ int main() {
         sens.current.phi = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
         vd_step(&vds, &sens);
         if (hal_get_time() % 4000 == 0) {
-            printf("Debug data: @%5.3f state%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
+            printf("Debug data: @%5.3f %d%d%d%d%d%d state%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",
                 sens.current.phi,
+                sens.ir[0], sens.ir[1], sens.ir[2], sens.ir[3], sens.ir[4], sens.ir[5],
                 vds.locals.state,
                 vds.victim_phi,
                 vds.victim_found,

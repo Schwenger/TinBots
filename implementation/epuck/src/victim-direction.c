@@ -23,6 +23,9 @@ enum {
 /* We know that the IR sensors should at *least*
  * have a sensibility of this many degrees. */
 static const double VD_MIN_ON = 9.0 / 360.0;
+/* Half the "IR pause time", plus the full I2C delay: */
+#define IR_DELAY_TIME (150 / 2 + 50)
+#define IR_COMPLETION_TIME ((hal_time)(1000 * 2 * M_PI / SMC_ROT_PER_SEC))
 
 void vd_reset(VDState* vd){
     vd->locals.state = VD_off;
@@ -54,8 +57,6 @@ static void entry_start(VDState* vd, Sensors* sens) {
         vd->give_up = 1;
     } else {
         smc_rot_left();
-        vd->locals.counter_on = 1;
-        vd->locals.weighted_sum = M_PI;
         vd->locals.time_begin = hal_get_time();
     }
 }
@@ -103,18 +104,28 @@ void vd_step(VDState* vd, Sensors* sens){
             break;
         case VD_running:
             {
-                const double rot_angle = (hal_get_time() - vd->locals.time_begin)
-                                     * SMC_ROT_PER_SEC / 1000.0;
-                int i;
-                vd->locals.counter_total += 1;
-                for (i = 0; i < NUM_IR; ++i) {
-                    if (sens->ir[i]) {
+                const hal_time rot_msecs = hal_get_time() - vd->locals.time_begin;
+                if (rot_msecs < 2 * IR_DELAY_TIME) {
+                    /* Can't use the sample yet, and definitely didn't do a full
+                     * rotation yet.  For symmetry, make sure the "gap of willful
+                     * ignorance" is centered on the 'gap_phi' */
+                    break;
+                }
+                if (rot_msecs < IR_COMPLETION_TIME) {
+                    const double rot_angle =
+                        (rot_msecs - IR_DELAY_TIME) * SMC_ROT_PER_SEC / 1000.0;
+                    int i;
+                    vd->locals.counter_total += 1;
+                    for (i = 0; i < NUM_IR; ++i) {
+                        if (!sens->ir[i]) {
+                            continue;
+                        }
                         vd->locals.counter_on += 1;
                         vd->locals.weighted_sum +=
                             fmod(rot_angle + ir_sensor_angle[i] - vd->locals.gap_phi + 2 * M_PI, 2 * M_PI);
                     }
                 }
-                if (rot_angle >= 2 * M_PI) {
+                if (rot_msecs >= IR_COMPLETION_TIME + 30 /* And a bit more. */) {
                     vd->locals.state = VD_done;
                     smc_halt();
                     compute_result(vd, sens);
