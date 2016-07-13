@@ -1,11 +1,11 @@
 #include <string.h>
 #include <math.h>
 
-#include "tinpuck.h"
-
-#include "tinbot.h"
+#include <tinpuck.h>
 
 #include "commands.h"
+#include "t2t.h"
+#include "tinbot.h"
 
 #define STATE_STARTUP 0
 #define STATE_RUNNING 1
