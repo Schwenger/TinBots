@@ -105,17 +105,14 @@ static void tx_package(MatlabBot* sender, char command, MatlabBot* receiver) {
             }
             break;
         case CMD_T2T_VICTIM_PHI:
-            assert(sender->com_buf_used == 4);
             if (!is_ours) {
                 t2t_parse_found_phi(receiver->tinbot, sender->com_buf, sender->com_buf_used);
             }
             break;
         case CMD_T2T_VICTIM_XY:
-            assert(sender->com_buf_used == 3);
             t2t_parse_found_xy(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
             break;
         case CMD_T2T_UPDATE_MAP:
-            assert(sender->com_buf_used == 66);
             t2t_parse_update_map(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
             break;
         case CMD_T2T_DOCKED:
@@ -145,9 +142,6 @@ void hal_send_done(char command, int is_broadcast) {
     unsigned int i;
 
     assert((command == CMD_VICTIM_PHI) == !is_broadcast);
-        while (!current->com)
-        /* Intentional infinite loop, as assert() is unreliable. */
-        ;
     assert(current->com);
 
     com = current->com;
