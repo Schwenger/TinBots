@@ -27,6 +27,7 @@
 #include "hal.h"
 #include "matlab.h"
 #include "tinbot.h"
+#include "t2t.h"
 #include "t2t-parse.h"
 #include "commands.h"
 
@@ -113,7 +114,7 @@ static void tx_package(MatlabBot* sender, char command, MatlabBot* receiver) {
             t2t_parse_found_xy(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
             break;
         case CMD_T2T_UPDATE_MAP:
-            t2t_parse_update_map(receiver->tinbot, is_ours, sender->com_buf, sender->com_buf_used);
+            t2t_parse_update_map(receiver->tinbot, sender->com_buf, sender->com_buf_used);
             break;
         case CMD_T2T_DOCKED:
             assert(sender->com_buf_used == 0);
