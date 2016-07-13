@@ -15,11 +15,14 @@
 \usepackage{microtype}
 \usepackage{datetime}
 
+\usepackage{url}
+
 \usepackage{todonotes}
 
 \usepackage[normalem]{ulem}
 \usepackage{enumerate}
 \usepackage{hyperref}
+\usepackage{csvsimple}
 
 \usepackage{microtype}
 
@@ -88,7 +91,24 @@
     \noindent #5
 }
 
+\newcommand{\testprot}[6]{
+    \subsubsection{Test Protocol}
+    \textbf{Component:} #1 \\
+    \noindent\textbf{What should be tested?} \\
+    \noindent #2 \\
+    \noindent\textbf{How can it be tested?} \\
+    \noindent\textcolor{blue}{Setup:} #3 \\
+    \noindent\textcolor{blue}{Applicable Techniques:} #4 \\
+    \noindent\textbf{What cannot be tested? Why?} \\
+    \noindent #5
+    \noindent\textbf{Results:} \\
+    \noindent #6
+}
+
 \newcommand{\ie}{i.e.}
+
+\newcommand{\BLACK}{\textbf{Integration test: }}
+\newcommand{\WHITE}{\textbf{Unit test: }}
 
 \begin{document}
 
@@ -101,7 +121,8 @@ On a grand scheme the software is divided into the following subcomponents:
 	\item Traffic Cop Eyes
 	\item Blind Traffic Cop 
 	\item RHR
-	\item Victim Direction
+	\item Victim Direction\footnote{We will present a test protocol
+   for this component.}
 	\item Victim Finder
 	\item Path Finder
 	\item Path Executor
@@ -112,7 +133,9 @@ Each of those components is subject of one or more test strategies either for
 the whole component at once, or their subcomponents separately.
 \subsection{Controller}
 \subsubsection{Purpose}
-	Connects each component's inputs and outputs. \todo[inline]{a little more}
+	Connects each component's inputs and outputs. Steps appropriate components
+    based on the Blind Cop's output. This component does not incorporate further
+    logic.
 \teststrat{Controller}{
     The correct connection between the Tin Bot's different subcomponents, \ie,
     the correct overall behavior for a single Tin Bot without taking any T2T
@@ -120,7 +143,8 @@ the whole component at once, or their subcomponents separately.
 }{
     Maze, Victim, one Tin Bot including all LEDs, LPS, debug monitor.
 }{
-    Setup the maze. Place the victim and the Tin Bot inside appropriately. Setup
+    \BLACK Setup the maze. Place the victim and the Tin Bot inside
+    appropriately. Setup
     the LPS and make sure that a Bluetooth connection between the LPS, the Tin
     Bot, and the debug monitor is established. Turn on the E-Puck and evaluate
     the behavior based on movements and visual feedback by the LEDs.
@@ -132,7 +156,8 @@ the whole component at once, or their subcomponents separately.
 %
 \subsection{Traffic Cop Eyes}
 \subsubsection{Purpose}
-Connects sensor data with remaining components. Issues requests for other components to start their work.
+Connects sensor data with remaining components. Issues requests for other
+components to start their work.
 \todo[inline]{elaborate a bit}
 \teststrat{Traffic Cop Eyes}{
     Correct behavior based on given sensor data.
@@ -140,10 +165,12 @@ Connects sensor data with remaining components. Issues requests for other compon
     Part \rom{1}: MatLab, compiled code. Part \rom{2}: Full Setup, \ie, LPS,
     victim, Tin Bot(s), debug monitor, maze.
 }{
-    Part \rom{1}: Run the test cases from the virtual prototype, but use actual
+    Part \rom{1}: \WHITE Run the test cases from the virtual prototype, but use
+    actual
     compiled code instead of the Simulink model. Check for correctness based
     on the output. \\
-    Part \rom{2}: Run full process, check for ignorance towards incoming signals
+    Part \rom{2}: \BLACK Run full process, check for ignorance towards incoming
+    signals
     even though the intended behavior dictates a reaction. 
 }{
     There are no unit tests for this component due to its importance and
@@ -153,13 +180,14 @@ Connects sensor data with remaining components. Issues requests for other compon
 %
 \subsection{Blind Traffic Cop:}
 \subsubsection{Purpose}
-An arbiter for the subcomponents.
+An arbiter for the subcomponents. It does not take sensor data into account but
+relies on other component's outputs for the decision.
 \teststrat{Blind Traffic Cop}{
     Correct arbitration of the access to the motors.
 }{
     Full Setup.
 }{
-    In terms of an integration test. Each component has a signature behavior and
+    \BLACK Each component has a signature behavior and
     their distinction is clear, so a conflict or an incorrect arbitration can be
     spotted easily.
 }{
@@ -171,14 +199,18 @@ An arbiter for the subcomponents.
 %
 \subsection{Right-Hand Rule}
 \subsubsection{Purpose}
-Implementation of the right-hand rule.
+Implementation of the right-hand rule\footnote{For a detailed description,
+please see 
+\url{https://en.wikipedia.org/wiki/Maze_solving_algorithm\#Wall_follower}
+}.
 \teststrat{Right-Hand-Rule Obedience}{
     The Tin Bot is supposed to walk straight until sensing a wall. Then, it
     should follow it having the wall on its right-hand side.
 }{
     Tin Bot, LPS, debug monitor, maze.
 }{
-    Setup the LPS and the maze. Place a single Tin Bot in the maze and turn it
+    \BLACK Setup the LPS and the maze. Place a single Tin Bot in the maze and
+    turn it
     on. Start the Tin Bot and wait an appropriate amount of time based on the
     maze's layout.
 
@@ -191,7 +223,8 @@ Implementation of the right-hand rule.
 %
 \subsection{Victim Finder}
 \subsubsection{Purpose}
-Starts victim direction. Manages gathered data about the victim, i.e. discards old information and start computation for new data accordingly.
+Starts victim direction. Manages gathered data about the victim, i.e. discards
+old information and start computation for new data accordingly.
 
 \teststrat{Victim Directing toggling}{
     When a signal from the victim is received, the victim direction components
@@ -200,7 +233,7 @@ Starts victim direction. Manages gathered data about the victim, i.e. discards o
 }{
     Victim, maze, LPS, Tin Bot.
 }{
-    Setup the maze as well as the LPS. Place the victim and the
+    \BLACK Setup the maze as well as the LPS. Place the victim and the
     Tin Bot in the
     maze and turn them on. Wait for the Tin Bot to receive a signal and check
     for the component's signature movement, \ie, turning a full circle.
@@ -211,12 +244,26 @@ Starts victim direction. Manages gathered data about the victim, i.e. discards o
     The correctness of the signals and the output are not tested, because they
     are subject of their own test cases.
 }
-Testing: Done. In MatLab, Unit tests, as well as on the actual E-Puck. Problems: Reflecting caused by the struts. Very prone to reflections by nearby gazers or changing lighting conditions. Solution: Using cellular rubber (thanks to Peter!) to absorb rather than reflect the signal. Solution is tested in parts.
+
+\begin{figure}[t]
+\includegraphics[width=\textwidth, height=4cm]{victimdirectionbadplot.pdf}
+\caption{Data obtained by running victim direction. Reference data computed
+based on a bird's eye view image. Plot shows histogram of deviation from
+measured data to the reference value.}
+\label{fig:vddatabad}
+\end{figure}
+\begin{figure}[t]
+\includegraphics[width=\textwidth, height=4cm]{victimdirectionbadplot.pdf}
+\caption{Data obtained by running victim direction. Reference data computed
+based on a bird's eye view image. Plot shows histogram of deviation from
+measured data to the reference value.}
+\label{fig:vddatagood}
+\end{figure}
 
 \subsection{Victim Direction}
 \subsubsection{Purpose}
 Turns the E-Puck and computes angle/position to the victim.
-\teststrat{Victim Direction Computation}{
+\testprot{Victim Direction Computation}{
     Victim direction is supposed to approximate the normalized angle from its
     current position to the victim. The computation's correctness is tested
     here.
@@ -224,10 +271,12 @@ Turns the E-Puck and computes angle/position to the victim.
     Part \rom{1}: MatLab, compiled code.
     Part \rom{2}: LPS, debug monitor, Tin Bot, victim.
 }{
-    Part \rom{1}: Start test case from virtual prototype in MatLab, but use
+    Part \rom{1}: \WHITE Start test case from virtual prototype in MatLab, but
+    use
     compiled code
     instead of Simulink model. Check the output.
-    Part \rom{2}: Setup the LPS, place and turn on the Tin Bot as well as the
+    Part \rom{2}: \BLACK Setup the LPS, place and turn on the Tin Bot as well as
+    the
     victim. Make sure a Bluetooth connection between the debug monitor, the Tin
     Bot, and the LPS has been established. 
 
@@ -237,6 +286,14 @@ Turns the E-Puck and computes angle/position to the victim.
     Bluetooth connection and correctness of signals are not tested. The former
     one is assumed to be correct, the latter one is subject to its own test
     cases.
+}{
+    The acquired data can be seen in Fig. \ref{fig:vddatabad}. As we can see,
+    the computed values differ significantly from the actual angles. As reason
+    we identified reflections caused by the environment. To circumvent the
+    problem, we covered the boundary in cellular rubber. This should prevent
+    most reflections. Re-running the experiment revealed that now the
+    measurement are sufficiently correct, as can be seen in Fig. \ref
+    {fig:vddatagood}.
 }
 
 \subsection{Path Finder}
@@ -248,8 +305,8 @@ Computes a path from the current position to the victim based on the internal ma
 }{
     MatLab, compiled code.
 }{
-    Start respective MatLab test case from the virtual prototype using the
-    compiled code instead of the Simulink model. Check the outputs.
+    \WHITE Start respective MatLab test case from the virtual prototype using
+    the compiled code instead of the Simulink model. Check the outputs.
 
     Additionally, run the unit tests and check for failing assignments.
 }{
@@ -279,7 +336,7 @@ Moves the Tin Bot to a given position minding the walls.
 }{
     Tin Bot, LPS, walls.
 }{
-    Integration test. After receiving any valid waypoint, the Tin Bot should
+    \BLACK After receiving any valid waypoint, the Tin Bot should
     only stop if the waypoint or a wall is reached. Turn sequence should be
     initiated if the flag is set.
 }{
@@ -299,7 +356,7 @@ initiating a small scale search after reaching the expected position.
 }{
     LPS, TB, victim, compiled code.
 }{
-    Integration test: Setup LPS, turn on the Tin Bot and the victim. Give the
+    \BLACK Setup LPS, turn on the Tin Bot and the victim. Give the
     \emph{last} waypoint which is differing slightly from the victim's actual
     position. The waypoint has to be the last one to ensure that the Tin Bot
     will be in the right position to initiate the pick up process. Check if the
@@ -323,7 +380,7 @@ should stop before any collision takes place.
 }{
     Maze, LPS, Tin Bot.
 }{
-    Integration test: Run different modes in different settings and make sure no
+    \BLACK Run different modes in different settings and make sure no
     wall is knocked over.
 }{
     Correct overall behavior, because this is subject of own test strategies.
@@ -403,6 +460,34 @@ via Bluetooth}
 
 Certain invariants appear throughout the whole project. We assure their validity
 with the following test strategies.
+
+\subsection{Proximity Sensor Data}
+
+We did not rely on the vendor's information regarding the proximity sensor data
+but conducted a series of tests. 
+
+\teststrat{Proximity Sensor Data Conversion}{
+    We needed to convert the given data into an approximated distance to an
+    obstacle. 
+}{
+    E-Puck, debug monitor, walls.
+}{
+    Place the E-Puck in a fixed distance to a wall, obtain the data given by
+    the proximity sensors using the debug monitor. Acquire 30 data points.
+    Change the position and repeat until the distance is 6cm.
+
+    Compute the median of each distance and use it as data point for an
+    exponential trend line.
+}
+
+The result can be found in Fig. \ref{fig:proxdata}.
+\begin{figure}[t]
+\noindent\includegraphics[width=\textwidth]{Proximitygraph.eps}
+\label{fig:proxdata}
+\caption{$x$-Axis: Raw data given by the proximity sensors. $y$-Axis: Measured
+distance. The trend line function can be used to convert given proximity data
+to an approximated distance to an obstacle.}
+\end{figure}
 
 \subsection{IR-Signals}
 We assume that the IR-Signals are stable and originate from the victim only.
