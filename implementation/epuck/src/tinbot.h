@@ -3,7 +3,7 @@
 
 #include "controller.h"
 #include "sensors.h"
-#include "t2t.h"
+#include "t2t-data.h"
 
 typedef enum Mode {
     ALONE = 0,

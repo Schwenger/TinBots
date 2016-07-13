@@ -3,9 +3,7 @@
 
 #include "hal.h"
 #include "map.h"
-/* #include "tinbot.h" */
-/* Don't include it to resolve the inclusion cycle. */
-struct TinBot;
+#include "tinbot.h"
 
 #define T2T_HEARTBEAT_PERIOD_SECS 5
 
@@ -43,16 +41,6 @@ void t2t_receive_docked(struct TinBot* bot);
  * ever *receive* that command. */
 void t2t_receive_completed(struct TinBot* bot);
 
-typedef struct T2TData {
-    /* Flags */
-    hal_time newest_beat;
-    unsigned char own_first_p;
-    unsigned char someone_docked_p;
-    unsigned char someone_completed_p;
-    /* Counters */
-    unsigned char newest_own;
-    unsigned char newest_theirs;
-} T2TData;
 
 /* Should be called once in each main loop iteration:
  * - matlab: in the stateflow chart

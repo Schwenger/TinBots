@@ -2,7 +2,7 @@
 #define SENSORS_H
 
 #include "pi.h"
-#include "t2t.h"
+#include "t2t-data.h"
 
 enum Proximity_Order {
     /* If you change this, please also change:
