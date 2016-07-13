@@ -43,6 +43,7 @@ typedef struct Sensors {
         double phi;
     } current;
     volatile int victim_attached;
+    volatile int saw_heartbeat;
 } Sensors;
 
 #endif

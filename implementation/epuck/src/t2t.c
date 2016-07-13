@@ -4,8 +4,7 @@
  * copying these things into bot->* structures! */
 
 void t2t_receive_heartbeat(TinBot* bot) {
-    /* FIXME */
-    (void)bot;
+    bot->sens.saw_heartbeat = 1;
 }
 
 void t2t_receive_found_phi(TinBot* bot, double x, double y, double phi) {
@@ -23,18 +22,16 @@ void t2t_receive_found_xy(TinBot* bot, int is_ours, int x, int y, int iteration)
 }
 
 void t2t_receive_update_map(TinBot* bot, int x, int y, Map* map) {
-    /* FIXME */
     (void)bot;
-    (void)x;
-    (void)y;
+    map_merge(map_get_accumulated(), x, y, map);
 }
 
 void t2t_receive_docked(TinBot* bot) {
-    /* FIXME */
-    (void)bot;
+    /* Essentially switch off. */
+    bot->controller.is_dead = 1;
 }
 
 void t2t_receive_completed(TinBot* bot) {
-    /* FIXME */
+    /* Uhh, ignore that. */
     (void)bot;
 }
