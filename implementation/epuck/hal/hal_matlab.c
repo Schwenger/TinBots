@@ -183,6 +183,11 @@ void __assert_hal(const char *msg, const char *file, int line) {
     abort();
 }
 
+void hal_set_heartbeat(unsigned int enabled) {
+    current->heartbeat_p = enabled;
+    current->heartbeat_time = -T2T_HEARTBEAT_PERIOD_SECS - 1;
+}
+
 
 /* Implementation of matlab.h */
 
@@ -193,6 +198,8 @@ long matlab_create_bot() {
     MatlabBot* matlab_bot = malloc(sizeof(MatlabBot));
     int i;
     matlab_bot->com = NULL;
+    matlab_bot->heartbeat_p = 0;
+    matlab_bot->heartbeat_time = -T2T_HEARTBEAT_PERIOD_SECS - 1;
     matlab_bot->tinbot = malloc(sizeof(TinBot));
     matlab_bot->map_container.accu = map_heap_alloc(MAP_WIDTH, MAP_HEIGHT);
     matlab_bot->map_container.prox = map_heap_alloc(MAP_PROXIMITY_SIZE, MAP_PROXIMITY_SIZE);
@@ -281,6 +288,11 @@ void matlab_update_attached(double attached) {
 
 void matlab_update_time(double time) {
     current->raw_time = time;
+    if (current->heartbeat_p && time >= (current->heartbeat_time + T2T_HEARTBEAT_PERIOD_SECS)) {
+        current->heartbeat_time = time;
+        assert(current->com_buf_used == 0);
+        hal_send_done(CMD_T2T_HEARTBEAT, 1);
+    }
 }
 
 

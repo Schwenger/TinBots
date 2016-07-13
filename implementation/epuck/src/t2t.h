@@ -7,6 +7,7 @@
 /* Don't include it to resolve the inclusion cycle. */
 struct TinBot;
 
+#define T2T_HEARTBEAT_PERIOD_SECS 5
 
 /* All of the following function are intended to be run from withing an ISR.
  * Please make sure they are only called when the package is from the

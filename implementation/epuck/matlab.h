@@ -20,6 +20,8 @@ struct MatlabBot {
     double raw_time;
     double debug_info[DEBUG_CAT_NUM];
     MapContainer map_container;
+    int heartbeat_p;
+    double heartbeat_time;
 
     MatlabCom* com;
     char* com_buf;

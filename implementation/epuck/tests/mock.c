@@ -187,3 +187,7 @@ void __assert_hal(const char *msg, const char *file, int line) {
     printf("%s:%d: Assertion failed: %s\n", file, line, msg);
     abort();
 }
+
+void hal_set_heartbeat(unsigned int enabled) {
+    /* FIXME: Ignore or test it? */
+}

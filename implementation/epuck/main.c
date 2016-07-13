@@ -203,7 +203,7 @@ int main() {
     tin_task_register(&reset_loop_counter_task, reset_loop_counter, 10000);
     tin_task_activate(&reset_loop_counter_task);
 
-    tin_task_register(&send_heartbeat_task, send_heartbeat, 50000);
+    tin_task_register(&send_heartbeat_task, send_heartbeat, T2T_HEARTBEAT_PERIOD_SECS * 10000L);
 
     tin_com_register(CMD_HELLO, com_on_hello);
     tin_com_register(CMD_START, com_on_start);
