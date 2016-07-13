@@ -40,9 +40,8 @@ void t2t_parse_found_phi(TinBot* bot, char* data, unsigned int length);
 void t2t_parse_found_xy(TinBot* bot, int is_ours, char* data, unsigned int length);
 
 /* 'Our' packages: MUST
- * 'Their' packages: MUST
- * Please set the 'is_ours' flag. */
-void t2t_parse_update_map(TinBot* bot, int is_ours, char* data, unsigned int length);
+ * 'Their' packages: MUST */
+void t2t_parse_update_map(TinBot* bot, char* data, unsigned int length);
 
 /* 'Our' packages: MUST NOT
  * 'Their' packages: MUST */

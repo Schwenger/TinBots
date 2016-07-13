@@ -143,7 +143,7 @@ static void com_on_t2t_victim_xy(TinPackage *package) {
 }
 
 static void com_on_t2t_update_map(TinPackage *package) {
-    t2t_parse_update_map(&bot, package->source == my_com_addr, package->data, package->length);
+    t2t_parse_update_map(&bot, package->data, package->length);
 }
 
 static void com_on_t2t_docked(TinPackage *package) {
