@@ -15,10 +15,10 @@
 
 /* run this function to ensure correct encoding */
 void t2t_check_types(void) {
+    unsigned char buffer[8] BUFFER_ALIGN;
     /* check type sizes */
     assert(sizeof(float) == 4);
     /* check for little endian encoding */
-    unsigned char buffer[8] BUFFER_ALIGN;
     ((uint16_t*) buffer)[0] = 0xFF42;
     assert(buffer[0] == 0x42);
     assert(buffer[1] == 0xFF);
