@@ -3,6 +3,7 @@
 
 #include "controller.h"
 #include "sensors.h"
+#include "t2t.h"
 
 typedef enum Mode {
     ALONE = 0,
@@ -14,7 +15,7 @@ typedef enum Mode {
 typedef struct TinBot {
     Sensors sens;
     Controller controller;
-
+    T2TData rx_buffer;
     Mode mode;
 } TinBot;
 

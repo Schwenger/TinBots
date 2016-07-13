@@ -2,6 +2,7 @@
 #define SENSORS_H
 
 #include "pi.h"
+#include "t2t.h"
 
 enum Proximity_Order {
     /* If you change this, please also change:
@@ -43,7 +44,7 @@ typedef struct Sensors {
         double phi;
     } current;
     volatile int victim_attached;
-    volatile int saw_heartbeat;
+    T2TData t2t;
 } Sensors;
 
 #endif
