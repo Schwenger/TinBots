@@ -46,6 +46,6 @@ void t2t_receive_completed(struct TinBot* bot);
  * - matlab: in the stateflow chart
  * - tests: if needed by the test
  * - epuck: main.c */
-void t2t_pump(struct TinBot* bot);
+void t2t_data_pump(struct TinBot* bot);
 
 #endif
