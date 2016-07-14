@@ -129,8 +129,9 @@ On a grand scheme the software is divided into the following subcomponents:
 	\item Path Finder
 	\item Path Executor
 	\item Pickup Artist
-    \item Proximity Map
-    \item Proximity Filter
+    \item Approximator
+    % \item Proximity Map
+    % \item Proximity Filter
 \end{itemize}
 
 Each of those components is subject of one or more test strategies either for
@@ -160,10 +161,11 @@ the whole component at once, or their subcomponents separately.
 %
 \subsection{Traffic Cop Eyes}
 \subsubsection{Purpose}
-Connects sensor data with remaining components. Issues requests for other
-components to start their work.
-\teststrat{Traffic Cop Eyes}{
-    Correct behavior based on given sensor data.
+The Traffic Cop Eyes component observes IR-Sensor data and decides when it is a
+good idea to start the Victim Direction component. This decision is forwarded to
+the Blind Cop, which makes a final decision.
+\teststrat{Traffic Cop Eyes Full}{
+    Correct behavior based on given unstabilized sensor data. 
 }{
     Part \rom{1}: MatLab, compiled code. Part \rom{2}: Full Setup, \ie, LPS,
     victim, Tin Bot(s), debug monitor, maze.
@@ -180,6 +182,26 @@ components to start their work.
     simplicity. So bugs are unlikely and close to impossible to remain
     unnoticed.
 }
+
+\teststrat{Victim Directing Start}{
+    When a signal from the victim is received, the Victim Direction component
+    is supposed to be started, but only after having traveled an appropriate
+    amount
+    of time, another measurement should be initiated.
+}{
+    Victim, maze, LPS, Tin Bot.
+}{
+    \BLACK Setup the maze as well as the LPS. Place the victim and the
+    Tin Bot in the
+    maze and turn them on. Wait for the Tin Bot to receive a signal and check
+    for the component's signature movement, \ie, turning a full circle.
+
+    Wait for the second measurement to be fully performed, then turn off the Tin
+    Bot and measure the traveled distance.
+}{
+    The correctness of the signals and the output are not tested, because they
+    are subject of their own test cases.
+}
 %
 \subsection{Blind Traffic Cop:}
 \subsubsection{Purpose}
@@ -194,7 +216,7 @@ relies on other component's outputs for the decision.
     their distinction is clear, so a conflict or an incorrect arbitration can be
     spotted easily.
 }{
-    It is not tested, whether the controller actually uses the Blind Cop's
+    It is not tested, whether the Controller actually uses the Blind Cop's
     output or decides on its own. If it were so the Tin Bot's behavior would be
     spurious, or correct. In the latter case, we would assume the Blind Cop to
     be correct, even though it is not used at all.
@@ -226,48 +248,26 @@ please see
 %
 \subsection{Victim Finder}
 \subsubsection{Purpose}
-Starts victim direction. Manages gathered data about the victim, i.e. discards
-old information and start computation for new data accordingly.
+Manages gathered data about the victim, i.e. discards old information.
 
-\teststrat{Victim Directing toggling}{
-    When a signal from the victim is received, the victim direction components
-    is supposed to be toggled. Only after having traveled an appropriate amount
-    of time, another measurement should be initiated.
+\teststrat{Victim Finder}{
+    The Victim Finder should triangulate the victim's position correctly based
+    on artificial sample measurements.
 }{
-    Victim, maze, LPS, Tin Bot.
+    Compiled code.
 }{
-    \BLACK Setup the maze as well as the LPS. Place the victim and the
-    Tin Bot in the
-    maze and turn them on. Wait for the Tin Bot to receive a signal and check
-    for the component's signature movement, \ie, turning a full circle.
-
-    Wait for the second measurement to be fully performed, then turn off the Tin
-    Bot and measure the traveled distance.
+    \WHITE Run the unit tests and check for failing assignments. 
 }{
-    The correctness of the signals and the output are not tested, because they
-    are subject of their own test cases.
+    Measurements are not tested for sanity, e.g.\ inconsistencies. Results of
+    such measurements are not tested.
 }
-
-\begin{figure}[t]
-\includegraphics[width=\textwidth, height=4cm]{victimdirectionbadplot.pdf}
-\caption{Data obtained by running victim direction. Reference data computed
-based on a bird's eye view image. Plot shows histogram of deviation from
-measured data to the reference value.}
-\label{fig:vddatabad}
-\end{figure}
-\begin{figure}[t]
-\includegraphics[width=\textwidth, height=4cm]{victimdirectiongoodplot.pdf}
-\caption{Data obtained by running victim direction. Reference data computed
-based on a bird's eye view image. Plot shows histogram of deviation from
-measured data to the reference value.}
-\label{fig:vddatagood}
-\end{figure}
 
 \subsection{Victim Direction}
 \subsubsection{Purpose}
-Turns the E-Puck and computes angle/position to the victim.
+Rotates the E-Puck for a full revolution and computes angle/position to the
+victim.
 \testprot{Victim Direction Computation}{
-    Victim direction is supposed to approximate the normalized angle from its
+    Victim Direction is supposed to approximate the normalized angle from its
     current position to the victim. The computation's correctness is tested
     here.
 }{
@@ -290,45 +290,62 @@ Turns the E-Puck and computes angle/position to the victim.
     one is assumed to be correct, the latter one is subject to its own test
     cases.
 }{
-    The acquired data can be seen in Fig. \ref{fig:vddatabad}. As we can see,
-    the computed values differ significantly from the actual angles. As reason
-    we identified reflections caused by the environment. To circumvent the
-    problem, we covered the boundary in cellular rubber. This should prevent
-    most reflections. Re-running the experiment revealed that now the
-    measurement are significantly better, as can be seen in Fig. \ref
-    {fig:vddatagood}.
+    The computed values differ significantly from the actual angles (Figure \ref
+    {fig:vddatabad}). As reason we identified reflections caused by the
+    environment. To circumvent the problem, we covered the boundary in cellular
+    rubber. This should prevent most reflections. Re-running the experiment
+    revealed that now the measurement are significantly better (Figure \ref
+    {fig:vddatagood}). Most notably, the scattering decreased from $\approx 1.5$
+    to $\approx 0.3$.
 }
+
+\begin{figure}[t]
+\includegraphics[width=\textwidth]{victimdirectionbadplot.pdf}
+\caption{Data obtained by running Victim Direction. Reference data computed
+based on a bird's eye view image. Plot shows histogram of deviation from
+measured data to the reference value.}
+\label{fig:vddatabad}
+\end{figure}
+\begin{figure}[t]
+\includegraphics[width=\textwidth]{victimdirectiongoodplot.pdf}
+\caption{Data obtained by running Victim Direction. Reference data computed
+based on a bird's eye view image. Plot shows histogram of deviation from
+measured data to the reference value.}
+\label{fig:vddatagood}
+\end{figure}
 
 \subsection{Path Finder}
 \subsubsection{Purpose}
-Computes a path from the current position to the victim based on the internal 
-map consisting of data gathered via proximity sensors and other Tin Bot's 
-broadcasts.
+Computes a path from the current position to a goal distance given by the Blind
+Traffic Cop based on the internal map. This map consists of data gathered via
+proximity sensors and other Tin Bot's broadcasts.
+
+The given goal can be either the victim's position or the initial position, \ie,
+the exit.
 \teststrat{Path Finder State Machine}{
-    The path finder should output a given solution path in the correct order and
-    raise flags for the last and penultimate waypoint appropriately.
+    The Path Finder should output a given solution path in the correct order and
+    raise a flag for the penultimate and last waypoint respectively.
 }{
     MatLab, compiled code.
 }{
-    \BLACK Start respective MatLab test case from the virtual prototype using
+    \BLACK Start the MatLab test case from the virtual prototype using
     the compiled code instead of the Simulink model. Check the outputs.
 
     Additionally, run the unit tests and check for failing assignments.
 }{
-    Sanity of given path and especially the finiteness of thereof is not tested.
+    Sanity of given path and especially the finiteness thereof is not tested.
     This is part of a different test.
 }
 
 \teststrat{Path Finder Search Algorithm}{
-    An optimal path based on the internal map should be found while the memory
+    An promising path based on the internal map should be found while the memory
     needed should be bounded statically.
 }{
     Compiled code.
 }{
-    Unit tests check optimality and correctness. Static checks ensure memory
-    bound.
+    Unit tests check correctness. Static checks ensure memory bound.
 }{
-    Invalid input maps.
+    The behavior for invalid input maps is not tested.
 }
 
 \subsection{Path Executor}
@@ -336,7 +353,7 @@ Moves the Tin Bot to a given position minding the walls.
 \teststrat{Path Executor}{
     A given waypoint should be reached by the Tin Bot using a straight line
     path. If there is an obstacle blocking the way, the Tin Bot should stop.
-    Additionally, if the appropriate flag is set, the path executor should turn
+    Additionally, if the appropriate flag is set, the Path Executor should turn
     the Tin Bot by $180\deg$ and reach the way point in the reverse gear.
 }{
     Tin Bot, LPS, walls.
@@ -345,7 +362,7 @@ Moves the Tin Bot to a given position minding the walls.
     only stop if the waypoint or a wall is reached. Turn sequence should be
     initiated if the flag is set.
 }{
-    The invalidity of a waypoint is not checked explicitly, if the point is
+    The invalidity of a waypoint is not checked explicitly. If the point is
     unreachable, the Tin Bot will stop in front of the boundary as if it was a
     wall.
 }
@@ -359,29 +376,31 @@ initiating a small scale search after reaching the expected position.
     supposed to continue driving towards it until the victim is picked up. If
     the difference is too large, the Tin Bot is supposed to shut down.
 }{
-    LPS, TB, victim, compiled code.
+    Compiled code.
 }{
-    \BLACK Setup LPS, turn on the Tin Bot and the victim. Give the
-    \emph{last} waypoint which is differing slightly from the victim's actual
-    position. The waypoint has to be the last one to ensure that the Tin Bot
-    will be in the right position to initiate the pick up process. Check if the
-    pickup succeeds.
+    % \BLACK Setup LPS, turn on the Tin Bot and the victim. Give the
+    % \emph{last} waypoint which is differing slightly from the victim's actual
+    % position. The waypoint has to be the last one to ensure that the Tin Bot
+    % will be in the right position to initiate the pick up process. Check if the
+    % pickup succeeds.
 
-    Afterwards, the last waypoint is sent while the victim is entirely out of
-    reach. 15 seconds after reaching the waypoint, a full shutdown is expected.
+    % Afterwards, the last waypoint is sent while the victim is entirely out of
+    % reach. 15 seconds after reaching the waypoint, a full shutdown is expected.
 
     The unit test ensures that state transitions are taken appropriately.
+    This especially means that the Tin Bot shuts down if needed.
 }{
     Walls behind the victim's expected position will not be detected. Therefore,
     there is no point in testing for such a behavior.
 }
 
 \subsection{Collision Avoidance}
+\subsubsection{Purpose}
 When the Tin Bot moves too close to a wall, independent of the current mode, it
 should stop before any collision takes place.
 \teststrat{Collision Avoidance}{
-    No wall, neither formerly known ones, no newly added ones, must be knocked
-    over.
+    None of the walls, neither formerly known ones, nor newly added ones, may be
+    knocked over.
 }{
     Maze, LPS, Tin Bot.
 }{
@@ -391,11 +410,36 @@ should stop before any collision takes place.
     Correct overall behavior, because this is subject of own test strategies.
 }
 
-\subsection{Proximity Map}
-When a Tin Bot walks \textbf{Ben Interrupt!}
+% \subsection{Arbiter}
+% \subsubsection{Purpose}
+% The Tin Bot's position is computed by the approximator based on the data sent to
+% the motors. Due to
+% slight differences between theory and practice, the computed data might deviate
+% from the actual position. For this reason, the LPS sends more precise position
+% data. 
+% \teststrat{Necessity of the LPS and Quality of the Approximator}{
+%     The Tin Bot's position should not change when turning in circles. This,
+%     however, is not the case in practice. So the approximator's computed data is
+%     compared against the actual position after performing 50 full turns. If the
+%     deviation is too high, the necessity of the LPS is confirmed.
+% }{
+%     Tin Bot, LPS.
+% }{
+%     \BLACK The Tin Bots rotates for 50 full turns. Afterwards, the traveled
+%     distance is measured.
+% }
+
+% DEEMED TOO FAR OFF REALITY:
+% \subsection{Proximity Map}
+% When a Tin Bot walks around, it gathers data about the map using its proximity
+% sensors. This data, however, should not be included in internal map
+% representation right away. The data is broadcast to all Bots, including
+% itself. Using this technique, the latest gathered data is included in the
+% internal map independent of whether the Bot gathered the information itself, or
+% received it from other ones.
 
 \section{Hardware} 
-The hardware is divides into two parts: The environment, and the connection
+The hardware is divided into two parts: The environment, and the connection
 between the main components, \ie, the Raspberry Pi, and the E-Puck. 
 The connection between the components and their respective sensors and actuators
 is verified using the following test strategies.
@@ -405,7 +449,7 @@ is verified using the following test strategies.
 \teststrat{Custom Extension Board Connection Frequency}{
     We guarantee a real time upper bound on the frequency in which sensor data
     is received and can then be processed. The time between two received
-    sensor data packages is less than 51 ms.
+    sensor data packages is less than 51ms.
 
     We test the frequency in which data is received and computed the maximal
     time needed for all interrupt service routine (ISR) to run through, such
@@ -415,10 +459,10 @@ is verified using the following test strategies.
     Oscilloscope, custom extension board, E-Puck.
 }{
     We directly measure the signals from the extension board sent using the
-    i\textsuperscript{2}c protocol. We send signals to an IR-Sensor to see
+    I\textsuperscript{2}C protocol. We send signals to an IR-Sensor to see
     whether the received signal is correct.
 
-    This way, we measured that indeed all at most 50 ms a signal is sent. 
+    This way we measured that a signal is sent after at most 50ms. 
 
     The maximal time needed by the interrupt service routines can be obtained by
     computing the schedule for the worst case behavior of the interrupts. For
@@ -430,8 +474,8 @@ is verified using the following test strategies.
         \item[Timer] The timer ISR is a scheduler for tasks $J^T_i$ concerning
             e.g.\ motor control and internal time. \\
             \begin{center}
-            \begin{tabular}{c | l | c | c}
-                $i$ & name & $T^T_i$ & $C^T_i$ \\
+            \begin{tabular}{c | l | r | r}
+                $i$ & Interrupt & $T^T_i$ & $C^T_i$ \\
                 \hline
                 1 & RMotorTimer         & 1,000\mics     & 4\mics \\
                 2 & LMotorTimer         & 1,000\mics     & 4\mics \\
@@ -443,46 +487,70 @@ is verified using the following test strategies.
             \end{tabular}
             \end{center}
             Therefore, the timer interrupt needs at most $C_{\text{timer}}
-            = \sum_{i = 1}^{7}C^T_i = 22$\mics
+            = \sum_{i = 1}^{7}C^T_i = 22$\mics.
 
-        \item[RX] Receives Bluetooth packets with a period of $\leq$8.6 \mics
-        and a computation time of 2 \mics. However, when a whole map update is
-        received, the ISR performs a costly merge operation, which takes 110
-        \mics. This, however, can only happen every 1000 \mics. Moreover, we
-        guarantee that after a fully sent message, there is at least 2 ms where
+        \item[RX] Receives Bluetooth packets with a period of $\leq$8.6\mics
+        and a computation time of 4\mics. However, when a whole map update is
+        received, the ISR performs a costly merge operation, which takes
+        110\mics. This, however, can only happen every 1000\mics. Moreover, we
+        guarantee that after a fully sent message, there is at least 2ms where
         no further message is sent.
         \item[I2C] The data given from the IR-Sensors is copied into local
         memory and can therefore not be lost anymore.
+
+        This process happens in three steps, each of which requires a
+        certain downtime in-between. In the first step, the read address is
+        written on the bus,
+        in the second step a read request is issued, and in the third step the
+        data is written in local memory. 
+
+        After those steps the software can access the data, while in a fourth
+        and fifth step the bus is freed and the internal state machine is reset,
+        respectively.
         \item[ADC] The analog proximity sensor data is converted into digital
         data.
         \item[TX] Packets are transmitted over Bluetooth.
     \end{description}
     The task information is thusly:
     \begin{center}
-    \begin{tabular}{c | l | c | c}
+    \begin{tabular}{l | r | r}
         name & $T_{\text{name}}$ & $C_\text{name}$ \\
         \hline
-        Timer    & 1,000\mics     & 4\mics \\
+        Timer    & 100\mics       & 4\mics \\
         RX       & 1,000\mics     & 4\mics \\
         I2C      & 5,000\mics     & 1\mics \\
         ADC      & 1,000,000\mics & 1\mics \\
         TX       & 1,000\mics     & 10\mics \\
-        TinTime  & 1,000\mics     & 1\mics \\
-        Timeout  & 100,000\mics   & 1\mics \\
     \end{tabular}
     \end{center}
-    In the resulting worst case schedule, we can see that the timer interrupt is
-    executed twice, once immediately in the beginning, and once after the RX
-    interrupt finished. After the second timer run, I2C can run, so the maximal
-    response time is 
-    \[ C_{\text{timer}} + C_{\text{RX}} + C_{\text{timer}} + C_{\text{I2C}} =
-    162  \text{\mics} \]
+    In the resulting worst case schedule, the timer is scheduled and takes up to
+    26\mics. Afterwards, the RX ISR can be started taking 110\mics for a map
+    merge, and 4\mics for the normal interrupt. During this process, another
+    Timer release time is reached, so the RX is interrupted for 26\mics.
+    Consequently, RX finishes after 166\mics.
+
+    Then, the first I2C step takes place, taking 1\mics. From now on, we have to
+    wait 80\mics in which other interrupts and software steps can take place.
+    We ignore all of them if they have a lower priority. Therefore, at time
+    200\mics, another Timer ISR is executed, and at time 247 the second I2C step
+    takes place taking 1\mics. 
+
+    Now, 160\mics have to pass until the third step can take place. At
+    time 300\mics and 400\mics, another Timer step takes place until at time
+    426 the third I2C step is executed taking 5\mics, \ie, the response time for
+    having the data in local memory is 431\mics.
+
     Additionally, when working on volatile data, we disable interrupts until the
     operation has finished. We can guarantee that such accesses will take at
-    most 4\mics, hence the maximal response time increases to 164\mics.
+    most 4\mics, hence the maximal response time increases by 4\mics per
+    executed ISR, since each of them could potentially have to wait. Therefore,
+    the response time is $431 + 9 * 4 = 467$\mics.
 
-    Taking the transmission period of 5 ms into account, we can guarantee that
-    the maximal delay of polling the IR data is strictly less than 51 ms.
+    Taking the transmission period of 5ms into account, we can guarantee that
+    the maximal delay of polling the IR data is strictly less than 51ms.
+
+    The remaining I2C steps cannot take longer than the remaining $\approx
+    49$ms.
 }{
    We do not measure whether an amplitude is registered only if the signal is
    strong enough. The reason for this is that we regulate the signals stability
@@ -495,8 +563,10 @@ is verified using the following test strategies.
 via Bluetooth}
 
 \teststrat{LPS Update Frequency}{
-    If the initial setup is completed, the LPS is supposed to send location data
-    to the Tin Bot approximately every two seconds without any hard guarantees.
+    When the initial setup is completed, the LPS is supposed to send location
+    data
+    to the Tin Bot approximately every two seconds without any hard guarantees
+    because does not allow for any such guarantees.
     However, the process of receiving and processing the data should not take
     more than three seconds. Progress in this regard is supposed to be signaled
     by toggling a designated LED.
@@ -507,10 +577,11 @@ via Bluetooth}
     Bluetooth connection and the LPS has recognized the Tin Bot. Now, the time
     between toggles is measured and should not exceed three seconds.
 }{
-    The correctness of the LPS data is not tested. We assured that the data is
-    correct in separate tests, though. Moreover, the location data has to be
-    correct relative to the measured location data of other Tin Bots, which
-    depends on the camera and is robust by construction.
+    The correctness of the LPS data is not tested. However, we assured that the
+    Tin Bot's internal position is close to the LPS data. Moreover, the location
+    data only has to be correct relative to the measured location data of other
+    Tin
+    Bots, which depends on the camera and is robust by construction.
 }
 
 \subsection{Victim}
@@ -527,7 +598,7 @@ via Bluetooth}
     pattern.
 }{
     We cannot test whether the signal originates at the victim or any other
-    source, e.g.\ a malevolent agent turning on or off a nearby device using a
+    source, e.g.\ a malevolent agent turning a nearby device on or off using a
     similar signal.
 }
 
@@ -539,11 +610,12 @@ with the following test strategies.
 \subsection{Proximity Sensor Data}
 
 We did not rely on the vendor's information regarding the proximity sensor data
-but conducted a series of tests. 
+but conducted a series of tests. This was necessary because the real data seems
+to deviate heavily from the specified behavior.
 
 \teststrat{Proximity Sensor Data Conversion}{
-    We needed to convert the given data into an approximated distance to an
-    obstacle. 
+    The given data needs to be converted into an approximated distance towards
+    an obstacle.
 }{
     E-Puck, debug monitor, walls.
 }{
@@ -551,11 +623,15 @@ but conducted a series of tests.
     the proximity sensors using the debug monitor. Acquire 30 data points.
     Change the position and repeat until the distance is 6cm.
 
-    Compute the median of each distance and use it as data point for an
-    exponential trend line.
+    Compute the median of each distance and use it as data points for a
+    polynomial trend line.
+
+    The result can be found in Figure \ref{fig:proxdata}.
+}{
+    We cannot test whether this is reliable because we do not have a correct, 
+    reliable specification of the proximity sensors.
 }
 
-The result can be found in Fig. \ref{fig:proxdata}.
 \begin{figure}[t]
 \noindent\includegraphics[width=\textwidth]{Proximitygraph.eps}
 \label{fig:proxdata}
@@ -570,7 +646,7 @@ We assume that the IR-Signals are stable and originate from the victim only.
 \teststrat{IR-Stabilization}{
     The IR-Signal recognition should be robust against minor disturbances, e.g.
     due interferences with distant reflections or similar.
-    Those unwanted peaks are supposed to be filtered out.
+    Those unwanted peaks will be filtered out.
 }{
     Tin Bot, LPS, Victim.
 }{
@@ -583,7 +659,7 @@ We assume that the IR-Signals are stable and originate from the victim only.
 \teststrat{IR Anti Reflection}{
     There are not supposed to be elements around the maze reflecting the IR
     signals unwantedly. Therefore, we coated the borders in cellular rubber
-    absorbing signals rather than reflecting them. This behavior is tested.
+    absorbing signals rather than reflecting them. 
 }{
     Tin Bot, maze, spectators, borders.
 }{
@@ -593,13 +669,14 @@ We assume that the IR-Signals are stable and originate from the victim only.
     its LEDs. 
 
     The victim is turned on and moved around in the maze. There should not be
-    any lighting LEDs other than the expected ones.
+    any lit LEDs other than the expected ones.
 }{
     Correct overall behavior, because this is subject of own test strategies.
 }
 
-Moreover, since the Tin Bots do not have access to ground sensors, we tested the
-environment to be a safe playground regardless.
+\subsection{Fence}
+Moreover, since the Tin Bots do not have access to ground sensors, we ensured
+the environment to be a safe playground.
 
 \teststrat{Fence}{
     The fences have to make sure that the Tin Bot will not fall off the table.
@@ -619,11 +696,11 @@ The actuators are tested in a most isolated environment.
 
 \teststrat{Motors}{
     When setting the appropriate register values, the E-Puck is supposed to
-    start driving.
+    start moving.
 }{
     Tin Bot, LPS, debug monitor.
 }{
-    Unit Test: Turn on the Tin Bot, setup the LPS. Make sure, a connection
+    Unit Test: Turn on the Tin Bot, setup the LPS. Make sure a connection
     between all components is established. Send a signal to the E-Puck setting
     the respective registers values. Ensure that the E-Puck starts moving.
 }{
@@ -632,12 +709,12 @@ The actuators are tested in a most isolated environment.
 }
 
 \teststrat{LEDs}{
-    When setting the appropriate register values, the E-Puck is supposed to
-    trigger the LEDs.
+    When setting the appropriate register values, the LEDs are supposed to
+    light up.
 }{
     Tin Bot, LPS, debug monitor.
 }{
-    Unit Test: Turn on the Tin Bot, setup the LPS. Make sure, a connection
+    Unit Test: Turn on the Tin Bot, setup the LPS. Make sure a connection
     between all components is established. Send a signal to the E-Puck setting
     the respective registers values. Ensure that the E-Puck starts triggering
     the LEDs.
