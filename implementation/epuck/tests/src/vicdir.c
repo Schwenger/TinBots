@@ -52,7 +52,9 @@ int main() {
         for (i = 0; i < NUM_IR; ++i) {
             sens.ir[i] = cyclic_within_p(core_time[i] - IR_PASS_TIME, hal_get_time(), core_time[i] + IR_PASS_TIME);
         }
-        sens.current.phi = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
+        if (fabs(hal_get_speed_left()) > 0.5) {
+            sens.current.phi = hal_get_time() * 2 * M_PI / IR_COMPLETION_TIME;
+        }
         vd_step(&vds, &sens);
         if (hal_get_time() % 4000 == 0) {
             printf("Debug data: @%5.3f %d%d%d%d%d%d state%1d %5.3f@%1d/%1d %5.1f%% g%5.3f\n",

@@ -127,7 +127,7 @@ void vd_step(VDState* vd, Sensors* sens){
                             fmod(rot_angle + ir_sensor_angle[i] - vd->locals.gap_phi + 2 * M_PI, 2 * M_PI);
                     }
                 }
-                if (rot_msecs >= IR_COMPLETION_TIME + 30 /* And a bit more. */) {
+                if (rot_msecs >= IR_COMPLETION_TIME + 30 /* And a bit more: 0.65 degree */) {
                     vd->locals.time_begin += hal_get_time();
                     vd->locals.state = VD_wait;
                     smc_halt();
