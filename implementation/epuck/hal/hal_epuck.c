@@ -27,6 +27,10 @@ const double ir_sensor_angle[6] = {
     1*M_PI/4
 };
 
+void hal_set_powersafe(unsigned int enabled) {
+    tin_set_motors_powersafe(enabled);
+}
+
 void hal_set_speed(double left, double right) {
     tin_set_speed(left, right);
     motor_wrapper.left = left;

@@ -57,6 +57,10 @@ hal_time hal_get_time() {
     return (hal_time)(1000 * current->raw_time);
 }
 
+void hal_set_powersafe(unsigned int enabled) {
+
+}
+
 void hal_set_speed(double left, double right) {
     current->motor_left = left;
     current->motor_right = right;

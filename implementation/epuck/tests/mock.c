@@ -35,6 +35,10 @@ hal_time hal_get_time() {
     return global_clock;
 }
 
+void hal_set_powersafe(unsigned int enabled) {
+
+}
+
 void hal_set_speed(double left, double right) {
     mot_l = left;
     mot_r = right;
