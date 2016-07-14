@@ -3,8 +3,10 @@ import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 import math
 
+import sys
+
 data = []
-with open("victimdirectionbad.csv") as file:
+with open(sys.argv[1]) as file:
 	for line in file:
 		data.append(tuple(map(float, line.split(','))))
 		

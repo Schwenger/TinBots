@@ -110,6 +110,8 @@
 \newcommand{\BLACK}{\textbf{Integration test: }}
 \newcommand{\WHITE}{\textbf{Unit test: }}
 
+\newcommand{\mics}{$\mu$s}
+
 \begin{document}
 
 \section{Overview}
@@ -127,6 +129,8 @@ On a grand scheme the software is divided into the following subcomponents:
 	\item Path Finder
 	\item Path Executor
 	\item Pickup Artist
+    \item Proximity Map
+    \item Proximity Filter
 \end{itemize}
 
 Each of those components is subject of one or more test strategies either for
@@ -158,14 +162,13 @@ the whole component at once, or their subcomponents separately.
 \subsubsection{Purpose}
 Connects sensor data with remaining components. Issues requests for other
 components to start their work.
-\todo[inline]{elaborate a bit}
 \teststrat{Traffic Cop Eyes}{
     Correct behavior based on given sensor data.
 }{
     Part \rom{1}: MatLab, compiled code. Part \rom{2}: Full Setup, \ie, LPS,
     victim, Tin Bot(s), debug monitor, maze.
 }{
-    Part \rom{1}: \WHITE Run the test cases from the virtual prototype, but use
+    Part \rom{1}: \BLACK Run the test cases from the virtual prototype, but use
     actual
     compiled code instead of the Simulink model. Check for correctness based
     on the output. \\
@@ -253,7 +256,7 @@ measured data to the reference value.}
 \label{fig:vddatabad}
 \end{figure}
 \begin{figure}[t]
-\includegraphics[width=\textwidth, height=4cm]{victimdirectionbadplot.pdf}
+\includegraphics[width=\textwidth, height=4cm]{victimdirectiongoodplot.pdf}
 \caption{Data obtained by running victim direction. Reference data computed
 based on a bird's eye view image. Plot shows histogram of deviation from
 measured data to the reference value.}
@@ -271,7 +274,7 @@ Turns the E-Puck and computes angle/position to the victim.
     Part \rom{1}: MatLab, compiled code.
     Part \rom{2}: LPS, debug monitor, Tin Bot, victim.
 }{
-    Part \rom{1}: \WHITE Start test case from virtual prototype in MatLab, but
+    Part \rom{1}: \BLACK Start test case from virtual prototype in MatLab, but
     use
     compiled code
     instead of Simulink model. Check the output.
@@ -292,20 +295,22 @@ Turns the E-Puck and computes angle/position to the victim.
     we identified reflections caused by the environment. To circumvent the
     problem, we covered the boundary in cellular rubber. This should prevent
     most reflections. Re-running the experiment revealed that now the
-    measurement are sufficiently correct, as can be seen in Fig. \ref
+    measurement are significantly better, as can be seen in Fig. \ref
     {fig:vddatagood}.
 }
 
 \subsection{Path Finder}
 \subsubsection{Purpose}
-Computes a path from the current position to the victim based on the internal map consisting of data gathered via proximity sensors and other Tin Bot's broadcasts.
+Computes a path from the current position to the victim based on the internal 
+map consisting of data gathered via proximity sensors and other Tin Bot's 
+broadcasts.
 \teststrat{Path Finder State Machine}{
     The path finder should output a given solution path in the correct order and
     raise flags for the last and penultimate waypoint appropriately.
 }{
     MatLab, compiled code.
 }{
-    \WHITE Start respective MatLab test case from the virtual prototype using
+    \BLACK Start respective MatLab test case from the virtual prototype using
     the compiled code instead of the Simulink model. Check the outputs.
 
     Additionally, run the unit tests and check for failing assignments.
@@ -386,6 +391,9 @@ should stop before any collision takes place.
     Correct overall behavior, because this is subject of own test strategies.
 }
 
+\subsection{Proximity Map}
+When a Tin Bot walks \textbf{Ben Interrupt!}
+
 \section{Hardware} 
 The hardware is divides into two parts: The environment, and the connection
 between the main components, \ie, the Raspberry Pi, and the E-Puck. 
@@ -397,10 +405,11 @@ is verified using the following test strategies.
 \teststrat{Custom Extension Board Connection Frequency}{
     We guarantee a real time upper bound on the frequency in which sensor data
     is received and can then be processed. The time between two received
-    sensor data packages is \todo[inline]{FREQUENCY}ms.
+    sensor data packages is less than 51 ms.
 
     We test the frequency in which data is received and computed the maximal
-    time needed for all interrupt service routine to run through, such that the
+    time needed for all interrupt service routine (ISR) to run through, such
+    that the
     stated frequency can be guaranteed.
 }{
     Oscilloscope, custom extension board, E-Puck.
@@ -408,6 +417,72 @@ is verified using the following test strategies.
     We directly measure the signals from the extension board sent using the
     i\textsuperscript{2}c protocol. We send signals to an IR-Sensor to see
     whether the received signal is correct.
+
+    This way, we measured that indeed all at most 50 ms a signal is sent. 
+
+    The maximal time needed by the interrupt service routines can be obtained by
+    computing the schedule for the worst case behavior of the interrupts. For
+    this we consider all ISRs, which are scheduled non-preemptively based on
+    static priorities.
+
+    There are five ISRs, ordered by their priority (desc.):
+    \begin{description}
+        \item[Timer] The timer ISR is a scheduler for tasks $J^T_i$ concerning
+            e.g.\ motor control and internal time. \\
+            \begin{center}
+            \begin{tabular}{c | l | c | c}
+                $i$ & name & $T^T_i$ & $C^T_i$ \\
+                \hline
+                1 & RMotorTimer         & 1,000\mics     & 4\mics \\
+                2 & LMotorTimer         & 1,000\mics     & 4\mics \\
+                3 & UpdateExtData       & 5,000\mics     & 1\mics \\
+                4 & ResetLoopCounter    & 1,000,000\mics & 1\mics \\
+                5 & SendHeartBeat       & 1,000\mics     & 10\mics \\
+                6 & TinTime             & 1,000\mics     & 1\mics \\
+                7 & Timeout             & 100,000\mics   & 1\mics \\
+            \end{tabular}
+            \end{center}
+            Therefore, the timer interrupt needs at most $C_{\text{timer}}
+            = \sum_{i = 1}^{7}C^T_i = 22$\mics
+
+        \item[RX] Receives Bluetooth packets with a period of $\leq$8.6 \mics
+        and a computation time of 2 \mics. However, when a whole map update is
+        received, the ISR performs a costly merge operation, which takes 110
+        \mics. This, however, can only happen every 1000 \mics. Moreover, we
+        guarantee that after a fully sent message, there is at least 2 ms where
+        no further message is sent.
+        \item[I2C] The data given from the IR-Sensors is copied into local
+        memory and can therefore not be lost anymore.
+        \item[ADC] The analog proximity sensor data is converted into digital
+        data.
+        \item[TX] Packets are transmitted over Bluetooth.
+    \end{description}
+    The task information is thusly:
+    \begin{center}
+    \begin{tabular}{c | l | c | c}
+        name & $T_{\text{name}}$ & $C_\text{name}$ \\
+        \hline
+        Timer    & 1,000\mics     & 4\mics \\
+        RX       & 1,000\mics     & 4\mics \\
+        I2C      & 5,000\mics     & 1\mics \\
+        ADC      & 1,000,000\mics & 1\mics \\
+        TX       & 1,000\mics     & 10\mics \\
+        TinTime  & 1,000\mics     & 1\mics \\
+        Timeout  & 100,000\mics   & 1\mics \\
+    \end{tabular}
+    \end{center}
+    In the resulting worst case schedule, we can see that the timer interrupt is
+    executed twice, once immediately in the beginning, and once after the RX
+    interrupt finished. After the second timer run, I2C can run, so the maximal
+    response time is 
+    \[ C_{\text{timer}} + C_{\text{RX}} + C_{\text{timer}} + C_{\text{I2C}} =
+    162  \text{\mics} \]
+    Additionally, when working on volatile data, we disable interrupts until the
+    operation has finished. We can guarantee that such accesses will take at
+    most 4\mics, hence the maximal response time increases to 164\mics.
+
+    Taking the transmission period of 5 ms into account, we can guarantee that
+    the maximal delay of polling the IR data is strictly less than 51 ms.
 }{
    We do not measure whether an amplitude is registered only if the signal is
    strong enough. The reason for this is that we regulate the signals stability
