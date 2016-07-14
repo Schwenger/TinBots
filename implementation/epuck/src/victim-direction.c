@@ -17,6 +17,7 @@
 enum {
     VD_off,
     VD_running,
+    VD_wait,
     VD_done
 };
 
@@ -26,6 +27,7 @@ static const double VD_MIN_ON = 9.0 / 360.0;
 /* Half the "IR pause time", plus the full I2C delay: */
 #define IR_DELAY_TIME (150 / 2 + 50)
 #define IR_COMPLETION_TIME ((hal_time)(1000 * 2 * M_PI / SMC_ROT_PER_SEC))
+#define VD_WAIT_ON_LPS_SECS 2
 
 void vd_reset(VDState* vd){
     vd->locals.state = VD_off;
@@ -126,10 +128,16 @@ void vd_step(VDState* vd, Sensors* sens){
                     }
                 }
                 if (rot_msecs >= IR_COMPLETION_TIME + 30 /* And a bit more. */) {
-                    vd->locals.state = VD_done;
+                    vd->locals.time_begin += hal_get_time();
+                    vd->locals.state = VD_wait;
                     smc_halt();
-                    compute_result(vd, sens);
                 }
+            }
+            break;
+        case VD_wait:
+            if (smc_time_passed_p(vd->locals.time_begin, VD_WAIT_ON_LPS_SECS)) {
+                vd->locals.state = VD_done;
+                compute_result(vd, sens);
             }
             break;
         case VD_done:
