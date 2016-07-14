@@ -3,6 +3,7 @@
 #include "hal.h"
 #include "prox-map.h"
 #include "t2t-parse.h"
+#include "sensors.h"
 
 /* Invariant: lower_left.x%4==0 && lower_left.y%2==0
  * This allows for an efficient implementation in map_merge and map_move. */
@@ -11,6 +12,9 @@
 #define FLICKER_INERTIA 1
 #define MIN_STEP_X 4
 #define MIN_STEP_Y 2
+
+#define MAX_MAP_PROXIMITY_DISTANCE 8
+
 typedef char check_minstep_is_valid[(0 < MAP_INTERNAL_DATA_SIZE(MIN_STEP_X,MIN_STEP_Y)) ? 1 : -1];
 
 static void desired_position(Position* into, Sensors* from) {
@@ -51,6 +55,35 @@ static void maybe_move(ProxMapState* prox_map, Sensors* sens) {
         next.y - prox_map->lower_left.y);
 }
 
+static void map_set_field_guarded(Map* map, int x, int y, FieldType type) {
+    if (x >= 0 && x < MAP_PROXIMITY_SIZE && y >= 0 && y < MAP_PROXIMITY_SIZE) {
+        map_set_field(map, x, y, type);
+    }
+}
+
+static void enter_new_sensor_data(Map* map, Sensors* sens, double x, double y, unsigned int sensor_num, double sensor_phi) {
+    double distance = 5.3 / 2 + sens->proximity[sensor_num];
+    double delta_x = cosf(sens->current.phi + sensor_phi) * 0.7;
+    double delta_y = sinf(sens->current.phi + sensor_phi) * 0.7;
+    x += delta_x;
+    y += delta_y;
+    double r = 0;
+    double temp_x, temp_y;
+    while (r < distance && r < 8) {
+        temp_x = x + delta_x;
+        map_set_field_guarded(map, (int) temp_x, (int) y, FIELD_FREE);
+        temp_y = y + delta_y;
+        map_set_field_guarded(map, (int) x, (int) temp_y, FIELD_FREE);
+        x = temp_x;
+        y = temp_y;
+        map_set_field_guarded(map, (int) x, (int) y, FIELD_FREE);
+        r += 0.7;
+    }
+    if (r >= distance && distance < MAX_MAP_PROXIMITY_DISTANCE) {
+        map_set_field_guarded(map, (int) x, (int) y, FIELD_WALL);
+    }
+}
+
 static void enter_new_data(ProxMapState* prox_map, Sensors* sens) {
     /* FIXME:
      * - if a proximity sensor is on, add a wall (FIELD_WALL)
@@ -58,7 +91,17 @@ static void enter_new_data(ProxMapState* prox_map, Sensors* sens) {
      * - except when there's VICTOR standing in the way.
      *      * You'll need to invent some constant "IR_OPENING_ANGLE" for that.
      * - check whether x/y are legal coordinates with map_get_width(), map_get_height() */
+    double rel_x = sens->current.x - prox_map->lower_left.x;
+    double rel_y = sens->current.y - prox_map->lower_left.y;
     Map* map = map_get_proximity();
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_P_20, 20 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_P_45, 45 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_P_90, 90 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_P_150, 150 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_M_20, -20 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_M_45, -45 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_M_90, -90 / M_PI);
+    enter_new_sensor_data(map, sens, rel_x, rel_y, PROXIMITY_M_150, -150 / M_PI);
     /* map_set_field(map, x, y, FIELD_FREE); */
 }
 
