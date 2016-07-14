@@ -25,8 +25,13 @@ void t2t_receive_phi_correction(struct TinBot* bot, double phi_correct, unsigned
 void t2t_receive_found_xy(TinBot* bot, int is_ours, int x, int y, int iteration) {
     struct T2TData_Moderate* buf = &bot->rx_buffer.moderate;
 
-    buf->seen_x = x;
-    buf->seen_y = y;
+    if (buf->newest_own_INTERNAL == -1 && buf->newest_theirs == -1) {
+        /* This will be executed exactly once with precisely the same
+         * data on *every* Tin Bot.  (But not necessarily at the same
+         * point in time.) */
+        buf->seen_x = x;
+        buf->seen_y = y;
+    }
 
     if (is_ours) {
         if (iteration <= buf->newest_own_INTERNAL) {

@@ -128,6 +128,8 @@ void vf_step(VFInputs* inputs, VFState* vf, Sensors* sens) {
                     vf->victim_x = computed_victim.x;
                     vf->victim_y = computed_victim.y;
                     vf->found_victim_xy = 1;
+                    /* DO NOT send the T2T paket yet.
+                     * That's the moderator's job. */
                 }
             }
             break;
