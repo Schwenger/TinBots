@@ -283,6 +283,9 @@ int main() {
             })
             update_victim_phi(&bot, phi);
         }
+        SYNCHRONIZED({
+            t2t_data_pump(&bot);
+        });
 
         loop_counter++;
 

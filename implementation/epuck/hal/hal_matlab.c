@@ -248,6 +248,7 @@ void matlab_select_bot(long matlab_bot, long matlab_com) {
 }
 
 void matlab_loop(void) {
+    t2t_data_pump(current->tinbot);
     loop(current->tinbot);
 }
 

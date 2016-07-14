@@ -146,6 +146,8 @@ static TinMode modes[] = {
 
 void setup(TinBot* tinbot) {
     tinbot->sens.victim_attached = 0;
+    t2t_data_init(&tinbot->rx_buffer);
+    t2t_data_init(&tinbot->sens.t2t);
     modes[tinbot->mode].setup(tinbot);
 }
 
