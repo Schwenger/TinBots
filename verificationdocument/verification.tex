@@ -301,15 +301,15 @@ victim.
 
 \begin{figure}[t]
 \includegraphics[width=\textwidth]{victimdirectionbadplot.pdf}
-\caption{Data obtained by running Victim Direction. Reference data computed
+\caption{Data obtained by running Victim Direction. Reference data was computed
 based on a bird's eye view image. Plot shows histogram of deviation from
 measured data to the reference value.}
 \label{fig:vddatabad}
 \end{figure}
 \begin{figure}[t]
 \includegraphics[width=\textwidth]{victimdirectiongoodplot.pdf}
-\caption{Data obtained by running Victim Direction. Reference data computed
-based on a bird's eye view image. Plot shows histogram of deviation from
+\caption{Data obtained by running Victim Direction. Reference data was computed
+based on a bird's eye view image. The plot shows histogram of deviation from
 measured data to the reference value.}
 \label{fig:vddatagood}
 \end{figure}
@@ -466,16 +466,17 @@ is verified using the following test strategies.
 
     The maximal time needed by the interrupt service routines can be obtained by
     computing the schedule for the worst case behavior of the interrupts. For
-    this we consider all ISRs, which are scheduled non-preemptively based on
+    this we consider all ISRs, which are scheduled preemptively based on
     static priorities.
 
-    There are five ISRs, ordered by their priority (desc.):
+    There are five ISRs, ordered by their descending priority:
     \begin{description}
         \item[Timer] The timer ISR is a scheduler for tasks $J^T_i$ concerning
-            e.g.\ motor control and internal time. \\
+            e.g.\ motor control and internal time. It also sets the start
+            condition for the I\textsuperscript{2}C protocol.\\
             \begin{center}
             \begin{tabular}{c | l | r | r}
-                $i$ & Interrupt & $T^T_i$ & $C^T_i$ \\
+                $i$ & Task & $T^T_i$ & $C^T_i$ \\
                 \hline
                 1 & RMotorTimer         & 1,000\mics     & 4\mics \\
                 2 & LMotorTimer         & 1,000\mics     & 4\mics \\
@@ -489,20 +490,21 @@ is verified using the following test strategies.
             Therefore, the timer interrupt needs at most $C_{\text{timer}}
             = \sum_{i = 1}^{7}C^T_i = 22$\mics.
 
-        \item[RX] Receives Bluetooth packets with a period of $\leq$8.6\mics
+        \item[RX] Receives Bluetooth packets with a period of $\geq$8.6\mics\ 
         and a computation time of 4\mics. However, when a whole map update is
         received, the ISR performs a costly merge operation, which takes
-        110\mics. This, however, can only happen every 1000\mics. Moreover, we
+        110\mics. This, however, can only happen every 1000\mics. This is
+        guaranteed by the LPS. Moreover, we
         guarantee that after a fully sent message, there is at least 2ms where
         no further message is sent.
-        \item[I2C] The data given from the IR-Sensors is copied into local
+        \item[I\textsuperscript{2}C] The data given from the IR-Sensors is copied into local
         memory and can therefore not be lost anymore.
 
         This process happens in three steps, each of which requires a
         certain downtime in-between. In the first step, the read address is
         written on the bus,
         in the second step a read request is issued, and in the third step the
-        data is written in local memory. 
+        received data is written in local memory. 
 
         After those steps the software can access the data, while in a fourth
         and fifth step the bus is freed and the internal state machine is reset,
@@ -514,42 +516,42 @@ is verified using the following test strategies.
     The task information is thusly:
     \begin{center}
     \begin{tabular}{l | r | r}
-        name & $T_{\text{name}}$ & $C_\text{name}$ \\
+        Interrupt & $T_{\text{name}}$ & $C_\text{name}$ \\
         \hline
         Timer    & 100\mics       & 4\mics \\
         RX       & 1,000\mics     & 4\mics \\
-        I2C      & 5,000\mics     & 1\mics \\
+        I\textsuperscript{2}C      & 5,000\mics     & 1\mics \\
         ADC      & 1,000,000\mics & 1\mics \\
         TX       & 1,000\mics     & 10\mics \\
     \end{tabular}
     \end{center}
     In the resulting worst case schedule, the timer is scheduled and takes up to
-    26\mics. Afterwards, the RX ISR can be started taking 110\mics for a map
-    merge, and 4\mics for the normal interrupt. During this process, another
+    26\mics. Afterwards, the RX ISR can be started taking 110\mics\  for a map
+    merge, and 4\mics\  for the normal interrupt. During this process, another
     Timer release time is reached, so the RX is interrupted for 26\mics.
     Consequently, RX finishes after 166\mics.
 
-    Then, the first I2C step takes place, taking 1\mics. From now on, we have to
-    wait 80\mics in which other interrupts and software steps can take place.
+    Then, the first I\textsuperscript{2}C step takes place, taking 1\mics. From now on, we have to
+    wait 80\mics\  in which other interrupts and software steps can take place.
     We ignore all of them if they have a lower priority. Therefore, at time
-    200\mics, another Timer ISR is executed, and at time 247 the second I2C step
+    200\mics, another Timer ISR is executed, and at time 247 the second I\textsuperscript{2}C step
     takes place taking 1\mics. 
 
-    Now, 160\mics have to pass until the third step can take place. At
-    time 300\mics and 400\mics, another Timer step takes place until at time
-    426 the third I2C step is executed taking 5\mics, \ie, the response time for
+    Now, 160\mics\  have to pass until the third step can take place. At
+    time 300\mics\  and 400\mics, another Timer step takes place until at time
+    426 the third I\textsuperscript{2}C step is executed taking 5\mics, \ie, the response time for
     having the data in local memory is 431\mics.
 
     Additionally, when working on volatile data, we disable interrupts until the
     operation has finished. We can guarantee that such accesses will take at
-    most 4\mics, hence the maximal response time increases by 4\mics per
+    most 4\mics, hence the maximal response time increases by 4\mics\  per
     executed ISR, since each of them could potentially have to wait. Therefore,
     the response time is $431 + 9 * 4 = 467$\mics.
 
     Taking the transmission period of 5ms into account, we can guarantee that
     the maximal delay of polling the IR data is strictly less than 51ms.
 
-    The remaining I2C steps cannot take longer than the remaining $\approx
+    The remaining I\textsuperscript{2}C steps cannot take longer than the remaining $\approx
     49$ms.
 }{
    We do not measure whether an amplitude is registered only if the signal is
@@ -566,7 +568,7 @@ via Bluetooth}
     When the initial setup is completed, the LPS is supposed to send location
     data
     to the Tin Bot approximately every two seconds without any hard guarantees
-    because does not allow for any such guarantees.
+    because Bluetooth does not allow for any such guarantees.
     However, the process of receiving and processing the data should not take
     more than three seconds. Progress in this regard is supposed to be signaled
     by toggling a designated LED.
