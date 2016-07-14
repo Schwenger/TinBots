@@ -196,10 +196,15 @@ int main() {
 
     // timer 2 used in scheduler
     IPC1bits.T2IP = 7;
-    // RX and I2C priority
+    // RX priority
     IPC2bits.U1RXIP = 6;
-    IPC3bits.MI2CIP = 6;
-    IPC3bits.SI2CIP = 6;
+    // I2C priority
+    IPC3bits.MI2CIP = 5;
+    IPC3bits.SI2CIP = 5;
+    // ADC priority
+    IPC2bits.ADIP = 4;
+    // TX priority
+    IPC2bits.U1TXIP = 3;
 
     tin_init();
 
