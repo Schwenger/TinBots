@@ -4,6 +4,7 @@
 void controller_reset(Controller* c, Sensors* sens) {
     approx_reset(&c->approx, sens);
     blind_reset(&c->blind);
+    mod_reset(&c->moderator);
     pa_reset(&c->pickup_artist);
     pe_reset(&c->path_exec);
     pf_reset(&c->path_finder);
@@ -12,7 +13,6 @@ void controller_reset(Controller* c, Sensors* sens) {
     tce_reset(&c->cop_eyes);
     vd_reset(&c->vic_dir);
     vf_reset(&c->vic_finder);
-    c->is_dead = 0;
 }
 
 static void inquire_blind_decision(Controller* c, ControllerInput* in, Sensors* sens);
@@ -24,10 +24,11 @@ static void run_path_finder_executer(Controller* c, Sensors* sens);
 void controller_step(ControllerInput* in, Controller* c, Sensors* sens) {
     enum BlindRunChoice old_choice;
 
+    /* FIXME: Run Moderator
     if (c->is_dead) {
-        /* Nope, totally dead. */
         return;
     }
+    */
     approx_step(&c->approx, sens);
 
     /* First, the eyes decide whether we need an interrupt. */

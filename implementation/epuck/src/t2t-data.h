@@ -3,16 +3,19 @@
 
 #include "hal.h"
 
+typedef struct T2TData_Moderate T2TData_Moderate;
+
 typedef struct T2TData {
     struct T2TData_Moderate {
         /* Flags */
+        unsigned int need_to_die;
         unsigned int seen_beat;
         unsigned int owning_xy_p;
         unsigned int someone_docked_p;
         unsigned int someone_completed_p;
         /* Data */
-        double seen_x;
-        double seen_y;
+        int seen_x;
+        int seen_y;
         /* newest_* must both be signed types */
         int newest_own_INTERNAL; /* Move to own struct? */
         int newest_theirs;

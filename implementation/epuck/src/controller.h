@@ -4,6 +4,7 @@
 #include "approximator.h"
 #include "blind-cop.h"
 #include "ir-stabilizer.h"
+#include "moderator.h"
 #include "path-exec.h"
 #include "path-finder.h"
 #include "pickup-artist.h"
@@ -16,6 +17,7 @@
 typedef struct Controller {
     ApproxState approx;
     BlindState blind;
+    ModState moderator;
     PathExecState path_exec;
     PathFinderState path_finder;
     PickupState pickup_artist;
@@ -24,7 +26,6 @@ typedef struct Controller {
     TCEState cop_eyes;
     VDState vic_dir;
     VFState vic_finder;
-    int is_dead;
 } Controller;
 
 typedef struct ControllerInput {
