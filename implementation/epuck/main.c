@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include <tinpuck.h>
+#include <stdlib.h>
 
 #include "commands.h"
 #include "t2t.h"
@@ -25,7 +26,9 @@ static volatile unsigned int state = STATE_STARTUP;
 static volatile unsigned int loop_counter = 0;
 static volatile unsigned int loop_freq = 0;
 
-static unsigned int proximity_raw[8] = {0};
+static volatile unsigned int proximity_raw[11][8] = {0};
+static volatile unsigned int proximity_position = 0;
+
 static double proximity[8] = {0};
 
 static volatile unsigned int do_reset = 0;
@@ -47,6 +50,17 @@ void update_ext_data(void) {
     I2CCONbits.SEN = 1;
 }
 
+
+/* periodically read proximity data */
+static TinTask proximity_filter_task;
+
+void proximity_filter(void) {
+    tin_get_proximity((unsigned int*) proximity_raw[proximity_position]);
+    proximity_position++;
+    if (proximity_position > 10) {
+        proximity_position = 0;
+    }
+}
 
 /* reset loop counter */
 static TinTask reset_loop_counter_task;
@@ -187,6 +201,10 @@ static void com_register_t2t() {
 }
 
 
+int compare_unsigned_int(const void * a, const void * b) {
+    return *((unsigned int*) a) - (*(unsigned int*) b);
+}
+
 /* main loop */
 int main() {
     /*
@@ -220,6 +238,10 @@ int main() {
     tin_task_register(&reset_loop_counter_task, reset_loop_counter, 10000);
     tin_task_activate(&reset_loop_counter_task);
 
+    // call proximity filter every 10ms
+    tin_task_register(&proximity_filter_task, proximity_filter, 100);
+    tin_task_activate(&proximity_filter_task);
+
     tin_task_register(&send_heartbeat_task, send_heartbeat, T2T_HEARTBEAT_PERIOD_SECS * 10000L);
 
     tin_com_register(CMD_HELLO, com_on_hello);
@@ -240,7 +262,8 @@ int main() {
 
     do_reset = 1;
 
-    unsigned int index;
+    unsigned int index, number;
+    unsigned int proximity_temp[11];
     double x, y, phi;
 
     while (1) {
@@ -263,11 +286,14 @@ int main() {
             do_calibration = 0;
         }
 
-        tin_get_proximity(proximity_raw);
         for (index = 0; index < 8; index++) {
+            for (number = 0; number < 11; number++) {
+                proximity_temp[number] = proximity_raw[number][index];
+            }
+            qsort(proximity_temp, 11, sizeof(unsigned int), compare_unsigned_int);
             // Empirically found function to convert proximity data into cm:
             // f(x) = 26.539 * x^(-0.4202)
-            proximity[index] = 26.539 * pow(proximity_raw[index], -0.4202);
+            proximity[index] = 26.539 * pow(proximity_temp[5], -0.4202);
         }
 
         update_proximity(&bot, proximity);
