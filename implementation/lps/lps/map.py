@@ -30,7 +30,7 @@ class Map:
         assert(0 < ll_y and ll_y + MAP_PROX_SIZE < MAP_MAX_HEIGHT)
         assert(len(data) == MAP_PROX_SIZE * MAP_PROX_SIZE / 4)
         for x, y in itertools.product(
-                range(MAP_PROX_SIZE / 2), range(MAP_PROX_SIZE / 4)):
+                range(MAP_PROX_SIZE / 4), range(MAP_PROX_SIZE / 2)):
             # First, the byte of the "upper" four fields:
             val = data[0 + x + y * 2 * (MAP_PROX_SIZE / 4)]
             self.update(ll_x + x * 4 + 0, ll_y + y * 2 + 0, (val >> 0) & 0b11)
