@@ -12,6 +12,41 @@ from lps.commands import Commands
 from lps.event import Event
 
 
+class Logger:
+    def __init__(self, tinbot):
+        self.tinbot = tinbot
+        self.tinbot.package_event += self.on_package
+
+        self.filename = '{}.log'.format(tinbot.name)
+
+        self.recv_handlers = {}
+        self.send_handlers = {
+            Commands.UPDATE_LPS: self.on_lps_send
+        }
+
+    def log(self, msg):
+        with open(self.filename, 'at') as log_file:
+            log_file.write('[{:.3f}] {}\n'.format(time.time(), msg))
+
+    def on_lps_send(self, source, target, command, payload):
+        data = Commands.UPDATE_LPS.send_spec.unpack(payload)
+        self.log('[LPS-Data] x: {} y: {} phi: {}'.format(*data))
+    
+    def on_package(self, device, source, target, command, payload):
+        if command in self.recv_handlers:
+            self.recv_handlers[command](source, target, command, payload)
+            return
+        msg = '{} -> {} | {} | {!r}'.format(source, target, command, payload)
+        self.log(msg)
+
+    def on_send(self, device, source, target, command, payload):
+        if command in self.send_handlers:
+            self.send_handlers[command](source, target, command, payload)
+            return
+        msg = '{} -> {} | {} | {!r}'.format(source, target, command, payload)
+        self.log(msg)
+
+
 class TinBot:
     def __init__(self, name, address, controller):
         self.name = name.replace('e-puck_', 'tin_bot_')
@@ -43,6 +78,8 @@ class TinBot:
 
         # send hello
         self.send(Commands.HELLO, b'', target=0xFF)
+
+        self.logger = Logger(self)
 
     def send(self, command, payload=b'', source=None, target=None):
         if isinstance(command, Commands):
@@ -101,6 +138,7 @@ class TinBot:
         time.sleep(2)
         while True:
             command, payload, source, target = self.queue.get()
+            self.logger.on_send(self, source, target, command, payload)
             packet = bytes([source, target, command, len(payload)]) + payload
             self.socket.send(packet)
             time.sleep(0.005)
