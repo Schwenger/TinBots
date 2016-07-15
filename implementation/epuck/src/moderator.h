@@ -6,9 +6,10 @@
 
 typedef struct ModInputs {
     T2TData_Moderate* t2t_data;
-    double own_victim_x;
-    double own_victim_y;
+    int own_victim_x;
+    int own_victim_y;
     unsigned int found_victim_xy;
+    unsigned int give_up;
 } ModInputs;
 
 typedef enum ModDecision {

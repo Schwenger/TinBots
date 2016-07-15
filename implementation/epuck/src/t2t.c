@@ -63,7 +63,7 @@ void t2t_receive_update_map(TinBot* bot, int x, int y, Map* map) {
 
 void t2t_receive_docked(TinBot* bot) {
     /* Essentially switch off. */
-    bot->controller.is_dead = 1;
+    bot->rx_buffer.moderate.need_to_die = 1;
 }
 
 void t2t_receive_completed(TinBot* bot) {
