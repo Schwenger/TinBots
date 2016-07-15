@@ -78,6 +78,44 @@
 
 \section*{Problem 1: Reactive Systems \sout{Group}}
 
+\subsection*{Part (a)}
+
+As usual, we define the operator \enquote{$\implies$} the obvious way.
+% Namely: $(a \implies b) \iff \neg(a \land \neg b) \lor State(Cthulu) = \mathtt{CTHULU\_STATE\_ATTACKING}$
+
+Furthermore, $b$ shall be the condition \enquote{the user is pressing a
+button}, and $h$ shall mean \enquote{the horn is ringing}.
+
+\[ \ltlG \big(  (b \implies \ltlF h) \land \neg (h \land \ltlX h) \big) \]
+
+\subsection*{Part (b)}
+
+\digraph[width=\textwidth]{p1b}{
+    init [style=invis,label="",shape=none];
+    nothing [label="nothing", style=bold];
+    not [label="not ringing yet"];
+    ring [label="ringing",style=bold];
+    error [label="error"];
+    init -> nothing;
+    nothing -> nothing [label="!b && !h"];
+    nothing -> not [label="b && !h"];
+    nothing -> ring [label="h"];
+    not -> ring [label="h"];
+    not -> not [label="!h"];
+    ring -> not [label="b && !h"];
+    ring -> nothing [label="!b && !h"];
+    ring -> error [label="h"];
+    error -> error [label="true"];
+}
+
+FIXME: Is this the kind of monitor they were asking for?
+
+\subsection*{Part (c)}
+
+FIXME
+
+\subsection*{Part (d)}
+
 FIXME
 
 
