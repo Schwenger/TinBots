@@ -15,7 +15,7 @@ typedef unsigned long hal_time;
 
 hal_time hal_get_time(void);
 
-void hal_set_powersafe(unsigned int enabled);
+void hal_set_powersave(unsigned int enabled);
 
 void hal_set_speed(double left, double right);
 

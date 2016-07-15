@@ -35,8 +35,9 @@ hal_time hal_get_time() {
     return global_clock;
 }
 
-void hal_set_powersafe(unsigned int enabled) {
-
+void hal_set_powersave(unsigned int enabled) {
+    /* Do nothing. */
+    (void)enabled;
 }
 
 void hal_set_speed(double left, double right) {

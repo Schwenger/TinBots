@@ -57,8 +57,9 @@ hal_time hal_get_time() {
     return (hal_time)(1000 * current->raw_time);
 }
 
-void hal_set_powersafe(unsigned int enabled) {
-
+void hal_set_powersave(unsigned int enabled) {
+    /* Ignore. */
+    (void)enabled;
 }
 
 void hal_set_speed(double left, double right) {
